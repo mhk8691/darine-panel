@@ -1,4 +1,4 @@
-import {Stack, Theme, Typography} from '@mui/material'
+import {Stack, Theme, Typography, useMediaQuery} from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -9,12 +9,14 @@ import {useEffect, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
 import {AppIcon} from '../Pictures/AppIcon'
 import {DrawerItems} from './DrawerItems'
+import {useTheme} from '@emotion/react'
 
 export function AppDrawer(props) {
     const classes = useStyles()
     const [selected, setSelected] = useState<boolean[]>(new Array(DrawerItems.length).fill(false))
     const navigate = useNavigate()
     const location = useLocation()
+
     const t = props.t
     // async function getEmployee() {
     //     let data = await DataProvider.getOne('employee/one/' + localStorage.getItem('id'))
@@ -42,6 +44,7 @@ export function AppDrawer(props) {
         setSelected(newList)
         navigate(link)
     }
+    const mdScreen = useMediaQuery('(min-width:900px)')
 
     // const roles = JSON.parse(sessionStorage.getItem('roles'))
 
@@ -53,6 +56,15 @@ export function AppDrawer(props) {
                 paper: classes.drawerPaper,
             }}
             anchor="left"
+            sx={{
+                overflow: 'hidden',
+                '& .MuiDrawer-paper': {
+                    overflowY: 'auto',
+                    '&::-webkit-scrollbar': {
+                        display: 'none',
+                    },
+                },
+            }}
         >
             <Stack direction="row" p="30px" alignItems={'center'}>
                 <AppIcon />
@@ -60,7 +72,26 @@ export function AppDrawer(props) {
                     My Panel
                 </Typography>
             </Stack>
-            <List component="div" disablePadding>
+            <List
+                component="div"
+                disablePadding
+                sx={{
+                    display: {
+                        xs: 'flex',
+                        md: 'block',
+                    },
+                    flexDirection: 'column',
+                    alignItems: {
+                        xs: 'center',
+                        md: 'flex-start',
+                    },
+                    gap: '10px',
+                    py: {
+                        xs: '1rem',
+                        md: '0',
+                    },
+                }}
+            >
                 {DrawerItems.map((item, index) => (
                     <>
                         <ListItemButton
@@ -72,14 +103,20 @@ export function AppDrawer(props) {
                                 root: classes.mainSelected,
                             }}
                         >
-                            <ListItemIcon style={{color: selected[index] ? 'white' : '#606566'}}>
+                            <ListItemIcon
+                                style={{
+                                    color: selected[index] ? 'white' : '#606566',
+                                }}
+                            >
                                 {item.icon}
                             </ListItemIcon>
-                            <ListItemText
-                                primary={item.title}
-                                primaryTypographyProps={{variant: 'h6'}}
-                                color={'secondary'}
-                            />
+                            {mdScreen && (
+                                <ListItemText
+                                    primary={item.title}
+                                    primaryTypographyProps={{variant: 'body1'}}
+                                    color={'secondary'}
+                                />
+                            )}
                         </ListItemButton>
                     </>
                 ))}
@@ -87,16 +124,25 @@ export function AppDrawer(props) {
         </Drawer>
     )
 }
-
-export const drawerWidth = 320
+export const drawerWidth = 100
 
 const useStyles = makeStyles((theme: Theme) => ({
     drawer: {
-        width: drawerWidth,
+        [theme.breakpoints.up('md')]: {
+            width: '300px',
+        },
+        [theme.breakpoints.down('md')]: {
+            width: drawerWidth,
+        },
         flexShrink: 0,
     },
     drawerPaper: {
-        width: drawerWidth,
+        [theme.breakpoints.up('md')]: {
+            width: '300px',
+        },
+        [theme.breakpoints.down('md')]: {
+            width: drawerWidth,
+        },
     },
     subMainSelected: {
         padding: '12px 50px',
@@ -114,9 +160,21 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
     },
     mainSelected: {
-        padding: '12px 16px',
-        margin: '2px 12px',
-        borderRadius: '8px',
+        [theme.breakpoints.down('md')]: {
+            padding: 0,
+            margin: 0,
+            width: '65px',
+            height: '65px',
+            borderRadius: '8px !important',
+        },
+        [theme.breakpoints.up('md')]: {
+            padding: '12px 16px',
+            margin: '2px 12px',
+            width: 'auto',
+            height: 'auto',
+            borderRadius: '0 !important',
+        },
+
         fontWeight: 500,
         fontSize: '32px',
         '&$selected': {

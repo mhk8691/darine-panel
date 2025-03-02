@@ -14,6 +14,7 @@ import {Login} from './Pages/Login/Login'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {RTL} from './RTL'
+import { CssBaseline } from '@mui/material'
 
 function App() {
     const RouteAdapter = ({children}) => {
@@ -38,6 +39,7 @@ function App() {
             <LocalizationProvider dateAdapter={AdapterMoment}>
                 <BrowserRouter>
                     <ThemeProvider theme={AppTheme}>
+                        <CssBaseline/>
                         <Provider store={store}>
                             <CustomizedSnackbars />
                             <LoadingBackdrop />

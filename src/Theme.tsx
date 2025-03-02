@@ -1,3 +1,4 @@
+import { cyan, red } from '@mui/material/colors'
 import {createTheme} from '@mui/material/styles'
 const xs = 0
 const sm = 600
@@ -6,6 +7,14 @@ const lg = 1200
 const xl = 1540
 
 declare module '@mui/material/styles' {
+  interface TypeBackground {
+    main: string;
+    light: string;
+  }
+
+  interface PaletteOptions {
+    background?: Partial<TypeBackground>;
+  }
     interface TypographyVariants {
         badge: React.CSSProperties
         label: React.CSSProperties
@@ -83,6 +92,7 @@ function getFontSize(fontSize: number): {
 export let AppTheme = createTheme()
 AppTheme = createTheme({
     direction: 'rtl',
+
     components: {
         MuiIconButton: {
             defaultProps: {
@@ -299,23 +309,23 @@ AppTheme = createTheme({
         },
     },
     palette: {
+        mode: 'dark',
         text: {
             disabled: '#D8DEF1',
         },
         primary: {
-            main: '#00A89E',
+            main: red[700],
             contrastText: '#FFF',
         },
         error: {
             main: '#B3261E',
         },
         secondary: {
-            main: '#CAC4D0',
-            '100': '#fff',
-            '200': '#E5E7EB',
-            '300': '#D1D5DB',
-            '400': '#9CA3AF',
-            '500': '#6B7280',
+            main: cyan[500],
+        },
+        background: {
+            main: '#1E1E1E',
+            light: '#3f3f3f',
         },
     },
 })

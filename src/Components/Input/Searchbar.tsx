@@ -24,12 +24,11 @@ export function Searchbar(props) {
         setTextfieldData(event.target.value)
     }
     return (
-        <Box width="100%" margin={'10px'}>
+        <Box width="100%" mt={3}>
             <Stack
                 direction="row"
-                bgcolor={'white'}
                 width="100%"
-                border="1px solid #c7c7c7"
+                border="1px solid #3f3f3f"
                 p="10px"
                 borderRadius="8px"
                 mb={'16px'}

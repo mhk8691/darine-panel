@@ -47,7 +47,9 @@ export function Home(props) {
                 padding={!location.pathname.includes('dashboard') ? '30px' : 'unset'}
             >
                 <Box
-                    bgcolor={!location.pathname.includes('dashboard') ? 'white' : 'unset'}
+                    bgcolor={
+                        !location.pathname.includes('dashboard') ? 'background.paper' : 'unset'
+                    }
                     borderRadius={'8px'}
                     style={{
                         boxShadow: !location.pathname.includes('dashboard')

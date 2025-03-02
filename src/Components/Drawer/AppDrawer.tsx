@@ -1,4 +1,4 @@
-import {Stack, Theme, Typography, useMediaQuery} from '@mui/material'
+import {Stack, Theme, Tooltip, Typography, useMediaQuery} from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -94,30 +94,50 @@ export function AppDrawer(props) {
             >
                 {DrawerItems.map((item, index) => (
                     <>
-                        <ListItemButton
-                            onClick={(event) => handleClick(item.link, index)}
-                            selected={selected[index]}
-                            key={item.title}
-                            classes={{
-                                selected: classes.selected,
-                                root: classes.mainSelected,
-                            }}
-                        >
-                            <ListItemIcon
-                                style={{
-                                    color: selected[index] ? 'white' : '#606566',
+                        {mdScreen ? (
+                            <ListItemButton
+                                onClick={(event) => handleClick(item.link, index)}
+                                selected={selected[index]}
+                                key={item.title}
+                                classes={{
+                                    selected: classes.selected,
+                                    root: classes.mainSelected,
                                 }}
                             >
-                                {item.icon}
-                            </ListItemIcon>
-                            {mdScreen && (
+                                <ListItemIcon
+                                    style={{
+                                        color: selected[index] ? 'white' : '#606566',
+                                    }}
+                                >
+                                    {item.icon}
+                                </ListItemIcon>
                                 <ListItemText
                                     primary={item.title}
                                     primaryTypographyProps={{variant: 'body1'}}
                                     color={'secondary'}
                                 />
-                            )}
-                        </ListItemButton>
+                            </ListItemButton>
+                        ) : (
+                            <Tooltip title={item.title} placement="left" arrow>
+                                <ListItemButton
+                                    onClick={(event) => handleClick(item.link, index)}
+                                    selected={selected[index]}
+                                    key={item.title}
+                                    classes={{
+                                        selected: classes.selected,
+                                        root: classes.mainSelected,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        style={{
+                                            color: selected[index] ? 'white' : '#606566',
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                </ListItemButton>
+                            </Tooltip>
+                        )}
                     </>
                 ))}
             </List>

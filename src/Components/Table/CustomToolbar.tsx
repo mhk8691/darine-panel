@@ -47,11 +47,11 @@ export function CustomToolbar(props) {
     }
     return (
         <Collapse in={numSelected > 0}>
-            <BaseModal open={open} setOpen={setOpen} title="توجه!">
-                <Typography mb="1rem" variant="body2">
+            <BaseModal open={open} setOpen={setOpen} title="توجه!" style={{maxWidth: 'sm'}}>
+                <Typography mb="1rem" variant="body2" fontSize={'17px'}>
                     آیا از انجام این عمل مطمئن هستید؟
                 </Typography>
-                <Stack direction={'row'} spacing={2}>
+                <Stack direction={'row'} spacing={2} mt={2.5}>
                     <Button variant="contained" onClick={handleDelete} size="large">
                         بله
                     </Button>
@@ -72,7 +72,7 @@ export function CustomToolbar(props) {
                 }}
             >
                 <Typography
-                    sx={{flex: '1 1 100%'}}
+                    sx={{flex: '1 1 100%', fontSize: '17px !important'}}
                     color="inherit"
                     variant="subtitle1"
                     component="div"
@@ -81,7 +81,7 @@ export function CustomToolbar(props) {
                 </Typography>
 
                 <Tooltip title="Delete">
-                    <IconButton color="error" onClick={(e) => setOpen(true)}>
+                    <IconButton color="secondary" onClick={(e) => setOpen(true)}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>

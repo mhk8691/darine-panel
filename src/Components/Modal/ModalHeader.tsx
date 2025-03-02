@@ -9,11 +9,11 @@ export function ModalHeader(props: {open: boolean; setOpen: any; title: string})
     }
     return (
         <Stack position="sticky" top={0} zIndex={10}>
-            <Stack direction="row" alignItems="center" padding="12px" spacing={2} bgcolor="white">
+            <Stack direction="row" alignItems="center" padding="12px" spacing={2} bgcolor="background.main">
                 <IconButton onClick={handleClose}>
                     <CloseIcon style={{color: '#B6BFCF'}} />
                 </IconButton>
-                <Typography variant="subtitle1" fontWeight={700}>
+                <Typography variant="body1" fontSize={'18px'} fontWeight={700}>
                     {title}
                 </Typography>
             </Stack>

@@ -129,7 +129,7 @@ export const drawerWidth = 100
 const useStyles = makeStyles((theme: Theme) => ({
     drawer: {
         [theme.breakpoints.up('md')]: {
-            width: '300px',
+            width: '280px',
         },
         [theme.breakpoints.down('md')]: {
             width: drawerWidth,
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     drawerPaper: {
         [theme.breakpoints.up('md')]: {
-            width: '300px',
+            width: '280px',
         },
         [theme.breakpoints.down('md')]: {
             width: drawerWidth,

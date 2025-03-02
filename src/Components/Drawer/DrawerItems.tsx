@@ -1,12 +1,20 @@
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import ComputerIcon from '@mui/icons-material/Computer';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import CategoryIcon from '@mui/icons-material/Category'
+import GamepadIcon from '@mui/icons-material/Gamepad'
+import GroupIcon from '@mui/icons-material/Group'
+import LocalMallIcon from '@mui/icons-material/LocalMall'
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 export const DrawerItems = [
-    {title: 'Services', link: 'services', icon: <ComputerIcon fontSize="large" />},
-    {title: 'Mobiles', link: 'mobiles', icon: <PhoneIphoneIcon fontSize="large" />},
-    {title: 'Logs', link: 'logs', icon: <AssignmentIcon fontSize="large" />},
-    {title: 'Backups', link: 'backups', icon: <ArchiveIcon fontSize="large" />},
-    {title: 'Actions', link: 'actions', icon: <AutoFixHighIcon fontSize="large" />},
+    {title: 'مدیریت کاربران', link: 'users', icon: <GroupIcon fontSize="large" />},
+    {title: 'مدیریت محصولات', link: 'products', icon: <LocalMallIcon fontSize="large" />},
+    {
+        title: 'دسته بندی محصولات',
+        link: 'poruducts-category',
+        icon: <CategoryIcon fontSize="large" />,
+    },
+    {title: 'اکانت های بازی', link: 'game-accounts', icon: <SportsEsportsIcon fontSize="large" />},
+    {
+        title: 'دسته بندی اکانت ها',
+        link: 'accounts-category',
+        icon: <GamepadIcon fontSize="large" />,
+    },
 ]

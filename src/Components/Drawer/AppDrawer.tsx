@@ -103,6 +103,9 @@ export function AppDrawer(props) {
                                     selected: classes.selected,
                                     root: classes.mainSelected,
                                 }}
+                                sx={{
+                                    py:1.4
+                                }}
                             >
                                 <ListItemIcon
                                     style={{
@@ -113,7 +116,11 @@ export function AppDrawer(props) {
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={item.title}
-                                    primaryTypographyProps={{variant: 'body1', fontSize: '15px',fontWeight:500}}
+                                    primaryTypographyProps={{
+                                        variant: 'body1',
+                                        fontSize: '15px',
+                                        fontWeight: 500,
+                                    }}
                                     color={'secondary'}
                                 />
                             </ListItemButton>

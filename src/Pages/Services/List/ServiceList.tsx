@@ -12,7 +12,16 @@ import {ServiceCreate} from '../Create/ServiceCreate'
 import {createQueryParam} from '../../../Core/QueryParams'
 
 const RECOURCE = 'services'
-
+const tableHeadCells = [
+    createTableHeadCells('ایمیل', 'email'),
+    createTableHeadCells('نام کاربری', 'username'),
+    createTableHeadCells('شماره تلفن', 'username'),
+]
+const queryNames = tableHeadCells.map((cell) => ({
+    field: cell.name,
+    label: cell.label,
+    type: '',
+}))
 export function ServiceList() {
     const [search, setSearch] = useQueryParams(createQueryParam())
     const [loading, setLoading] = useState(false)
@@ -31,15 +40,10 @@ export function ServiceList() {
     useDeepCompareEffect(() => {
         getServices()
     }, [search])
-    const tableHeadCells = [
-        createTableHeadCells('Type', 'type'),
-        createTableHeadCells('Title', 'title'),
-        createTableHeadCells('Description', 'description'),
-    ]
 
     return (
         <ListPage
-            header="Services"
+            header="مدیریت کاربران"
             href={RECOURCE + '/create'}
             searchField="title"
             searchText="title"
@@ -47,7 +51,7 @@ export function ServiceList() {
             params={search}
             resource={RECOURCE}
             getList={getServices}
-            filtersData={[{field: 'title', label: 'Username', type: ''}]}
+            filtersData={queryNames}
             createModal={ServiceCreate}
             defaultState={{
                 title: '',
@@ -70,6 +74,7 @@ export function ServiceList() {
                 setParams={setSearch}
                 handleSort={getServices}
                 loading={loading}
+                hasDetail={true}
                 tableBodyCells={[
                     {id: 1, name: 'ali'},
                     {id: 2, name: 'amir'},

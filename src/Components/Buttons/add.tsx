@@ -2,11 +2,14 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import {makeStyles} from '@mui/styles'
 import AddIcon from '@mui/icons-material/Add'
+import { Link } from 'react-router-dom'
 function AddButton(props) {
     const classes = useStyles()
+
     return (
         <Button
-            href={props.href}
+            LinkComponent={Link}
+            to={`/${props.href}`}
             // size="large"
             variant="outlined"
             startIcon={!props.noIcon && <AddIcon style={{marginLeft: '8px'}} />}

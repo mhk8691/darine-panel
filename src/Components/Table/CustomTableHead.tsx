@@ -20,6 +20,7 @@ export function CustomTableHead(props: {
     onRequestSort: any
     noDelete?: boolean
     noEdit?: boolean
+    hasDetail?: boolean
 }) {
     const {
         headCells,
@@ -30,6 +31,7 @@ export function CustomTableHead(props: {
         onRequestSort,
         noDelete,
         noEdit,
+        hasDetail,
     } = props
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property)
@@ -52,7 +54,7 @@ export function CustomTableHead(props: {
                     </TableCell>
                 )}
                 {headCells.map((headCell) => (
-                    <TableCell key={headCell.name} color="secondary">
+                    <TableCell key={headCell.name} color="secondary" sx={{fontSize: '15px'}}>
                         <TableSortLabel
                             active={search.sort === headCell.name}
                             direction={
@@ -70,6 +72,7 @@ export function CustomTableHead(props: {
                     </TableCell>
                 ))}
                 {!noEdit && <TableCell></TableCell>}
+                {hasDetail && <TableCell></TableCell>}
             </TableRow>
         </TableHead>
     )

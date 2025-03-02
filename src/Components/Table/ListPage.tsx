@@ -1,5 +1,5 @@
 import {Button, Stack, Typography} from '@mui/material'
-import {Box} from '@mui/system'
+import {Box, padding} from '@mui/system'
 import React, {useState} from 'react'
 import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
@@ -108,16 +108,22 @@ export function ListPage({
                     alignItems="center"
                     justifyContent="space-between"
                 >
-                    <Typography variant="h5">{header}</Typography>
+                    <Typography variant="h6" sx={{fontSize: '17px !important', fontWeight: 600}}>
+                        {header}
+                    </Typography>
 
                     {noCreate ? null : (
-                        <AddButton href={href} text={'New'} style={{fontSize: '20px'}} />
+                        <AddButton
+                            href={href}
+                            text={'جدید'}
+                            style={{fontSize: '16px', padding: '7px 13px'}}
+                        />
                     )}
                 </Stack>
 
                 <Searchbar
                     searchField={searchField}
-                    placeholder={`Search in ${searchText} ...`}
+                    placeholder={`جستجو در ${searchText} ...`}
                     setParams={setParams}
                     filtersData={filtersData ?? []}
                     noFilters={filtersData ? false : true}

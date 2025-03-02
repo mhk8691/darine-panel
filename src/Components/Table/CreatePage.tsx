@@ -36,7 +36,7 @@ export function CreatePage(props) {
                         <Button
                             variant="outlined"
                             onClick={saveChanges}
-                            sx={{width: '100px', height: '48px'}}
+                            sx={{width: '100px', py: 1, fontSize: '16px'}}
                         >
                             تایید
                         </Button>

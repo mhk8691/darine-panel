@@ -9,11 +9,12 @@ import TableRow from '@mui/material/TableRow'
 import Checkbox from '@mui/material/Checkbox'
 import {CustomTableHead, HeadCellType} from './CustomTableHead'
 import EditIcon from '@mui/icons-material/Edit'
-import {Button} from '@mui/material'
+import {Button, TableFooter} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
 import {CustomToolbar} from './CustomToolbar'
 import {BlankList} from '../Pictures/BlankList'
 import LinearProgress, {linearProgressClasses} from '@mui/material/LinearProgress'
+import {ArrowBack} from '@mui/icons-material'
 
 export function CustomTable(props: {
     headCells: HeadCellType
@@ -30,6 +31,7 @@ export function CustomTable(props: {
     noDelete?: boolean
     getList: () => void
     deleteName: string
+    hasDetail?: boolean
 }) {
     const {
         rows,
@@ -45,6 +47,7 @@ export function CustomTable(props: {
         noDelete,
         getList,
         deleteName,
+        hasDetail,
     } = props
     const navigate = useNavigate()
     const [selected, setSelected] = useState<string[]>([])
@@ -117,8 +120,13 @@ export function CustomTable(props: {
         setPage(0)
     }
 
-    function handleEditClick(event, id, row) {
+    function handleEditClick(event, id: string | number, row) {
         navigate(`${id}`, {state: {row}})
+    }
+    function handleDetailClick(id: string | number, hasDetail: boolean) {
+        if (hasDetail) {
+            navigate(`detail/${id}`)
+        }
     }
 
     const isSelected = (name) => selected.indexOf(name) !== -1
@@ -129,11 +137,12 @@ export function CustomTable(props: {
             <LinearProgress
                 sx={{
                     [`& .${linearProgressClasses.bar}`]: {
-                        backgroundColor: '#000',
+                        backgroundColor: 'background.main',
                     },
                     [`&.${linearProgressClasses.colorPrimary}`]: {
-                        backgroundColor: 'rgba(182, 191, 207, 0.4)',
+                        backgroundColor: 'background.light',
                     },
+                    my: 0.5,
                 }}
                 variant={loading ? 'indeterminate' : 'determinate'}
                 value={0}
@@ -160,6 +169,7 @@ export function CustomTable(props: {
                         numSelected={selected.length}
                         noDelete={noDelete}
                         noEdit={noEdit}
+                        hasDetail={hasDetail}
                     />
                     <TableBody>
                         {rows.map((row, index) => {
@@ -200,6 +210,20 @@ export function CustomTable(props: {
                                             </Button>
                                         </TableCell>
                                     )}
+                                    {hasDetail && (
+                                        <TableCell width="32px">
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                sx={{padding: '4px 8px', minWidth: '0px'}}
+                                                onClick={(event) =>
+                                                    handleDetailClick(row.id, hasDetail)
+                                                }
+                                            >
+                                                <ArrowBack />
+                                            </Button>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             )
                         })}
@@ -207,15 +231,35 @@ export function CustomTable(props: {
                 </Table>
             </TableContainer>
             {!noPagination && (
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={count}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <TableFooter
+                    sx={{
+                        direction: 'rtl',
+                    }}
+                >
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 50, 100]}
+                        component="div"
+                        count={count}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        labelRowsPerPage={'تعداد ردیف در هر صفحه:'}
+                        labelDisplayedRows={({from, to, count}) =>
+                            `${from}–${to} از ${count !== -1 ? count : `بیشتر از ${to}`}`
+                        }
+                        sx={{
+                            '&.MuiTablePagination-root .MuiTablePagination-selectLabel': {
+                                fontSize: '15px',
+                                fontWeight: '500',
+                            },
+                            '&.MuiTablePagination-root .MuiTablePagination-displayedRows': {
+                                fontSize: '16px',
+                                fontWeight: '500',
+                            },
+                        }}
+                    />
+                </TableFooter>
             )}
         </Box>
     )

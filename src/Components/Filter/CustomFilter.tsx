@@ -1,8 +1,8 @@
 import {Box} from '@mui/system'
 import React, {useState} from 'react'
 import {Stack, TextField} from '@mui/material'
-import { DateFilter } from '../Input/DateFilter'
-import { CustomTextField } from '../Input/CustomTextField'
+import {DateFilter} from '../Input/DateFilter'
+import {CustomTextField} from '../Input/CustomTextField'
 
 export interface FilterType {
     date?: {}
@@ -37,11 +37,7 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
             {filtersData.map((item, index) => (
                 <>
                     {item.type === 'date' ? (
-                        <DateFilter
-                            label={item.label}
-                            field={item.field}
-                            setParams={setParams}
-                        />
+                        <DateFilter label={item.label} field={item.field} setParams={setParams} />
                     ) : (
                         <CustomTextField
                             value={params?.filter ? params?.filter[item.field] : null}
@@ -49,6 +45,10 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
                             label={item.label}
                             sx={{
                                 flexGrow: 1,
+                                fontSize: '16px',
+                                '& .MuiInputLabel-root': {
+                                    fontSize: '16px',
+                                },
                             }}
                         />
                     )}
@@ -58,4 +58,3 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
         </Stack>
     )
 }
-

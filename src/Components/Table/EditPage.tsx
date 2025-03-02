@@ -45,10 +45,9 @@ export function EditPage(props) {
                             <Button
                                 variant="outlined"
                                 onClick={saveChanges}
-                                size="large"
-                                sx={{fontSize: '20px'}}
+                                sx={{fontSize: '16px', py: 1}}
                             >
-                                Save Changes
+                                ذخیره تغییرات
                             </Button>
                         </Stack>
                     )}

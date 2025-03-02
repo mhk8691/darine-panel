@@ -32,8 +32,9 @@ export function Searchbar(props) {
                 p="10px"
                 borderRadius="8px"
                 mb={'16px'}
+                gap={1}
             >
-                <IconButton>
+                <IconButton >
                     <SearchIcon />
                 </IconButton>
                 <InputBase
@@ -41,22 +42,25 @@ export function Searchbar(props) {
                     value={textFieldData}
                     onChange={handleChange}
                     placeholder={placeholder}
+                    sx={{
+                        fontSize: '16px',
+                    }}
                 />
                 {!noFilters && (
                     <>
-                        <Divider orientation="vertical" flexItem />
+                        <Divider orientation="vertical" flexItem sx={{mx: 1}} />
                         <Button
                             startIcon={
                                 filterIn ? (
-                                    <FilterAltIcon style={{marginLeft: '10px'}} />
+                                    <FilterAltIcon style={{marginLeft: '0'}} />
                                 ) : (
-                                    <FilterAltOutlinedIcon style={{marginLeft: '10px'}} />
+                                    <FilterAltOutlinedIcon style={{marginLeft: '0'}} />
                                 )
                             }
                             onClick={handleFilterIn}
-                            sx={{fontSize: '18px'}}
+                            sx={{fontSize: '16px'}}
                         >
-                            Filters
+                            فیلتر ها
                         </Button>
                     </>
                 )}

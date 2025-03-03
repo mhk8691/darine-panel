@@ -1,12 +1,19 @@
-import { Grid } from "@mui/material"
-import React from "react"
+import {Grid} from '@mui/material'
+import React from 'react'
 
 export function GridProducer(props) {
     const {data, count} = props
     return (
         <Grid container spacing={2} {...props}>
             {data.map((element, index) => (
-                <Grid item xs={count ? 12 / count : 4} key={index}>
+                <Grid
+                    item
+                    xs={count ? 12 / count : 12}
+                    sm={count ? 6 / count : 6}
+                    md={count ? 4 / count : 4}
+                    xl={count ? 2 / count : 3}
+                    key={index}
+                >
                     {element}
                 </Grid>
             ))}

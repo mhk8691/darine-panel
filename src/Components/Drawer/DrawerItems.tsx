@@ -4,7 +4,7 @@ import GroupIcon from '@mui/icons-material/Group'
 import LocalMallIcon from '@mui/icons-material/LocalMall'
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-export const DrawerItems = [
+export const drawerItems = [
     {
         title: 'پیشخوان',
         link: '',

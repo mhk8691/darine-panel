@@ -1,209 +1,193 @@
-import {Stack, Theme, Tooltip, Typography, useMediaQuery} from '@mui/material'
+import {ListItem, Stack, Theme, Tooltip, Typography, useMediaQuery, useTheme} from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
 import {makeStyles} from '@mui/styles'
 import {useEffect, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
-import {AppIcon} from '../Pictures/AppIcon'
-import {DrawerItems} from './DrawerItems'
-import {useTheme} from '@emotion/react'
+import {useAppSelector} from '../../redux/store'
+import AppbarProfile from '../Appbar/AppbarProfile'
+import {drawerItems} from './DrawerItems'
 
-export function AppDrawer(props) {
+export function AppDrawer({
+    setSelectedTitle,
+    drawerOpen,
+    setDrawerOpen,
+}: {
+    setSelectedTitle: (title: string) => void
+    drawerOpen: boolean
+    setDrawerOpen: (open: boolean) => void
+}) {
+    const [selected, setSelected] = useState<boolean[]>(new Array(drawerItems.length).fill(false))
+    const theme = useTheme()
     const classes = useStyles()
-    const [selected, setSelected] = useState<boolean[]>(new Array(DrawerItems.length).fill(false))
     const navigate = useNavigate()
     const location = useLocation()
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-    const t = props.t
-    // async function getEmployee() {
-    //     let data = await DataProvider.getOne('employee/one/' + localStorage.getItem('id'))
-    //     if (data && data.data) setEmployee(data.data)
-    // }
     useEffect(() => {
         const value = location.pathname
         let checked = false
-        for (let item of DrawerItems) {
+        drawerItems.map((item) => {
             if (value.toString().startsWith('/' + item.link)) {
-                let index = DrawerItems.indexOf(item)
-                let newList = new Array(DrawerItems.length).fill(false)
+                let index = drawerItems.indexOf(item)
+                let newList = new Array(drawerItems.length).fill(false)
                 newList[index] = true
                 setSelected(newList)
+                setSelectedTitle(item.title)
                 checked = true
             }
+        })
+        if (!checked) {
+            setSelectedTitle('')
         }
-
-        // if (!checked && value.toString().startsWith('/profile')) setSelected(DrawerItems.length)
     }, [location.pathname])
 
-    function handleClick(link, index) {
-        let newList = new Array(DrawerItems.length).fill(false)
+    function handleClick(link, index, title) {
+        let newList = new Array(drawerItems.length).fill(false)
         newList[index] = true
         setSelected(newList)
+        setSelectedTitle(title)
+        if (isMobile) setDrawerOpen(false)
         navigate(link)
     }
-    const mdScreen = useMediaQuery('(min-width:900px)')
-
-    // const roles = JSON.parse(sessionStorage.getItem('roles'))
 
     return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-            anchor="left"
-            sx={{
-                overflow: 'hidden',
-                '& .MuiDrawer-paper': {
-                    overflowY: 'auto',
-                    '&::-webkit-scrollbar': {
-                        display: 'none',
-                    },
-                },
-            }}
-        >
-            <Stack direction="row" p="30px" alignItems={'center'}>
-                <AppIcon />
-                <Typography fontWeight={700} sx={{pl: '25px'}} variant="subtitle2" noWrap>
-                    My Panel
-                </Typography>
-            </Stack>
-            <List
-                component="div"
-                disablePadding
+        <Stack>
+            <Drawer
+                variant={isMobile ? 'temporary' : 'permanent'}
+                open={isMobile ? drawerOpen : true}
+                onClose={() => setDrawerOpen(false)}
+                anchor="left"
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
                 sx={{
-                    display: {
-                        xs: 'flex',
-                        md: 'block',
-                    },
-                    flexDirection: 'column',
-                    alignItems: {
-                        xs: 'center',
-                        md: 'flex-start',
-                    },
-                    gap: '10px',
-                    py: {
-                        xs: '1rem',
-                        md: '0',
+                    zIndex: 1000,
+                    overflow: 'hidden',
+
+                    '& .MuiDrawer-paper': {
+                        width: {xs: '250px', sm: '350px', md: '100px'},
+                        overflowY: 'auto',
+                        '&::-webkit-scrollbar': {display: 'none'},
                     },
                 }}
             >
-                {DrawerItems.map((item, index) => (
-                    <>
-                        {mdScreen ? (
-                            <ListItemButton
-                                onClick={(event) => handleClick(item.link, index)}
-                                selected={selected[index]}
-                                key={item.title}
-                                classes={{
-                                    selected: classes.selected,
-                                    root: classes.mainSelected,
-                                }}
-                                sx={{
-                                    py:1.4
-                                }}
-                            >
+                <List
+                    component="div"
+                    disablePadding
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: {xs: 'flex-start', md: 'center'},
+                        gap: '5px',
+                        py: '1rem',
+                        mt: isMobile ? 8 : 0,
+                        bgcolor: {
+                            xs: '#262626',
+                            md: 'background.paper',
+                        },
+                    }}
+                >
+                    {isMobile && (
+                        <>
+                            <ListItem sx={{textAlign: 'center'}}>
+                                <AppbarProfile />
+                            </ListItem>
+                        </>
+                    )}
+                    {drawerItems.map((item, index) => (
+                        <ListItemButton
+                            onClick={(event) => handleClick(item.link, index, item.title)}
+                            selected={selected[index]}
+                            sx={{
+                                width: {xs: '100%',md:'65px'},
+                                borderRadius: '8px',
+                            }}
+                            classes={{
+                                selected: classes.selected,
+                                root: classes.mainSelected,
+                            }}
+                            key={item.title}
+                        >
+                            {isMobile ? (
                                 <ListItemIcon
-                                    style={{
+                                    sx={{
                                         color: selected[index] ? 'white' : '#606566',
                                     }}
                                 >
                                     {item.icon}
                                 </ListItemIcon>
-                                <ListItemText
-                                    primary={item.title}
-                                    primaryTypographyProps={{
-                                        variant: 'body1',
-                                        fontSize: '15px',
-                                        fontWeight: 500,
-                                    }}
-                                    color={'secondary'}
-                                />
-                            </ListItemButton>
-                        ) : (
-                            <Tooltip title={item.title} placement="left" arrow>
-                                <ListItemButton
-                                    onClick={(event) => handleClick(item.link, index)}
-                                    selected={selected[index]}
-                                    key={item.title}
-                                    classes={{
-                                        selected: classes.selected,
-                                        root: classes.mainSelected,
-                                    }}
-                                >
+                            ) : (
+                                <Tooltip title={item.title} placement="left" arrow>
                                     <ListItemIcon
-                                        style={{
+                                        sx={{
                                             color: selected[index] ? 'white' : '#606566',
                                         }}
                                     >
                                         {item.icon}
                                     </ListItemIcon>
-                                </ListItemButton>
-                            </Tooltip>
-                        )}
-                    </>
-                ))}
-            </List>
-        </Drawer>
+                                </Tooltip>
+                            )}
+                            {isMobile && (
+                                <Typography
+                                    variant="bodyMd"
+                                    sx={{
+                                        color: selected[index] ? 'white' : 'grey.600',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    {item.title}
+                                </Typography>
+                            )}
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Drawer>
+        </Stack>
     )
 }
+
 export const drawerWidth = 100
 
 const useStyles = makeStyles((theme: Theme) => ({
     drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
         [theme.breakpoints.up('md')]: {
-            width: '280px',
+            backgroundColor: `${theme.palette.background.paper} !important`,
         },
         [theme.breakpoints.down('md')]: {
-            width: drawerWidth,
+            backgroundColor: '#000000 !important',
         },
-        flexShrink: 0,
     },
     drawerPaper: {
+        width: drawerWidth,
         [theme.breakpoints.up('md')]: {
-            width: '280px',
+            backgroundColor: `${theme.palette.background.paper} !important`,
         },
         [theme.breakpoints.down('md')]: {
-            width: drawerWidth,
+            backgroundColor: '#000000 !important',
         },
     },
     subMainSelected: {
-        padding: '12px 50px',
-        margin: '2px 12px',
-        borderRadius: '8px',
+        width: '65px',
+        height: '65px',
+        borderRadius: '8px !important',
         fontWeight: 500,
         fontSize: '32px',
         '&$selected': {
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.background.main,
             fontWeight: 700,
             color: 'white',
-            // '&:hover': {
-            //     backgroundColor: theme.palette.primary.dark,
-            // },
         },
     },
     mainSelected: {
-        [theme.breakpoints.down('md')]: {
-            padding: 0,
-            margin: 0,
-            width: '65px',
-            height: '65px',
-            borderRadius: '8px !important',
-        },
-        [theme.breakpoints.up('md')]: {
-            padding: '12px 16px',
-            margin: '2px 12px',
-            width: 'auto',
-            height: 'auto',
-            borderRadius: '0 !important',
-        },
-
+        width: '65px',
+        height: '65px',
+        borderRadius: '8px !important',
         fontWeight: 500,
-        fontSize: '32px',
         '&$selected': {
             backgroundColor: `${theme.palette.primary.main} !important`,
             fontWeight: 700,
@@ -219,7 +203,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontWeight: 500,
         fontSize: '20px',
         boxSizing: 'border-box',
-        // whiteSpace: 'wrap',
         overflowWrap: 'break-word',
         '&$selected': {
             backgroundColor: '#0487FF',

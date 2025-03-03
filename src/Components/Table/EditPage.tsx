@@ -37,7 +37,7 @@ export function EditPage(props) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h5" fontWeight="700">
+                    <Typography variant="h5"  sx={{fontSize: '18px !important', fontWeight: 'bold'}}>
                         {title}
                     </Typography>
                     {!noEdit && (

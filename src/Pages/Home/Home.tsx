@@ -3,9 +3,10 @@ import {useEffect, useState} from 'react'
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
-import {ServiceCreate} from '../Services/Create/ServiceCreate'
-import {ServiceEdit} from '../Services/Edit/ServiceEdit'
-import {ServiceList} from '../Services/List/ServiceList'
+import {UserCreate} from '../Users/Create/UserCreate'
+import {UserDetail} from '../Users/Detail/UserDetail'
+import { UsersList } from '../Users/List/UsersList'
+import { UserEdit } from '../Users/Edit/UserEdit'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -30,7 +31,9 @@ export function Home(props) {
                 padding={!location.pathname.includes('dashboard') ? '30px' : 'unset'}
             >
                 <Box
-                    bgcolor={!location.pathname.includes('dashboard') ? 'background.paper' : 'unset'}
+                    bgcolor={
+                        !location.pathname.includes('dashboard') ? 'background.paper' : 'unset'
+                    }
                     borderRadius={'12px'}
                     style={{
                         boxShadow: !location.pathname.includes('dashboard')
@@ -42,11 +45,12 @@ export function Home(props) {
                 >
                     <Routes>
                         <Route
-                            path="services/create"
-                            element={<ServiceCreate data={data} setData={setData} />}
+                            path="users/create"
+                            element={<UserCreate data={data} setData={setData} />}
                         />
-                        <Route path="services" element={<ServiceList />} />
-                        <Route path="services/:id" element={<ServiceEdit />} />
+                        <Route path="users" element={<UsersList />} />
+                        <Route path="users/:id" element={<UserEdit />} />
+                        <Route path="users/detail/:id" element={<UserDetail />} />
                     </Routes>
                 </Box>
             </Box>

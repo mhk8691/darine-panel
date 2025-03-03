@@ -108,7 +108,7 @@ export function ListPage({
                     alignItems="center"
                     justifyContent="space-between"
                 >
-                    <Typography variant="h6" sx={{fontSize: '17px !important', fontWeight: 600}}>
+                    <Typography variant="h6" sx={{fontSize: '18px !important', fontWeight: 600}}>
                         {header}
                     </Typography>
 
@@ -123,7 +123,7 @@ export function ListPage({
 
                 <Searchbar
                     searchField={searchField}
-                    placeholder={`جستجو در ${searchText} ...`}
+                    placeholder={`جستجو بر اساس ${searchText} ...`}
                     setParams={setParams}
                     filtersData={filtersData ?? []}
                     noFilters={filtersData ? false : true}

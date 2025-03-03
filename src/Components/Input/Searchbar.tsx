@@ -43,7 +43,8 @@ export function Searchbar(props) {
                     onChange={handleChange}
                     placeholder={placeholder}
                     sx={{
-                        fontSize: '16px',
+                        fontSize: '14px',
+                        fontWeight: '600',
                     }}
                 />
                 {!noFilters && (

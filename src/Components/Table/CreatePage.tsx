@@ -31,7 +31,7 @@ export function CreatePage(props) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h2">{title}</Typography>
+                    <Typography variant="h2" fontSize={18}>{title}</Typography>
                     {!noEdit && (
                         <Button
                             variant="outlined"

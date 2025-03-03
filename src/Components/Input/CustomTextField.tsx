@@ -31,4 +31,7 @@ const Custom = styled(TextField)(({theme}) => ({
         borderRadius: 10,
         
     },
+    '& .MuiInputLabel-root':{
+        fontSize: 15,
+    }
 }))

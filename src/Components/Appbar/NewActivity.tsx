@@ -67,7 +67,7 @@ const NewActivity = () => {
                         <MenuItem
                             sx={{
                                 '&:hover': {
-                                    bgcolor: '#f0f0f0',
+                                    bgcolor: 'background.light',
                                     transition: '0.3s ease',
                                 },
                             }}

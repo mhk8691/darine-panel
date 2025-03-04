@@ -158,7 +158,7 @@ export function CustomTable(props: {
                     deleteName={deleteName}
                 />
             )}
-            <TableContainer style={{overflowX: 'hidden'}}>
+            <TableContainer>
                 <Table>
                     <CustomTableHead
                         headCells={headCells}

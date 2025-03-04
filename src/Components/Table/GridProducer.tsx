@@ -9,9 +9,9 @@ export function GridProducer(props) {
                 <Grid
                     item
                     xs={count ? 12 / count : 12}
-                    sm={count ? 6 / count : 6}
-                    md={count ? 4 / count : 4}
-                    xl={count ? 2 / count : 3}
+                    sm={count ? 12 / count : 6}
+                    md={count ? 12 / count : 4}
+                    xl={count ? 12 / count : 3}
                     key={index}
                 >
                     {element}

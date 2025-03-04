@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {UsersType} from '../Users'
 
-const RECOURCE = 'bots'
+const RECOURCE = 'user'
 
 export function UserDetail() {
     const id = useParams().id

@@ -7,6 +7,10 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserDetail} from '../Users/Detail/UserDetail'
 import { UsersList } from '../Users/List/UsersList'
 import { UserEdit } from '../Users/Edit/UserEdit'
+import { ProductCreate } from '../Products/Create/ProductCreate'
+import { ProductsList } from '../Products/List/ProductsList'
+import { ProductEdit } from '../Products/Edit/ProductEdit'
+import { ProductDetail } from '../Products/Detail/ProductDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -44,6 +48,7 @@ export function Home(props) {
                     }}
                 >
                     <Routes>
+                        {/* users section */}
                         <Route
                             path="users/create"
                             element={<UserCreate data={data} setData={setData} />}
@@ -51,6 +56,14 @@ export function Home(props) {
                         <Route path="users" element={<UsersList />} />
                         <Route path="users/:id" element={<UserEdit />} />
                         <Route path="users/detail/:id" element={<UserDetail />} />
+                        {/* procuts section */}
+                        <Route
+                            path="products/create"
+                            element={<ProductCreate data={data} setData={setData} />}
+                        />
+                        <Route path="products" element={<ProductsList />} />
+                        <Route path="products/:id" element={<ProductEdit />} />
+                        <Route path="products/detail/:id" element={<ProductDetail />} />
                     </Routes>
                 </Box>
             </Box>

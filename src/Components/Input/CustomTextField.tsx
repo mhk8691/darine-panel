@@ -29,9 +29,12 @@ const Custom = styled(TextField)(({theme}) => ({
     '& .MuiFilledInput-root': {
         overflow: 'hidden',
         borderRadius: 10,
+    },
+    '& .MuiOutlinedInput-input ': {
+        fontSize: '15px',
+    },
+    '& .MuiInputLabel-root': {
+        fontSize: 15,
         
     },
-    '& .MuiInputLabel-root':{
-        fontSize: 15,
-    }
 }))

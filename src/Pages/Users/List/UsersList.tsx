@@ -83,10 +83,7 @@ export function UsersList() {
             <CustomTable
                 resource={RECOURCE}
                 headCells={tableHeadCells}
-                rows={[
-                    {id: 1, name: 'ali'},
-                    {id: 2, name: 'amir'},
-                ]}
+                rows={users.data}
                 count={2}
                 deleteName="name of deleting"
                 getList={getUsers}
@@ -98,27 +95,27 @@ export function UsersList() {
                 tableBodyCells={users.data.map((item, index) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'17px'}>
+                            <Typography variant="body2" fontSize={'15px'}>
                                 {item.firstName}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'17px'}>
+                            <Typography variant="body2" fontSize={'15px'}>
                                 {item.lastName}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'17px'}>
+                            <Typography variant="body2" fontSize={'15px'}>
                                 {item.email}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'17px'}>
+                            <Typography variant="body2" fontSize={'15px'}>
                                 {item.username}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'17px'}>
+                            <Typography variant="body2" fontSize={'15px'}>
                                 {item.phoneNumber}
                             </Typography>
                         </TableCell>

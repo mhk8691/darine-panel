@@ -9,7 +9,7 @@ export function CustomAutocomplete(props) {
     async function changeField(value) {
         if (value) {
             setData((prev) => {
-                return {...prev, [name]: optionValue ? value[optionValue] : value.label}
+                return {...prev, [name]: optionValue ? value[optionValue] : value.id}
             })
             setInputValue(value)
         }
@@ -22,6 +22,23 @@ export function CustomAutocomplete(props) {
             onChange={(e, value) => changeField(value)}
             popupIcon={<ExpandMoreIcon color="disabled" />}
             renderInput={(params) => <CustomTextField label={label} {...params} />}
+            sx={{
+                '& .MuiOutlinedInput-input ': {
+                    fontSize: '14px',
+                },
+            }}
+            componentsProps={{
+                paper: {
+                    sx: {
+                        '& .MuiAutocomplete-listbox': {
+                            fontSize: '15px',
+                        },
+                        '& .MuiAutocomplete-option': {
+                            py:'12px !important',
+                        },
+                    },
+                },
+            }}
         />
     )
 }

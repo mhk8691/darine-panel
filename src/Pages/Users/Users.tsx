@@ -10,7 +10,7 @@ export type UsersType = {
     username: string
     phoneNumber: string
 }
-const RESOURCE = 'service'
+const RESOURCE = 'users'
 
 export function Users({
     user,
@@ -25,14 +25,14 @@ export function Users({
                 sx={{marginBottom: '16px'}}
                 data={[
                     <CustomTextField
-                        name="firstName"
+                        name="first_name"
                         setData={setUser}
                         resource={RESOURCE}
                         label={'نام'}
                         defaultValue={user.firstName}
                     />,
                     <CustomTextField
-                        name="lastName"
+                        name="last_name"
                         resource={RESOURCE}
                         setData={setUser}
                         label={'نام خانوادگی'}
@@ -53,7 +53,7 @@ export function Users({
                         defaultValue={user.username}
                     />,
                     <CustomTextField
-                        name="phoneNumber"
+                        name="phone_number"
                         resource={RESOURCE}
                         setData={setUser}
                         label={'شماره تلفن'}

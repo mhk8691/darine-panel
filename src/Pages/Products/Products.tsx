@@ -1,6 +1,8 @@
 import {Stack, Grid, Box} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
+import {useEffect, useState} from 'react'
+import {ImageUploader} from '../../Components/Input/ImageUploader'
 
 export type ProductsType = {
     id: number
@@ -10,7 +12,7 @@ export type ProductsType = {
     description: string
     price: number
     category: string
-    image: string
+    image: any
 }
 
 const RESOURCE = 'products'
@@ -22,9 +24,24 @@ export function Products({
     product: ProductsType
     setProduct: React.Dispatch<React.SetStateAction<ProductsType>>
 }) {
+
     return (
         <Stack sx={{marginBottom: '16px'}}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} rowSpacing={2.5}>
+                <Grid item xs={12} sx={{px: 2}}>
+                    <ImageUploader
+                        resource={RESOURCE}
+                        setData={setProduct}
+                        field={'image'}
+                        defaultValue={product.image}
+                        style={{
+                            width: '100%',
+                            height: '250px',
+                            borderRadius: '12px',
+                            objectFit: 'fill',
+                        }}
+                    />
+                </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         name="name"
@@ -76,27 +93,7 @@ export function Products({
                         defaultValue={product.price}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        type="file"
-                        name="image"
-                        resource={RESOURCE}
-                        setData={setProduct}
-                        label={'تصویر'}
-                    />
-                    {product.image && (
-                        <Box
-                            component={'img'}
-                            src={product.image}
-                            sx={{
-                                width: '60px',
-                                height: '60px',
-                                borderRadius: 2,
-                                objectFit: 'cover',
-                            }}
-                        />
-                    )}
-                </Grid>
+
                 <Grid item xs={12}>
                     <CustomTextField
                         name="introduction"
@@ -105,7 +102,7 @@ export function Products({
                         label={'معرفی محصول'}
                         defaultValue={product.introduction}
                         multiline={true}
-                        rows={5}
+                        rows={7}
                     />
                 </Grid>
             </Grid>

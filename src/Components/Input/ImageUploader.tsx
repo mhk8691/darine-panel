@@ -5,7 +5,7 @@ import {DataProvider} from '../../Core/DataProvider'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import {APP_URL} from '../../Core/APP_URL'
 export function ImageUploader(props) {
-    const {resource, setData, field, defaultValue} = props
+    const {resource, setData, field, defaultValue, style} = props
     const [progress, setProgress] = useState(0)
     const [image, setImage] = useState(defaultValue ? APP_URL + defaultValue : null)
 
@@ -30,12 +30,29 @@ export function ImageUploader(props) {
 
     return (
         <Box>
-            <Stack direction="row" spacing={2}>
-                <Box width="50%">
+            <Stack
+                display={'flex'}
+                sx={{
+                    flexDirection: {
+                        xs: 'column',
+                        sm: 'row',
+                    },
+                    gap:2
+                }}
+                
+            >
+                <Box
+                    sx={{
+                        width: {
+                            xs: '100%',
+                            sm: '50%',
+                        },
+                    }}
+                >
                     <DropzoneArea
                         fileObjects={[]}
                         Icon={CloudUploadOutlinedIcon}
-                        dropzoneText={'Upload file'}
+                        dropzoneText={'بارگذاری تصویر'}
                         onChange={dropAccepted}
                         filesLimit={1}
                         showPreviewsInDropzone={false}
@@ -43,8 +60,16 @@ export function ImageUploader(props) {
                     />
                 </Box>
                 {image && (
-                    <Stack spacing={2}>
-                        <img src={image} width="250px" height="250px" />
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            width: {
+                                xs: '100%',
+                                sm: '50%',
+                            },
+                        }}
+                    >
+                        <img src={image} style={{width: '100%', height: '100%', ...style}} />
                         <LinearProgress
                             variant="determinate"
                             value={progress}

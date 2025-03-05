@@ -15,6 +15,7 @@ import { CategoryCreate } from '../Categories/Create/CategoryCreate'
 import { CategoriesList } from '../Categories/List/CategoriesList'
 import { CategoryEdit } from '../Categories/Edit/CategoryEdit'
 import { CategoryDetail } from '../Categories/Detail/CategoryDetail'
+import DashboardLayout from '../Dashboard/DashboardLayout'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -52,6 +53,10 @@ export function Home(props) {
                     }}
                 >
                     <Routes>
+                        <Route
+                            path="dashboard"
+                            element={<DashboardLayout  />}
+                        />
                         {/* users section */}
                         <Route
                             path="users/create"

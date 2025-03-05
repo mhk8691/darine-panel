@@ -1,10 +1,11 @@
 import {Container, Grid} from '@mui/material'
 import Widgets from './Widgets'
+import SalesChart from './SalesChart'
 
 export default function DashboardLayout() {
     return (
         <Container maxWidth="xl">
-            <Grid container spacing={2} sx={{marginTop: '1rem'}}>
+            <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
                 <Widgets
                     title="فروش هفتگی"
                     data="10000000 تومان"
@@ -29,6 +30,7 @@ export default function DashboardLayout() {
                         status: 'increment',
                     }}
                 />
+                <SalesChart/>
             </Grid>
         </Container>
     )

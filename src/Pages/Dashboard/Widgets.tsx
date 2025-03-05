@@ -10,13 +10,17 @@ interface Props {
 }
 export default function Widgets({title, data, description}: Props) {
     return (
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={6} md={4}>
             <Stack
                 bgcolor={'background.paper'}
                 borderRadius={3}
                 px={3}
                 py={5}
-                spacing={1.5}
+                spacing={{
+                    xs: 4,
+                    sm: 3,
+                    md: 1.5,
+                }}
                 direction={'column'}
             >
                 <Typography variant="h6" sx={{fontSize: '16px !important', fontWeight: 'bold'}}>

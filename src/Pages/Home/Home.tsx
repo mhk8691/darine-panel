@@ -11,6 +11,10 @@ import { ProductCreate } from '../Products/Create/ProductCreate'
 import { ProductsList } from '../Products/List/ProductsList'
 import { ProductEdit } from '../Products/Edit/ProductEdit'
 import { ProductDetail } from '../Products/Detail/ProductDetail'
+import { CategoryCreate } from '../Categories/Create/CategoryCreate'
+import { CategoriesList } from '../Categories/List/CategoriesList'
+import { CategoryEdit } from '../Categories/Edit/CategoryEdit'
+import { CategoryDetail } from '../Categories/Detail/CategoryDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -64,6 +68,14 @@ export function Home(props) {
                         <Route path="products" element={<ProductsList />} />
                         <Route path="products/:id" element={<ProductEdit />} />
                         <Route path="products/detail/:id" element={<ProductDetail />} />
+                        {/* categories section */}
+                        <Route
+                            path="poruduct-category/create"
+                            element={<CategoryCreate data={data} setData={setData} />}
+                        />
+                        <Route path="poruduct-category" element={<CategoriesList />} />
+                        <Route path="poruduct-category/:id" element={<CategoryEdit />} />
+                        <Route path="poruduct-category/detail/:id" element={<CategoryDetail />} />
                     </Routes>
                 </Box>
             </Box>

@@ -1,5 +1,5 @@
-import {Box, Button, Grid, Stack} from '@mui/material'
-import {ChangeEvent, useState} from 'react'
+import {Box, Button, Grid, Stack, Typography} from '@mui/material'
+import {ChangeEvent, useRef, useState} from 'react'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {BaseModal} from '../../Components/Modal/BaseModal'
@@ -13,6 +13,7 @@ export type AccountsType = {
     price: number
     category: string
     images: string[] | File[] | null
+    video?: string | File | null
 }
 
 const RESOURCE = 'accounts'
@@ -26,6 +27,8 @@ export function Accounts({
 }) {
     const [open, setOpen] = useState(false)
     const [files, setFiles] = useState<File[]>([])
+    const fileInputRef = useRef<HTMLInputElement | null>(null)
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = Array.from(event.target.files || [])
         if (file) {
@@ -36,10 +39,16 @@ export function Accounts({
         setOpen(false)
         setFiles([])
     }
+    const handleVideo = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (file) {
+            setAccount({...account, video: file})
+        }
+    }
+
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
-                <Grid item xs={12} sx={{px: 2}}></Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         name="name"
@@ -114,6 +123,41 @@ export function Accounts({
                         multiline={true}
                         rows={7}
                     />
+                </Grid>
+                <Grid container item xs={12} spacing={2} sx={{height: '100%', display: 'flex'}}>
+                    <Grid item xs={12} sm={6}>
+                        <Button
+                            component="label"
+                            htmlFor="video"
+                            variant="outlined"
+                            color="primary"
+                            size="large"
+                            sx={{py: 1.2, width: '100%', mt: 1, borderRadius: '4px !important'}}
+                        >
+                            انتخاب ویدیو
+                        </Button>
+                        <input
+                            type="file"
+                            accept="video/mp4, video/webm, video/ogg, video/x-matroska"
+                            id="video"
+                            onChange={handleVideo}
+                            style={{display: 'none'}}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        {account.video && (
+                            <Box
+                                component={'video'}
+                                src={
+                                    typeof account.video === 'string'
+                                        ? account.video
+                                        : URL.createObjectURL(account.video)
+                                }
+                                controls={true}
+                                sx={{width: '100%', height: '100%'}}
+                            />
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
 

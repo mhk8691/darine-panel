@@ -17,6 +17,7 @@ export function AccountCreate({
         formData.append('description', data.description)
         formData.append('price', data.price)
         formData.append('category', data.category)
+        formData.append('video', data.video)
         data?.images?.forEach((image) => {
             formData.append('image', image)
         })

@@ -10,7 +10,6 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {AccountsType} from '../Accounts'
 import {AccountCreate} from '../Create/AccountCreate'
-
 const RECOURCE = 'accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
@@ -20,6 +19,7 @@ const tableHeadCells = [
     createTableHeadCells('دسته بندی', 'category'),
     createTableHeadCells('قیمت', 'price'),
     createTableHeadCells('تصویر', 'image'),
+    createTableHeadCells('ویدئو', 'video'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -39,7 +39,10 @@ export function AccountsList() {
                 description: 'تست',
                 price: 300000,
                 category: 'clash of clans',
-                images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',]
+
+                images: [
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                ],
             },
             {
                 id: 2,
@@ -49,7 +52,9 @@ export function AccountsList() {
                 description: 'تست',
                 price: 400000,
                 category: 'clash of clans',
-                images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',]
+                images: [
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                ],
             },
         ],
         count: 0,
@@ -131,10 +136,10 @@ export function AccountsList() {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            {item?.images?.map((image) => (
+                            {typeof item.images[0] === 'string' ? (
                                 <Box
                                     component={'img'}
-                                    src={image}
+                                    src={item.images[0]}
                                     sx={{
                                         width: '60px',
                                         height: '60px',
@@ -142,7 +147,27 @@ export function AccountsList() {
                                         objectFit: 'cover',
                                     }}
                                 />
-                            ))}
+                            ) : (
+                                <span>--</span>
+                            )}
+                        </TableCell>
+
+                        <TableCell>
+                            {item.video ? (
+                                <Box
+                                    component={'video'}
+                                    src={typeof item.video === 'string' ? item.video : ''}
+                                    controls
+                                    sx={{
+                                        width: '60px',
+                                        height: '60px',
+                                        borderRadius: 2,
+                                        objectFit: 'cover',
+                                    }}
+                                />
+                            ) : (
+                                <span>--</span>
+                            )}
                         </TableCell>
                     </>
                 ))}

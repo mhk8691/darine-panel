@@ -1,4 +1,4 @@
-import {Box, Button, Grid, Stack, Typography} from '@mui/material'
+import {Box, Button, Grid, Stack} from '@mui/material'
 import {ChangeEvent, useRef, useState} from 'react'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
@@ -12,7 +12,7 @@ export type AccountsType = {
     description: string
     price: number
     category: string
-    images: string[] | File[] | null
+    images: string[] | File[]
     video?: string | File | null
 }
 
@@ -27,7 +27,6 @@ export function Accounts({
 }) {
     const [open, setOpen] = useState(false)
     const [files, setFiles] = useState<File[]>([])
-    const fileInputRef = useRef<HTMLInputElement | null>(null)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = Array.from(event.target.files || [])
@@ -124,40 +123,55 @@ export function Accounts({
                         rows={7}
                     />
                 </Grid>
-                <Grid container item xs={12} spacing={2} sx={{height: '100%', display: 'flex'}}>
-                    <Grid item xs={12} sm={6}>
-                        <Button
-                            component="label"
-                            htmlFor="video"
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                            sx={{py: 1.2, width: '100%', mt: 1, borderRadius: '4px !important'}}
-                        >
-                            انتخاب ویدیو
-                        </Button>
-                        <input
-                            type="file"
-                            accept="video/mp4, video/webm, video/ogg, video/x-matroska"
-                            id="video"
-                            onChange={handleVideo}
-                            style={{display: 'none'}}
+                <Stack
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%',
+                        mt: 2.5,
+                    }}
+                >
+                    <Button
+                        component="label"
+                        htmlFor="video"
+                        variant="outlined"
+                        color="primary"
+                        size="large"
+                        sx={{
+                            py: 1.2,
+                            width: {
+                                xs:'100%',
+                                sm:'60%',
+                                md:'50%',
+                            },
+                            mt: 1,
+                            borderRadius: '4px !important',
+                        }}
+                    >
+                        {account.video ? 'ویرایش ویدئو' : 'انتخاب ویدئو'}
+                    </Button>
+                    <input
+                        type="file"
+                        accept="video/mp4, video/webm, video/ogg, video/x-matroska"
+                        id="video"
+                        onChange={handleVideo}
+                        style={{display: 'none', borderRadius: 2}}
+                    />
+                </Stack>
+                <Grid item xs={12}>
+                    {account.video && (
+                        <Box
+                            component={'video'}
+                            src={
+                                typeof account.video === 'string'
+                                    ? account.video
+                                    : URL.createObjectURL(account.video)
+                            }
+                            controls={true}
+                            sx={{width: '100%', height: '100%'}}
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        {account.video && (
-                            <Box
-                                component={'video'}
-                                src={
-                                    typeof account.video === 'string'
-                                        ? account.video
-                                        : URL.createObjectURL(account.video)
-                                }
-                                controls={true}
-                                sx={{width: '100%', height: '100%'}}
-                            />
-                        )}
-                    </Grid>
+                    )}
                 </Grid>
             </Grid>
 

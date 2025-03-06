@@ -55,7 +55,7 @@ export const drawerItems = [
     },
     {
         title: 'اکانت های بازی',
-        link: 'game-accounts',
+        link: 'accounts',
         icon: (
             <SportsEsportsIcon
                 fontSize="large"

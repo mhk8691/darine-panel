@@ -20,6 +20,10 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
+import { AccountCreate } from '../Accounts/Create/AccountCreate'
+import { AccountsList } from '../Accounts/List/AccountsList'
+import { AccountEdit } from '../Accounts/Edit/AccountEdit'
+import { AccountDetail } from '../Accounts/Detail/AccountDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -92,6 +96,17 @@ export function Home(props) {
                         <Route
                             path="account-category/detail/:id"
                             element={<AccountCategoryDetail />}
+                        />
+                        {/* game account section */}
+                        <Route
+                            path="accounts/create"
+                            element={<AccountCreate data={data} setData={setData} />}
+                        />
+                        <Route path="accounts" element={<AccountsList />} />
+                        <Route path="accounts/:id" element={<AccountEdit />} />
+                        <Route
+                            path="accounts/detail/:id"
+                            element={<AccountDetail />}
                         />
                     </Routes>
                 </Box>

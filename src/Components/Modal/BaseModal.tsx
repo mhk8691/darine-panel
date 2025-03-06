@@ -24,7 +24,7 @@ export function BaseModal(props) {
             
         >
             <Box className={classes.root}>
-                <ModalHeader open={open} setOpen={setOpen} title={title} />
+                <ModalHeader open={open} setOpen={setOpen} onClose={handleClose} title={title} />
                 <Box padding="10px">{props.children}</Box>
             </Box>
         </Modal>

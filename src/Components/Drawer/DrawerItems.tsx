@@ -43,7 +43,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی محصولات',
-        link: 'poruduct-category',
+        link: 'product-category',
         icon: (
             <CategoryIcon
                 fontSize="large"

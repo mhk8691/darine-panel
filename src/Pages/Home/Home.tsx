@@ -80,12 +80,12 @@ export function Home(props) {
                         <Route path="products/detail/:id" element={<ProductDetail />} />
                         {/* categories section */}
                         <Route
-                            path="poruduct-category/create"
+                            path="product-category/create"
                             element={<CategoryCreate data={data} setData={setData} />}
                         />
-                        <Route path="poruduct-category" element={<CategoriesList />} />
-                        <Route path="poruduct-category/:id" element={<CategoryEdit />} />
-                        <Route path="poruduct-category/detail/:id" element={<CategoryDetail />} />
+                        <Route path="product-category" element={<CategoriesList />} />
+                        <Route path="product-category/:id" element={<CategoryEdit />} />
+                        <Route path="product-category/detail/:id" element={<CategoryDetail />} />
                         {/* account category section */}
                         <Route
                             path="account-category/create"

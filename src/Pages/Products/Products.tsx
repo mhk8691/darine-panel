@@ -1,8 +1,8 @@
-import {Stack, Grid, Box} from '@mui/material'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
+import {Button, Grid, Stack} from '@mui/material'
+import {useState} from 'react'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
-import {useEffect, useState} from 'react'
-import {ImageUploader} from '../../Components/Input/ImageUploader'
+import {CustomTextField} from '../../Components/Input/CustomTextField'
+import ImageUploader from '../../Components/Input/ImageUploader'
 
 export type ProductsType = {
     id: number
@@ -24,24 +24,12 @@ export function Products({
     product: ProductsType
     setProduct: React.Dispatch<React.SetStateAction<ProductsType>>
 }) {
+    const [imagePreview, setImagePreview] = useState('')
+    const [open, setOpen] = useState(false)
 
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
-                <Grid item xs={12} sx={{px: 2}}>
-                    <ImageUploader
-                        resource={RESOURCE}
-                        setData={setProduct}
-                        field={'image'}
-                        defaultValue={product.image}
-                        style={{
-                            width: '100%',
-                            height: '250px',
-                            borderRadius: '12px',
-                            objectFit: 'fill',
-                        }}
-                    />
-                </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         name="name"
@@ -93,7 +81,18 @@ export function Products({
                         defaultValue={product.price}
                     />
                 </Grid>
-
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => setOpen(true)}
+                        size="large"
+                        fullWidth
+                        sx={{height: '53px', borderRadius: '4px !important'}}
+                    >
+                        {product.image ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                    </Button>
+                </Grid>
                 <Grid item xs={12}>
                     <CustomTextField
                         name="introduction"
@@ -106,6 +105,14 @@ export function Products({
                     />
                 </Grid>
             </Grid>
+            <ImageUploader
+                data={product}
+                open={open}
+                setOpen={setOpen}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+                setData={setProduct}
+            />
         </Stack>
     )
 }

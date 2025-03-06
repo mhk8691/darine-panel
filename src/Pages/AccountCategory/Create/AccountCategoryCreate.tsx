@@ -17,7 +17,7 @@ export function AccountCategoryCreate({
     return (
         <CreatePage
             title={'افزودن دسته بندی'}
-            resource={'poruduct-category'}
+            resource={'account-category'}
             formDetails={formData}
         >
             <AccountCategory category={data} setCategory={setData} />

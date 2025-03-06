@@ -1,83 +1,77 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {Box, Button, LinearProgress, Stack} from '@mui/material'
-import {DropzoneArea} from 'mui-file-dropzone'
-import {DataProvider} from '../../Core/DataProvider'
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
-import {APP_URL} from '../../Core/APP_URL'
-export function ImageUploader(props) {
-    const {resource, setData, field, defaultValue, style} = props
-    const [progress, setProgress] = useState(0)
-    const [image, setImage] = useState(defaultValue ? APP_URL + defaultValue : null)
-
-    async function dropAccepted(files) {
-        console.log(files)
-        if (!files[0]) {
-            return
+import {Box, Button, Stack} from '@mui/material'
+import {ChangeEvent, Dispatch, SetStateAction, useState} from 'react'
+import {BaseModal} from '../Modal/BaseModal'
+import {CustomTextField} from './CustomTextField'
+interface Props {
+    open: boolean
+    setOpen: Dispatch<SetStateAction<boolean>>
+    imagePreview?: string
+    data: any
+    setData: Dispatch<SetStateAction<any>>
+    setImagePreview: Dispatch<SetStateAction<string>>
+}
+export default function ImageUploader({
+    open,
+    setOpen,
+    imagePreview,
+    data,
+    setData,
+    setImagePreview,
+}: Props) {
+    const [imageFile, setImageFile] = useState<File | null>(null)
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (file) {
+            setImagePreview(URL.createObjectURL(file))
+            setImageFile(file)
         }
-        let form_data = new FormData()
-        setImage(URL.createObjectURL(files[0]))
-        form_data.append(resource, files[0])
-        let data = await DataProvider.post<{link: string}>(`util/upload`, {
-            data: form_data,
-            onUploadProgress: (p) => {
-                setProgress((p.loaded * 100) / p.total)
-            },
-        })
+    }
+    const handleDelete = () => {
+        setOpen(false)
+        setImagePreview('')
         setData((prev) => {
-            return {...prev, [field]: data.data.link}
+            if (typeof prev.image !== 'string') {
+                return {...prev, image: undefined}
+            }
+            return prev
         })
     }
-
     return (
-        <Box>
-            <Stack
-                display={'flex'}
+        <BaseModal
+            open={open}
+            setOpen={setOpen}
+            title="انتخاب تصویر"
+            onClose={handleDelete}
+            style={{maxWidth: 700}}
+        >
+            <CustomTextField name="name" type="file" onChange={handleChange} />
+            <Box
+                component={'img'}
+                src={imagePreview ? imagePreview : data.image}
                 sx={{
-                    flexDirection: {
-                        xs: 'column',
-                        sm: 'row',
-                    },
-                    gap:2
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '60vh',
+                    mt: 2,
+                    borderRadius: 2,
                 }}
-                
-            >
-                <Box
-                    sx={{
-                        width: {
-                            xs: '100%',
-                            sm: '50%',
-                        },
+            />
+            <Stack direction={'row'} spacing={2} mt={1}>
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={() => {
+                        setData((prev) => ({...prev, image: imageFile}))
+                        setOpen(false)
                     }}
+                    disabled={!imagePreview}
                 >
-                    <DropzoneArea
-                        fileObjects={[]}
-                        Icon={CloudUploadOutlinedIcon}
-                        dropzoneText={'بارگذاری تصویر'}
-                        onChange={dropAccepted}
-                        filesLimit={1}
-                        showPreviewsInDropzone={false}
-                        showAlerts={false}
-                    />
-                </Box>
-                {image && (
-                    <Stack
-                        spacing={2}
-                        sx={{
-                            width: {
-                                xs: '100%',
-                                sm: '50%',
-                            },
-                        }}
-                    >
-                        <img src={image} style={{width: '100%', height: '100%', ...style}} />
-                        <LinearProgress
-                            variant="determinate"
-                            value={progress}
-                            style={{display: progress === 0 || progress === 100 ? 'none' : 'block'}}
-                        />
-                    </Stack>
-                )}
+                    تایید
+                </Button>
+                <Button variant="outlined" color="primary" size="large" onClick={handleDelete}>
+                    لغو
+                </Button>
             </Stack>
-        </Box>
+        </BaseModal>
     )
 }

@@ -2,10 +2,15 @@ import React from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import {Divider, IconButton, Stack, Typography} from '@mui/material'
 
-export function ModalHeader(props: {open: boolean; setOpen: any; title: string}) {
-    const {setOpen, title} = props
+export function ModalHeader(props: {open: boolean; setOpen: any; title: string,onClose:()=>void}) {
+    const {setOpen, title, onClose} = props
     const handleClose = () => {
-        setOpen(false)
+        if (onClose){
+            onClose()
+        }
+        else{
+            setOpen(false)
+        }
     }
     return (
         <Stack position="sticky" top={0} zIndex={10}>

@@ -1,7 +1,6 @@
 import {Grid, Stack} from '@mui/material'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
-import {ImageUploader} from '../../Components/Input/ImageUploader'
 
 export type AccountsType = {
     id: number
@@ -27,18 +26,7 @@ export function Accounts({
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
                 <Grid item xs={12} sx={{px: 2}}>
-                    <ImageUploader
-                        resource={RESOURCE}
-                        setData={setAccount}
-                        field={'image'}
-                        defaultValue={account.image}
-                        style={{
-                            width: '100%',
-                            height: '250px',
-                            borderRadius: '12px',
-                            objectFit: 'fill',
-                        }}
-                    />
+                    
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField

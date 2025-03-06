@@ -1,5 +1,7 @@
-import {Stack} from '@mui/material'
+import {Button, Stack} from '@mui/material'
+import {useState} from 'react'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
+import ImageUploader from '../../Components/Input/ImageUploader'
 import {GridProducer} from '../../Components/Table/GridProducer'
 
 export type AccountCategoryType = {
@@ -16,12 +18,8 @@ export function AccountCategory({
     category: AccountCategoryType
     setCategory: React.Dispatch<React.SetStateAction<AccountCategoryType>>
 }) {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]
-        if (file) {
-            setCategory((prev) => ({...prev, image: file}))
-        }
-    }
+    const [open, setOpen] = useState(false)
+    const [imagePreview, setImagePreview] = useState('')
 
     return (
         <Stack>
@@ -35,15 +33,25 @@ export function AccountCategory({
                         label={'نام'}
                         defaultValue={category.name}
                     />,
-                    <CustomTextField
-                        name="image"
-                        type="file"
-                        setData={setCategory}
-                        resource={RESOURCE}
-                        onChange={handleChange}
-                        sx={{}}
-                    />,
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => setOpen(true)}
+                        size="large"
+                        fullWidth
+                        sx={{height: '53px', borderRadius: '4px !important'}}
+                    >
+                        {category.image ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                    </Button>,
                 ]}
+            />
+            <ImageUploader
+                data={category}
+                open={open}
+                setOpen={setOpen}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+                setData={setCategory}
             />
         </Stack>
     )

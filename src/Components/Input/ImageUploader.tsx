@@ -44,7 +44,7 @@ export default function ImageUploader({
             onClose={handleDelete}
             style={{maxWidth: 700}}
         >
-            <CustomTextField name="name" type="file" onChange={handleChange} />
+            <CustomTextField name="name" type="file" onChange={handleChange}  />
             <Box
                 component={'img'}
                 src={imagePreview ? imagePreview : data.image}

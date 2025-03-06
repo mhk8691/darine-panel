@@ -39,7 +39,7 @@ export function AccountsList() {
                 description: 'تست',
                 price: 300000,
                 category: 'clash of clans',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',]
             },
             {
                 id: 2,
@@ -49,7 +49,7 @@ export function AccountsList() {
                 description: 'تست',
                 price: 400000,
                 category: 'clash of clans',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',]
             },
         ],
         count: 0,
@@ -131,16 +131,18 @@ export function AccountsList() {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Box
-                                component={'img'}
-                                src={item.image}
-                                sx={{
-                                    width: '60px',
-                                    height: '60px',
-                                    borderRadius: 2,
-                                    objectFit: 'cover',
-                                }}
-                            />
+                            {item?.images?.map((image) => (
+                                <Box
+                                    component={'img'}
+                                    src={image}
+                                    sx={{
+                                        width: '60px',
+                                        height: '60px',
+                                        borderRadius: 2,
+                                        objectFit: 'cover',
+                                    }}
+                                />
+                            ))}
                         </TableCell>
                     </>
                 ))}

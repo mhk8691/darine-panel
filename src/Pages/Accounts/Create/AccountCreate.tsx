@@ -17,7 +17,9 @@ export function AccountCreate({
         formData.append('description', data.description)
         formData.append('price', data.price)
         formData.append('category', data.category)
-        formData.append('image', data.image)
+        data?.images?.forEach((image) => {
+            formData.append('image', image)
+        })
     }, [data, setData])
     return (
         <CreatePage title={'افزودن اکانت بازی'} resource={'accounts'} formDetails={formData}>

@@ -29,12 +29,7 @@ export default function ImageUploader({
     const handleDelete = () => {
         setOpen(false)
         setImagePreview('')
-        setData((prev) => {
-            if (typeof prev.image !== 'string') {
-                return {...prev, image: undefined}
-            }
-            return prev
-        })
+        setImageFile(null)
     }
     return (
         <BaseModal
@@ -44,10 +39,16 @@ export default function ImageUploader({
             onClose={handleDelete}
             style={{maxWidth: 700}}
         >
-            <CustomTextField name="name" type="file" onChange={handleChange}  />
+            <CustomTextField name="name" type="file" onChange={handleChange} />
             <Box
                 component={'img'}
-                src={imagePreview ? imagePreview : data.image}
+                src={
+                    imagePreview
+                        ? imagePreview
+                        : typeof data.image === 'string'
+                        ? data.image
+                        : URL.createObjectURL(data.image)
+                }
                 sx={{
                     width: '100%',
                     height: '100%',

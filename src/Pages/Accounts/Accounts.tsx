@@ -156,20 +156,23 @@ export function Accounts({
                         ))}
                     {account.images &&
                         files.length === 0 &&
-                        account?.images?.map(
-                            (image) =>
-                                    <Grid item xs={3}>
-                                        <Box
-                                            component={'img'}
-                                            src={typeof image === 'string' ? image : URL.createObjectURL(image)}
-                                            sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                borderRadius: 2,
-                                            }}
-                                        />
-                                    </Grid>
-                        )}
+                        account?.images?.map((image) => (
+                            <Grid item xs={3}>
+                                <Box
+                                    component={'img'}
+                                    src={
+                                        typeof image === 'string'
+                                            ? image
+                                            : URL.createObjectURL(image)
+                                    }
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        borderRadius: 2,
+                                    }}
+                                />
+                            </Grid>
+                        ))}
                 </Grid>
 
                 <Stack direction={'row'} spacing={2} mt={2}>

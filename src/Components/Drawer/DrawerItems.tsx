@@ -67,7 +67,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی اکانت ها',
-        link: 'accounts-category',
+        link: 'account-category',
         icon: (
             <GamepadIcon
                 fontSize="large"

@@ -3,19 +3,23 @@ import {useEffect, useState} from 'react'
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
+import {AccountCategoryCreate} from '../AccountCategory/Create/AccountCategoryCreate'
+import {AccountCategoryDetail} from '../AccountCategory/Detail/AccountCategoryDetail'
+import {AccountCategoryEdit} from '../AccountCategory/Edit/AccountCategoryEdit'
+import {AccountCategoryList} from '../AccountCategory/List/AccountCategoryList'
+import {CategoryCreate} from '../Categories/Create/CategoryCreate'
+import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
+import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
+import {CategoriesList} from '../Categories/List/CategoriesList'
+import DashboardLayout from '../Dashboard/DashboardLayout'
+import {ProductCreate} from '../Products/Create/ProductCreate'
+import {ProductDetail} from '../Products/Detail/ProductDetail'
+import {ProductEdit} from '../Products/Edit/ProductEdit'
+import {ProductsList} from '../Products/List/ProductsList'
 import {UserCreate} from '../Users/Create/UserCreate'
 import {UserDetail} from '../Users/Detail/UserDetail'
-import { UsersList } from '../Users/List/UsersList'
-import { UserEdit } from '../Users/Edit/UserEdit'
-import { ProductCreate } from '../Products/Create/ProductCreate'
-import { ProductsList } from '../Products/List/ProductsList'
-import { ProductEdit } from '../Products/Edit/ProductEdit'
-import { ProductDetail } from '../Products/Detail/ProductDetail'
-import { CategoryCreate } from '../Categories/Create/CategoryCreate'
-import { CategoriesList } from '../Categories/List/CategoriesList'
-import { CategoryEdit } from '../Categories/Edit/CategoryEdit'
-import { CategoryDetail } from '../Categories/Detail/CategoryDetail'
-import DashboardLayout from '../Dashboard/DashboardLayout'
+import {UserEdit} from '../Users/Edit/UserEdit'
+import {UsersList} from '../Users/List/UsersList'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -53,10 +57,7 @@ export function Home(props) {
                     }}
                 >
                     <Routes>
-                        <Route
-                            path="dashboard"
-                            element={<DashboardLayout  />}
-                        />
+                        <Route path="dashboard" element={<DashboardLayout />} />
                         {/* users section */}
                         <Route
                             path="users/create"
@@ -81,6 +82,17 @@ export function Home(props) {
                         <Route path="poruduct-category" element={<CategoriesList />} />
                         <Route path="poruduct-category/:id" element={<CategoryEdit />} />
                         <Route path="poruduct-category/detail/:id" element={<CategoryDetail />} />
+                        {/* account category section */}
+                        <Route
+                            path="account-category/create"
+                            element={<AccountCategoryCreate data={data} setData={setData} />}
+                        />
+                        <Route path="account-category" element={<AccountCategoryList />} />
+                        <Route path="account-category/:id" element={<AccountCategoryEdit />} />
+                        <Route
+                            path="account-category/detail/:id"
+                            element={<AccountCategoryDetail />}
+                        />
                     </Routes>
                 </Box>
             </Box>

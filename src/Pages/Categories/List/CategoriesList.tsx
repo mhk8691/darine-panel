@@ -11,7 +11,7 @@ import {createQueryParam} from '../../../Core/QueryParams'
 import {CategoryCreate} from '../Create/CategoryCreate'
 import {CategoriesType} from '../Categories'
 
-const RECOURCE = 'poruduct-category'
+const RECOURCE = 'account-category'
 const tableHeadCells = [createTableHeadCells('نام', 'name'), createTableHeadCells('تصویر', 'image')]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,

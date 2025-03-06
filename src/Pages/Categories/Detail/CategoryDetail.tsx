@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {CategoriesType} from '../Categories'
 
-const RECOURCE = 'poruduct-category'
+const RECOURCE = 'account-category'
 
 export function CategoryDetail() {
     const id = useParams().id

@@ -7,7 +7,7 @@ export type CategoriesType = {
     name: string
     image: string | File
 }
-const RESOURCE = 'categories'
+const RESOURCE = 'poruduct-category'
 
 export function Categories({
     category,

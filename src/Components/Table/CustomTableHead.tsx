@@ -54,7 +54,17 @@ export function CustomTableHead(props: {
                     </TableCell>
                 )}
                 {headCells.map((headCell) => (
-                    <TableCell key={headCell.name} color="secondary" sx={{fontSize: '16px'}}>
+                    <TableCell
+                        key={headCell.name}
+                        color="secondary"
+                        sx={{
+                            fontSize: {
+                                xs: '12px',
+                                sm: '14px',
+                                md: '16px',
+                            },
+                        }}
+                    >
                         <TableSortLabel
                             active={search.sort === headCell.name}
                             direction={

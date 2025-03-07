@@ -27,7 +27,7 @@ const Appbar = ({
                 right: 0,
                 left: {xs: 0, md: drawerWidth},
                 height: '4.5rem',
-                bgcolor: 'background.paper',
+                bgcolor: 'background.main',
                 borderBottom: '1px solid',
                 borderColor: 'divider',
                 px: {xs: 2, sm: 3},

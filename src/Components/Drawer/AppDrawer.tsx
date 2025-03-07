@@ -9,6 +9,7 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import {useAppSelector} from '../../redux/store'
 import AppbarProfile from '../Appbar/AppbarProfile'
 import {drawerItems} from './DrawerItems'
+import {t} from 'i18next'
 
 export function AppDrawer({
     setSelectedTitle,
@@ -54,7 +55,9 @@ export function AppDrawer({
     }
 
     return (
-        <Stack>
+        <Stack
+            
+        >
             <Drawer
                 variant={isMobile ? 'temporary' : 'permanent'}
                 open={isMobile ? drawerOpen : true}
@@ -66,11 +69,13 @@ export function AppDrawer({
                 sx={{
                     zIndex: 1000,
                     overflow: 'hidden',
-
                     '& .MuiDrawer-paper': {
                         width: {xs: '250px', sm: '350px', md: '100px'},
                         overflowY: 'auto',
                         '&::-webkit-scrollbar': {display: 'none'},
+                    },
+                    '& .MuiPaper-root': {
+                        backgroundImage:'none'
                     },
                 }}
             >
@@ -84,10 +89,6 @@ export function AppDrawer({
                         gap: '5px',
                         py: '1rem',
                         mt: isMobile ? 8 : 0,
-                        bgcolor: {
-                            xs: '#262626',
-                            md: 'background.paper',
-                        },
                     }}
                 >
                     {isMobile && (
@@ -102,7 +103,7 @@ export function AppDrawer({
                             onClick={(event) => handleClick(item.link, index, item.title)}
                             selected={selected[index]}
                             sx={{
-                                width: {xs: '100%',md:'65px'},
+                                width: {xs: '100%', md: '65px'},
                                 borderRadius: '8px',
                             }}
                             classes={{
@@ -155,21 +156,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        [theme.breakpoints.up('md')]: {
-            backgroundColor: `${theme.palette.background.paper} !important`,
-        },
-        [theme.breakpoints.down('md')]: {
-            backgroundColor: '#000000 !important',
-        },
+        backgroundColor: `${theme.palette.background.main} !important`,
     },
     drawerPaper: {
         width: drawerWidth,
-        [theme.breakpoints.up('md')]: {
-            backgroundColor: `${theme.palette.background.paper} !important`,
-        },
-        [theme.breakpoints.down('md')]: {
-            backgroundColor: '#000000 !important',
-        },
+        backgroundColor: `${theme.palette.background.main} !important`,
     },
     subMainSelected: {
         width: '65px',

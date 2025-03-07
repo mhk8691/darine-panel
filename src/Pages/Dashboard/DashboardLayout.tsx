@@ -4,7 +4,7 @@ import SalesChart from './SalesChart'
 
 export default function DashboardLayout() {
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" >
             <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
                 <Widgets
                     title="فروش هفتگی"

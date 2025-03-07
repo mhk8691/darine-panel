@@ -12,7 +12,7 @@ export default function Widgets({title, data, description}: Props) {
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Stack
-                bgcolor={'background.paper'}
+                bgcolor={'background.main'}
                 borderRadius={3}
                 px={3}
                 py={5}

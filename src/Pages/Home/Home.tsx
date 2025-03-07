@@ -49,7 +49,7 @@ export function Home(props) {
             >
                 <Box
                     bgcolor={
-                        !location.pathname.includes('dashboard') ? 'background.paper' : 'unset'
+                        !location.pathname.includes('dashboard') ? 'background.main' : 'unset'
                     }
                     borderRadius={'12px'}
                     style={{

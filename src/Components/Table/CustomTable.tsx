@@ -137,12 +137,14 @@ export function CustomTable(props: {
             <LinearProgress
                 sx={{
                     [`& .${linearProgressClasses.bar}`]: {
-                        backgroundColor: 'background.main',
+                        backgroundColor: 'primary.main',
                     },
                     [`&.${linearProgressClasses.colorPrimary}`]: {
                         backgroundColor: 'background.light',
                     },
-                    my: 0.5,
+
+                    mt: 0.5,
+                    mb:1
                 }}
                 variant={loading ? 'indeterminate' : 'determinate'}
                 value={0}

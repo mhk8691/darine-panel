@@ -63,7 +63,7 @@ export default function Register() {
                 </Typography>
             </Box>
             <Box
-                bgcolor="background.paper"
+                bgcolor="background.main"
                 sx={{
                     width: {
                         xs: '80%',

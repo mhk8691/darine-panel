@@ -68,14 +68,14 @@ export function Login(props) {
     }
 
     return (
-        <Stack justifyContent={'center'} alignItems="center" height="100%">
+        <Stack  justifyContent={'center'} alignItems="center" height="100%">
             <Box alignItems="center" justifyContent="center" marginBottom="20px">
                 <Typography variant="subtitle1" fontWeight={700} marginRight="10px">
                     پنل مدیریت
                 </Typography>
             </Box>
             <Box
-                bgcolor="background.paper"
+                bgcolor="background.main"
                 sx={{
                     width: {
                         xs: '80%',

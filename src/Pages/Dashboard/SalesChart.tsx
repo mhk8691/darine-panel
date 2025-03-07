@@ -13,7 +13,7 @@ export default function SalesChart() {
     return (
         <Grid item xs={12} width="100%">
             <Stack
-                bgcolor={'background.paper'}
+                bgcolor={'background.main'}
                 borderRadius={3}
                 px={{
                     xs: 2,

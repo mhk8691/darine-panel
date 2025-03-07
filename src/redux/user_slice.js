@@ -1,11 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    name: '',
-    phone: '',
-    id: '',
+    id: undefined,
     login: false,
-    token: undefined
+    token: undefined,
+    username: '',
+    first_name: '',
+    last_name: '',
+    phone_number: '',
+    email: '',
+    profile_image: '',
+    role: '',
 }
 function getInitialState() {
     try {
@@ -31,11 +36,15 @@ const userSlice = createSlice({
     initialState: getInitialState(),
     reducers: {
         setUser(state, action) {
-            for (const key in action.payload) state[key] = action.payload[key]
+            for (const key in action.payload) {
+                if (key === 'profile_image' && action.payload[key])
+                    state[key] = `https://api.fereste.ir${action.payload[key]}`
+                else state[key] = action.payload[key]
+            }
             saveStateToLocalStorage(state)
             return state
         },
-        logout(state, action) {
+        logout(state) {
             state = initialState
             emptyStorages()
             return state

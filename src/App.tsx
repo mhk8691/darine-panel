@@ -10,11 +10,11 @@ import {QueryParamProvider} from 'use-query-params'
 import {ReactRouter6Adapter} from 'use-query-params/adapters/react-router-6'
 import {LoadingBackdrop} from './Components/Backdrop/Backdrop'
 import {Home} from './Pages/Home/Home'
-import {Login} from './Pages/Login/Login'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {RTL} from './RTL'
 import { CssBaseline } from '@mui/material'
+import { Login } from './Pages/Auth/Login/Login'
 
 function App() {
     const RouteAdapter = ({children}) => {

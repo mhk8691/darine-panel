@@ -8,7 +8,7 @@ export function ProductEdit() {
     const state = useLocation().state as {row: ProductsType}
     const [product, setProduct] = useState(state.row)
     return (
-        <EditPage resource={RESOURCE} title="ویرایش محصول" data={product}>
+        <EditPage resource={RESOURCE} title="ویرایش محصول" formDetails={product}>
             <Products product={product} setProduct={setProduct} />
         </EditPage>
     )

@@ -13,7 +13,7 @@ export function CategoryEdit() {
          formData.append('image', category.image)
      }, [category, setCategory])
     return (
-        <EditPage resource={RESOURCE} title="ویرایش دسته بندی" data={formData}>
+        <EditPage resource={RESOURCE} title="ویرایش دسته بندی" formDetails={formData}>
             <Categories category={category} setCategory={setCategory} />
         </EditPage>
     )

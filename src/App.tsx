@@ -15,6 +15,7 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {RTL} from './RTL'
 import { CssBaseline } from '@mui/material'
 import { Login } from './Pages/Auth/Login/Login'
+import Register from './Pages/Auth/Register/Register'
 
 function App() {
     const RouteAdapter = ({children}) => {
@@ -47,6 +48,7 @@ function App() {
                                 <Routes>
                                     <Route path="/*" element={<Home />} />
                                     <Route path="login" element={<Login />} />
+                                    <Route path="register" element={<Register />} />
                                 </Routes>
                             </QueryParamProvider>
                         </Provider>

@@ -27,9 +27,8 @@ export function Login(props) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles()
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [data, setData] = useState({
+
+    const [data, setData] = useState<LoginData>({
         username: '',
         password: '',
     })
@@ -77,9 +76,14 @@ export function Login(props) {
             </Box>
             <Box
                 bgcolor="background.paper"
-                marginBottom="60px"
-                width="38%"
-                boxShadow="0px 10px 20px -5px rgba(0, 0, 0, 0.3)"
+                sx={{
+                    width: {
+                        xs: '80%',
+                        sm: '62%',
+                        md: '50%',
+                        lg: '38%',
+                    },
+                }}
                 borderRadius={3}
                 px={5}
                 py={7}
@@ -88,12 +92,12 @@ export function Login(props) {
                     direction={'column'}
                     justifyContent={'center'}
                     alignItems={'center'}
-                    spacing={3}
+                    spacing={2.5}
                     component="form"
                     onSubmit={handleSubmit}
                 >
-                    <Typography variant="body1" >ورود به حساب کاربری</Typography>
-                    <Box width={'100%'} >
+                    <Typography variant="body1">ورود به حساب کاربری</Typography>
+                    <Box width={'100%'}>
                         <CustomTextField
                             name="username"
                             setData={setData}
@@ -109,7 +113,7 @@ export function Login(props) {
                             defaultValue={data.password}
                         />
                     </Box>
-                    <Box textAlign="center" width={'100%'} >
+                    <Box textAlign="center" width={'100%'}>
                         <Button
                             variant="contained"
                             size="large"
@@ -126,7 +130,12 @@ export function Login(props) {
                         }}
                     >
                         آیا حساب کاربری ندارید؟{' '}
-                        <Box component={Link} to={'/register'} color={'primary.main'} sx={{ml: 0.5}}>
+                        <Box
+                            component={Link}
+                            to={'/register'}
+                            color={'primary.main'}
+                            sx={{ml: 0.5}}
+                        >
                             ثبت نام
                         </Box>
                     </Typography>

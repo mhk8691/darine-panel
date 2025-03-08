@@ -20,10 +20,13 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
-import { AccountCreate } from '../Accounts/Create/AccountCreate'
-import { AccountsList } from '../Accounts/List/AccountsList'
-import { AccountEdit } from '../Accounts/Edit/AccountEdit'
-import { AccountDetail } from '../Accounts/Detail/AccountDetail'
+import {AccountCreate} from '../Accounts/Create/AccountCreate'
+import {AccountsList} from '../Accounts/List/AccountsList'
+import {AccountEdit} from '../Accounts/Edit/AccountEdit'
+import {AccountDetail} from '../Accounts/Detail/AccountDetail'
+import {OrdersList} from '../Orders/List/OrdersList'
+import {OrderEdit} from '../Orders/Edit/OrderEdit'
+import {OrderDetail} from '../Orders/Detail/OrderDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -48,9 +51,7 @@ export function Home(props) {
                 padding={!location.pathname.includes('dashboard') ? '30px' : 'unset'}
             >
                 <Box
-                    bgcolor={
-                        !location.pathname.includes('dashboard') ? 'background.main' : 'unset'
-                    }
+                    bgcolor={!location.pathname.includes('dashboard') ? 'background.main' : 'unset'}
                     borderRadius={'12px'}
                     style={{
                         boxShadow: !location.pathname.includes('dashboard')
@@ -104,10 +105,11 @@ export function Home(props) {
                         />
                         <Route path="accounts" element={<AccountsList />} />
                         <Route path="accounts/:id" element={<AccountEdit />} />
-                        <Route
-                            path="accounts/detail/:id"
-                            element={<AccountDetail />}
-                        />
+                        <Route path="accounts/detail/:id" element={<AccountDetail />} />
+                        {/* orders section */}
+                        <Route path="orders" element={<OrdersList />} />
+                        <Route path="orders/:id" element={<OrderEdit />} />
+                        <Route path="orders/detail/:id" element={<OrderDetail />} />
                     </Routes>
                 </Box>
             </Box>

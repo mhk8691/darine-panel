@@ -4,6 +4,7 @@ import GroupIcon from '@mui/icons-material/Group'
 import LocalMallIcon from '@mui/icons-material/LocalMall'
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -70,6 +71,18 @@ export const drawerItems = [
         link: 'account-category',
         icon: (
             <GamepadIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'سفارشات',
+        link: 'orders',
+        icon: (
+            <ShoppingBagIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

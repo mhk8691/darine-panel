@@ -40,14 +40,17 @@ export default function ImageUploader({
             style={{maxWidth: 700}}
         >
             <CustomTextField name="name" type="file" onChange={handleChange} />
+
             <Box
                 component={'img'}
                 src={
                     imagePreview
                         ? imagePreview
-                        : typeof data.image === 'string'
-                        ? data.image
-                        : URL.createObjectURL(data.image)
+                        : data.image
+                        ? typeof data.image === 'string'
+                            ? data.image
+                            : URL.createObjectURL(data.image)
+                        : ''
                 }
                 sx={{
                     width: '100%',
@@ -55,8 +58,10 @@ export default function ImageUploader({
                     maxHeight: '60vh',
                     mt: 2,
                     borderRadius: 2,
+                    display: `${imagePreview || data.image ? 'block' : 'none'}`,
                 }}
             />
+
             <Stack direction={'row'} spacing={2} mt={1}>
                 <Button
                     variant="contained"

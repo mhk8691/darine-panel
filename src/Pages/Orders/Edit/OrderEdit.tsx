@@ -8,7 +8,7 @@ export function OrderEdit() {
     const state = useLocation().state as {row: OrdersType}
     const [order, setOrder] = useState(state.row)
     return (
-        <EditPage resource={RESOURCE} title="تغییر وضعیت" formDetails={order}>
+        <EditPage resource={RESOURCE} title="تغییر وضعیت" formDetails={order} initialData={state.row}>
             <Orders order={order} setOrder={setOrder} />
         </EditPage>
     )

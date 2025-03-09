@@ -7,13 +7,14 @@ const RESOURCE = 'product-category'
 export function CategoryEdit() {
     const state = useLocation().state as {row: CategoriesType}
     const [category, setCategory] = useState(state.row)
-     const formData = new FormData()
-     useEffect(() => {
-         formData.append('name', category.name)
-         formData.append('image', category.image)
-     }, [category, setCategory])
+    
     return (
-        <EditPage resource={RESOURCE} title="ویرایش دسته بندی" formDetails={formData}>
+        <EditPage
+            resource={RESOURCE}
+            title="ویرایش دسته بندی"
+            formDetails={category}
+            initialData={state.row}
+        >
             <Categories category={category} setCategory={setCategory} />
         </EditPage>
     )

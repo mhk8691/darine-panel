@@ -6,14 +6,33 @@ import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function EditPage(props) {
-    const {title, resource, noEdit, formDetails} = props
+    const {title, resource, noEdit, formDetails, initialData} = props
     const dispatch = useDispatch()
     const params = useParams()
     async function saveChanges() {
         try {
             dispatch(setUtil({loading: true}))
+            const formData = new FormData()
+            const updatedFields = Object.keys(formDetails).reduce((acc, key) => {
+                if (formDetails[key] !== initialData[key]) {
+                    acc[key] = formDetails[key]
+                }
+                return acc
+            }, {})
+             if (Object.keys(updatedFields).length === 0) {
+                 dispatch(setUtil({open: true, message: 'تغییری اعمال نشده است', severity: 'error'}))
+                 dispatch(setUtil({loading: false}))
+                 return
+             }
+              Object.entries(updatedFields).forEach(([key, value]) => {
+                  if (value instanceof File) {
+                      formData.append(key, value)
+                  } else {
+                      formData.append(key, String(value))
+                  }
+              })
             const res = await DataProvider.patch(`${resource}/${params.id}/`, {
-                data: formDetails,
+                data: formData,
             })
             dispatch(
                 setUtil({
@@ -37,7 +56,7 @@ export function EditPage(props) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h5"  sx={{fontSize: '18px !important', fontWeight: 'bold'}}>
+                    <Typography variant="h5" sx={{fontSize: '18px !important', fontWeight: 'bold'}}>
                         {title}
                     </Typography>
                     {!noEdit && (

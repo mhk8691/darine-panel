@@ -10,7 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {OrdersType} from '../Orders'
 import {formatDate} from '../../../Core/FormatDate'
-import { PaginatedResponse, PaginationType } from '../../../Core/types'
+import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
 const RECOURCE = 'orders'
 const tableHeadCells = [
@@ -40,14 +40,30 @@ export function OrdersList() {
                 createdAt: '2025-01-06T09:16:40.447096Z',
                 products: [
                     {
+                        id: 1,
                         name: 'product1',
                         price: 1000,
                         image: 'https://via.placeholder.com/150',
+                        count: 3,
+                        account: {
+                            email: 'test@gmail.com',
+                            username: 'test',
+                            password: '123',
+                            method: 'facebook',
+                        },
                     },
                     {
+                        id: 2,
                         name: 'product2',
                         price: 2000,
                         image: 'https://via.placeholder.com/150',
+                        count: 2,
+                        account: {
+                            email: 'test@gmail.com',
+                            username: 'test',
+                            password: '123',
+                            method: 'facebook',
+                        },
                     },
                 ],
             },

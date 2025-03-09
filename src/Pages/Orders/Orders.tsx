@@ -3,10 +3,19 @@ import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 
-type ProductsType = {
+type AccountType = {
+    method: string
+    email: string
+    password: string
+    username: string
+}
+export type ProductsType = {
+    id: number
     name: string
     price: number
     image: string
+    count: number
+    account: AccountType
 }
 export type OrdersType = {
     id: number

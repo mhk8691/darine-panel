@@ -10,7 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {UserCreate} from '../Create/UserCreate'
 import {UsersType} from '../Users'
-
+import {PaginatedResponse, PaginationType} from '../../../Core/types'
 const RECOURCE = 'users'
 const tableHeadCells = [
     createTableHeadCells('نام', 'firstName'),
@@ -25,9 +25,14 @@ const queryNames = tableHeadCells.map((cell) => ({
     type: '',
 }))
 export function UsersList() {
-    const [search, setSearch] = useQueryParams(createQueryParam())
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-    const [users, setUsers] = useState<{data: UsersType[]; count: number}>({
+        
+    const [users, setUsers] = useState<{
+        data: UsersType[]
+        pagination: PaginationType
+        count: number
+    }>({
         data: [
             {
                 id: 1,
@@ -46,13 +51,22 @@ export function UsersList() {
                 phoneNumber: '09126320520',
             },
         ],
+        pagination: {} as PaginationType,
         count: 0,
     })
     const getUsers = async () => {
         setLoading(true)
-        let response = await DataProvider.get<UsersType[]>(RECOURCE, search)
+        let response = await DataProvider.get<PaginatedResponse<UsersType[]>>(
+            `${RECOURCE}/list`,
+            search,
+        )
         if (response) {
-            setUsers({data: response.data, count: response.data.length})
+             setUsers({
+                 data: response.data.results,
+                 pagination: response.data.pagination,
+                 count: response.data.pagination.pages * response.data.results.length,
+             })
+
         }
         setLoading(false)
     }
@@ -84,7 +98,7 @@ export function UsersList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={users.data}
-                count={2}
+                count={users.count}
                 deleteName="name of deleting"
                 getList={getUsers}
                 params={search}
@@ -92,7 +106,7 @@ export function UsersList() {
                 handleSort={getUsers}
                 loading={loading}
                 hasDetail={true}
-                tableBodyCells={users.data.map((item, index) => (
+                tableBodyCells={users.data.map((item) => (
                     <>
                         <TableCell>
                             <Typography variant="body2" fontSize={'15px'}>

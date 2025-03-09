@@ -10,6 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {ProductCreate} from '../Create/ProductCreate'
 import {ProductsType} from '../Products'
+import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
 const RECOURCE = 'products'
 const tableHeadCells = [
@@ -27,9 +28,13 @@ const queryNames = tableHeadCells.map((cell) => ({
     type: '',
 }))
 export function ProductsList() {
-    const [search, setSearch] = useQueryParams(createQueryParam())
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-    const [products, setProducts] = useState<{data: ProductsType[]; count: number}>({
+    const [products, setProducts] = useState<{
+        data: ProductsType[]
+        pagination: PaginationType
+        count: number
+    }>({
         data: [
             {
                 id: 1,
@@ -52,13 +57,22 @@ export function ProductsList() {
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
+        pagination: {} as PaginationType,
         count: 0,
     })
     const getProdcuts = async () => {
         setLoading(true)
-        let response = await DataProvider.get<ProductsType[]>(RECOURCE, search)
+        let response = await DataProvider.get<PaginatedResponse<ProductsType[]>>(
+            `${RECOURCE}/list`,
+            search,
+        )
+
         if (response) {
-            setProducts({data: response.data, count: response.data.length})
+            setProducts({
+                data: response.data.results,
+                pagination: response.data.pagination,
+                count: response.data.pagination.pages * response.data.results.length,
+            })
         }
         setLoading(false)
     }
@@ -90,7 +104,7 @@ export function ProductsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={products.data}
-                count={2}
+                count={products.count}
                 deleteName="name of deleting"
                 getList={getProdcuts}
                 params={search}
@@ -140,7 +154,7 @@ export function ProductsList() {
                                     borderRadius: 2,
                                     objectFit: 'cover',
                                 }}
-                           />
+                            />
                         </TableCell>
                     </>
                 ))}

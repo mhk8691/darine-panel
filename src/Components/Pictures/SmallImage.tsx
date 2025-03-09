@@ -1,6 +1,6 @@
 import {Box} from '@mui/system'
 import React from 'react'
-import {APP_URL} from '../../Core/APP_URL'
+import APP_URL from '../../Core/APP_URL'
 
 export function SmallImage(props) {
     const {url} = props

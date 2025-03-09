@@ -10,6 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {CategoryCreate} from '../Create/CategoryCreate'
 import {CategoriesType} from '../Categories'
+import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
 const RECOURCE = 'product-category'
 const tableHeadCells = [createTableHeadCells('نام', 'name'), createTableHeadCells('تصویر', 'image')]
@@ -19,9 +20,13 @@ const queryNames = tableHeadCells.map((cell) => ({
     type: '',
 }))
 export function CategoriesList() {
-    const [search, setSearch] = useQueryParams(createQueryParam())
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState<{data: CategoriesType[]; count: number}>({
+    const [categories, setCategories] = useState<{
+        data: CategoriesType[]
+        pagination: PaginationType
+        count: number
+    }>({
         data: [
             {
                 id: 1,
@@ -34,13 +39,21 @@ export function CategoriesList() {
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
+        pagination: {} as PaginationType,
         count: 0,
     })
     const getCategories = async () => {
         setLoading(true)
-        let response = await DataProvider.get<CategoriesType[]>(RECOURCE, search)
+        let response = await DataProvider.get<PaginatedResponse<CategoriesType[]>>(
+            `${RECOURCE}/list`,
+            search,
+        )
         if (response) {
-            setCategories({data: response.data, count: response.data.length})
+            setCategories({
+                data: response.data.results,
+                pagination: response.data.pagination,
+                count: response.data.pagination.pages * response.data.results.length,
+            })
         }
         setLoading(false)
     }
@@ -68,7 +81,7 @@ export function CategoriesList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={categories.data}
-                count={2}
+                count={categories.count}
                 deleteName="name of deleting"
                 getList={getCategories}
                 params={search}

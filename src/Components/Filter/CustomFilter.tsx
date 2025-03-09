@@ -25,10 +25,7 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
             let filters = params.filter
             return {
                 ...params,
-                filter: {
-                    ...filters,
-                    [item.field]: event.target.value,
-                },
+                [item.field]: event.target.value,
             }
         })
     }
@@ -45,10 +42,6 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
                             label={item.label}
                             sx={{
                                 flexGrow: 1,
-                                fontSize: '16px',
-                                '& .MuiInputLabel-root': {
-                                    fontSize: '16px',
-                                },
                             }}
                         />
                     )}

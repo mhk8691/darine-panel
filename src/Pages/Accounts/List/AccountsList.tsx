@@ -10,6 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {AccountsType} from '../Accounts'
 import {AccountCreate} from '../Create/AccountCreate'
+import { PaginatedResponse, PaginationType } from '../../../Core/types'
 const RECOURCE = 'accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
@@ -27,9 +28,13 @@ const queryNames = tableHeadCells.map((cell) => ({
     type: '',
 }))
 export function AccountsList() {
-    const [search, setSearch] = useQueryParams(createQueryParam())
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-    const [accounts, setAccounts] = useState<{data: AccountsType[]; count: number}>({
+    const [accounts, setAccounts] = useState<{
+        data: AccountsType[]
+        pagination: PaginationType
+        count: number
+    }>({
         data: [
             {
                 id: 1,
@@ -57,13 +62,22 @@ export function AccountsList() {
                 ],
             },
         ],
+        pagination: {} as PaginationType,
         count: 0,
     })
     const getAccounts = async () => {
         setLoading(true)
-        let response = await DataProvider.get<AccountsType[]>(RECOURCE, search)
+       let response = await DataProvider.get<PaginatedResponse<AccountsType[]>>(
+           `${RECOURCE}/list`,
+           search,
+       )
+
         if (response) {
-            setAccounts({data: response.data, count: response.data.length})
+            setAccounts({
+                data: response.data.results,
+                pagination: response.data.pagination,
+                count: response.data.pagination.pages * response.data.results.length,
+            })
         }
         setLoading(false)
     }
@@ -95,7 +109,7 @@ export function AccountsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={accounts.data}
-                count={2}
+                count={accounts.count}
                 deleteName="name of deleting"
                 getList={getAccounts}
                 params={search}

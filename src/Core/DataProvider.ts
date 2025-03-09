@@ -1,7 +1,7 @@
 import {ApiResponse, query} from './Request'
 import {AxiosRequestConfig} from 'axios'
-import {ApiParams, paramParser} from './QueryParams'
-import {APP_URL} from './APP_URL'
+import {ApiParams} from './QueryParams'
+import APP_URL from './APP_URL'
 
 async function HttpRequest<DataType>(url: string, options) {
     options.headers = {
@@ -18,7 +18,7 @@ async function HttpRequest<DataType>(url: string, options) {
 export class DataProvider {
     static baseUrl = APP_URL
     static post = async <DataType>(resource: string, params?: ApiParams) => {
-        const url = paramParser(`${this.baseUrl}/${resource}`, params)
+        const url = `${this.baseUrl}/${resource}`
         const options: AxiosRequestConfig = {
             method: 'post',
         }
@@ -32,12 +32,15 @@ export class DataProvider {
         return data
     }
     static async get<DataType>(resource: string, params?: ApiParams) {
-        const url = paramParser(`${this.baseUrl}/${resource}`, params)
+        const url = `${this.baseUrl}/${resource}`
         const options: AxiosRequestConfig = {
             method: 'get',
         }
         if (params && params.data) {
             options.data = params.data
+        }
+        if (params) {
+            options.params = params
         }
         if (params && params.onUploadProgress) {
             options.onUploadProgress = params.onUploadProgress
@@ -47,7 +50,7 @@ export class DataProvider {
     }
 
     static async patch<DataType>(resource: string, params?: ApiParams) {
-        const url = paramParser(`${this.baseUrl}/${resource}`, params)
+        const url = `${this.baseUrl}/${resource}`
         const options: AxiosRequestConfig = {
             method: 'PATCH',
         }
@@ -61,7 +64,7 @@ export class DataProvider {
         return data
     }
     static async put<DataType>(resource: string, params?: ApiParams) {
-        const url = paramParser(`${this.baseUrl}/${resource}`, params)
+        const url = `${this.baseUrl}/${resource}`
         const options: AxiosRequestConfig = {
             method: 'PUT',
         }
@@ -76,7 +79,7 @@ export class DataProvider {
     }
 
     static async delete<DataType>(resource: string, params?: ApiParams) {
-        const url = paramParser(`${this.baseUrl}/${resource}`, params)
+        const url = `${this.baseUrl}/${resource}`
         const options: AxiosRequestConfig = {
             method: 'DELETE',
         }

@@ -10,6 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {OrdersType} from '../Orders'
 import {formatDate} from '../../../Core/FormatDate'
+import { PaginatedResponse, PaginationType } from '../../../Core/types'
 
 const RECOURCE = 'orders'
 const tableHeadCells = [
@@ -24,9 +25,13 @@ const queryNames = tableHeadCells.map((cell) => ({
     type: '',
 }))
 export function OrdersList() {
-    const [search, setSearch] = useQueryParams(createQueryParam())
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-    const [orders, setOrders] = useState<{data: OrdersType[]; count: number}>({
+    const [orders, setOrders] = useState<{
+        data: OrdersType[]
+        pagination: PaginationType
+        count: number
+    }>({
         data: [
             {
                 id: 1,
@@ -47,13 +52,22 @@ export function OrdersList() {
                 ],
             },
         ],
+        pagination: {} as PaginationType,
         count: 0,
     })
     const getOrders = async () => {
         setLoading(true)
-        let response = await DataProvider.get<OrdersType[]>(RECOURCE, search)
+        let response = await DataProvider.get<PaginatedResponse<OrdersType[]>>(
+            `${RECOURCE}/list`,
+            search,
+        )
+
         if (response) {
-            setOrders({data: response.data, count: response.data.length})
+            setOrders({
+                data: response.data.results,
+                pagination: response.data.pagination,
+                count: response.data.pagination.pages * response.data.results.length,
+            })
         }
         setLoading(false)
     }
@@ -90,7 +104,7 @@ export function OrdersList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={orders.data}
-                count={2}
+                count={orders.count}
                 deleteName="name of deleting"
                 getList={getOrders}
                 params={search}

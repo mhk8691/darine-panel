@@ -12,17 +12,25 @@ export function Searchbar(props) {
     const handleFilterIn = () => {
         setFilterIn(!filterIn)
     }
-    const handleChange = (event) => {
-        setParams((filter) => {
-            return {
-                ...filter,
-                regex: {
-                    [searchField]: event.target.value,
-                },
-            }
-        })
-        setTextfieldData(event.target.value)
-    }
+       const handleChange = (event) => {
+           const value = event.target.value
+           setTextfieldData(value)
+           setParams((filter) => {
+               const newFilter = {...filter}
+
+               if (value === null) {
+                   delete newFilter.search
+               } else {
+                   newFilter.search = value
+               }
+
+               if (!newFilter.ordering) {
+                   delete newFilter.ordering
+               }
+
+               return newFilter
+           })
+       }
     return (
         <Box width="100%" mt={3}>
             <Stack

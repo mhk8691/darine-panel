@@ -52,18 +52,17 @@ export function CustomTable(props: {
     const navigate = useNavigate()
     const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
-
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+  
     const handleRequestSort = (event, property) => {
         setParams((filter) => {
             let isAsc = true
-            if (filter.sort) {
-                isAsc = filter.sort === property && filter.order === 1
+            if (filter.ordering) {
+                isAsc = filter.ordering.includes(property) && !filter.ordering.includes('-')
             }
             return {
                 ...filter,
-                sort: property,
-                order: isAsc ? -1 : 1,
+                ordering: isAsc ? '-' + property : property,
             }
         })
     }
@@ -101,25 +100,23 @@ export function CustomTable(props: {
         setParams((filter) => {
             return {
                 ...filter,
-                skip: newPage * rowsPerPage,
+                page: newPage + 1,
             }
         })
         setPage(newPage)
     }
 
-    const handleChangeRowsPerPage = (event) => {
-        let newValue = parseInt(event.target.value, 10)
-        setParams((filter) => {
-            return {
-                ...filter,
-                limit: newValue,
-                skip: newValue * 0,
-            }
-        })
-        setRowsPerPage(newValue)
-        setPage(0)
-    }
-
+   const handleChangeRowsPerPage = (event) => {
+       let newValue = parseInt(event.target.value, 10)
+       setParams((filter) => {
+           return {
+               ...filter,
+               page_size: newValue,
+           }
+       })
+       setRowsPerPage(newValue)
+       setPage(0)
+   }
     function handleEditClick(event, id: string | number, row) {
         navigate(`${id}`, {state: {row}})
     }
@@ -144,7 +141,7 @@ export function CustomTable(props: {
                     },
 
                     mt: 0.5,
-                    mb:1
+                    mb: 1,
                 }}
                 variant={loading ? 'indeterminate' : 'determinate'}
                 value={0}

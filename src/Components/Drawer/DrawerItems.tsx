@@ -5,6 +5,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall'
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -83,6 +84,18 @@ export const drawerItems = [
         link: 'orders',
         icon: (
             <ShoppingBagIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'حساب کاربری',
+        link: 'profile',
+        icon: (
+            <AccountCircleIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

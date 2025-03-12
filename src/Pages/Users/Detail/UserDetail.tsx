@@ -11,13 +11,13 @@ export function UserDetail() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<UsersType | null>({
         id: 1,
-        firstName: 'ali',
-        lastName: 'mmdi',
+        first_name: 'ali',
+        last_name: 'mmdi',
         username: 'ali',
         email: 'ali@gmail.com',
-        phoneNumber: '09126320520',
-        image:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+        phone_number: '09126320520',
+        role: 'admin',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
     })
     const getUser = async () => {
         setLoading(true)
@@ -62,7 +62,7 @@ export function UserDetail() {
                     نام:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.firstName}
+                    {user?.first_name}
                 </Typography>
             </Stack>
             <Stack
@@ -76,7 +76,7 @@ export function UserDetail() {
                     نام خانوادگی:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.lastName}
+                    {user?.last_name}
                 </Typography>
             </Stack>
             <Stack
@@ -118,7 +118,21 @@ export function UserDetail() {
                     شماره تلفن:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.phoneNumber}
+                    {user?.phone_number}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    نقش کاربر:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {user?.role}
                 </Typography>
             </Stack>
             <Stack direction={'column'} spacing={1}>

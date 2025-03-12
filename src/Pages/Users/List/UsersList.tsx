@@ -18,6 +18,7 @@ const tableHeadCells = [
     createTableHeadCells('ایمیل', 'email'),
     createTableHeadCells('نام کاربری', 'username'),
     createTableHeadCells('شماره تلفن', 'phone_number'),
+    createTableHeadCells('نقش کاربر', 'role'),
     createTableHeadCells('تصویر پروفایل', 'image'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
@@ -37,23 +38,23 @@ export function UsersList() {
         data: [
             {
                 id: 1,
-                firstName: 'ali',
-                lastName: 'mmdi',
+                first_name: 'ali',
+                last_name: 'mmdi',
                 username: 'ali',
                 email: 'ali@gmail.com',
-                phoneNumber: '09126320520',
-                image:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                phone_number: '09126320520',
+                role: 'admin',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
             {
                 id: 2,
-                firstName: 'amir',
-                lastName: 'mmdi',
+                first_name: 'amir',
+                last_name: 'mmdi',
                 username: 'amir',
                 email: 'amir@gmail.com',
-                phoneNumber: '09126320520',
-                image:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                phone_number: '09126320520',
+                role: 'user',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
         pagination: {} as PaginationType,
@@ -114,12 +115,12 @@ export function UsersList() {
                     <>
                         <TableCell>
                             <Typography variant="body2" fontSize={'15px'}>
-                                {item.firstName}
+                                {item.first_name}
                             </Typography>
                         </TableCell>
                         <TableCell>
                             <Typography variant="body2" fontSize={'15px'}>
-                                {item.lastName}
+                                {item.last_name}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -134,7 +135,12 @@ export function UsersList() {
                         </TableCell>
                         <TableCell>
                             <Typography variant="body2" fontSize={'15px'}>
-                                {item.phoneNumber}
+                                {item.phone_number}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography variant="body2" fontSize={'15px'}>
+                                {item.role}
                             </Typography>
                         </TableCell>
                         <TableCell>

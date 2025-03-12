@@ -69,7 +69,7 @@ const AppbarProfile = () => {
                         </Stack>
                     </Stack>
                     <Stack direction="row" justifyContent="space-around">
-                        <Link to="users/profile">
+                        <Link to="/profile">
                             <Button variant="text" size="small">
                                 تنظیمات حساب
                             </Button>

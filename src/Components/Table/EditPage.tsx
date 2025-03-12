@@ -31,7 +31,7 @@ export function EditPage(props) {
                       formData.append(key, String(value))
                   }
               })
-            const res = await DataProvider.patch(`${resource}/${params.id}/`, {
+            const res = await DataProvider.patch(`${resource}/${params.id || formDetails.id}/`, {
                 data: formData,
             })
             dispatch(

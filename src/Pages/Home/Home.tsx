@@ -27,6 +27,7 @@ import {AccountDetail} from '../Accounts/Detail/AccountDetail'
 import {OrdersList} from '../Orders/List/OrdersList'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrderDetail} from '../Orders/Detail/OrderDetail'
+import Profile from '../Profile/Profile'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -63,6 +64,7 @@ export function Home(props) {
                 >
                     <Routes>
                         <Route path="dashboard" element={<DashboardLayout />} />
+                        <Route path="profile" element={<Profile />} />
                         {/* users section */}
                         <Route
                             path="users/create"

@@ -6,12 +6,13 @@ import ImageUploader from '../../Components/Input/ImageUploader'
 
 export type UsersType = {
     id: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
     username: string
-    phoneNumber: string
-   image: string | File
+    phone_number: string
+    role:string
+    image: string | File
 }
 const RESOURCE = 'users'
 
@@ -34,14 +35,14 @@ export function Users({
                         setData={setUser}
                         resource={RESOURCE}
                         label={'نام'}
-                        defaultValue={user.firstName}
+                        defaultValue={user.first_name}
                     />,
                     <CustomTextField
                         name="last_name"
                         resource={RESOURCE}
                         setData={setUser}
                         label={'نام خانوادگی'}
-                        defaultValue={user.lastName}
+                        defaultValue={user.last_name}
                     />,
                     <CustomTextField
                         name="email"
@@ -62,7 +63,7 @@ export function Users({
                         resource={RESOURCE}
                         setData={setUser}
                         label={'شماره تلفن'}
-                        defaultValue={user.phoneNumber}
+                        defaultValue={user.phone_number}
                     />,
                     <Button
                         variant="outlined"

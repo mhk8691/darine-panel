@@ -6,10 +6,20 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-export const drawerItems = [
+import {ReactNode} from 'react'
+import { useAppSelector } from '../../redux/store'
+
+interface DarawerItemsType {
+    title: string
+    link: string
+    icon: ReactNode
+    role: string
+}
+export const drawerItems:DarawerItemsType[] = [
     {
         title: 'پیشخوان',
         link: '',
+        role:'all',
         icon: (
             <DashboardIcon
                 fontSize="large"
@@ -22,6 +32,7 @@ export const drawerItems = [
     {
         title: 'مدیریت کاربران',
         link: 'users',
+        role:'admin',
         icon: (
             <GroupIcon
                 fontSize="large"
@@ -33,6 +44,7 @@ export const drawerItems = [
     },
     {
         title: 'مدیریت محصولات',
+        role:'admin',
         link: 'products',
         icon: (
             <LocalMallIcon
@@ -45,6 +57,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی محصولات',
+        role:'admin',
         link: 'product-category',
         icon: (
             <CategoryIcon
@@ -57,6 +70,7 @@ export const drawerItems = [
     },
     {
         title: 'اکانت های بازی',
+        role:'admin',
         link: 'accounts',
         icon: (
             <SportsEsportsIcon
@@ -69,6 +83,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی اکانت ها',
+        role:'admin',
         link: 'account-category',
         icon: (
             <GamepadIcon
@@ -82,6 +97,7 @@ export const drawerItems = [
     {
         title: 'سفارشات',
         link: 'orders',
+        role:'admin',
         icon: (
             <ShoppingBagIcon
                 fontSize="large"
@@ -94,6 +110,7 @@ export const drawerItems = [
     {
         title: 'حساب کاربری',
         link: 'profile',
+        role:'all',
         icon: (
             <AccountCircleIcon
                 fontSize="large"

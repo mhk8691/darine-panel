@@ -26,7 +26,7 @@ export function AppDrawer({
     const navigate = useNavigate()
     const location = useLocation()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
+    const role = useAppSelector((state) => state.user.role)
     useEffect(() => {
         const value = location.pathname
         let checked = false
@@ -55,9 +55,7 @@ export function AppDrawer({
     }
 
     return (
-        <Stack
-            
-        >
+        <Stack>
             <Drawer
                 variant={isMobile ? 'temporary' : 'permanent'}
                 open={isMobile ? drawerOpen : true}
@@ -75,7 +73,7 @@ export function AppDrawer({
                         '&::-webkit-scrollbar': {display: 'none'},
                     },
                     '& .MuiPaper-root': {
-                        backgroundImage:'none'
+                        backgroundImage: 'none',
                     },
                 }}
             >
@@ -98,52 +96,55 @@ export function AppDrawer({
                             </ListItem>
                         </>
                     )}
-                    {drawerItems.map((item, index) => (
-                        <ListItemButton
-                            onClick={(event) => handleClick(item.link, index, item.title)}
-                            selected={selected[index]}
-                            sx={{
-                                width: {xs: '100%', md: '65px'},
-                                borderRadius: '8px',
-                            }}
-                            classes={{
-                                selected: classes.selected,
-                                root: classes.mainSelected,
-                            }}
-                            key={item.title}
-                        >
-                            {isMobile ? (
-                                <ListItemIcon
+                    {drawerItems.map(
+                        (item, index) =>
+                            (item.role === role || item.role === 'all') && (
+                                <ListItemButton
+                                    onClick={(event) => handleClick(item.link, index, item.title)}
+                                    selected={selected[index]}
                                     sx={{
-                                        color: selected[index] ? 'white' : '#606566',
+                                        width: {xs: '100%', md: '65px'},
+                                        borderRadius: '8px',
                                     }}
-                                >
-                                    {item.icon}
-                                </ListItemIcon>
-                            ) : (
-                                <Tooltip title={item.title} placement="left" arrow>
-                                    <ListItemIcon
-                                        sx={{
-                                            color: selected[index] ? 'white' : '#606566',
-                                        }}
-                                    >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                </Tooltip>
-                            )}
-                            {isMobile && (
-                                <Typography
-                                    variant="bodyMd"
-                                    sx={{
-                                        color: selected[index] ? 'white' : 'grey.600',
-                                        whiteSpace: 'nowrap',
+                                    classes={{
+                                        selected: classes.selected,
+                                        root: classes.mainSelected,
                                     }}
+                                    key={item.title}
                                 >
-                                    {item.title}
-                                </Typography>
-                            )}
-                        </ListItemButton>
-                    ))}
+                                    {isMobile ? (
+                                        <ListItemIcon
+                                            sx={{
+                                                color: selected[index] ? 'white' : '#606566',
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                    ) : (
+                                        <Tooltip title={item.title} placement="left" arrow>
+                                            <ListItemIcon
+                                                sx={{
+                                                    color: selected[index] ? 'white' : '#606566',
+                                                }}
+                                            >
+                                                {item.icon}
+                                            </ListItemIcon>
+                                        </Tooltip>
+                                    )}
+                                    {isMobile && (
+                                        <Typography
+                                            variant="bodyMd"
+                                            sx={{
+                                                color: selected[index] ? 'white' : 'grey.600',
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            {item.title}
+                                        </Typography>
+                                    )}
+                                </ListItemButton>
+                            ),
+                    )}
                 </List>
             </Drawer>
         </Stack>

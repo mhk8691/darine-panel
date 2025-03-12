@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -18,6 +18,8 @@ const tableHeadCells = [
     createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('تاریخ سفارش', 'created_at'),
+    createTableHeadCells('رضایت نامه', 'consent'),
+    createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -38,6 +40,14 @@ export function OrdersList() {
                 status: 'در انتظار',
                 username: 'test',
                 createdAt: '2025-01-06T09:16:40.447096Z',
+                Payment_method: {
+                    title: null,
+                    image: 'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
+                },
+                Consent: [
+                    'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
+                    'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
+                ],
                 products: [
                     {
                         id: 1,
@@ -45,6 +55,7 @@ export function OrdersList() {
                         price: 1000,
                         image: 'https://via.placeholder.com/150',
                         count: 3,
+
                         account: {
                             email: 'test@gmail.com',
                             username: 'test',
@@ -149,6 +160,43 @@ export function OrdersList() {
                             <Typography variant="body2" fontSize={'15px'}>
                                 {formatDate(item.createdAt)}
                             </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Stack direction={'row'} spacing={1}>
+                                {item.Consent.map((item) => (
+                                    <Box
+                                        component={'img'}
+                                        sx={{
+                                            width: '60px',
+                                            height: '60px',
+                                            borderRadius: 2,
+                                            objectFit: 'cover',
+                                        }}
+                                        src={item}
+                                        borderRadius={2}
+                                    />
+                                ))}
+                            </Stack>
+                        </TableCell>
+                        <TableCell>
+                            {item.Payment_method.title && (
+                                <Typography variant="body2" fontSize={'15px'}>
+                                    {item.Payment_method.title}
+                                </Typography>
+                            )}
+                            {item.Payment_method.image && (
+                                <Box
+                                    component={'img'}
+                                    sx={{
+                                        width: '60px',
+                                        height: '60px',
+                                        borderRadius: 2,
+                                        objectFit: 'cover',
+                                    }}
+                                    src={item.Payment_method.image}
+                                    borderRadius={2}
+                                />
+                            )}
                         </TableCell>
                     </>
                 ))}

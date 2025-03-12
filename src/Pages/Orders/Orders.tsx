@@ -22,6 +22,11 @@ export type OrdersType = {
     status: 'در انتظار' | 'انجام شده' | 'لغو شده'
     username: string
     createdAt: string
+    Consent: string[]
+    Payment_method: {
+        title: string | null
+        image: string | null
+    }
     products: ProductsType[]
 }
 

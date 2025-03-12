@@ -7,7 +7,7 @@ import {logout} from '../../redux/user_slice'
 const AppbarProfile = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const dispatch = useAppDispatch()
-    const {username, profile_image, email} = useAppSelector((state) => state.user)
+    const {username, image, email} = useAppSelector((state) => state.user)
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
@@ -31,7 +31,7 @@ const AppbarProfile = () => {
                 <Typography fontWeight={600} variant="subtitle2" noWrap>
                     {username}
                 </Typography>
-                <Avatar alt="profile image" src={profile_image} sx={{height: 35, width: 35}} />
+                <Avatar alt="profile image" src={image} sx={{height: 35, width: 35}} />
             </Stack>
             <Popover
                 open={open}
@@ -56,7 +56,7 @@ const AppbarProfile = () => {
                     <Stack direction="row" alignItems="center" gap={1.5}>
                         <Avatar
                             alt="profile image"
-                            src={profile_image}
+                            src={image}
                             sx={{height: 45, width: 45}}
                         />
                         <Stack>

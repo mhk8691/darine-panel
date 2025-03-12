@@ -9,21 +9,9 @@ export function AccountCreate({
     data: any
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
-    const formData = new FormData()
-    useEffect(() => {
-        formData.append('name', data.name)
-        formData.append('introduction', data.introduction)
-        formData.append('connection_method', data.connection_method)
-        formData.append('description', data.description)
-        formData.append('price', data.price)
-        formData.append('category', data.category)
-        formData.append('video', data.video)
-        data?.images?.forEach((image) => {
-            formData.append('image', image)
-        })
-    }, [data, setData])
+   
     return (
-        <CreatePage title={'افزودن اکانت بازی'} resource={'accounts'} formDetails={formData}>
+        <CreatePage title={'افزودن اکانت بازی'} resource={'accounts'} formDetails={data}>
             <Accounts account={data} setAccount={setData} />
         </CreatePage>
     )

@@ -9,16 +9,12 @@ export function AccountCategoryCreate({
     data: any
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
-    const formData = new FormData()
-    useEffect(() => {
-        formData.append('name', data.name)
-        formData.append('image', data.image)
-    }, [data, setData])
+  
     return (
         <CreatePage
             title={'افزودن دسته بندی'}
             resource={'account-category'}
-            formDetails={formData}
+            formDetails={data}
         >
             <AccountCategory category={data} setCategory={setData} />
         </CreatePage>

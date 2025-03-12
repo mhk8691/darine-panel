@@ -9,11 +9,20 @@ export function CreatePage(props) {
     const {title, resource, noEdit, formDetails, redirect} = props
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const formData = new FormData()
+
     async function saveChanges() {
+        Object.entries(formDetails).forEach(([key, value]) => {
+            if (value instanceof File) {
+                formData.append(key, value)
+            } else {
+                formData.append(key, String(value))
+            }
+        })
         try {
             dispatch(setUtil({loading: true}))
             const res = await DataProvider.post(resource, {
-                data: formDetails,
+                data: formData,
             })
             navigate(`/${redirect ? redirect : resource}`)
             dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
@@ -31,7 +40,9 @@ export function CreatePage(props) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h2" fontSize={18}>{title}</Typography>
+                    <Typography variant="h2" fontSize={18}>
+                        {title}
+                    </Typography>
                     {!noEdit && (
                         <Button
                             variant="outlined"

@@ -1,4 +1,4 @@
-import {Stack, Typography} from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
@@ -32,29 +32,50 @@ export function CategoryDetail() {
             <Typography variant="h6" fontWeight="600" sx={{fontSize: '18px !important', mb: 1}}>
                 جزئیات دسته بندی
             </Typography>
-            <Stack direction="row" spacing={0.5}>
-                <Typography variant="body1" sx={{fontWeight: '600'}}>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     آیدی:
                 </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '17px'}}>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                     {category?.id}
                 </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.5}>
-                <Typography variant="body1" sx={{fontWeight: '600'}}>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     نام:
                 </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '17px'}}>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                     {category?.name}
                 </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.5}>
-                <Typography variant="body1" sx={{fontWeight: '600'}}>
+            <Stack direction={'column'} spacing={1}>
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     تصویر:
                 </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '17px'}}>
-                    {typeof category?.image === 'string' ? category?.image : category?.image?.name}
-                </Typography>
+
+                <Box
+                    component={'img'}
+                    sx={{
+                        width: '75px',
+                        height: '75px',
+                        borderRadius: 2,
+                        objectFit: 'cover',
+                    }}
+                    src={typeof category?.image === 'string' ? category?.image : ''}
+                    borderRadius={2}
+                />
             </Stack>
         </Stack>
     )

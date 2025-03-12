@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material'
+import {Box, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -13,11 +13,12 @@ import {UsersType} from '../Users'
 import {PaginatedResponse, PaginationType} from '../../../Core/types'
 const RECOURCE = 'users'
 const tableHeadCells = [
-    createTableHeadCells('نام', 'firstName'),
-    createTableHeadCells('نام خانوادگی', 'lastName'),
+    createTableHeadCells('نام', 'first_name'),
+    createTableHeadCells('نام خانوادگی', 'last_name'),
     createTableHeadCells('ایمیل', 'email'),
     createTableHeadCells('نام کاربری', 'username'),
-    createTableHeadCells('شماره تلفن', 'phoneNumber'),
+    createTableHeadCells('شماره تلفن', 'phone_number'),
+    createTableHeadCells('تصویر پروفایل', 'image'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -27,7 +28,7 @@ const queryNames = tableHeadCells.map((cell) => ({
 export function UsersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-        
+
     const [users, setUsers] = useState<{
         data: UsersType[]
         pagination: PaginationType
@@ -41,6 +42,8 @@ export function UsersList() {
                 username: 'ali',
                 email: 'ali@gmail.com',
                 phoneNumber: '09126320520',
+                image:
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
             {
                 id: 2,
@@ -49,6 +52,8 @@ export function UsersList() {
                 username: 'amir',
                 email: 'amir@gmail.com',
                 phoneNumber: '09126320520',
+                image:
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
         pagination: {} as PaginationType,
@@ -61,12 +66,11 @@ export function UsersList() {
             search,
         )
         if (response) {
-             setUsers({
-                 data: response.data.results,
-                 pagination: response.data.pagination,
-                 count: response.data.pagination.pages * response.data.results.length,
-             })
-
+            setUsers({
+                data: response.data.results,
+                pagination: response.data.pagination,
+                count: response.data.pagination.pages * response.data.results.length,
+            })
         }
         setLoading(false)
     }
@@ -132,6 +136,19 @@ export function UsersList() {
                             <Typography variant="body2" fontSize={'15px'}>
                                 {item.phoneNumber}
                             </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Box
+                                component={'img'}
+                                sx={{
+                                    width: '60px',
+                                    height: '60px',
+                                    borderRadius: 2,
+                                    objectFit: 'cover',
+                                }}
+                                src={typeof item?.image === 'string' ? item?.image : ''}
+                                borderRadius={2}
+                            />
                         </TableCell>
                     </>
                 ))}

@@ -147,7 +147,7 @@ export function ProductsList() {
                         <TableCell>
                             <Box
                                 component={'img'}
-                                src={item.image}
+                                src={typeof item.image === 'string' ? item.image : ''}
                                 sx={{
                                     width: '60px',
                                     height: '60px',

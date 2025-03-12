@@ -12,7 +12,7 @@ export type ProductsType = {
     description: string
     price: number
     category: string
-    image: any
+    image: string | File
 }
 
 const RESOURCE = 'products'
@@ -26,7 +26,7 @@ export function Products({
 }) {
     const [imagePreview, setImagePreview] = useState('')
     const [open, setOpen] = useState(false)
-
+    
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
@@ -106,6 +106,7 @@ export function Products({
                 </Grid>
             </Grid>
             <ImageUploader
+                key={'products'}
                 data={product}
                 open={open}
                 setOpen={setOpen}

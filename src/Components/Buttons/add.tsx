@@ -8,8 +8,8 @@ function AddButton(props) {
 
     return (
         <Button
-            LinkComponent={Link}
-            to={`/${props.href}`}
+            LinkComponent={'a'}
+            href={`/${props.href}`}
             // size="large"
             variant="outlined"
             startIcon={!props.noIcon && <AddIcon style={{marginLeft: '8px'}} />}

@@ -1,6 +1,8 @@
-import {Stack} from '@mui/material'
+import {Button, Stack} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
+import {useState} from 'react'
+import ImageUploader from '../../Components/Input/ImageUploader'
 
 export type UsersType = {
     id: number
@@ -9,6 +11,7 @@ export type UsersType = {
     email: string
     username: string
     phoneNumber: string
+   image: string | File
 }
 const RESOURCE = 'users'
 
@@ -19,6 +22,8 @@ export function Users({
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
 }) {
+    const [imagePreview, setImagePreview] = useState('')
+    const [open, setOpen] = useState(false)
     return (
         <Stack>
             <GridProducer
@@ -59,7 +64,26 @@ export function Users({
                         label={'شماره تلفن'}
                         defaultValue={user.phoneNumber}
                     />,
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => setOpen(true)}
+                        size="large"
+                        fullWidth
+                        sx={{height: '53px', borderRadius: '4px !important'}}
+                    >
+                        {user.image ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                    </Button>,
                 ]}
+            />
+            <ImageUploader
+                key={'user'}
+                data={user}
+                open={open}
+                setOpen={setOpen}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+                setData={setUser}
             />
         </Stack>
     )

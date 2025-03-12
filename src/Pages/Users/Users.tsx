@@ -11,7 +11,7 @@ export type UsersType = {
     email: string
     username: string
     phone_number: string
-    role:string
+    role: string
     image: string | File
 }
 const RESOURCE = 'users'

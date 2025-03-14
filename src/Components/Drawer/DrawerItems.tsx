@@ -5,6 +5,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall'
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
+import CableIcon from '@mui/icons-material/Cable'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -71,6 +72,18 @@ export const drawerItems = [
         link: 'account-category',
         icon: (
             <GamepadIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'روش های اتصال',
+        link: 'connection-methods',
+        icon: (
+            <CableIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

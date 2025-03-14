@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material'
+import {Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -9,15 +9,12 @@ import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {PaginatedResponse, PaginationType} from '../../../Core/types'
-import {UserCreate} from '../Create/MethodCreate'
-import {UsersType} from '../Method'
-const RECOURCE = 'users'
+import {MethodCreate} from '../Create/MethodCreate'
+import {MethodType} from '../Method'
+const RECOURCE = 'connection-methods'
 const tableHeadCells = [
-    createTableHeadCells('نام', 'firstName'),
-    createTableHeadCells('نام خانوادگی', 'lastName'),
-    createTableHeadCells('ایمیل', 'email'),
-    createTableHeadCells('نام کاربری', 'username'),
-    createTableHeadCells('شماره تلفن', 'phoneNumber'),
+    createTableHeadCells('نام', 'name'),
+    createTableHeadCells('فیلد ها', 'fields'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -28,40 +25,32 @@ export function MethodsList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
 
-    const [users, setUsers] = useState<{
-        data: UsersType[]
+    const [methods, setMethods] = useState<{
+        data: MethodType[]
         pagination: PaginationType
         count: number
     }>({
         data: [
             {
                 id: 1,
-                firstName: 'ali',
-                lastName: 'mmdi',
-                username: 'ali',
-                email: 'ali@gmail.com',
-                phoneNumber: '09126320520',
-            },
-            {
-                id: 2,
-                firstName: 'amir',
-                lastName: 'mmdi',
-                username: 'amir',
-                email: 'amir@gmail.com',
-                phoneNumber: '09126320520',
+                name: 'فیسبوک',
+                fields: [
+                    {label: 'ایمیل', name: 'email', type: 'text', id: 1},
+                    {label: 'ایمیل', name: 'email', type: 'text', id: 1},
+                ],
             },
         ],
         pagination: {} as PaginationType,
         count: 0,
     })
-    const getUsers = async () => {
+    const getMethods = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<UsersType[]>>(
+        let response = await DataProvider.get<PaginatedResponse<MethodType[]>>(
             `${RECOURCE}/list`,
             search,
         )
         if (response) {
-            setUsers({
+            setMethods({
                 data: response.data.results,
                 pagination: response.data.pagination,
                 count: response.data.pagination.pages * response.data.results.length,
@@ -70,7 +59,7 @@ export function MethodsList() {
         setLoading(false)
     }
     useDeepCompareEffect(() => {
-        getUsers()
+        getMethods()
     }, [search])
 
     return (
@@ -82,9 +71,9 @@ export function MethodsList() {
             setParams={setSearch}
             params={search}
             resource={RECOURCE}
-            getList={getUsers}
+            getList={getMethods}
             filtersData={queryNames}
-            createModal={UserCreate}
+            createModal={MethodCreate}
             defaultState={{
                 firstName: '',
                 lastName: '',
@@ -96,41 +85,40 @@ export function MethodsList() {
             <CustomTable
                 resource={RECOURCE}
                 headCells={tableHeadCells}
-                rows={users.data}
-                count={users.count}
+                rows={methods.data}
+                count={methods.count}
                 deleteName="name of deleting"
-                getList={getUsers}
+                getList={getMethods}
                 params={search}
                 setParams={setSearch}
-                handleSort={getUsers}
+                handleSort={getMethods}
                 loading={loading}
                 hasDetail={true}
-                tableBodyCells={users.data.map((item) => (
+                tableBodyCells={methods.data.map((item) => (
                     <>
                         <TableCell>
                             <Typography variant="body2" fontSize={'15px'}>
-                                {item.firstName}
+                                {item.name}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
-                                {item.lastName}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
-                                {item.email}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
-                                {item.username}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
-                                {item.phoneNumber}
-                            </Typography>
+                            <Stack direction={'column'} gap={1.5}>
+                                {item.fields.map((field) => (
+                                    <Stack direction={'row'} alignItems={'center'} gap={1}>
+                                        <Typography variant="body2" fontSize={'15px'}>
+                                            نام: {field.name}
+                                        </Typography>
+                                        |
+                                        <Typography variant="body2" fontSize={'15px'}>
+                                            لیبل: {field.label}
+                                        </Typography>
+                                        |
+                                        <Typography variant="body2" fontSize={'15px'}>
+                                            تایپ: {field.type}
+                                        </Typography>
+                                    </Stack>
+                                ))}
+                            </Stack>
                         </TableCell>
                     </>
                 ))}

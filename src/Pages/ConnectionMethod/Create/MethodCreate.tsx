@@ -11,7 +11,7 @@ export function MethodCreate({
 }) {
     return (
         <CreatePage title={'افزودن روش اتصال'} resource={'connection_methods'} formDetails={data}>
-            <ConnectionMethod method={data} setMethod={setData} />
+            <ConnectionMethod method={data} setMethod={setData} editMode={false} />
         </CreatePage>
     )
 }

@@ -2,19 +2,15 @@ import {
     Button,
     FormControl,
     Grid,
-    IconButton,
     InputLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
     Stack,
-    TextField,
-    Typography,
 } from '@mui/material'
+import {useState} from 'react'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
-import {useState} from 'react'
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import FieldsTable from './FieldsTable'
 type InputType = {
     type: 'text' | 'number' | 'email' | 'password'
@@ -37,9 +33,11 @@ const RESOURCE = 'connection_method'
 export function ConnectionMethod({
     method,
     setMethod,
+    editMode,
 }: {
     method: MethodType
     setMethod: React.Dispatch<React.SetStateAction<MethodType>>
+    editMode: boolean
 }) {
     const [newField, setNewField] = useState<FieldType>({} as FieldType)
     const inputType = [
@@ -79,6 +77,22 @@ export function ConnectionMethod({
             fields: prevMethod.fields.filter((field) => field.id !== id),
         }))
     }
+    const editField = (id: number) => {
+        setNewField(method.fields.find((field) => field.id === id) as FieldType)
+    }
+    const saveChange = () => {
+        setMethod((prevMethod) => ({
+            ...prevMethod,
+            fields: prevMethod.fields.map((field) => {
+                console.log(prevMethod)
+                if (field.id === newField.id) {
+                    return newField as FieldType
+                }
+                return field
+            }),
+        }))
+        setNewField({} as FieldType)
+    }
     const handleChange = (event: SelectChangeEvent) => {
         setNewField((prev) => {
             return {...prev, type: event.target.value as string} as FieldType
@@ -96,23 +110,13 @@ export function ConnectionMethod({
                         label={'نام'}
                         defaultValue={method.name}
                     />,
-
-                    // ...method.fields.map((item) => (
-                    //     <CustomTextField
-                    //         key={item.id}
-                    //         name={item.label}
-                    //         resource={RESOURCE}
-                    //         label={item.label}
-                    //         value={item.value}
-                    //         type={item.type}
-                    //         disabled
-                    //     />
-                    // )),
                 ]}
             />
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
+                        key={newField.name}
+                        name="name"
                         resource={RESOURCE}
                         value={newField.name}
                         onChange={(e) => setNewField({...newField, name: e.target.value})}
@@ -121,12 +125,12 @@ export function ConnectionMethod({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
+                        key={newField.label}
                         name="label"
                         setData={setNewField}
                         resource={RESOURCE}
                         value={newField.label}
                         onChange={(e) => setNewField({...newField, label: e.target.value})}
-                        defaultValue={newField.label}
                         label={'لیبل'}
                     />
                 </Grid>
@@ -180,13 +184,23 @@ export function ConnectionMethod({
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined" onClick={addField} size="large" sx={{py: 1.4}}>
-                        افزودن فیلد
+                    <Button
+                        variant="outlined"
+                        onClick={editMode ? saveChange : addField}
+                        size="large"
+                        sx={{py: 1.4}}
+                    >
+                        {editMode ? 'ذخیره' : 'افزودن'}
                     </Button>
                 </Grid>
             </Grid>
             {method.fields?.length > 0 && (
-                <FieldsTable data={method.fields} removeField={removeField} />
+                <FieldsTable
+                    data={method.fields}
+                    removeField={removeField}
+                    editField={editField}
+                    editMode={editMode}
+                />
             )}
         </Stack>
     )

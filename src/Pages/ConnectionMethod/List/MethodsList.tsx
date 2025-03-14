@@ -36,7 +36,7 @@ export function MethodsList() {
                 name: 'فیسبوک',
                 fields: [
                     {label: 'ایمیل', name: 'email', type: 'text', id: 1},
-                    {label: 'ایمیل', name: 'email', type: 'text', id: 1},
+                    {label: 'رمز عبور', name: 'password', type: 'password', id: 2},
                 ],
             },
         ],

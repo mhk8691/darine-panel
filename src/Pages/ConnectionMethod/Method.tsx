@@ -15,6 +15,7 @@ import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import {useState} from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import FieldsTable from './FieldsTable'
 type InputType = {
     type: 'text' | 'number' | 'email' | 'password'
 }
@@ -60,7 +61,6 @@ export function ConnectionMethod({
                     label: newField?.label,
                     name: newField?.name,
                     type: newField?.type,
-                    value: newField.type === 'number' ? 0 : '',
                 },
             ],
         }))
@@ -110,7 +110,7 @@ export function ConnectionMethod({
                     // )),
                 ]}
             />
-            <Grid container spacing={2} xs={12}>
+            <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         resource={RESOURCE}
@@ -137,6 +137,9 @@ export function ConnectionMethod({
                             '& .MuiInputBase-root': {
                                 height: '54.56px !important',
                             },
+                            '& .MuiSelect-select': {
+                                fontSize: '15px !important',
+                            },
                         }}
                     >
                         <InputLabel
@@ -153,9 +156,23 @@ export function ConnectionMethod({
                             value={newField.type ?? ''}
                             label="تایپ اینپوت"
                             onChange={handleChange}
+                            sx={{
+                                '& .MuiAutocomplete-listbox': {
+                                    fontSize: '15px',
+                                },
+                                '& .MuiAutocomplete-option': {
+                                    py: '12px !important',
+                                },
+                            }}
                         >
                             {inputType.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
+                                <MenuItem
+                                    key={option.value}
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={option.value}
+                                >
                                     {option.label}
                                 </MenuItem>
                             ))}
@@ -168,94 +185,9 @@ export function ConnectionMethod({
                     </Button>
                 </Grid>
             </Grid>
-            <Stack
-                border={1}
-                borderColor={'background.light'}
-                borderRadius={2}
-                mt={3}
-                p={2}
-                width={'100%'}
-                overflow={'scroll'}
-            >
-                <Grid container spacing={2}>
-                    <Grid item xs={11.5 / 3} sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography variant="body1" fontSize={'18px'} fontWeight={'600'}>
-                            نام
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={11.5 / 3} sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography variant="body1" fontSize={'18px'} fontWeight={'600'}>
-                            لیبل
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={11.5 / 3} sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography variant="body1" fontSize={'18px'} fontWeight={'600'}>
-                            تایپ
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={0.5} sx={{display: 'flex', justifyContent: 'center'}}></Grid>
-                </Grid>
-                {method.fields?.length > 0 && (
-                    <Grid container spacing={3} mt={1}>
-                        {method.fields.map((field) => (
-                            <>
-                                <Grid
-                                    item
-                                    xs={11.5 / 3}
-                                    sx={{display: 'flex', justifyContent: 'center'}}
-                                >
-                                    <Typography
-                                        variant="body2"
-                                        fontSize={'16px'}
-                                        fontWeight={'400'}
-                                    >
-                                        {field.name}
-                                    </Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={11.5 / 3}
-                                    sx={{display: 'flex', justifyContent: 'center'}}
-                                >
-                                    <Typography
-                                        variant="body2"
-                                        fontSize={'16px'}
-                                        fontWeight={'400'}
-                                    >
-                                        {field.label}
-                                    </Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={11.5 / 3}
-                                    sx={{display: 'flex', justifyContent: 'center'}}
-                                >
-                                    <Typography
-                                        variant="body2"
-                                        fontSize={'16px'}
-                                        fontWeight={'400'}
-                                    >
-                                        {field.type}
-                                    </Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={0.5}
-                                    sx={{display: 'flex', justifyContent: 'center'}}
-                                >
-                                    <IconButton
-                                        size="large"
-                                        sx={{mr: 3}}
-                                        onCanPlay={() => removeField(field.id)}
-                                    >
-                                        <DeleteOutlinedIcon />
-                                    </IconButton>
-                                </Grid>
-                            </>
-                        ))}
-                    </Grid>
-                )}
-            </Stack>
+            {method.fields?.length > 0 && (
+                <FieldsTable data={method.fields} removeField={removeField} />
+            )}
         </Stack>
     )
 }

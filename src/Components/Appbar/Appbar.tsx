@@ -50,7 +50,16 @@ const Appbar = ({
                             )}
                         </IconButton>
                     )}
-                    <Typography variant="titleMd" fontWeight={700}>
+                    <Typography
+                        variant="titleMd"
+                        fontWeight={700}
+                        sx={{
+                            fontSize: {
+                                xs: '14px !important',
+                                sm: '16px !important',
+                            },
+                        }}
+                    >
                         {selectedTitle}
                     </Typography>
                 </Stack>

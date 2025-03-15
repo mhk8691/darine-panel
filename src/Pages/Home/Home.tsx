@@ -28,9 +28,9 @@ import {OrdersList} from '../Orders/List/OrdersList'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrderDetail} from '../Orders/Detail/OrderDetail'
 import Profile from '../Profile/Profile'
-import { MethodCreate } from '../ConnectionMethod/Create/MethodCreate'
-import { MethodsList } from '../ConnectionMethod/List/MethodsList'
-import { MethodEdit } from '../ConnectionMethod/Edit/MethodEdit'
+import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
+import {MethodsList} from '../ConnectionMethod/List/MethodsList'
+import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -52,7 +52,14 @@ export function Home(props) {
             <Box
                 flexGrow={1}
                 mt="4.5rem"
-                padding={!location.pathname.includes('dashboard') ? '30px' : 'unset'}
+                padding={
+                    !location.pathname.includes('dashboard')
+                        ? {
+                              xs: '15px',
+                              sm: '30px',
+                          }
+                        : 'unset'
+                }
             >
                 <Box
                     bgcolor={!location.pathname.includes('dashboard') ? 'background.main' : 'unset'}

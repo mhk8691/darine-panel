@@ -6,25 +6,27 @@ import {Button, Menu, MenuItem, Stack, Typography} from '@mui/material'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 const addOptions = [
     {
-        title: 'اکانت جدید',
-        description: 'اکانت خودتون رو متصل کنید',
-        link: 'social-accounts/create',
-        icon: <ManageAccountsIcon sx={{fontSize: '30px'}} />,
+        title: 'کاربر جدید',
+        description: 'کاربر جدید ایجاد کنید',
+        link: 'users/create',
+        icon: <PersonAddIcon sx={{fontSize: '30px'}} />,
     },
     {
-        title: 'ارسال پیام جدید',
-        description: 'پیام خودتون رو برای مخاطبان بفرستید',
-        link: 'messages/create',
-        icon: <MessageIcon sx={{fontSize: '30px'}} />,
+        title: 'محصول جدید',
+        description: 'محصول جدید ایجاد کنید',
+        link: 'products/create',
+        icon: <ShoppingBasketIcon sx={{fontSize: '30px'}} />,
     },
     {
-        title: 'لیست مخاطب جدید',
-        description: 'لیست مخاطبتون رو ایجاد کنید',
-        link: 'contacts/create',
-        icon: <TtyIcon sx={{fontSize: '30px'}} />,
+        title: 'آگهی جدید',
+        description: 'آگهی جدید ایجاد کنید',
+        link: 'accounts/create',
+        icon: <SportsEsportsIcon sx={{fontSize: '30px'}} />,
     },
 ]
 
@@ -61,7 +63,13 @@ const NewActivity = () => {
                         vertical: 'top',
                         horizontal: 'left',
                     }}
-                    sx={{mt: '1rem'}}
+                    sx={{
+                        mt: '1rem',
+                        '& .MuiList-root': {
+                            width: '280px !important',
+                            borderRadius:2
+                        },
+                    }}
                 >
                     {addOptions.map((item, index) => (
                         <MenuItem
@@ -79,7 +87,7 @@ const NewActivity = () => {
                             <Stack direction="row" alignItems="center" gap={1}>
                                 <ListItemIcon
                                     sx={{
-                                        padding: '8px',
+                                        py:1,
                                         borderRadius: '5px',
                                     }}
                                 >
@@ -89,7 +97,7 @@ const NewActivity = () => {
                                     <Typography variant="bodyMd" fontWeight={700}>
                                         {item.title}
                                     </Typography>
-                                    <Typography variant="xSmall" fontWeight={600}>
+                                    <Typography variant="xSmall" fontWeight={600} sx={{mt: 0.5}}>
                                         {item.description}
                                     </Typography>
                                 </Stack>

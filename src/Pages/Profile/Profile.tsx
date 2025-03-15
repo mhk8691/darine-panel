@@ -10,7 +10,7 @@ export default function Profile() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش حساب کاربری"
+            title="حساب کاربری"
             formDetails={user}
             initialData={profile}
         >

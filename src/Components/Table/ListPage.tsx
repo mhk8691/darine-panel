@@ -107,8 +107,21 @@ export function ListPage({
                     width="100%"
                     alignItems="center"
                     justifyContent="space-between"
+                    mt={noCreate ? 1: 0}
                 >
-                    <Typography variant="h6" sx={{fontSize: '18px !important', fontWeight: 600}}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: {
+                                xs: '15px !important',
+                                sm: '18px !important',
+                            },
+                            '@media (max-width: 350px)': {
+                                fontSize: '14px !important',
+                            },
+                            fontWeight: 600,
+                        }}
+                    >
                         {header}
                     </Typography>
 
@@ -116,7 +129,13 @@ export function ListPage({
                         <AddButton
                             href={href}
                             text={'جدید'}
-                            style={{fontSize: '16px', padding: '7px 13px'}}
+                            style={{
+                                fontSize: {
+                                    xs: '14px',
+                                    sm: '16px',
+                                },
+                                padding: '7px 13px',
+                            }}
                         />
                     )}
                 </Stack>

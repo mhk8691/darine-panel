@@ -24,8 +24,14 @@ export default function ProfileUploader({user, setUser}: Props) {
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
             sx={{
-                width: '120px',
-                height: '120px',
+                width: {
+                    xs: '100px',
+                    sm: '125px',
+                },
+                height: {
+                    xs: '100px',
+                    sm: '125px',
+                },
                 position: 'relative',
                 borderRadius: '50%',
                 mb: 5,
@@ -61,6 +67,15 @@ export default function ProfileUploader({user, setUser}: Props) {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
+                        animation: isHover ? 'editIcon .2s ease-in-out' : 'none',
+                        '@keyframes editIcon ': {
+                            ' 0%': {
+                                opacity: 0,
+                            },
+                            '100%': {
+                                opacity: 1,
+                            },
+                        },
                     }}
                 />
             )}

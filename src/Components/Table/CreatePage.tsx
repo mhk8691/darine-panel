@@ -40,14 +40,38 @@ export function CreatePage(props) {
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h2" fontSize={18}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            fontSize: {
+                                xs: '15px !important',
+                                sm: '18px !important',
+                            },
+                            '@media (max-width: 350px)': {
+                                fontSize: '14px !important',
+                            },
+                            fontWeight: 'bold',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
                         {title}
                     </Typography>
                     {!noEdit && (
                         <Button
                             variant="outlined"
                             onClick={saveChanges}
-                            sx={{width: '100px', py: 1, fontSize: '16px'}}
+                            sx={{
+                                width: '100px',
+                                fontSize: {
+                                    xs: '14px !important',
+                                    sm: '16px !important',
+                                },
+                                py: {
+                                    xs: 0.7,
+                                    sm: 1,
+                                },
+                                whiteSpace: 'nowrap',
+                            }}
                         >
                             تایید
                         </Button>

@@ -38,9 +38,42 @@ export default function FieldsTable({data, removeField, editField, editMode}: Pr
             <Table sx={{minWidth: 650}} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="left">نام فیلد</TableCell>
-                        <TableCell align="left">لیبل</TableCell>
-                        <TableCell align="left">تایپ</TableCell>
+                        <TableCell
+                            align="left"
+                            sx={{
+                                fontSize: {
+                                    xs: '15px',
+                                    md: '17px',
+                                },
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            نام فیلد
+                        </TableCell>
+                        <TableCell
+                            align="left"
+                            sx={{
+                                fontSize: {
+                                    xs: '15px',
+                                    md: '17px',
+                                },
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            لیبل
+                        </TableCell>
+                        <TableCell
+                            align="left"
+                            sx={{
+                                fontSize: {
+                                    xs: '15px',
+                                    md: '17px',
+                                },
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            تایپ
+                        </TableCell>
                         <TableCell align="left"></TableCell>
                         {editMode && <TableCell align="left"></TableCell>}
                     </TableRow>
@@ -51,11 +84,26 @@ export default function FieldsTable({data, removeField, editField, editMode}: Pr
                             key={row.name}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
-                            <TableCell component="th" scope="row">
+                            <TableCell component="th" scope="row" sx={{
+                                 fontSize: {
+                                    xs: '14px',
+                                    md: '16px',
+                                },
+                            }}>
                                 {row.name}
                             </TableCell>
-                            <TableCell align="left">{row.label}</TableCell>
-                            <TableCell align="left">
+                            <TableCell align="left" sx={{
+                                 fontSize: {
+                                    xs: '14px',
+                                    md: '16px',
+                                },
+                            }}>{row.label}</TableCell>
+                            <TableCell align="left" sx={{
+                                 fontSize: {
+                                    xs: '14px',
+                                    md: '16px',
+                                },
+                            }}>
                                 {pershianType.find((item) => item.key === row.type)?.value}
                             </TableCell>
                             <TableCell align={editMode ? 'right' : 'left'}>

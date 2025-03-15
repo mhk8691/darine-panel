@@ -19,18 +19,18 @@ export function EditPage(props) {
                 }
                 return acc
             }, {})
-             if (Object.keys(updatedFields).length === 0) {
-                 dispatch(setUtil({open: true, message: 'تغییری اعمال نشده است', severity: 'error'}))
-                 dispatch(setUtil({loading: false}))
-                 return
-             }
-              Object.entries(updatedFields).forEach(([key, value]) => {
-                  if (value instanceof File) {
-                      formData.append(key, value)
-                  } else {
-                      formData.append(key, String(value))
-                  }
-              })
+            if (Object.keys(updatedFields).length === 0) {
+                dispatch(setUtil({open: true, message: 'تغییری اعمال نشده است', severity: 'error'}))
+                dispatch(setUtil({loading: false}))
+                return
+            }
+            Object.entries(updatedFields).forEach(([key, value]) => {
+                if (value instanceof File) {
+                    formData.append(key, value)
+                } else {
+                    formData.append(key, String(value))
+                }
+            })
             const res = await DataProvider.patch(`${resource}/${params.id || formDetails.id}/`, {
                 data: formData,
             })
@@ -49,27 +49,50 @@ export function EditPage(props) {
     }
     return (
         <Box p={2}>
-            <Stack mb={2}>
+            <Stack mb={4}>
                 <Stack
-                    flexDirection="row"
+                    direction="row"
                     justifyContent="space-between"
                     alignItems="center"
                     width="100%"
                 >
-                    <Typography variant="h5" sx={{fontSize: '18px !important', fontWeight: 'bold'}}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: {
+                                xs: '15px !important',
+                                sm: '18px !important',
+                            },
+                            '@media (max-width: 350px)': {
+                                fontSize: '14px !important',
+                            },
+                            fontWeight: 'bold',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
                         {title}
                     </Typography>
-                    {!noEdit && (
-                        <Stack direction={'row'} marginTop={'16px'} justifyContent="flex-end">
+                    <Stack>
+                        {!noEdit && (
                             <Button
                                 variant="outlined"
                                 onClick={saveChanges}
-                                sx={{fontSize: '16px', py: 1}}
+                                sx={{
+                                    fontSize: {
+                                        xs: '14px !important',
+                                        sm: '16px !important',
+                                    },
+                                    py: {
+                                        xs: 0.7,
+                                        sm: 1,
+                                    },
+                                    whiteSpace: 'nowrap',
+                                }}
                             >
                                 ذخیره تغییرات
                             </Button>
-                        </Stack>
-                    )}
+                        )}
+                    </Stack>
                 </Stack>
             </Stack>
             {props.children}

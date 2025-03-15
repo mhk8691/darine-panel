@@ -7,6 +7,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CableIcon from '@mui/icons-material/Cable'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -39,7 +40,7 @@ export const drawerItems = [
         role: 'admin',
         link: 'products',
         icon: (
-            <LocalMallIcon
+            <ShoppingBasketIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

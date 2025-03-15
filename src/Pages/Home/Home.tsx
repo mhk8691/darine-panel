@@ -31,6 +31,10 @@ import Profile from '../Profile/Profile'
 import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
 import {MethodsList} from '../ConnectionMethod/List/MethodsList'
 import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
+import { CommentCreate } from '../Comments/Create/CommentCreate'
+import { CommentsList } from '../Comments/List/CommentsList'
+import { CommentEdit } from '../Comments/Edit/CommentEdit'
+import { CommentDetail } from '../Comments/Detail/CommentDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -129,6 +133,14 @@ export function Home(props) {
                         />
                         <Route path="connection-methods" element={<MethodsList />} />
                         <Route path="connection-methods/:id" element={<MethodEdit />} />
+                        {/* comment section */}
+                        <Route
+                            path="comments/create"
+                            element={<CommentCreate data={data} setData={setData} />}
+                        />
+                        <Route path="comments" element={<CommentsList />} />
+                        <Route path="comments/:id" element={<CommentEdit />} />
+                        <Route path="comments/detail/:id" element={<CommentDetail />} />
                     </Routes>
                 </Box>
             </Box>

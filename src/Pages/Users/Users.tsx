@@ -1,8 +1,6 @@
-import {Box, Button, Stack} from '@mui/material'
+import {Stack} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
-import {useState} from 'react'
-import ImageUploader from '../../Components/Input/ImageUploader'
 import ProfileUploader from './ProfileUploader'
 export type UsersType = {
     id: number

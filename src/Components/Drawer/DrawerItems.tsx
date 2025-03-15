@@ -1,13 +1,13 @@
-import CategoryIcon from '@mui/icons-material/Category'
-import GamepadIcon from '@mui/icons-material/Gamepad'
-import GroupIcon from '@mui/icons-material/Group'
-import LocalMallIcon from '@mui/icons-material/LocalMall'
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CableIcon from '@mui/icons-material/Cable'
+import CategoryIcon from '@mui/icons-material/Category'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import GamepadIcon from '@mui/icons-material/Gamepad'
+import GroupIcon from '@mui/icons-material/Group'
+import InsertCommentIcon from '@mui/icons-material/InsertComment'
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -87,13 +87,25 @@ export const drawerItems = [
             />
         ),
     },
-
     {
         title: 'روش های اتصال',
         link: 'connection-methods',
         role: 'admin',
         icon: (
             <CableIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'دیدگاه ها',
+        link: 'comments',
+        role: 'admin',
+        icon: (
+            <InsertCommentIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

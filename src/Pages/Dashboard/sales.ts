@@ -1,6 +1,6 @@
 export const dataset = [
     {
-        sales: 10000000,
+        sales: 1000000000,
         month: 'فروردین',
     },
     {

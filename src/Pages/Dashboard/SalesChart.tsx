@@ -43,7 +43,7 @@ export default function SalesChart() {
                             valueFormatter,
                         },
                     ]}
-                    margin={{left: 100}}
+                    margin={{left: 87}}
                     layout="vertical"
                     colors={[red[700]]}
                     sx={{

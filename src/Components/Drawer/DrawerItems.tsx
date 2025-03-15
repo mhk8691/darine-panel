@@ -86,9 +86,11 @@ export const drawerItems = [
             />
         ),
     },
+
     {
         title: 'روش های اتصال',
         link: 'connection-methods',
+        role: 'admin',
         icon: (
             <CableIcon
                 fontSize="large"
@@ -111,6 +113,7 @@ export const drawerItems = [
             />
         ),
     },
+
     {
         title: 'حساب کاربری',
         link: 'profile',

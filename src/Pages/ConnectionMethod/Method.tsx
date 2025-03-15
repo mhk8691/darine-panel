@@ -121,6 +121,12 @@ export function ConnectionMethod({
                         value={newField.name}
                         onChange={(e) => setNewField({...newField, name: e.target.value})}
                         label={'نام اینپوت'}
+                        disabled={editMode && !newField.name ? true : false}
+                        sx={{
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -132,6 +138,12 @@ export function ConnectionMethod({
                         value={newField.label}
                         onChange={(e) => setNewField({...newField, label: e.target.value})}
                         label={'لیبل'}
+                        disabled={editMode && !newField.label ? true : false}
+                        sx={{
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -144,7 +156,11 @@ export function ConnectionMethod({
                             '& .MuiSelect-select': {
                                 fontSize: '15px !important',
                             },
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
                         }}
+                        disabled={editMode && !newField.type ? true : false}
                     >
                         <InputLabel
                             id="demo-simple-select-label"

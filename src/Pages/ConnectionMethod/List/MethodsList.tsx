@@ -93,7 +93,6 @@ export function MethodsList() {
                 setParams={setSearch}
                 handleSort={getMethods}
                 loading={loading}
-                hasDetail={true}
                 tableBodyCells={methods.data.map((item) => (
                     <>
                         <TableCell>

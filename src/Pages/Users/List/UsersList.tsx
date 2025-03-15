@@ -114,32 +114,80 @@ export function UsersList() {
                 tableBodyCells={users.data.map((item) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.first_name}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.last_name}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.email}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.username}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.phone_number}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
                                 {item.role}
                             </Typography>
                         </TableCell>

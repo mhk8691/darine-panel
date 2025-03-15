@@ -12,37 +12,44 @@ export function Searchbar(props) {
     const handleFilterIn = () => {
         setFilterIn(!filterIn)
     }
-       const handleChange = (event) => {
-           const value = event.target.value
-           setTextfieldData(value)
-           setParams((filter) => {
-               const newFilter = {...filter}
+    const handleChange = (event) => {
+        const value = event.target.value
+        setTextfieldData(value)
+        setParams((filter) => {
+            const newFilter = {...filter}
 
-               if (value === null) {
-                   delete newFilter.search
-               } else {
-                   newFilter.search = value
-               }
+            if (value === null) {
+                delete newFilter.search
+            } else {
+                newFilter.search = value
+            }
 
-               if (!newFilter.ordering) {
-                   delete newFilter.ordering
-               }
+            if (!newFilter.ordering) {
+                delete newFilter.ordering
+            }
 
-               return newFilter
-           })
-       }
+            return newFilter
+        })
+    }
     return (
         <Box width="100%" mt={3}>
             <Stack
                 direction="row"
                 width="100%"
                 border="1px solid #3f3f3f"
-                p="10px"
+                px={{
+                    xs: '5px',
+                    sm: '10px',
+                }}
+                py={'10px'}
                 borderRadius="8px"
                 mb={'16px'}
-                gap={1}
+                gap={{
+                    xs: 0.7,
+                    sm: 1,
+                }}
             >
-                <IconButton >
+                <IconButton>
                     <SearchIcon />
                 </IconButton>
                 <InputBase
@@ -51,23 +58,57 @@ export function Searchbar(props) {
                     onChange={handleChange}
                     placeholder={placeholder}
                     sx={{
-                        fontSize: '14px',
+                        fontSize: {
+                            xs: '12px',
+                            sm: '14px',
+                        },
                         fontWeight: '600',
                     }}
                 />
                 {!noFilters && (
                     <>
-                        <Divider orientation="vertical" flexItem sx={{mx: 1}} />
+                        <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{
+                                mx: {
+                                    xs: 0,
+                                    sm: 1,
+                                },
+                            }}
+                        />
                         <Button
                             startIcon={
                                 filterIn ? (
-                                    <FilterAltIcon style={{marginLeft: '0'}} />
+                                    <FilterAltIcon
+                                        sx={{
+                                            display: {
+                                                xs: 'none',
+                                                sm: 'block',
+                                                mr: '0',
+                                            },
+                                        }}
+                                    />
                                 ) : (
-                                    <FilterAltOutlinedIcon style={{marginLeft: '0'}} />
+                                    <FilterAltOutlinedIcon
+                                        sx={{
+                                            display: {
+                                                xs: 'none',
+                                                sm: 'block',
+                                                mr: 0,
+                                            },
+                                        }}
+                                    />
                                 )
                             }
                             onClick={handleFilterIn}
-                            sx={{fontSize: '16px'}}
+                            sx={{
+                                fontSize: {
+                                    xs: '14px',
+                                    sm: '16px',
+                                },
+                                whiteSpace: 'nowrap',
+                            }}
                         >
                             فیلتر ها
                         </Button>

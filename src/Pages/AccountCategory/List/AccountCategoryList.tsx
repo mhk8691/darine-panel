@@ -94,7 +94,18 @@ export function AccountCategoryList() {
                 tableBodyCells={accountCategory.data.map((item, index) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.name}
                             </Typography>
                         </TableCell>

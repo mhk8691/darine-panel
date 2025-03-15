@@ -1,6 +1,6 @@
 import {Box} from '@mui/system'
 import React, {useState} from 'react'
-import {Stack, TextField} from '@mui/material'
+import {Grid, Stack, TextField} from '@mui/material'
 import {DateFilter} from '../Input/DateFilter'
 import {CustomTextField} from '../Input/CustomTextField'
 
@@ -30,24 +30,30 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
         })
     }
     return (
-        <Stack direction={'row'}>
-            {filtersData.map((item, index) => (
-                <>
-                    {item.type === 'date' ? (
-                        <DateFilter label={item.label} field={item.field} setParams={setParams} />
-                    ) : (
-                        <CustomTextField
-                            value={params?.filter ? params?.filter[item.field] : null}
-                            onChange={(e) => handleChange(e, item)}
-                            label={item.label}
-                            sx={{
-                                flexGrow: 1,
-                            }}
-                        />
-                    )}
-                    {filtersData.length - 1 !== index && <Box width="8px" />}
-                </>
-            ))}
+        <Stack mb={2}>
+            <Grid container spacing={1.5}>
+                {filtersData.map((item, index) => (
+                    <Grid item xs={12} sm={6} md={4} xl={3} key={item.field}>
+                        {item.type === 'date' ? (
+                            <DateFilter
+                                label={item.label}
+                                field={item.field}
+                                setParams={setParams}
+                            />
+                        ) : (
+                            <CustomTextField
+                                value={params?.filter ? params?.filter[item.field] : null}
+                                onChange={(e) => handleChange(e, item)}
+                                label={item.label}
+                                sx={{
+                                    flexGrow: 1,
+                                }}
+                            />
+                        )}
+                        {filtersData.length - 1 !== index && <Box width="8px" />}
+                    </Grid>
+                ))}
+            </Grid>
         </Stack>
     )
 }

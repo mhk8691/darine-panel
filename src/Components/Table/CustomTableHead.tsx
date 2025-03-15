@@ -59,9 +59,10 @@ export function CustomTableHead(props: {
                         color="secondary"
                         sx={{
                             fontSize: {
-                                xs: '12px',
+                                xs: '13px',
                                 sm: '14px',
-                                md: '16px',
+                                lg: '15px',
+                                xl: '17px',
                             },
                         }}
                     >
@@ -74,6 +75,9 @@ export function CustomTableHead(props: {
                                         : 'desc'
                                     : 'asc'
                             }
+                            sx={{
+                                whiteSpace: 'nowrap',
+                            }}
                             onClick={createSortHandler(headCell.name)}
                             color="#434B59"
                         >

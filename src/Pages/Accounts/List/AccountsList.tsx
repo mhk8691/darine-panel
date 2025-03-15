@@ -10,7 +10,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {AccountsType} from '../Accounts'
 import {AccountCreate} from '../Create/AccountCreate'
-import { PaginatedResponse, PaginationType } from '../../../Core/types'
+import {PaginatedResponse, PaginationType} from '../../../Core/types'
 const RECOURCE = 'accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
@@ -67,10 +67,10 @@ export function AccountsList() {
     })
     const getAccounts = async () => {
         setLoading(true)
-       let response = await DataProvider.get<PaginatedResponse<AccountsType[]>>(
-           `${RECOURCE}/list`,
-           search,
-       )
+        let response = await DataProvider.get<PaginatedResponse<AccountsType[]>>(
+            `${RECOURCE}/list`,
+            search,
+        )
 
         if (response) {
             setAccounts({
@@ -120,32 +120,98 @@ export function AccountsList() {
                 tableBodyCells={accounts.data.map((item, index) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.name}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.introduction}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.connectionMethod}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.description}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.category}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.price}
                             </Typography>
                         </TableCell>

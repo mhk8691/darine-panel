@@ -142,22 +142,66 @@ export function OrdersList() {
                 tableBodyCells={orders.data.map((item, index) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                  fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.username}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                  fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.status}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                  fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.products.map((product) => product.name).join(', ')}
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                  fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {formatDate(item.createdAt)}
                             </Typography>
                         </TableCell>
@@ -180,7 +224,18 @@ export function OrdersList() {
                         </TableCell>
                         <TableCell>
                             {item.Payment_method.title && (
-                                <Typography variant="body2" fontSize={'15px'}>
+                                <Typography
+                                    variant="body2"
+                                    fontSize={{
+                                        xs: '13px',
+                                        sm: '14px',
+                                        md: '15px',
+                                        xl: '16px',
+                                    }}
+                                    sx={{
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
                                     {item.Payment_method.title}
                                 </Typography>
                             )}

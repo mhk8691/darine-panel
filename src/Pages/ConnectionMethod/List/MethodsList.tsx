@@ -96,7 +96,18 @@ export function MethodsList() {
                 tableBodyCells={methods.data.map((item) => (
                     <>
                         <TableCell>
-                            <Typography variant="body2" fontSize={'15px'}>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 {item.name}
                             </Typography>
                         </TableCell>
@@ -104,15 +115,48 @@ export function MethodsList() {
                             <Stack direction={'column'} gap={1.5}>
                                 {item.fields.map((field) => (
                                     <Stack direction={'row'} alignItems={'center'} gap={1}>
-                                        <Typography variant="body2" fontSize={'15px'}>
+                                        <Typography
+                                            variant="body2"
+                                            fontSize={{
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            }}
+                                            sx={{
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             نام: {field.name}
                                         </Typography>
                                         |
-                                        <Typography variant="body2" fontSize={'15px'}>
+                                        <Typography
+                                            variant="body2"
+                                            fontSize={{
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            }}
+                                            sx={{
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             لیبل: {field.label}
                                         </Typography>
                                         |
-                                        <Typography variant="body2" fontSize={'15px'}>
+                                        <Typography
+                                            variant="body2"
+                                            fontSize={{
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            }}
+                                            sx={{
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             تایپ: {field.type}
                                         </Typography>
                                     </Stack>

@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import Checkbox from '@mui/material/Checkbox'
 import {CustomTableHead, HeadCellType} from './CustomTableHead'
 import EditIcon from '@mui/icons-material/Edit'
-import {Button, TableFooter} from '@mui/material'
+import {Button, TableFooter, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
 import {CustomToolbar} from './CustomToolbar'
 import {BlankList} from '../Pictures/BlankList'
@@ -53,7 +53,7 @@ export function CustomTable(props: {
     const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
-  
+
     const handleRequestSort = (event, property) => {
         setParams((filter) => {
             let isAsc = true
@@ -106,17 +106,17 @@ export function CustomTable(props: {
         setPage(newPage)
     }
 
-   const handleChangeRowsPerPage = (event) => {
-       let newValue = parseInt(event.target.value, 10)
-       setParams((filter) => {
-           return {
-               ...filter,
-               page_size: newValue,
-           }
-       })
-       setRowsPerPage(newValue)
-       setPage(0)
-   }
+    const handleChangeRowsPerPage = (event) => {
+        let newValue = parseInt(event.target.value, 10)
+        setParams((filter) => {
+            return {
+                ...filter,
+                page_size: newValue,
+            }
+        })
+        setRowsPerPage(newValue)
+        setPage(0)
+    }
     function handleEditClick(event, id: string | number, row) {
         navigate(`${id}`, {state: {row}})
     }
@@ -157,7 +157,7 @@ export function CustomTable(props: {
                     deleteName={deleteName}
                 />
             )}
-            <TableContainer>
+            <TableContainer sx={{overflowX: 'auto', maxWidth: '100%'}}>
                 <Table>
                     <CustomTableHead
                         headCells={headCells}

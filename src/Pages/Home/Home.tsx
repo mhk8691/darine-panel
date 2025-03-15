@@ -28,6 +28,9 @@ import {OrdersList} from '../Orders/List/OrdersList'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrderDetail} from '../Orders/Detail/OrderDetail'
 import Profile from '../Profile/Profile'
+import { MethodCreate } from '../ConnectionMethod/Create/MethodCreate'
+import { MethodsList } from '../ConnectionMethod/List/MethodsList'
+import { MethodEdit } from '../ConnectionMethod/Edit/MethodEdit'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -112,6 +115,13 @@ export function Home(props) {
                         <Route path="orders" element={<OrdersList />} />
                         <Route path="orders/:id" element={<OrderEdit />} />
                         <Route path="orders/detail/:id" element={<OrderDetail />} />
+                        {/* connection methods  section */}
+                        <Route
+                            path="connection-methods/create"
+                            element={<MethodCreate data={data} setData={setData} />}
+                        />
+                        <Route path="connection-methods" element={<MethodsList />} />
+                        <Route path="connection-methods/:id" element={<MethodEdit />} />
                     </Routes>
                 </Box>
             </Box>

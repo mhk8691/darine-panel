@@ -6,20 +6,12 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import {ReactNode} from 'react'
-import { useAppSelector } from '../../redux/store'
-
-interface DarawerItemsType {
-    title: string
-    link: string
-    icon: ReactNode
-    role: string
-}
-export const drawerItems:DarawerItemsType[] = [
+import CableIcon from '@mui/icons-material/Cable'
+export const drawerItems = [
     {
         title: 'پیشخوان',
         link: '',
-        role:'all',
+        role: 'all',
         icon: (
             <DashboardIcon
                 fontSize="large"
@@ -32,7 +24,7 @@ export const drawerItems:DarawerItemsType[] = [
     {
         title: 'مدیریت کاربران',
         link: 'users',
-        role:'admin',
+        role: 'admin',
         icon: (
             <GroupIcon
                 fontSize="large"
@@ -44,7 +36,7 @@ export const drawerItems:DarawerItemsType[] = [
     },
     {
         title: 'مدیریت محصولات',
-        role:'admin',
+        role: 'admin',
         link: 'products',
         icon: (
             <LocalMallIcon
@@ -57,7 +49,7 @@ export const drawerItems:DarawerItemsType[] = [
     },
     {
         title: 'دسته بندی محصولات',
-        role:'admin',
+        role: 'admin',
         link: 'product-category',
         icon: (
             <CategoryIcon
@@ -70,7 +62,7 @@ export const drawerItems:DarawerItemsType[] = [
     },
     {
         title: 'اکانت های بازی',
-        role:'admin',
+        role: 'admin',
         link: 'accounts',
         icon: (
             <SportsEsportsIcon
@@ -83,7 +75,7 @@ export const drawerItems:DarawerItemsType[] = [
     },
     {
         title: 'دسته بندی اکانت ها',
-        role:'admin',
+        role: 'admin',
         link: 'account-category',
         icon: (
             <GamepadIcon
@@ -95,9 +87,21 @@ export const drawerItems:DarawerItemsType[] = [
         ),
     },
     {
+        title: 'روش های اتصال',
+        link: 'connection-methods',
+        icon: (
+            <CableIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
         title: 'سفارشات',
         link: 'orders',
-        role:'admin',
+        role: 'admin',
         icon: (
             <ShoppingBagIcon
                 fontSize="large"
@@ -110,7 +114,7 @@ export const drawerItems:DarawerItemsType[] = [
     {
         title: 'حساب کاربری',
         link: 'profile',
-        role:'all',
+        role: 'all',
         icon: (
             <AccountCircleIcon
                 fontSize="large"

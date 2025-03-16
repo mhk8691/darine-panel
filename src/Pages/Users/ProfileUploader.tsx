@@ -3,6 +3,7 @@ import {Box} from '@mui/material'
 import {ChangeEvent, useState} from 'react'
 import {UsersType} from './Users'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
+import userImage from '../../Images/user.png'
 interface Props {
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
@@ -40,7 +41,11 @@ export default function ProfileUploader({user, setUser}: Props) {
         >
             <Box
                 component={'img'}
-                src={typeof user.image === 'string' ? user.image : imagePreview}
+                src={ typeof user.image === 'string'
+                        ? user.image
+                        : imagePreview
+                        ? imagePreview
+                        : userImage}
                 sx={{
                     borderRadius: '50%',
                     width: '100%',

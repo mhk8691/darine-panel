@@ -123,42 +123,43 @@ export function Accounts({
                         rows={7}
                     />
                 </Grid>
-                <Stack
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '100%',
-                        mt: 2.5,
-                    }}
-                >
-                    <Button
-                        component="label"
-                        htmlFor="video"
-                        variant="outlined"
-                        color="primary"
-                        size="large"
+                <Grid item xs={12}>
+                    <Stack
                         sx={{
-                            py: 1.2,
-                            width: {
-                                xs:'100%',
-                                sm:'60%',
-                                md:'50%',
-                            },
-                            mt: 1,
-                            borderRadius: '4px !important',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
                         }}
                     >
-                        {account.video ? 'ویرایش ویدئو' : 'انتخاب ویدئو'}
-                    </Button>
-                    <input
-                        type="file"
-                        accept="video/mp4, video/webm, video/ogg, video/x-matroska"
-                        id="video"
-                        onChange={handleVideo}
-                        style={{display: 'none', borderRadius: 2}}
-                    />
-                </Stack>
+                        <Button
+                            component="label"
+                            htmlFor="video"
+                            variant="outlined"
+                            color="primary"
+                            size="large"
+                            sx={{
+                                py: 1.2,
+                                width: {
+                                    xs: '100%',
+                                    sm: '60%',
+                                    md: '50%',
+                                },
+                                mt: 1,
+                                borderRadius: '4px !important',
+                            }}
+                        >
+                            {account.video ? 'ویرایش ویدئو' : 'انتخاب ویدئو'}
+                        </Button>
+                        <input
+                            type="file"
+                            accept="video/mp4, video/webm, video/ogg, video/x-matroska"
+                            id="video"
+                            onChange={handleVideo}
+                            style={{display: 'none', borderRadius: 2}}
+                        />
+                    </Stack>
+                </Grid>
                 <Grid item xs={12}>
                     {account.video && (
                         <Box

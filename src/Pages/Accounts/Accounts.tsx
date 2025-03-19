@@ -3,12 +3,9 @@ import {ChangeEvent, useRef, useState} from 'react'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {BaseModal} from '../../Components/Modal/BaseModal'
-import PropertiesTable from './PropertiesTable'
-export type PropertyType = {
-    id: number
-    name: string
-    value: string
-}
+import PropertiesTable from '../../Components/Table/PropertiesTable'
+import { PropertyType } from '../../Core/types'
+
 export type AccountsType = {
     id: number
     name: string

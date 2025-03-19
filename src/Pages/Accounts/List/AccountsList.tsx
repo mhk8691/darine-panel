@@ -1,4 +1,4 @@
-import {Box, Typography} from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -18,6 +18,7 @@ const tableHeadCells = [
     createTableHeadCells('روش اتصال', 'connection_method'),
     createTableHeadCells('توضیحات', 'description'),
     createTableHeadCells('دسته بندی', 'category'),
+    createTableHeadCells('ویژگی ها', 'properties'),
     createTableHeadCells('قیمت', 'price'),
     createTableHeadCells('تصویر', 'image'),
     createTableHeadCells('ویدئو', 'video'),
@@ -199,6 +200,43 @@ export function AccountsList() {
                             >
                                 {item.category}
                             </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Stack direction={'column'} gap={1.5}>
+                                {item.properties.map((property) => (
+                                    <Stack direction={'row'} alignItems={'center'} gap={1}>
+                                        <Typography
+                                            variant="body2"
+                                            fontSize={{
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            }}
+                                            sx={{
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            نام: {property.name}
+                                        </Typography>
+                                        |
+                                        <Typography
+                                            variant="body2"
+                                            fontSize={{
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            }}
+                                            sx={{
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            مقدار: {property.value}
+                                        </Typography>
+                                    </Stack>
+                                ))}
+                            </Stack>
                         </TableCell>
                         <TableCell>
                             <Typography

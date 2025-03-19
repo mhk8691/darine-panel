@@ -9,7 +9,8 @@ import Paper from '@mui/material/Paper'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import {IconButton} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import {PropertyType} from './Accounts'
+import { PropertyType } from '../../Core/types'
+
 function createData(id: number, name: string, label: string, type: string) {
     return {name, label, type, id}
 }

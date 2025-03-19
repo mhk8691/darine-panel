@@ -17,6 +17,7 @@ export function ProductDetail() {
         description: 'ali@gmail.com',
         price: 300000,
         category: 'clash of clans',
+        properties: [{id: 2, name: 'زمان شارژ', value: '۱۰ دقیقه'}],
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
     })
     const getProduct = async () => {
@@ -130,6 +131,20 @@ export function ProductDetail() {
             >
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     قیمت:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {product?.price}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    ویژگی ها:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                     {product?.price}

@@ -127,6 +127,31 @@ export function AccountDetail() {
                     {account?.description}
                 </Typography>
             </Stack>
+            <Stack direction={'column'} spacing={3}>
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    ویژگی ها:
+                </Typography>
+                <Stack direction={'column'} spacing={1.5}>
+                    {account?.properties.map((item, index) => (
+                        <Grid container spacing={2} sx={{alignItems: 'center'}} key={index}>
+                            <Grid xs={12} sm={1.8} md={1.3} lg={1}>
+                                <Stack>
+                                    <Typography variant="body2" fontSize={16}>
+                                        {item.name}
+                                    </Typography>
+                                </Stack>
+                            </Grid>
+                            <Grid xs={12} sm={10.2} md={10.7} lg={11}>
+                                <Stack bgcolor={'background.paper'} borderRadius={2} p={1.2}>
+                                    <Typography variant="body2" fontSize={15}>
+                                        {item.value}
+                                    </Typography>
+                                </Stack>
+                            </Grid>
+                        </Grid>
+                    ))}
+                </Stack>
+            </Stack>
             <Stack
                 direction={{xs: 'column', sm: 'row'}}
                 spacing={{

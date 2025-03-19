@@ -45,7 +45,10 @@ export function ProductsList() {
                 description: 'تست',
                 price: 300000,
                 category: 'clash of clans',
-                properties: [{id: 1, name: 'زمان شارژ', value: '۱۰ دقیقه'}],
+                properties: [
+                    {id: 1, name: 'زمان شارژ', value: '۱۰ دقیقه'},
+                    {id: 2, name: 'زمان شارژ', value: '۱۰ دقیقه'},
+                ],
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
             {

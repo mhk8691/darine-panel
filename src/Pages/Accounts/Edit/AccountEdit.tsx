@@ -9,7 +9,7 @@ export function AccountEdit() {
     const [account, setAccount] = useState(state.row)
     return (
         <EditPage resource={RESOURCE} title="ویرایش اکانت" formDetails={account} initialData={state.row}>
-            <Accounts account={account} setAccount={setAccount} />
+            <Accounts account={account} setAccount={setAccount}  />
         </EditPage>
     )
 }

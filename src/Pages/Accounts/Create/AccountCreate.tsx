@@ -12,7 +12,7 @@ export function AccountCreate({
    
     return (
         <CreatePage title={'افزودن اکانت بازی'} resource={'accounts'} formDetails={data}>
-            <Accounts account={data} setAccount={setData} />
+            <Accounts account={data} setAccount={setData}  />
         </CreatePage>
     )
 }

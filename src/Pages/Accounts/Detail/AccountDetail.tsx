@@ -17,6 +17,7 @@ export function AccountDetail() {
         description: 'ali@gmail.com',
         price: 300000,
         category: 'clash of clans',
+        properties: [{id: 1, name: 'سطح اکانت', value: '300'}],
         images: [
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',

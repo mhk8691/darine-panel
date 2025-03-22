@@ -2,9 +2,9 @@ import React from 'react'
 import {alpha, styled} from '@mui/material/styles'
 import {TextField, TextFieldProps, Theme} from '@mui/material'
 
-type CustomTextFieldProps = {setData?: any; change?: any} & TextFieldProps
+type CustomTextFieldProps = {setData?: any; change?: any; register?:any} & TextFieldProps
 export function CustomTextField(props: CustomTextFieldProps) {
-    const {setData, change} = props
+    const {setData, change,register} = props
     async function changeField(event) {
         if (!change && setData) {
             setData((prev) => {
@@ -20,6 +20,7 @@ export function CustomTextField(props: CustomTextFieldProps) {
             InputProps={{disableUnderline: true}}
             variant="outlined"
             fullWidth
+            {...register}
             {...props}
         />
     )

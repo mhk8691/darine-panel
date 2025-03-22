@@ -25,7 +25,7 @@ export const drawerItems = [
     {
         title: 'مدیریت کاربران',
         link: 'users',
-        role: 'admin',
+        role: 'all',
         icon: (
             <GroupIcon
                 fontSize="large"
@@ -37,7 +37,7 @@ export const drawerItems = [
     },
     {
         title: 'مدیریت محصولات',
-        role: 'admin',
+        role: 'all',
         link: 'products',
         icon: (
             <ShoppingBasketIcon
@@ -50,7 +50,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی',
-        role: 'admin',
+        role: 'all',
         link: 'category',
         icon: (
             <CategoryIcon
@@ -63,7 +63,7 @@ export const drawerItems = [
     },
     {
         title: 'اکانت های بازی',
-        role: 'admin',
+        role: 'all',
         link: 'accounts',
         icon: (
             <SportsEsportsIcon
@@ -76,7 +76,7 @@ export const drawerItems = [
     },
     {
         title: 'دسته بندی اکانت ها',
-        role: 'admin',
+        role: 'all',
         link: 'account-category',
         icon: (
             <GamepadIcon
@@ -90,7 +90,7 @@ export const drawerItems = [
     {
         title: 'روش های اتصال',
         link: 'connection-methods',
-        role: 'admin',
+        role: 'all',
         icon: (
             <CableIcon
                 fontSize="large"
@@ -103,7 +103,7 @@ export const drawerItems = [
     {
         title: 'دیدگاه ها',
         link: 'comments',
-        role: 'admin',
+        role: 'all',
         icon: (
             <InsertCommentIcon
                 fontSize="large"
@@ -116,7 +116,7 @@ export const drawerItems = [
     {
         title: 'سفارشات',
         link: 'orders',
-        role: 'admin',
+        role: 'all',
         icon: (
             <ShoppingBagIcon
                 fontSize="large"

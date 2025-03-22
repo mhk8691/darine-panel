@@ -40,7 +40,7 @@ export function Home(props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
-    const isLogin = useAppSelector((state) => state.user.login)
+    const isLogin = useAppSelector((state) => state.user.token)
 
     useEffect(() => {
         if (!isLogin) {
@@ -97,12 +97,12 @@ export function Home(props) {
                         <Route path="products/detail/:id" element={<ProductDetail />} />
                         {/* categories section */}
                         <Route
-                            path="product-category/create"
+                            path="category/create"
                             element={<CategoryCreate data={data} setData={setData} />}
                         />
-                        <Route path="product-category" element={<CategoriesList />} />
-                        <Route path="product-category/:id" element={<CategoryEdit />} />
-                        <Route path="product-category/detail/:id" element={<CategoryDetail />} />
+                        <Route path="category" element={<CategoriesList />} />
+                        <Route path="category/:id" element={<CategoryEdit />} />
+                        <Route path="category/detail/:id" element={<CategoryDetail />} />
                         {/* account category section */}
                         <Route
                             path="account-category/create"

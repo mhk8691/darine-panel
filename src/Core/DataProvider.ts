@@ -10,7 +10,7 @@ async function HttpRequest<DataType>(url: string, options) {
     }
     if (localStorage.getItem('user')) {
         const userObj = JSON.parse(localStorage.getItem('user') || '')
-        options.headers.Authorization = 'Bearer ' + userObj.token
+        options.headers.Authorization = 'Token ' + userObj.token
     }
     const data = await query<DataType>({url: url, ...options})
     return data

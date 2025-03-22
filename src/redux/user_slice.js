@@ -1,16 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    id: undefined,
-    login: false,
-    token: undefined,
-    username: '',
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    email: '',
-    profile_image: '',
-    role: '',
+    token: '',
 }
 function getInitialState() {
     try {

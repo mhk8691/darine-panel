@@ -4,56 +4,31 @@ import {useDispatch} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {setUtil} from '../../../redux/UtilSlice'
-import {setUser} from '../../../redux/user_slice'
+
 import {useState} from 'react'
+import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
+import SubmitCode from '../SubmitCode'
 export type LoginData = {
     username: string
     password: string
 }
-export type LoginResponse = {
-    refresh: string
-    access: string
-    id: number
-    username: string
-    email: string
-    first_name: string
-    last_name: string
-    phone_number: string | null
-    profile_image: string | null
-    role: string
-}
+
 export function Login(props) {
+    const [isSubmit, setIsSubmit] = useState(false)
+    const {register, handleSubmit,getValues} = useForm()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles()
 
-    const [data, setData] = useState<LoginData>({
-        username: '',
-        password: '',
-    })
-    async function handleSubmit(e) {
-        e.preventDefault()
+    async function onSubmit(data) {
+        console.log(data)
         dispatch(setUtil({loading: true}))
         try {
-            let response = await DataProvider.post<LoginResponse>('auth/login/', {
+            await DataProvider.post('auth/login/otp-request/', {
                 data,
             })
-            dispatch(
-                setUser({
-                    id: response.data.id,
-                    login: true,
-                    token: response.data.access,
-                    username: response.data.username,
-                    first_name: response.data.first_name,
-                    last_name: response.data.last_name,
-                    phone_number: response.data.phone_number,
-                    email: response.data.email,
-                    profile_image: response.data.profile_image,
-                    role: response.data.role,
-                }),
-            )
-            navigate('/dashboard')
+            setIsSubmit(true)
         } catch (error: any) {
             dispatch(
                 setUtil({
@@ -68,7 +43,7 @@ export function Login(props) {
     }
 
     return (
-        <Stack  justifyContent={'center'} alignItems="center" height="100%">
+        <Stack justifyContent={'center'} alignItems="center" height="100%">
             <Box alignItems="center" justifyContent="center" marginBottom="20px">
                 <Typography variant="subtitle1" fontWeight={700} marginRight="10px">
                     پنل مدیریت
@@ -94,39 +69,41 @@ export function Login(props) {
                     alignItems={'center'}
                     spacing={2.5}
                     component="form"
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
-                    <Typography variant="body1">ورود به حساب کاربری</Typography>
-                    <Box width={'100%'}>
-                        <CustomTextField
-                            name="username"
-                            setData={setData}
-                            label={'نام کاربری'}
-                            defaultValue={data.username}
-                        />
-                    </Box>
-                    <Box width={'100%'}>
-                        <CustomTextField
-                            name="password"
-                            setData={setData}
-                            label={'رمز عبور'}
-                            defaultValue={data.password}
-                        />
-                    </Box>
-                    <Box textAlign="center" width={'100%'}>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            sx={{fontSize: '20px', width: '100%'}}
-                            type="submit"
-                        >
-                            ورود
-                        </Button>
-                    </Box>
+                    <Typography variant="body1" sx={{marginBottom: '1rem !important'}}>
+                        ورود به حساب کاربری
+                    </Typography>
+                    {isSubmit ? (
+                        <SubmitCode getValues={getValues} />
+                    ) : (
+                        <>
+                            <Box width={'100%'}>
+                                <CustomTextField
+                                    label={'شماره تلفن'}
+                                    register={{...register('phone_number')}}
+                                    name="phone_number"
+                                />
+                            </Box>
+
+                            <Box textAlign="center" width={'100%'} mt={3}>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    sx={{fontSize: '20px', width: '100%'}}
+                                    type="submit"
+                                >
+                                    ورود
+                                </Button>
+                            </Box>
+                        </>
+                    )}
+
                     <Typography
                         variant="body2"
                         sx={{
                             fontSize: '14px',
+                            marginTop: '1.5rem !important',
                         }}
                     >
                         آیا حساب کاربری ندارید؟{' '}

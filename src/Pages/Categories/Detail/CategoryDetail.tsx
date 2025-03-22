@@ -67,7 +67,7 @@ export function CategoryDetail() {
                     والد دسته بندی:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {category?.parent}
+                    {category?.parent || '--'}
                 </Typography>
             </Stack>
             <Stack

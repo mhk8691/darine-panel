@@ -8,12 +8,17 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
-import {CategoryCreate} from '../Create/CategoryCreate'
 import {CategoriesType} from '../Categories'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
+import {CategoryCreate} from '../Create/CategoryCreate'
 
 const RECOURCE = 'category'
-const tableHeadCells = [createTableHeadCells('نام', 'name'), createTableHeadCells('تصویر', 'image')]
+const tableHeadCells = [
+    createTableHeadCells('نام', 'name'),
+    createTableHeadCells('دسته بندی والد', 'parent'),
+    createTableHeadCells('تعداد محصولات', 'products_count'),
+    createTableHeadCells('تعداد زیر دسته بندی', 'children_count'),
+    createTableHeadCells('تصویر', 'thumbnail'),
+]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
     label: cell.label,
@@ -24,24 +29,17 @@ export function CategoriesList() {
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState<{
         data: CategoriesType[]
-        pagination: PaginationType
-        count: number
     }>({
         data: [],
-        pagination: {} as PaginationType,
-        count: 0,
     })
     const getCategories = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<CategoriesType[]>>(
-            `${RECOURCE}/`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            results: CategoriesType[]
+        }>(`${RECOURCE}/`, search)
         if (response) {
             setCategories({
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
@@ -70,7 +68,7 @@ export function CategoriesList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={categories.data}
-                count={categories.count}
+                count={0}
                 deleteName="name of deleting"
                 getList={getCategories}
                 params={search}
@@ -109,7 +107,7 @@ export function CategoriesList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.parent}
+                                {item.parent || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>

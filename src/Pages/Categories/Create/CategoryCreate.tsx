@@ -10,7 +10,7 @@ export function CategoryCreate({
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
     return (
-        <CreatePage title={'افزودن دسته بندی'} resource={'category'} formDetails={data}>
+        <CreatePage title={'افزودن دسته بندی'} resource={'category/'} redirect={'category'} formDetails={data}>
             <Categories category={data} setCategory={setData} />
         </CreatePage>
     )

@@ -3,10 +3,7 @@ import {useEffect, useState} from 'react'
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
-import {AccountCategoryCreate} from '../AccountCategory/Create/AccountCategoryCreate'
-import {AccountCategoryDetail} from '../AccountCategory/Detail/AccountCategoryDetail'
-import {AccountCategoryEdit} from '../AccountCategory/Edit/AccountCategoryEdit'
-import {AccountCategoryList} from '../AccountCategory/List/AccountCategoryList'
+
 import {CategoryCreate} from '../Categories/Create/CategoryCreate'
 import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
@@ -31,10 +28,10 @@ import Profile from '../Profile/Profile'
 import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
 import {MethodsList} from '../ConnectionMethod/List/MethodsList'
 import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
-import { CommentCreate } from '../Comments/Create/CommentCreate'
-import { CommentsList } from '../Comments/List/CommentsList'
-import { CommentEdit } from '../Comments/Edit/CommentEdit'
-import { CommentDetail } from '../Comments/Detail/CommentDetail'
+import {CommentCreate} from '../Comments/Create/CommentCreate'
+import {CommentsList} from '../Comments/List/CommentsList'
+import {CommentEdit} from '../Comments/Edit/CommentEdit'
+import {CommentDetail} from '../Comments/Detail/CommentDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -103,17 +100,7 @@ export function Home(props) {
                         <Route path="category" element={<CategoriesList />} />
                         <Route path="category/:id" element={<CategoryEdit />} />
                         <Route path="category/detail/:id" element={<CategoryDetail />} />
-                        {/* account category section */}
-                        <Route
-                            path="account-category/create"
-                            element={<AccountCategoryCreate data={data} setData={setData} />}
-                        />
-                        <Route path="account-category" element={<AccountCategoryList />} />
-                        <Route path="account-category/:id" element={<AccountCategoryEdit />} />
-                        <Route
-                            path="account-category/detail/:id"
-                            element={<AccountCategoryDetail />}
-                        />
+
                         {/* game account section */}
                         <Route
                             path="accounts/create"

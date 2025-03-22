@@ -1,13 +1,14 @@
 import {Button, Stack, Typography} from '@mui/material'
 import {Box} from '@mui/system'
 import {useDispatch} from 'react-redux'
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function EditPage(props) {
     const {title, resource, noEdit, formDetails, initialData} = props
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const params = useParams()
     async function saveChanges() {
         try {
@@ -41,6 +42,7 @@ export function EditPage(props) {
                     severity: 'success',
                 }),
             )
+            navigate(`/${resource}`)
         } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }

@@ -9,6 +9,7 @@ interface Props {
     data: any
     setData: Dispatch<SetStateAction<any>>
     setImagePreview: Dispatch<SetStateAction<string>>
+    imageName: string
 }
 export default function ImageUploader({
     open,
@@ -17,6 +18,7 @@ export default function ImageUploader({
     data,
     setData,
     setImagePreview,
+    imageName,
 }: Props) {
     const [imageFile, setImageFile] = useState<File | null>(null)
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,10 +48,10 @@ export default function ImageUploader({
                 src={
                     imagePreview
                         ? imagePreview
-                        : data.image
-                        ? typeof data.image === 'string'
-                            ? data.image
-                            : URL.createObjectURL(data.image)
+                        : data.imageName
+                        ? typeof data.imageName === 'string'
+                            ? data.imageName
+                            : URL.createObjectURL(data.imageName)
                         : ''
                 }
                 sx={{
@@ -58,7 +60,7 @@ export default function ImageUploader({
                     maxHeight: '60vh',
                     mt: 2,
                     borderRadius: 2,
-                    display: `${imagePreview || data.image ? 'block' : 'none'}`,
+                    display: `${imagePreview || data.imageName ? 'block' : 'none'}`,
                 }}
             />
 

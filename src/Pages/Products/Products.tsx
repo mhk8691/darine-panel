@@ -196,6 +196,7 @@ export function Products({
                 )}
             </Grid>
             <ImageUploader
+                imageName="picture"
                 key={'products'}
                 data={product}
                 open={open}

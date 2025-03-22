@@ -1,8 +1,10 @@
 import {Button, Stack} from '@mui/material'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import ImageUploader from '../../Components/Input/ImageUploader'
 import {GridProducer} from '../../Components/Table/GridProducer'
+import {DataProvider} from '../../Core/DataProvider'
+import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 
 export type CategoriesType = {
     id: number
@@ -12,7 +14,7 @@ export type CategoriesType = {
     children_count: string
     products_count: string
 }
-const RESOURCE = 'poruduct-category'
+const RESOURCE = 'category'
 
 export function Categories({
     category,
@@ -23,7 +25,24 @@ export function Categories({
 }) {
     const [open, setOpen] = useState(false)
     const [imagePreview, setImagePreview] = useState('')
-
+    const [parentCategory, setParentCategory] = useState<{
+        results: CategoriesType[]
+    }>({results: []})
+    async function getCategory() {
+        try {
+            const response = await DataProvider.get<{
+                results: CategoriesType[]
+            }>(`${RESOURCE}/`)
+            setParentCategory({
+                results: response.data.results,
+            })
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getCategory()
+    }, [])
     return (
         <Stack>
             <GridProducer
@@ -36,12 +55,15 @@ export function Categories({
                         label={'نام'}
                         defaultValue={category.name}
                     />,
-                    <CustomTextField
-                        name="name"
+                    <CustomAutocomplete
+                        options={parentCategory.results.map((item) => ({
+                            label: item.name,
+                            id: item.id,
+                        }))}
+                        name="parent"
                         setData={setCategory}
-                        resource={RESOURCE}
-                        label={'والد دسته بندی'}
-                        defaultValue={category.name}
+                        defaultValue={category.parent}
+                        label={'دسته بندی والد'}
                     />,
                     <Button
                         variant="outlined"
@@ -56,6 +78,7 @@ export function Categories({
                 ]}
             />
             <ImageUploader
+                imageName="thumbnail"
                 data={category}
                 open={open}
                 setOpen={setOpen}

@@ -9,6 +9,8 @@ import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import SubmitCode from '../SubmitCode'
+import axios from 'axios'
+import APP_URL from '../../../Core/APP_URL'
 export type LoginData = {
     username: string
     password: string
@@ -25,9 +27,7 @@ export function Login(props) {
         console.log(data)
         dispatch(setUtil({loading: true}))
         try {
-            await DataProvider.post('auth/login/otp-request/', {
-                data,
-            })
+            await axios.post(`http://localhost:8000/api/auth/login/otp-request/`, data)
             setIsSubmit(true)
         } catch (error: any) {
             dispatch(

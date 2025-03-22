@@ -14,3 +14,15 @@ export type PropertyType = {
     name: string
     value: string
 }
+export type UserType = {
+        id: number
+        phone_number: string
+        first_name: string
+        last_name: string
+        profile_picture: string | null
+        is_active: boolean
+        is_staff: boolean
+        is_superuser: boolean
+        role: string
+        date_joined: string
+}

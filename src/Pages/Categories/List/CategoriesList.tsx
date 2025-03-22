@@ -34,7 +34,7 @@ export function CategoriesList() {
     const getCategories = async () => {
         setLoading(true)
         let response = await DataProvider.get<PaginatedResponse<CategoriesType[]>>(
-            `${RECOURCE}/list`,
+            `${RECOURCE}/`,
             search,
         )
         if (response) {

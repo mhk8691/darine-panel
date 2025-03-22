@@ -7,6 +7,8 @@ import {setUtil} from '../../redux/UtilSlice'
 import {setUser} from '../../redux/user_slice'
 import {Box, Button} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
+import APP_URL from '../../Core/APP_URL'
 type AuthResponse = {
     data: {
         token: string
@@ -20,17 +22,19 @@ export default function SubmitCode({getValues}: Props) {
     const dispatch = useDispatch()
     const onSubmit = async (data) => {
         dispatch(setUtil({loading: true}))
+        const newData = {
+            phone_number: getValues('phone_number'),
+            otp: data.otp,
+        }
         try {
-            const response = await DataProvider.post<any>('auth/login/otp-verify/', {
-                data: {
-                    phone_number: getValues('phone_number'),
-                    otp: data.otp,
-                },
-            })
-            console.log(response?.data.token)
+            const response = await axios.post<AuthResponse>(
+                `http://localhost:8000/api/auth/login/otp-verify/`,
+                newData,
+            )
+            console.log(response?.data.data.token)
             dispatch(
                 setUser({
-                    token: response.data.token,
+                    token: response.data.data.token,
                 }),
             )
             navigate('/dashboard')

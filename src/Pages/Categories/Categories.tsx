@@ -7,7 +7,10 @@ import {GridProducer} from '../../Components/Table/GridProducer'
 export type CategoriesType = {
     id: number
     name: string
-    image: string | File
+    thumbnail: string | File
+    parent: number
+    children_count: string
+    products_count: string
 }
 const RESOURCE = 'poruduct-category'
 
@@ -33,6 +36,13 @@ export function Categories({
                         label={'نام'}
                         defaultValue={category.name}
                     />,
+                    <CustomTextField
+                        name="name"
+                        setData={setCategory}
+                        resource={RESOURCE}
+                        label={'والد دسته بندی'}
+                        defaultValue={category.name}
+                    />,
                     <Button
                         variant="outlined"
                         color="primary"
@@ -41,7 +51,7 @@ export function Categories({
                         fullWidth
                         sx={{height: '53px', borderRadius: '4px !important'}}
                     >
-                        {category.image ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                        {category.thumbnail ? 'ویرایش تصویر' : 'انتخاب تصویر'}
                     </Button>,
                 ]}
             />

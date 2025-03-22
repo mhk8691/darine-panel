@@ -49,9 +49,9 @@ export const drawerItems = [
         ),
     },
     {
-        title: 'دسته بندی محصولات',
+        title: 'دسته بندی',
         role: 'admin',
-        link: 'product-category',
+        link: 'category',
         icon: (
             <CategoryIcon
                 fontSize="large"

@@ -4,16 +4,12 @@ import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {CategoriesType} from '../Categories'
 
-const RECOURCE = 'product-category'
+const RECOURCE = 'category'
 
 export function CategoryDetail() {
     const id = useParams().id
     const [loading, setLoading] = useState(false)
-    const [category, setCategory] = useState<CategoriesType | null>({
-        id: 1,
-        name: 'category 1',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-    })
+    const [category, setCategory] = useState<CategoriesType | null>(null)
     const getCategory = async () => {
         setLoading(true)
         let response = await DataProvider.get<CategoriesType>(`${RECOURCE}/${id}/`)
@@ -60,6 +56,48 @@ export function CategoryDetail() {
                     {category?.name}
                 </Typography>
             </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    والد دسته بندی:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {category?.parent}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    تعداد زیر دسته بندی:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {category?.children_count}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    تعداد محصولات:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {category?.products_count}
+                </Typography>
+            </Stack>
             <Stack direction={'column'} spacing={1}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     تصویر:
@@ -73,7 +111,7 @@ export function CategoryDetail() {
                         borderRadius: 2,
                         objectFit: 'cover',
                     }}
-                    src={typeof category?.image === 'string' ? category?.image : ''}
+                    src={typeof category?.thumbnail === 'string' ? category?.thumbnail : ''}
                     borderRadius={2}
                 />
             </Stack>

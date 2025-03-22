@@ -12,7 +12,7 @@ import {CategoryCreate} from '../Create/CategoryCreate'
 import {CategoriesType} from '../Categories'
 import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
-const RECOURCE = 'product-category'
+const RECOURCE = 'category'
 const tableHeadCells = [createTableHeadCells('نام', 'name'), createTableHeadCells('تصویر', 'image')]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -27,18 +27,7 @@ export function CategoriesList() {
         pagination: PaginationType
         count: number
     }>({
-        data: [
-            {
-                id: 1,
-                name: 'category 1',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-            {
-                id: 2,
-                name: 'category 2',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-        ],
+        data: [],
         pagination: {} as PaginationType,
         count: 0,
     })
@@ -108,9 +97,57 @@ export function CategoriesList() {
                             </Typography>
                         </TableCell>
                         <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.parent}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.products_count}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.children_count}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
                             <Box
                                 component={'img'}
-                                src={typeof item.image === 'string' ? item.image : ''}
+                                src={typeof item.thumbnail === 'string' ? item.thumbnail : ''}
                                 sx={{
                                     width: '60px',
                                     height: '60px',

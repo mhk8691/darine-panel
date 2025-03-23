@@ -6,7 +6,7 @@ import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function EditPage(props) {
-    const {title, resource, noEdit, formDetails, initialData} = props
+    const {title, resource, noEdit, formDetails, initialData,isFormData = false} = props
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
@@ -33,7 +33,7 @@ export function EditPage(props) {
                 }
             })
             const res = await DataProvider.patch(`${resource}/${params.id || formDetails.id}/`, {
-                data: formData,
+                data: isFormData ? formData : updatedFields,
             })
             dispatch(
                 setUtil({

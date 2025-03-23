@@ -22,8 +22,8 @@ interface Props {
 }
 export default function FieldsTable({data, removeField, editField, editMode}: Props) {
     const rows = data?.map((item) => ({
-        name: item.name,
-        label: item.label,
+        title: item.title,
+        description: item.description,
         type: item.type,
         id: item.id,
     }))
@@ -81,7 +81,7 @@ export default function FieldsTable({data, removeField, editField, editMode}: Pr
                 <TableBody>
                     {rows?.map((row) => (
                         <TableRow
-                            key={row.name}
+                            key={row.title}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell component="th" scope="row" sx={{
@@ -90,14 +90,14 @@ export default function FieldsTable({data, removeField, editField, editMode}: Pr
                                     md: '16px',
                                 },
                             }}>
-                                {row.name}
+                                {row.title}
                             </TableCell>
                             <TableCell align="left" sx={{
                                  fontSize: {
                                     xs: '14px',
                                     md: '16px',
                                 },
-                            }}>{row.label}</TableCell>
+                            }}>{row.description}</TableCell>
                             <TableCell align="left" sx={{
                                  fontSize: {
                                     xs: '14px',

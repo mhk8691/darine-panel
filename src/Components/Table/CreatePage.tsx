@@ -6,7 +6,7 @@ import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function CreatePage(props) {
-    const {title, resource, noEdit, formDetails, redirect} = props
+    const {title, resource, noEdit, formDetails, redirect,isFormData = false} = props
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const formData = new FormData()
@@ -22,7 +22,7 @@ export function CreatePage(props) {
         try {
             dispatch(setUtil({loading: true}))
             const res = await DataProvider.post(resource, {
-                data: formData,
+                data: isFormData ? formData : formDetails,
             })
             navigate(`/${redirect ? redirect : resource}`)
             dispatch(setUtil({open: true, message: res.message, severity: 'success'}))

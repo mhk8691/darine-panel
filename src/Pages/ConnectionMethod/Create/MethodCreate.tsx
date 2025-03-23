@@ -10,7 +10,12 @@ export function MethodCreate({
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
     return (
-        <CreatePage title={'افزودن روش اتصال'} resource={'connection_methods'} formDetails={data}>
+        <CreatePage
+            title={'افزودن روش اتصال'}
+            resource={'account/base-accounts/'}
+            redirect={'base-accounts'}
+            formDetails={data}
+        >
             <ConnectionMethod method={data} setMethod={setData} editMode={false} />
         </CreatePage>
     )

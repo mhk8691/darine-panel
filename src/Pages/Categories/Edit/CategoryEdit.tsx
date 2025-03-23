@@ -14,6 +14,7 @@ export function CategoryEdit() {
             title="ویرایش دسته بندی"
             formDetails={category}
             initialData={state.row}
+            isFormData={true}
         >
             <Categories category={category} setCategory={setCategory} />
         </EditPage>

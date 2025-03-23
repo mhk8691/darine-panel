@@ -8,10 +8,9 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
 import {MethodCreate} from '../Create/MethodCreate'
 import {MethodType} from '../Method'
-const RECOURCE = 'connection-methods'
+const RECOURCE = 'account/base-accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('فیلد ها', 'fields'),
@@ -27,33 +26,17 @@ export function MethodsList() {
 
     const [methods, setMethods] = useState<{
         data: MethodType[]
-        pagination: PaginationType
-        count: number
     }>({
-        data: [
-            {
-                id: 1,
-                name: 'فیسبوک',
-                fields: [
-                    {label: 'ایمیل', name: 'email', type: 'text', id: 1},
-                    {label: 'رمز عبور', name: 'password', type: 'password', id: 2},
-                ],
-            },
-        ],
-        pagination: {} as PaginationType,
-        count: 0,
+        data: [],
     })
     const getMethods = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<MethodType[]>>(
-            `${RECOURCE}/list`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            results: MethodType[]
+        }>(`${RECOURCE}/`, search)
         if (response) {
             setMethods({
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
@@ -65,7 +48,7 @@ export function MethodsList() {
     return (
         <ListPage
             header="مدیریت کاربران"
-            href={RECOURCE + '/create'}
+            href={'base-accounts' + '/create'}
             searchField="title"
             searchText="نام کاربری"
             setParams={setSearch}
@@ -86,7 +69,7 @@ export function MethodsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={methods.data}
-                count={methods.count}
+                count={0}
                 deleteName="name of deleting"
                 getList={getMethods}
                 params={search}
@@ -108,7 +91,7 @@ export function MethodsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.name}
+                                {item.title}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -127,7 +110,7 @@ export function MethodsList() {
                                                 whiteSpace: 'nowrap',
                                             }}
                                         >
-                                            نام: {field.name}
+                                            نام: {field.title}
                                         </Typography>
                                         |
                                         <Typography
@@ -142,7 +125,7 @@ export function MethodsList() {
                                                 whiteSpace: 'nowrap',
                                             }}
                                         >
-                                            لیبل: {field.label}
+                                            لیبل: {field.description}
                                         </Typography>
                                         |
                                         <Typography

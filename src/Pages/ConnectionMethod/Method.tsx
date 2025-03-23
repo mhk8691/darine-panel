@@ -17,18 +17,25 @@ type InputType = {
 }
 export type FieldType = {
     id: number
-    label: string
-    name: string
+    title: string
+    description: string
     type: string
+    type_display: string
+    choices: {
+        id: number
+        title: string
+    }[]
+    choices_ids: number[]
 }
 
 export type MethodType = {
     id: number
-    name: string
+    title: string
     fields: FieldType[]
+    fields_count: string
 }
 
-const RESOURCE = 'connection_method'
+const RESOURCE = 'account/base-accounts'
 
 export function ConnectionMethod({
     method,
@@ -47,7 +54,7 @@ export function ConnectionMethod({
         {label: 'رمز عبور', value: 'password'},
     ]
     const addField = () => {
-        if (!newField.name || !newField.label || !newField.type) {
+        if (!newField.title || !newField.description || !newField.type) {
             return
         }
         setMethod((prevMethod) => ({
@@ -56,16 +63,31 @@ export function ConnectionMethod({
                 ...(prevMethod.fields || []),
                 {
                     id: Date.now(),
-                    label: newField?.label,
-                    name: newField?.name,
+                    description: newField?.description,
+                    title: newField?.title,
                     type: newField?.type,
+                    type_display:'1',
+                    choices: [
+                        {
+                            id: Date.now(),
+                            title: 'choice 1',
+                        },
+                    ],
+                    choices_ids: [Date.now()],
                 },
             ],
         }))
         setNewField({
-            name: '',
-            label: '',
+            title: '',
+            description: '',
             type: '',
+            choices: [
+                {
+                    id: Date.now(),
+                    title: 'choice 1',
+                },
+            ],
+            choices_ids: [Date.now()],
         } as FieldType)
     }
 
@@ -104,24 +126,24 @@ export function ConnectionMethod({
                 sx={{marginBottom: '16px'}}
                 data={[
                     <CustomTextField
-                        name="name"
+                        name="title"
                         setData={setMethod}
                         resource={RESOURCE}
-                        label={'نام'}
-                        defaultValue={method.name}
+                        label={'عنوان'}
+                        defaultValue={method.title}
                     />,
                 ]}
             />
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
-                        key={newField.name}
-                        name="name"
+                        key={newField.id}
+                        name="title"
                         resource={RESOURCE}
-                        value={newField.name}
-                        onChange={(e) => setNewField({...newField, name: e.target.value})}
+                        value={newField.title}
+                        onChange={(e) => setNewField({...newField, title: e.target.value})}
                         label={'نام اینپوت'}
-                        disabled={editMode && !newField.name ? true : false}
+                        // disabled={editMode && !newField.title ? true : false}
                         sx={{
                             '& .Mui-disabled': {
                                 color: '#3f3f3f !important',
@@ -131,14 +153,14 @@ export function ConnectionMethod({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
-                        key={newField.label}
-                        name="label"
+                        key={newField.id}
+                        name="description"
                         setData={setNewField}
                         resource={RESOURCE}
-                        value={newField.label}
-                        onChange={(e) => setNewField({...newField, label: e.target.value})}
-                        label={'لیبل'}
-                        disabled={editMode && !newField.label ? true : false}
+                        value={newField.description}
+                        onChange={(e) => setNewField({...newField, description: e.target.value})}
+                        label={'توضیحات'}
+                        // disabled={editMode && !newField.description ? true : false}
                         sx={{
                             '& .Mui-disabled': {
                                 color: '#3f3f3f !important',

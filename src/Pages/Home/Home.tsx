@@ -115,11 +115,11 @@ export function Home(props) {
                         <Route path="orders/detail/:id" element={<OrderDetail />} />
                         {/* connection methods  section */}
                         <Route
-                            path="connection-methods/create"
+                            path="base-accounts/create"
                             element={<MethodCreate data={data} setData={setData} />}
                         />
-                        <Route path="connection-methods" element={<MethodsList />} />
-                        <Route path="connection-methods/:id" element={<MethodEdit />} />
+                        <Route path="base-accounts" element={<MethodsList />} />
+                        <Route path="base-accounts/:id" element={<MethodEdit />} />
                         {/* comment section */}
                         <Route
                             path="comments/create"

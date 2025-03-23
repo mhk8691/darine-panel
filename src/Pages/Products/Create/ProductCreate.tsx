@@ -10,7 +10,13 @@ export function ProductCreate({
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
     return (
-        <CreatePage title={'افزودن محصول'} resource={'product/'} redirect={'product'} formDetails={data}>
+        <CreatePage
+            title={'افزودن محصول'}
+            resource={'product/'}
+            isFormData={true}
+            redirect={'product'}
+            formDetails={data}
+        >
             <Products product={data} setProduct={setData} />
         </CreatePage>
     )

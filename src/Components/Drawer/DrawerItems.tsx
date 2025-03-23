@@ -89,7 +89,7 @@ export const drawerItems = [
     },
     {
         title: 'روش های اتصال',
-        link: 'connection-methods',
+        link: 'base-accounts',
         role: 'all',
         icon: (
             <CableIcon

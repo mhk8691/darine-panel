@@ -13,6 +13,7 @@ import {MethodType} from '../Method'
 const RECOURCE = 'account/base-accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
+    createTableHeadCells('تعداد فیلد', 'fields_count'),
     createTableHeadCells('فیلد ها', 'fields'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
@@ -93,6 +94,22 @@ export function MethodsList() {
                                 }}
                             >
                                 {item.title}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.fields_count}
                             </Typography>
                         </TableCell>
                         <TableCell>

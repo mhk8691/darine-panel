@@ -12,6 +12,10 @@ import {useState} from 'react'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import FieldsTable from './FieldsTable'
+import {useDispatch} from 'react-redux'
+import {setUtil} from '../../redux/UtilSlice'
+import {DataProvider} from '../../Core/DataProvider'
+import {useParams} from 'react-router-dom'
 type InputType = {
     type: 'text' | 'number' | 'email' | 'password'
 }
@@ -47,12 +51,14 @@ export function ConnectionMethod({
     editMode: boolean
 }) {
     const [newField, setNewField] = useState<FieldType>({} as FieldType)
+    const dispatch = useDispatch()
     const inputType = [
         {label: 'متن', value: 'text'},
         {label: 'شماره', value: 'number'},
         {label: 'ایمیل', value: 'email'},
         {label: 'رمز عبور', value: 'password'},
     ]
+    const methodId = useParams().id
     const addField = () => {
         if (!newField.title || !newField.description || !newField.type) {
             return
@@ -90,18 +96,36 @@ export function ConnectionMethod({
             choices_ids: [Date.now()],
         } as FieldType)
     }
-
+    const getMethod = async ()=>{
+        try {
+            const res = await DataProvider.get<MethodType>(`${RESOURCE}/${methodId}/`)
+            setMethod(res.data)
+        } catch (error: any) {
+            console.log(error)
+        }
+        dispatch(setUtil({loading: false}))
+    }
     // حذف یک input بر اساس id
-    const removeField = (id: number) => {
-        console.log('clicked')
-        setMethod((prevMethod) => ({
-            ...prevMethod,
-            fields: prevMethod.fields.filter((field) => field.id !== id),
-        }))
+    const removeField = async (id: number) => {
+        if (editMode) {
+            try {
+                dispatch(setUtil({loading: true}))
+                const res = await DataProvider.delete(`${RESOURCE}/${methodId}/fields/${id}/`)
+                getMethod()
+                dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
+
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            }
+            dispatch(setUtil({loading: false}))
+        } else {
+            setMethod((prevMethod) => ({
+                ...prevMethod,
+                fields: prevMethod.fields.filter((field) => field.id !== id),
+            }))
+        }
     }
-    const editField = (id: number) => {
-        setNewField(method.fields.find((field) => field.id === id) as FieldType)
-    }
+   
     const saveChange = () => {
         setMethod((prevMethod) => ({
             ...prevMethod,
@@ -241,7 +265,6 @@ export function ConnectionMethod({
                     hasDetail={false}
                     data={method.fields}
                     removeField={removeField}
-                    editField={editField}
                     editMode={editMode}
                 />
             )}

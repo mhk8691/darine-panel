@@ -18,11 +18,10 @@ function createData(id: number, name: string, label: string, type: string) {
 interface Props {
     data: FieldType[] | null
     removeField?: (id: number) => void
-    editField?: (id: number) => void
     editMode?: boolean
     hasDetail: boolean
 }
-export default function FieldsTable({data, removeField, editField, editMode, hasDetail}: Props) {
+export default function FieldsTable({data, removeField, editMode, hasDetail}: Props) {
     const rows = data?.map((item) => ({
         title: item.title,
         description: item.description,
@@ -37,9 +36,10 @@ export default function FieldsTable({data, removeField, editField, editMode, has
     ]
     const id = useParams().id
     const navigate = useNavigate()
+    
     return (
         <TableContainer component={Paper} sx={{mt: 3}}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
+            <Table sx={{minWidth: 650, border: '2px solid #3f3f3f',borderRadius:2}} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell
@@ -52,7 +52,7 @@ export default function FieldsTable({data, removeField, editField, editMode, has
                                 fontWeight: 'bold',
                             }}
                         >
-                            نام فیلد
+                            عنوان
                         </TableCell>
                         <TableCell
                             align="left"
@@ -64,7 +64,7 @@ export default function FieldsTable({data, removeField, editField, editMode, has
                                 fontWeight: 'bold',
                             }}
                         >
-                            لیبل
+                            توضیحات
                         </TableCell>
                         <TableCell
                             align="left"

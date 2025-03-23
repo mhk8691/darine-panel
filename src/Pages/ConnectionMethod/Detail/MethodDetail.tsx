@@ -57,7 +57,20 @@ export function MethodDetail() {
                     {method?.title}
                 </Typography>
             </Stack>
-           
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    تعداد فیلد:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {method?.fields_count}
+                </Typography>
+            </Stack>
                 <FieldsTable data={method?.fields || []} hasDetail={true} />
         </Stack>
     )

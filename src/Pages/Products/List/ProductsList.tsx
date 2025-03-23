@@ -168,7 +168,7 @@ export function ProductsList() {
                         </TableCell>
                         <TableCell>
                             <Stack direction={'column'} gap={1.5}>
-                                {item.properties.map((property) => (
+                                {item?.properties?.map((property) => (
                                     <Stack direction={'row'} alignItems={'center'} gap={1}>
                                         <Typography
                                             variant="body2"

@@ -131,7 +131,7 @@ export function ProductDetail() {
                     ویژگی ها:
                 </Typography>
                 <Stack direction={'column'} spacing={1.5}>
-                    {product?.properties.map((item, index) => (
+                    {product?.properties?.map((item, index) => (
                         <Grid container spacing={2} sx={{alignItems: 'center'}} key={index}>
                             <Grid xs={12} sm={1.8} md={1.3} lg={1}>
                                 <Stack>

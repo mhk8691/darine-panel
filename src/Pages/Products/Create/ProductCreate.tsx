@@ -16,6 +16,7 @@ export function ProductCreate({
             isFormData={true}
             redirect={'product'}
             formDetails={data}
+            
         >
             <Products product={data} setProduct={setData} />
         </CreatePage>

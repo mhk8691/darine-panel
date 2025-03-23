@@ -1,4 +1,14 @@
-import {Box, Button, Grid, Stack} from '@mui/material'
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+} from '@mui/material'
 import {ChangeEvent, useEffect, useState} from 'react'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
@@ -8,6 +18,7 @@ import PropertiesTable from '../../Components/Table/PropertiesTable'
 import {CategoriesType} from '../Categories/Categories'
 import {DataProvider} from '../../Core/DataProvider'
 import {BaseModal} from '../../Components/Modal/BaseModal'
+import {MethodType} from '../ConnectionMethod/Method'
 
 export type ProductsType = {
     id: number
@@ -41,6 +52,9 @@ export function Products({
 
     const [open, setOpen] = useState(false)
     const [newProperty, setNewProperty] = useState<PropertyType>({} as PropertyType)
+    const [connectionMethod, setConnectionMethod] = useState<{
+        results: MethodType[]
+    } | null>(null)
     const [categories, setCategories] = useState<{
         results: CategoriesType[]
     } | null>(null)
@@ -49,13 +63,24 @@ export function Products({
             const response = await DataProvider.get<{
                 results: CategoriesType[]
             }>('category/')
-            setCategories(response.data)
+            setCategories({results: response.data.results})
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+    const getConnectionMethods = async () => {
+        try {
+            const response = await DataProvider.get<{
+                results: MethodType[]
+            }>('account/base-accounts/')
+            setConnectionMethod({results: response.data.results})
         } catch (error: any) {
             console.log(error)
         }
     }
     useEffect(() => {
         getCategories()
+        getConnectionMethods()
     }, [])
     const addProperty = () => {
         if (!newProperty.name || !newProperty.value) {
@@ -117,6 +142,11 @@ export function Products({
             setProduct({...product, video: file})
         }
     }
+    const handleChangeProductType = (event: SelectChangeEvent) => {
+        setProduct((prev) => {
+            return {...prev, type: event.target.value as 'coins' | 'account'}
+        })
+    }
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
@@ -142,23 +172,13 @@ export function Products({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomAutocomplete
-                        options={[
-                            {label: 'فیسبوک', id: 1},
-                            {label: 'اکتیویژن', id: 2},
-                        ]}
+                        options={connectionMethod?.results.map((method) => {
+                            return {label: method.title, id: method.id}
+                        })}
                         name="connection_method"
                         setData={setProduct}
                         defaultValue={product.connectionMethod}
                         label={'روش اتصال'}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        name="description"
-                        resource={RESOURCE}
-                        setData={setProduct}
-                        label={'توضیحات'}
-                        defaultValue={product.description}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -169,6 +189,63 @@ export function Products({
                         label={'قیمت'}
                         defaultValue={product.base_price}
                     />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <FormControl
+                        fullWidth
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                height: '54.56px !important',
+                            },
+                            '& .MuiSelect-select': {
+                                fontSize: '15px !important',
+                            },
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
+                    >
+                        <InputLabel
+                            id="demo-simple-select-label"
+                            sx={{
+                                fontSize: '15px !important',
+                            }}
+                        >
+                            تایپ اینپوت
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={product.type ?? ''}
+                            label="تایپ اینپوت"
+                            onChange={handleChangeProductType}
+                            sx={{
+                                '& .MuiAutocomplete-listbox': {
+                                    fontSize: '15px',
+                                },
+                                '& .MuiAutocomplete-option': {
+                                    py: '12px !important',
+                                },
+                            }}
+                        >
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'coins'}
+                            >
+                                سکه
+                            </MenuItem>
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'account'}
+                            >
+                                {'اکانت'}
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <Button

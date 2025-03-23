@@ -9,20 +9,7 @@ const RECOURCE = 'product'
 export function ProductDetail() {
     const id = useParams().id
     const [loading, setLoading] = useState(false)
-    const [product, setProduct] = useState<ProductsType | null>({
-        id: 1,
-        name: 'ali',
-        introduction: 'mmdi',
-        connectionMethod: 'ali',
-        description: 'ali@gmail.com',
-        price: 300000,
-        category: 'clash of clans',
-        properties: [
-            {id: 2, name: 'زمان شارژ', value: '۱۰ دقیقه'},
-            {id:1, name: 'زمان شارژ', value: '۱۰ دقیقه'},
-        ],
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-    })
+    const [product, setProduct] = useState<ProductsType>({} as ProductsType)
     const getProduct = async () => {
         setLoading(true)
         let response = await DataProvider.get<ProductsType>(`${RECOURCE}/${id}/`)
@@ -34,7 +21,7 @@ export function ProductDetail() {
 
     useEffect(() => {
         getProduct()
-    }, [])
+    }, [id])
 
     return (
         <Stack p={4} direction={'column'} spacing={2.5}>
@@ -80,7 +67,7 @@ export function ProductDetail() {
                     معرفی محصول:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {product?.introduction}
+                    {product?.short_introduction}
                 </Typography>
             </Stack>
             <Stack
@@ -136,7 +123,7 @@ export function ProductDetail() {
                     قیمت:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {product?.price}
+                    {product?.base_price}
                 </Typography>
             </Stack>
             <Stack direction={'column'} spacing={3}>
@@ -166,20 +153,31 @@ export function ProductDetail() {
             </Stack>
             <Stack direction={'column'} spacing={1}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    تصویر:
+                    تصاویر:
                 </Typography>
-
-                <Box
-                    component={'img'}
-                    sx={{
-                        width: '75px',
-                        height: '75px',
-                        borderRadius: 2,
-                        objectFit: 'cover',
+                <Grid
+                    container
+                    spacing={{
+                        xs: 0.5,
+                        sm: 1.5,
                     }}
-                    src={typeof product?.image === 'string' ? product?.image : ''}
-                    borderRadius={2}
-                />
+                >
+                    {product?.picture?.map((item) => (
+                        <Grid item xs={12 / 5} sm={12 / 7} md={12 / 8} lg={12 / 10} xl={12 / 13}>
+                            <Box
+                                component={'img'}
+                                sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    borderRadius: 2,
+                                    objectFit: 'cover',
+                                }}
+                                src={item}
+                                borderRadius={2}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
             </Stack>
         </Stack>
     )

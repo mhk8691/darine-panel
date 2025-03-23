@@ -38,7 +38,7 @@ export const drawerItems = [
     {
         title: 'مدیریت محصولات',
         role: 'all',
-        link: 'products',
+        link: 'product',
         icon: (
             <ShoppingBasketIcon
                 fontSize="large"

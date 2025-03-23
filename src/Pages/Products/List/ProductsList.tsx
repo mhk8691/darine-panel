@@ -10,9 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {ProductCreate} from '../Create/ProductCreate'
 import {ProductsType} from '../Products'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
-const RECOURCE = 'products'
+const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('معرفی محصول', 'introduction'),
@@ -33,57 +32,24 @@ export function ProductsList() {
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<{
         data: ProductsType[]
-        pagination: PaginationType
-        count: number
     }>({
-        data: [
-            {
-                id: 1,
-                name: 'جم کلش',
-                introduction: 'تست',
-                connectionMethod: 'ایمیل',
-                description: 'تست',
-                price: 300000,
-                category: 'clash of clans',
-                properties: [
-                    {id: 1, name: 'زمان شارژ', value: '۱۰ دقیقه'},
-                    {id: 2, name: 'زمان شارژ', value: '۱۰ دقیقه'},
-                ],
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-            {
-                id: 2,
-                name: 'سی پی کالاف',
-                introduction: 'تست',
-                connectionMethod: 'فیسبوک',
-                description: 'تست',
-                price: 400000,
-                category: 'clash of clans',
-                properties: [{id: 2, name: 'زمان شارژ', value: '۱۰ دقیقه'}],
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-        ],
-        pagination: {} as PaginationType,
-        count: 0,
+        data: [],
     })
-    const getProdcuts = async () => {
+    const getProducts = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<ProductsType[]>>(
-            `${RECOURCE}/list`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            results: ProductsType[]
+        }>(`${RECOURCE}/`, search)
 
         if (response) {
             setProducts({
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
     }
     useDeepCompareEffect(() => {
-        getProdcuts()
+        getProducts()
     }, [search])
 
     return (
@@ -95,7 +61,7 @@ export function ProductsList() {
             setParams={setSearch}
             params={search}
             resource={RECOURCE}
-            getList={getProdcuts}
+            getList={getProducts}
             filtersData={queryNames}
             createModal={ProductCreate}
             defaultState={{
@@ -110,12 +76,12 @@ export function ProductsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={products.data}
-                count={products.count}
+                count={0}
                 deleteName="name of deleting"
-                getList={getProdcuts}
+                getList={getProducts}
                 params={search}
                 setParams={setSearch}
-                handleSort={getProdcuts}
+                handleSort={getProducts}
                 loading={loading}
                 hasDetail={true}
                 tableBodyCells={products.data.map((item, index) => (
@@ -149,7 +115,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.introduction}
+                                {item.short_introduction}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -250,13 +216,13 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.price}
+                                {item.base_price}
                             </Typography>
                         </TableCell>
                         <TableCell>
                             <Box
                                 component={'img'}
-                                src={typeof item.image === 'string' ? item.image : ''}
+                                src={typeof item.picture === 'string' ? item.picture : ''}
                                 sx={{
                                     width: '60px',
                                     height: '60px',

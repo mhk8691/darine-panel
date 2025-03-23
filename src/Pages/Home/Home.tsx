@@ -32,6 +32,8 @@ import {CommentCreate} from '../Comments/Create/CommentCreate'
 import {CommentsList} from '../Comments/List/CommentsList'
 import {CommentEdit} from '../Comments/Edit/CommentEdit'
 import {CommentDetail} from '../Comments/Detail/CommentDetail'
+import { FieldEdit } from '../ConnectionMethod/Edit/Field/FieldEdit'
+import { MethodDetail } from '../ConnectionMethod/Detail/MethodDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -120,6 +122,8 @@ export function Home(props) {
                         />
                         <Route path="base-accounts" element={<MethodsList />} />
                         <Route path="base-accounts/:id" element={<MethodEdit />} />
+                        <Route path="base-accounts/detail/:id" element={<MethodDetail />} />
+                        <Route path="base-accounts/:accountId/field/:id" element={<FieldEdit />} />
                         {/* comment section */}
                         <Route
                             path="comments/create"

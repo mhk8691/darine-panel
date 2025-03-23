@@ -72,6 +72,7 @@ export function MethodsList() {
                 count={0}
                 deleteName="name of deleting"
                 getList={getMethods}
+                hasDetail={true}
                 params={search}
                 setParams={setSearch}
                 handleSort={getMethods}

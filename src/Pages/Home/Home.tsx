@@ -34,6 +34,10 @@ import {CommentEdit} from '../Comments/Edit/CommentEdit'
 import {CommentDetail} from '../Comments/Detail/CommentDetail'
 import { FieldEdit } from '../ConnectionMethod/Edit/Field/FieldEdit'
 import { MethodDetail } from '../ConnectionMethod/Detail/MethodDetail'
+import { BannerCreate } from '../Banners/Create/BannerCreate'
+import { BannersList } from '../Banners/List/BannersList'
+import { BannerEdit } from '../Banners/Edit/BannerEdit'
+import { BannerDetail } from '../Banners/Detail/BannerDetail'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -124,6 +128,14 @@ export function Home(props) {
                         <Route path="base-accounts/:id" element={<MethodEdit />} />
                         <Route path="base-accounts/detail/:id" element={<MethodDetail />} />
                         <Route path="base-accounts/:accountId/field/:id" element={<FieldEdit />} />
+                        {/* banners section */}
+                        <Route
+                            path="banners/create"
+                            element={<BannerCreate data={data} setData={setData} />}
+                        />
+                        <Route path="banners" element={<BannersList />} />
+                        <Route path="banners/:id" element={<BannerEdit />} />
+                        <Route path="banners/detail/:id" element={<BannerDetail />} />
                         {/* comment section */}
                         <Route
                             path="comments/create"

@@ -8,6 +8,7 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
+import ImageIcon from '@mui/icons-material/Image'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -93,6 +94,19 @@ export const drawerItems = [
         role: 'all',
         icon: (
             <CableIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'بنر',
+        link: 'banners',
+        role: 'all',
+        icon: (
+            <ImageIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

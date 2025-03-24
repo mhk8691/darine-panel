@@ -1,0 +1,162 @@
+import {Box, Typography} from '@mui/material'
+import TableCell from '@mui/material/TableCell'
+import {useState} from 'react'
+import useDeepCompareEffect from 'use-deep-compare-effect'
+import {useQueryParams} from 'use-query-params'
+import {CustomTable} from '../../../Components/Table/CustomTable'
+import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
+import {ListPage} from '../../../Components/Table/ListPage'
+import {DataProvider} from '../../../Core/DataProvider'
+import {createQueryParam} from '../../../Core/QueryParams'
+import {BannersType} from '../Banners'
+import { BannerCreate } from '../Create/BannerCreate'
+
+const RECOURCE = 'banners'
+const tableHeadCells = [
+    createTableHeadCells('عنوان', 'title'),
+    createTableHeadCells('ساب تایتل', 'subtitle'),
+    createTableHeadCells('لینک', 'url'),
+    createTableHeadCells('وضعیت', 'active'),
+    createTableHeadCells('تصویر', 'image'),
+]
+const queryNames = tableHeadCells.map((cell) => ({
+    field: cell.name,
+    label: cell.label,
+    type: '',
+}))
+export function BannersList() {
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
+    const [loading, setLoading] = useState(false)
+    const [banners, setBanners] = useState<{
+        data: BannersType[]
+    }>({
+        data: [],
+    })
+    const getBanners = async () => {
+        setLoading(true)
+        let response = await DataProvider.get<{
+            results: BannersType[]
+        }>(`${RECOURCE}/`, search)
+        if (response) {
+            setBanners({
+                data: response.data.results,
+            })
+        }
+        setLoading(false)
+    }
+    useDeepCompareEffect(() => {
+        getBanners()
+    }, [search])
+
+    return (
+        <ListPage
+            header="مدیریت بنر ها"
+            href={RECOURCE + '/create'}
+            searchField="title"
+            searchText="نام"
+            setParams={setSearch}
+            params={search}
+            resource={RECOURCE}
+            getList={getBanners}
+            filtersData={queryNames}
+            createModal={BannerCreate}
+            defaultState={{
+                name: '',
+            }}
+        >
+            <CustomTable
+                resource={RECOURCE}
+                headCells={tableHeadCells}
+                rows={banners.data}
+                count={0}
+                deleteName="name of deleting"
+                getList={getBanners}
+                params={search}
+                setParams={setSearch}
+                handleSort={getBanners}
+                loading={loading}
+                hasDetail={true}
+                tableBodyCells={banners.data.map((item, index) => (
+                    <>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.title || '--'}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.subtitle || '--'}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.url}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.active}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Box
+                                component={'img'}
+                                src={typeof item.image === 'string' ? item.image : ''}
+                                sx={{
+                                    width: '60px',
+                                    height: '60px',
+                                    borderRadius: 2,
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </TableCell>
+                    </>
+                ))}
+            />
+        </ListPage>
+    )
+}

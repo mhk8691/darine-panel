@@ -23,7 +23,9 @@ export function CreatePage(props) {
                   
                 }
                 else {
-                    formData.append(key, JSON.stringify(value))
+                    value.forEach((object) => {
+                        formData.append(key, object)
+                    })
                 }
             } else {
                 formData.append(key, String(value))

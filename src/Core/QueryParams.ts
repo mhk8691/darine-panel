@@ -21,6 +21,7 @@ type QueryType = {
 export type ApiParams = QueryType & {
     data?: any
     onUploadProgress?: AxiosRequestConfig<any>['onUploadProgress']
+    headers?: {[key: string]: string}
 }
 
 export function createQueryParam(tableHeadCells?: any[]) {

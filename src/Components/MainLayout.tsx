@@ -8,7 +8,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     const [drawerOpen, setDrawerOpen] = useState(false)
 
     return (
-        <Stack direction="row" minHeight="100vh">
+        <Stack direction="row" minHeight="100vh" position={'relative'}>
             <AppDrawer
                 setSelectedTitle={setSelectedTitle}
                 drawerOpen={drawerOpen}

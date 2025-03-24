@@ -30,7 +30,7 @@ export type ProductsType = {
     connectionMethod: number
     type: 'coins' | 'account'
     category: number
-    picture: string[] | File[]
+    picture: any
     options?: {
         tittle: string
         price: number
@@ -147,6 +147,7 @@ export function Products({
             return {...prev, type: event.target.value as 'coins' | 'account'}
         })
     }
+    const formData = new FormData()
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
@@ -211,7 +212,7 @@ export function Products({
                                 fontSize: '15px !important',
                             }}
                         >
-                            تایپ اینپوت
+                            تایپ محصول
                         </InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -324,7 +325,7 @@ export function Products({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
-                        key={newProperty.name}
+                        key={newProperty.id}
                         name="name"
                         resource={RESOURCE}
                         value={newProperty.name}
@@ -334,7 +335,7 @@ export function Products({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
-                        key={newProperty.value}
+                        key={newProperty.id}
                         name="label"
                         setData={setNewProperty}
                         resource={RESOURCE}
@@ -427,7 +428,10 @@ export function Products({
                         variant="contained"
                         size="large"
                         onClick={() => {
+                            
+
                             setProduct((prev) => ({...prev, picture: files}))
+                            console.log(files)
                             setOpen(false)
                         }}
                         disabled={!files}

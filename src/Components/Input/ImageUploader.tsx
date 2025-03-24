@@ -69,7 +69,7 @@ export default function ImageUploader({
                     variant="contained"
                     size="large"
                     onClick={() => {
-                        setData((prev) => ({...prev, image: imageFile}))
+                        setData((prev) => ({...prev, [imageName]: imageFile}))
                         setOpen(false)
                     }}
                     disabled={!imagePreview}

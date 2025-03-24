@@ -1,9 +1,8 @@
 import {Box, Grid, Stack, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {Link, useParams} from 'react-router-dom'
-import {DataProvider} from '../../../Core/DataProvider'
-import {ProductsType} from '../Products'
 import Progress from '../../../Components/Progress/Progress'
+import {DataProvider} from '../../../Core/DataProvider'
 
 const RECOURCE = 'product'
 interface ProductDetailType {

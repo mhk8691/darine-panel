@@ -6,7 +6,7 @@ import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function CreatePage(props) {
-    const {title, resource, noEdit, formDetails, redirect,isFormData = false} = props
+    const {title, resource, noEdit, formDetails, redirect, isFormData = false} = props
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const formData = new FormData()
@@ -15,6 +15,16 @@ export function CreatePage(props) {
         Object.entries(formDetails).forEach(([key, value]) => {
             if (value instanceof File) {
                 formData.append(key, value)
+            } else if (Array.isArray(value)) {
+                if (value.every((item) => item instanceof File)) {
+                    value.forEach((file) => {
+                        formData.append(`pictures`, file)
+                    })
+                  
+                }
+                else {
+                    formData.append(key, JSON.stringify(value))
+                }
             } else {
                 formData.append(key, String(value))
             }
@@ -23,6 +33,9 @@ export function CreatePage(props) {
             dispatch(setUtil({loading: true}))
             const res = await DataProvider.post(resource, {
                 data: isFormData ? formData : formDetails,
+                headers: {
+                    'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
+                },
             })
             navigate(`/${redirect ? redirect : resource}`)
             dispatch(setUtil({open: true, message: res.message, severity: 'success'}))

@@ -20,9 +20,7 @@ export function CreatePage(props) {
                     value.forEach((file) => {
                         formData.append(`pictures`, file)
                     })
-                  
-                }
-                else {
+                } else {
                     value.forEach((object) => {
                         formData.append(key, object)
                     })

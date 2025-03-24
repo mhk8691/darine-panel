@@ -9,36 +9,44 @@ import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {ProductCreate} from '../Create/ProductCreate'
-import {ProductsType} from '../Products'
+import { formatDate } from '../../../Core/FormatDate'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
-    createTableHeadCells('معرفی محصول', 'introduction'),
-    createTableHeadCells('روش اتصال', 'connection_method'),
-    createTableHeadCells('توضیحات', 'description'),
-    createTableHeadCells('دسته بندی', 'category'),
-    createTableHeadCells('ویژگی ها', 'properties'),
-    createTableHeadCells('قیمت', 'price'),
-    createTableHeadCells('تصویر', 'image'),
+    createTableHeadCells('قیمت پایه', 'base_price'),
+    createTableHeadCells('حداکثر قیمت', 'max_price'),
+    createTableHeadCells('دسته بندی', 'category_name'),
+    createTableHeadCells('تایپ محصول', 'type'),
+    createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',
 }))
+interface ProductsListType {
+    id: number
+    name: string
+    base_price: number
+    max_price: number | null
+    category: number
+    category_name: string
+    type: string
+    created_at: string
+}
 export function ProductsList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<{
-        data: ProductsType[]
+        data: ProductsListType[]
     }>({
         data: [],
     })
     const getProducts = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
-            results: ProductsType[]
+            results: ProductsListType[]
         }>(`${RECOURCE}/`, search)
 
         if (response) {
@@ -99,7 +107,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.name}
+                                {item.name || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -115,7 +123,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.short_introduction}
+                                {item.base_price || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -131,7 +139,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.connectionMethod}
+                                {item.max_price || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -147,7 +155,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.description}
+                                {item.category_name}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -163,46 +171,10 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.category}
+                                {item.type}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Stack direction={'column'} gap={1.5}>
-                                {item?.properties?.map((property) => (
-                                    <Stack direction={'row'} alignItems={'center'} gap={1}>
-                                        <Typography
-                                            variant="body2"
-                                            fontSize={{
-                                                xs: '13px',
-                                                sm: '14px',
-                                                md: '16px',
-                                                xl: '17px',
-                                            }}
-                                            sx={{
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            نام: {property.name}
-                                        </Typography>
-                                        |
-                                        <Typography
-                                            variant="body2"
-                                            fontSize={{
-                                                xs: '13px',
-                                                sm: '14px',
-                                                md: '16px',
-                                                xl: '17px',
-                                            }}
-                                            sx={{
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            مقدار: {property.value}
-                                        </Typography>
-                                    </Stack>
-                                ))}
-                            </Stack>
-                        </TableCell>
+
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -216,20 +188,8 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.base_price}
+                                {formatDate(item.created_at)}
                             </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Box
-                                component={'img'}
-                                src={typeof item.picture === 'string' ? item.picture : ''}
-                                sx={{
-                                    width: '60px',
-                                    height: '60px',
-                                    borderRadius: 2,
-                                    objectFit: 'cover',
-                                }}
-                            />
                         </TableCell>
                     </>
                 ))}

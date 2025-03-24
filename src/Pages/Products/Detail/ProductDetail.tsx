@@ -22,7 +22,10 @@ interface ProductDetailType {
     }
     type: string
     created_at: string
-    pictures: any[]
+    pictures: {
+        id: number
+        picture: string
+    }[]
     options: any[]
     properties: any[]
 }
@@ -218,7 +221,7 @@ export function ProductDetail() {
                                             borderRadius: 2,
                                             objectFit: 'cover',
                                         }}
-                                        src={item}
+                                        src={item.picture}
                                         borderRadius={2}
                                     />
                                 </Grid>

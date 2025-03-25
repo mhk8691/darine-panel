@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -8,24 +7,27 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import {FieldType} from './Method'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import {IconButton} from '@mui/material'
+import {IconButton, Stack, Typography} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import {useNavigate, useParams} from 'react-router-dom'
+import {Dispatch, SetStateAction} from 'react'
 function createData(id: number, name: string, label: string, type: string) {
     return {name, label, type, id}
 }
 
 interface Props {
     data: FieldType[] | null
-    removeField?: (id: number) => void
     editMode?: boolean
     hasDetail: boolean
+    setOpen?: Dispatch<SetStateAction<boolean>>
+    setDeleteId?: Dispatch<SetStateAction<number | null>>
 }
-export default function FieldsTable({data, removeField, editMode, hasDetail}: Props) {
+export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDetail}: Props) {
     const rows = data?.map((item) => ({
         title: item.title,
         description: item.description,
         type: item.type,
+        choices: item.choices,
         id: item.id,
     }))
     const pershianType = [
@@ -36,10 +38,13 @@ export default function FieldsTable({data, removeField, editMode, hasDetail}: Pr
     ]
     const id = useParams().id
     const navigate = useNavigate()
-    
+
     return (
         <TableContainer component={Paper} sx={{mt: 3}}>
-            <Table sx={{minWidth: 650, border: '2px solid #3f3f3f',borderRadius:2}} aria-label="simple table">
+            <Table
+                sx={{minWidth: 650, border: '2px solid #3f3f3f', borderRadius: 2}}
+                aria-label="simple table"
+            >
                 <TableHead>
                     <TableRow>
                         <TableCell
@@ -78,6 +83,18 @@ export default function FieldsTable({data, removeField, editMode, hasDetail}: Pr
                         >
                             تایپ
                         </TableCell>
+                        <TableCell
+                            align="left"
+                            sx={{
+                                fontSize: {
+                                    xs: '15px',
+                                    md: '17px',
+                                },
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            گزینه ها
+                        </TableCell>
                         {hasDetail === false && <TableCell align="left"></TableCell>}
                         {!hasDetail ? editMode && <TableCell align="left"></TableCell> : null}
                     </TableRow>
@@ -100,6 +117,18 @@ export default function FieldsTable({data, removeField, editMode, hasDetail}: Pr
                             >
                                 {row.title}
                             </TableCell>
+
+                            <TableCell
+                                align="left"
+                                sx={{
+                                    fontSize: {
+                                        xs: '14px',
+                                        md: '16px',
+                                    },
+                                }}
+                            >
+                                {pershianType.find((item) => item.key === row.type)?.value}
+                            </TableCell>
                             <TableCell
                                 align="left"
                                 sx={{
@@ -120,13 +149,27 @@ export default function FieldsTable({data, removeField, editMode, hasDetail}: Pr
                                     },
                                 }}
                             >
-                                {pershianType.find((item) => item.key === row.type)?.value}
+                                <Stack direction={'row'} alignItems={'center'} spacing={2}>
+                                    {row.choices?.map((item, index) => (
+                                        <>
+                                            <Typography variant="body2">{item.title}</Typography>
+                                            {row.choices?.length - 1 !== index && (
+                                                <Typography variant="body2">|</Typography>
+                                            )}
+                                        </>
+                                    ))}
+                                </Stack>
                             </TableCell>
                             {hasDetail === false && (
                                 <TableCell align="left">
                                     <IconButton
                                         size="large"
-                                        onClick={() => removeField && removeField(row.id)}
+                                        onClick={() => {
+                                           if(setOpen && setDeleteId){
+                                             setOpen(true)
+                                             setDeleteId(row.id)
+                                           }
+                                        }}
                                     >
                                         <DeleteOutlinedIcon />
                                     </IconButton>

@@ -1,7 +1,18 @@
 import {useState} from 'react'
 import {useLocation, useParams} from 'react-router-dom'
 import {EditPage} from '../../../../Components/Table/EditPage'
-import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material'
+import {
+    Button,
+    Chip,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+    Typography,
+} from '@mui/material'
 import {CustomTextField} from '../../../../Components/Input/CustomTextField'
 import {FieldType} from '../../Method'
 
@@ -10,6 +21,7 @@ export function FieldEdit() {
     const RESOURCE = `account/base-accounts/${id}/fields`
     const state = useLocation().state as {row: FieldType}
     const [field, setField] = useState(state.row)
+    const [newChoice, setNewChoice] = useState({title: '', id: Date.now()})
     const handleChange = (event: SelectChangeEvent) => {
         setField((prev) => {
             return {...prev, type: event.target.value as string} as FieldType
@@ -100,8 +112,54 @@ export function FieldEdit() {
                         </Select>
                     </FormControl>
                 </Grid>
-              
             </Grid>
+            <Grid container sx={{mt: 2}} spacing={2}>
+                <Grid item xs={12}>
+                    <Typography variant="body2" fontSize={16} fontWeight={700} sx={{mb: 1}}>
+                        افزودن گزینه
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <CustomTextField
+                        name="choices"
+                        resource={RESOURCE}
+                        value={newChoice.title}
+                        onChange={(e) => setNewChoice({title: e.target.value, id: Date.now()})}
+                        label={'عنوان'}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => {
+                            setField((prev) => ({
+                                ...prev,
+                                choices: [...(prev.choices || []), newChoice],
+                            }))
+                            setNewChoice({title: '', id: Date.now()})
+                        }}
+                        size="large"
+                        sx={{py: 1.4}}
+                    >
+                        ذخیره
+                    </Button>
+                </Grid>
+            </Grid>
+
+            {field.choices?.length > 0 && (
+                <Stack direction="row" spacing={1} alignItems="center" mt={2}>
+                    {field?.choices?.map((item) => (
+                        <Chip
+                            label={item.title}
+                            variant="outlined"
+                            sx={{minWidth: '5%'}}
+                            onClick={() => {
+                                setNewChoice({title: item.title, id: item.id})
+                            }}
+                        />
+                    ))}
+                </Stack>
+            )}
         </EditPage>
     )
 }

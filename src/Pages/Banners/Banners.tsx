@@ -1,4 +1,12 @@
-import {Button, Stack} from '@mui/material'
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+} from '@mui/material'
 import {useState} from 'react'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import ImageUploader from '../../Components/Input/ImageUploader'
@@ -10,7 +18,7 @@ export type BannersType = {
     subtitle: string
     image: string | File
     url: string
-    active: boolean
+    active: boolean | string
 }
 const RESOURCE = 'banners'
 
@@ -23,33 +31,97 @@ export function Banners({
 }) {
     const [open, setOpen] = useState(false)
     const [imagePreview, setImagePreview] = useState('')
-
+    const handleChange = (event: SelectChangeEvent) => {
+        setBanner((prev) => {
+            return {...prev, active: event.target.value === 'فعال' ? true : false}
+        })
+    }
     return (
         <Stack>
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
                     <CustomTextField
-                        name="name"
+                        name="title"
                         setData={setBanner}
                         resource={RESOURCE}
                         label={'عنوان'}
                         defaultValue={banner.title}
                     />,
                     <CustomTextField
-                        name="name"
+                        name="subtitle"
                         setData={setBanner}
                         resource={RESOURCE}
                         label={'ساب تایتل'}
                         defaultValue={banner.subtitle}
                     />,
                     <CustomTextField
-                        name="name"
+                        name="url"
                         setData={setBanner}
                         resource={RESOURCE}
                         label={'لینک'}
                         defaultValue={banner.url}
+                        sx={{
+                            '& .MuiInputBase-input': {
+                                direction: 'rtl !important',
+                            },
+                        }}
                     />,
+                    <FormControl
+                        fullWidth
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                height: '54.56px !important',
+                            },
+                            '& .MuiSelect-select': {
+                                fontSize: '15px !important',
+                            },
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
+                    >
+                        <InputLabel
+                            id="demo-simple-select-label"
+                            sx={{
+                                fontSize: '15px !important',
+                            }}
+                        >
+                            وضعیت
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={banner.active ? 'فعال' : 'غیر فعال'}
+                            label="وضعیت"
+                            onChange={handleChange}
+                            sx={{
+                                '& .MuiAutocomplete-listbox': {
+                                    fontSize: '15px',
+                                },
+                                '& .MuiAutocomplete-option': {
+                                    py: '12px !important',
+                                },
+                            }}
+                        >
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'فعال'}
+                            >
+                                فعال
+                            </MenuItem>
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'غیر فعال'}
+                            >
+                                غیر فعال
+                            </MenuItem>
+                        </Select>
+                    </FormControl>,
 
                     <Button
                         variant="outlined"

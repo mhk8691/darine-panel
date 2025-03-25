@@ -139,7 +139,7 @@ export function BannersList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.active}
+                                {item.active ? 'فعال' : 'غیر فعال'}
                             </Typography>
                         </TableCell>
                         <TableCell>

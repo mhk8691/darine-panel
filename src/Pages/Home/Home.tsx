@@ -38,6 +38,7 @@ import { BannerCreate } from '../Banners/Create/BannerCreate'
 import { BannersList } from '../Banners/List/BannersList'
 import { BannerEdit } from '../Banners/Edit/BannerEdit'
 import { BannerDetail } from '../Banners/Detail/BannerDetail'
+import { PropertiesEdit } from '../Products/Edit/Properties/PropertiesEdit'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -90,7 +91,7 @@ export function Home(props) {
                         <Route path="users" element={<UsersList />} />
                         <Route path="users/:id" element={<UserEdit />} />
                         <Route path="users/detail/:id" element={<UserDetail />} />
-                        {/* procuts section */}
+                        {/* product section */}
                         <Route
                             path="product/create"
                             element={<ProductCreate data={data} setData={setData} />}
@@ -98,6 +99,7 @@ export function Home(props) {
                         <Route path="product" element={<ProductsList />} />
                         <Route path="product/:id" element={<ProductEdit />} />
                         <Route path="product/detail/:id" element={<ProductDetail />} />
+                        <Route path="product/:productId/properties/:id" element={<PropertiesEdit />} />
                         {/* categories section */}
                         <Route
                             path="category/create"

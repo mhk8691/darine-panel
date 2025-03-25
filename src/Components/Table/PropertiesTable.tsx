@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -9,7 +8,9 @@ import Paper from '@mui/material/Paper'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import {IconButton} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import { PropertyType } from '../../Core/types'
+import {PropertyType} from '../../Core/types'
+import {useNavigate} from 'react-router-dom'
+import {Dispatch, SetStateAction} from 'react'
 
 function createData(id: number, name: string, label: string, type: string) {
     return {name, label, type, id}
@@ -19,14 +20,26 @@ interface Props {
     data: PropertyType[] | null
     removeProperty: (id: number) => void
     editProperty: (id: number) => void
+    editMode: boolean
+    url: string
+    setDeleteId: Dispatch<SetStateAction<number | null>>
+    setDeleteModal: Dispatch<SetStateAction<boolean>>
 }
-export default function PropertiesTable({data, removeProperty, editProperty}: Props) {
+export default function PropertiesTable({
+    data,
+    removeProperty,
+    editProperty,
+    editMode,
+    url,
+    setDeleteId,
+    setDeleteModal,
+}: Props) {
     const rows = data?.map((item) => ({
         id: item.id,
         name: item.name,
         value: item.value,
     }))
-
+    const navigate = useNavigate()
     return (
         <TableContainer component={Paper} sx={{mt: 3}}>
             <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -92,16 +105,30 @@ export default function PropertiesTable({data, removeProperty, editProperty}: Pr
                             </TableCell>
 
                             <TableCell align={'right'}>
-                                <IconButton size="large" onClick={() => removeProperty(row.id)}>
+                                <IconButton
+                                    size="large"
+                                    onClick={() => {
+                                        setDeleteId(row.id)
+                                        setDeleteModal(true)
+                                    }}
+                                >
                                     <DeleteOutlinedIcon />
                                 </IconButton>
                             </TableCell>
-                                <TableCell align="left">
-                                    <IconButton size="large" onClick={() => editProperty(row.id)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                </TableCell>
-                            
+                            <TableCell align="left">
+                                <IconButton
+                                    size="large"
+                                    onClick={() => {
+                                        if (editMode) {
+                                            navigate(`${url}${row.id}`, {state: {row}})
+                                        } else {
+                                            editProperty(row.id)
+                                        }
+                                    }}
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

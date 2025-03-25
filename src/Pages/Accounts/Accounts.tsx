@@ -257,11 +257,7 @@ export function Accounts({
                 </Grid>
                 {account.properties?.length > 0 && (
                     <Grid item xs={12}>
-                        <PropertiesTable
-                            data={account.properties}
-                            editProperty={editProperty}
-                            removeProperty={removeProperty}
-                        />
+                       
                     </Grid>
                 )}
             </Grid>

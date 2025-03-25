@@ -32,7 +32,12 @@ export function ProductEdit() {
             isFormData={true}
             initialData={initialData}
         >
-            <Products product={product} setProduct={setProduct} editMode={true} />
+            <Products
+                product={product}
+                setProduct={setProduct}
+                editMode={true}
+                getProduct={getProduct}
+            />
         </EditPage>
     )
 }

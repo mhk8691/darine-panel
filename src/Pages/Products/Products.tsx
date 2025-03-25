@@ -24,6 +24,7 @@ import {ProductDetailType} from './Detail/ProductDetail'
 import {useParams} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {setUtil} from '../../redux/UtilSlice'
+import {ElevatorSharp} from '@mui/icons-material'
 
 export type ProductsType = {
     id: number
@@ -96,38 +97,56 @@ export function Products({
         getConnectionMethods()
         console.log(product)
     }, [])
-    const addProperty = () => {
+    const addProperty = async () => {
         if (!newProperty.name || !newProperty.value) {
             return
         }
 
-        setProduct((prevProduct) => {
-            const existingPropertyIndex = prevProduct.properties?.findIndex(
-                (property) => property.id === newProperty.id,
-            )
-
-            let updatedProperties
-            if (existingPropertyIndex !== -1 && existingPropertyIndex !== undefined) {
-                updatedProperties = prevProduct.properties?.map((property) =>
-                    property.id === newProperty.id ? newProperty : property,
-                )
-            } else {
-                updatedProperties = [
-                    ...(prevProduct.properties || []),
+        if (editMode) {
+            try {
+                let res = await DataProvider.post<ProductDetailType>(
+                    `${RESOURCE}/${productId}/add_property/`,
                     {
-                        id: Date.now(),
-                        name: newProperty.name,
-                        value: newProperty.value,
+                        data: {
+                            name: newProperty.name,
+                            value: newProperty.value,
+                        },
                     },
-                ]
+                )
+                dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
+                getProduct && getProduct()
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
             }
+        } else {
+            setProduct((prevProduct) => {
+                const existingPropertyIndex = prevProduct.properties?.findIndex(
+                    (property) => property.id === newProperty.id,
+                )
 
-            return {
-                ...prevProduct,
-                properties: updatedProperties,
-            }
-        })
+                let updatedProperties
+                if (existingPropertyIndex !== -1 && existingPropertyIndex !== undefined) {
+                    updatedProperties = prevProduct.properties?.map((property) =>
+                        property.id === newProperty.id ? newProperty : property,
+                    )
+                } else {
+                    updatedProperties = [
+                        ...(prevProduct.properties || []),
+                        {
+                            id: Date.now(),
+                            name: newProperty.name,
+                            value: newProperty.value,
+                        },
+                    ]
+                }
 
+                return {
+                    ...prevProduct,
+                    properties: updatedProperties,
+                }
+            })
+
+        }
         setNewProperty({name: '', value: ''} as PropertyType)
     }
 
@@ -356,46 +375,40 @@ export function Products({
                         />
                     )}
                 </Grid>
-                {!editMode && (
-                    <>
-                        <Grid item xs={12} sm={6} md={4} xl={3}>
-                            <CustomTextField
-                                key={newProperty.id}
-                                name="name"
-                                resource={RESOURCE}
-                                value={newProperty.name}
-                                onChange={(e) =>
-                                    setNewProperty({...newProperty, name: e.target.value})
-                                }
-                                label={'نام'}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} xl={3}>
-                            <CustomTextField
-                                key={newProperty.id}
-                                name="label"
-                                setData={setNewProperty}
-                                resource={RESOURCE}
-                                value={newProperty.value}
-                                onChange={(e) =>
-                                    setNewProperty({...newProperty, value: e.target.value})
-                                }
-                                label={'مقدار'}
-                            />
-                        </Grid>
-                        <Grid xs={12} sm={6} md={4} xl={3} item>
-                            <Button
-                                variant="outlined"
-                                onClick={addProperty}
-                                size="large"
-                                sx={{height: '53px', borderRadius: '4px !important'}}
-                                fullWidth
-                            >
-                                {'تایید'}
-                            </Button>
-                        </Grid>
-                    </>
-                )}
+
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <CustomTextField
+                        key={newProperty.id}
+                        name="name"
+                        resource={RESOURCE}
+                        value={newProperty.name}
+                        onChange={(e) => setNewProperty({...newProperty, name: e.target.value})}
+                        label={'نام'}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <CustomTextField
+                        key={newProperty.id}
+                        name="label"
+                        setData={setNewProperty}
+                        resource={RESOURCE}
+                        value={newProperty.value}
+                        onChange={(e) => setNewProperty({...newProperty, value: e.target.value})}
+                        label={'مقدار'}
+                    />
+                </Grid>
+                <Grid xs={12} sm={6} md={4} xl={3} item>
+                    <Button
+                        variant="outlined"
+                        onClick={addProperty}
+                        size="large"
+                        sx={{height: '53px', borderRadius: '4px !important'}}
+                        fullWidth
+                    >
+                        {'تایید'}
+                    </Button>
+                </Grid>
+
                 {product.properties?.length > 0 && (
                     <Grid item xs={12}>
                         <PropertiesTable

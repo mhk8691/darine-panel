@@ -18,7 +18,7 @@ export function PropertiesEdit() {
             title="ویرایش فیلد"
             formDetails={property}
             initialData={state.row}
-            redirect={'products'}
+            redirect={`product/${id}`}
         >
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>

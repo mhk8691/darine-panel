@@ -22,7 +22,7 @@ export function CreatePage(props) {
                     })
                 } else {
                     value.forEach((object) => {
-                        formData.append(key, object)
+                        formData.append(key, JSON.stringify(object))
                     })
                 }
             } else {

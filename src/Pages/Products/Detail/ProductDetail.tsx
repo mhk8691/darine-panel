@@ -5,7 +5,7 @@ import Progress from '../../../Components/Progress/Progress'
 import {DataProvider} from '../../../Core/DataProvider'
 
 const RECOURCE = 'product'
-interface ProductDetailType {
+export interface ProductDetailType {
     id: number
     name: string
     short_introduction: string
@@ -22,12 +22,10 @@ interface ProductDetailType {
     }
     type: string
     created_at: string
-    pictures: {
-        id: number
-        picture: string
-    }[]
+    pictures:any
     options: any[]
     properties: any[]
+    video?:any
 }
 export function ProductDetail() {
     const productId = useParams().id
@@ -35,10 +33,14 @@ export function ProductDetail() {
     const [product, setProduct] = useState<ProductDetailType>({} as ProductDetailType)
     const getProduct = async () => {
         setLoading(true)
-        let response = await DataProvider.get<ProductDetailType>(`${RECOURCE}/${productId}/`)
+       try{
+         let response = await DataProvider.get<ProductDetailType>(`${RECOURCE}/${productId}/`)
         if (response) {
             setProduct(response.data)
         }
+       }catch{
+
+       }
         setLoading(false)
     }
 
@@ -91,7 +93,7 @@ export function ProductDetail() {
                         <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
                             معرفی کوتاه:
                         </Typography>
-                        <Stack bgcolor={'background.paper'} borderRadius={2} p={2}>
+                        <Stack bgcolor={'background.light'} borderRadius={2} p={2}>
                             <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                                 {product?.short_introduction || '--'}
                             </Typography>
@@ -171,16 +173,16 @@ export function ProductDetail() {
                         <Stack direction={'column'} spacing={1.5}>
                             {product?.properties?.map((item, index) => (
                                 <Grid container spacing={2} sx={{alignItems: 'center'}} key={index}>
-                                    <Grid xs={12} sm={1.8} md={1.3} lg={1}>
+                                    <Grid xs={1.8} sm={1.8} md={1.3} lg={1}>
                                         <Stack>
                                             <Typography variant="body2" fontSize={16}>
                                                 {item.name}
                                             </Typography>
                                         </Stack>
                                     </Grid>
-                                    <Grid xs={12} sm={10.2} md={10.7} lg={11}>
+                                    <Grid xs={10.2} sm={10.2} md={10.7} lg={11}>
                                         <Stack
-                                            bgcolor={'background.paper'}
+                                            bgcolor={'background.light'}
                                             borderRadius={2}
                                             p={1.2}
                                         >

@@ -19,6 +19,7 @@ import {CategoriesType} from '../Categories/Categories'
 import {DataProvider} from '../../Core/DataProvider'
 import {BaseModal} from '../../Components/Modal/BaseModal'
 import {MethodType} from '../ConnectionMethod/Method'
+import {ProductDetailType} from './Detail/ProductDetail'
 
 export type ProductsType = {
     id: number
@@ -45,8 +46,8 @@ export function Products({
     product,
     setProduct,
 }: {
-    product: ProductsType
-    setProduct: React.Dispatch<React.SetStateAction<ProductsType>>
+    product: ProductDetailType
+    setProduct: React.Dispatch<React.SetStateAction<ProductDetailType>>
 }) {
     const [files, setFiles] = useState<File[]>([])
 
@@ -81,6 +82,7 @@ export function Products({
     useEffect(() => {
         getCategories()
         getConnectionMethods()
+        console.log(product)
     }, [])
     const addProperty = () => {
         if (!newProperty.name || !newProperty.value) {
@@ -147,12 +149,13 @@ export function Products({
             return {...prev, type: event.target.value as 'coins' | 'account'}
         })
     }
-    const formData = new FormData()
+
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
+                        key={product.id}
                         name="name"
                         setData={setProduct}
                         resource={RESOURCE}
@@ -162,28 +165,31 @@ export function Products({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomAutocomplete
+                        key={product.id}
                         options={categories?.results.map((category) => {
                             return {label: category.name, id: category.id}
                         })}
                         name="category"
                         setData={setProduct}
-                        defaultValue={product.category}
+                        defaultValue={product.category?.name}
                         label={'دسته بندی'}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomAutocomplete
+                        key={product.id}
                         options={connectionMethod?.results.map((method) => {
                             return {label: method.title, id: method.id}
                         })}
                         name="connection_method"
                         setData={setProduct}
-                        defaultValue={product.connectionMethod}
+                        defaultValue={product.connection_method?.title}
                         label={'روش اتصال'}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
+                        key={product.id}
                         name="base_price"
                         resource={RESOURCE}
                         setData={setProduct}
@@ -257,11 +263,12 @@ export function Products({
                         fullWidth
                         sx={{height: '53px', borderRadius: '4px !important'}}
                     >
-                        {product.picture ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                        {product.pictures ? 'ویرایش تصویر' : 'انتخاب تصویر'}
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTextField
+                        key={product.id}
                         name="short_introduction"
                         resource={RESOURCE}
                         setData={setProduct}
@@ -402,16 +409,16 @@ export function Products({
                                 />
                             </Grid>
                         ))}
-                    {product?.picture &&
+                    {product?.pictures &&
                         files.length === 0 &&
-                        product?.picture?.map((image) => (
+                        product?.pictures?.map((image) => (
                             <Grid item xs={3}>
                                 <Box
                                     component={'img'}
                                     src={
-                                        typeof image === 'string'
-                                            ? image
-                                            : URL.createObjectURL(image)
+                                        typeof image.picture === 'string'
+                                            ? image.picture
+                                            : URL.createObjectURL(image.picture)
                                     }
                                     sx={{
                                         width: '100%',
@@ -428,8 +435,6 @@ export function Products({
                         variant="contained"
                         size="large"
                         onClick={() => {
-                            
-
                             setProduct((prev) => ({...prev, picture: files}))
                             console.log(files)
                             setOpen(false)

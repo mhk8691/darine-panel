@@ -29,17 +29,44 @@ export function FieldEdit() {
     }
     const inputType = [
         {label: 'متن', value: 'text'},
-        {label: 'شماره', value: 'number'},
-        {label: 'ایمیل', value: 'email'},
-        {label: 'رمز عبور', value: 'password'},
+        {label: 'فیلد انتخابی', value: 'choice'},
     ]
+    const handleSaveChoice = () => {
+        setField((prev) => {
+            const existingIndex = prev.choices.findIndex((item) => item.id === newChoice.id)
+            if (existingIndex > -1) {
+                // Edit existing choice
+                const updatedChoices = [...prev.choices]
+                updatedChoices[existingIndex] = {...newChoice}
+                return {...prev, choices: updatedChoices}
+            } else {
+                // Add new choice
+                return {...prev, choices: [...prev.choices, {...newChoice}]}
+            }
+        })
+        setNewChoice({title: '', id: Date.now()})
+    }
     return (
         <EditPage
             resource={RESOURCE}
             title="ویرایش فیلد"
-            formDetails={field}
-            initialData={state.row}
-            redirect={'base-accounts'}
+            formDetails={{
+                title: field?.title,
+                description: field?.description,
+                type: field?.type,
+                choices: field?.choices?.map((item) => {
+                    return item.title
+                }),
+            }}
+            initialData={{
+                title: state.row?.title,
+                description: state.row?.description,
+                type: state.row?.type,
+                choices: state?.row?.choices?.map((item) => {
+                    return item.title
+                }),
+            }}
+            redirect={`base-accounts/${id}`}
         >
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -113,38 +140,34 @@ export function FieldEdit() {
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container sx={{mt: 2}} spacing={2}>
-                <Grid item xs={12}>
-                    <Typography variant="body2" fontSize={16} fontWeight={700} sx={{mb: 1}}>
-                        افزودن گزینه
-                    </Typography>
+            {field.type === 'choice' && (
+                <Grid container sx={{mt: 2}} spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography variant="body2" fontSize={16} fontWeight={700} sx={{mb: 1}}>
+                            افزودن گزینه
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4} xl={3}>
+                        <CustomTextField
+                            name="choices"
+                            resource={RESOURCE}
+                            value={newChoice.title}
+                            onChange={(e) => setNewChoice({...newChoice, title: e.target.value})}
+                            label={'عنوان'}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4} xl={3}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleSaveChoice}
+                            size="large"
+                            sx={{py: 1.4}}
+                        >
+                            ذخیره
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        name="choices"
-                        resource={RESOURCE}
-                        value={newChoice.title}
-                        onChange={(e) => setNewChoice({title: e.target.value, id: Date.now()})}
-                        label={'عنوان'}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <Button
-                        variant="outlined"
-                        onClick={() => {
-                            setField((prev) => ({
-                                ...prev,
-                                choices: [...(prev.choices || []), newChoice],
-                            }))
-                            setNewChoice({title: '', id: Date.now()})
-                        }}
-                        size="large"
-                        sx={{py: 1.4}}
-                    >
-                        ذخیره
-                    </Button>
-                </Grid>
-            </Grid>
+            )}
 
             {field.choices?.length > 0 && (
                 <Stack direction="row" spacing={1} alignItems="center" mt={2}>
@@ -153,9 +176,7 @@ export function FieldEdit() {
                             label={item.title}
                             variant="outlined"
                             sx={{minWidth: '5%'}}
-                            onClick={() => {
-                                setNewChoice({title: item.title, id: item.id})
-                            }}
+                            onClick={() => setNewChoice(item)}
                         />
                     ))}
                 </Stack>

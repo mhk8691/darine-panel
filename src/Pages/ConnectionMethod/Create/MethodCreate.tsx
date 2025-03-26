@@ -14,7 +14,19 @@ export function MethodCreate({
             title={'افزودن روش اتصال'}
             resource={'account/base-accounts/'}
             redirect={'base-accounts'}
-            formDetails={data}
+            formDetails={{
+                title: data.title,
+                fields: data?.fields?.map((item)=>{
+                    return  {
+                        title: item.title,
+                        description: item.description,
+                        type: item.type,
+                        choices: item?.choices?.map((choice)=>{
+                            return choice.title
+                        }),
+                    }
+                })
+            }}
         >
             <ConnectionMethod method={data} setMethod={setData} editMode={false} />
         </CreatePage>

@@ -32,9 +32,7 @@ export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDe
     }))
     const pershianType = [
         {key: 'text', value: 'متن'},
-        {key: 'number', value: 'عدد'},
-        {key: 'email', value: 'ایمیل'},
-        {key: 'password', value: 'رمز عبور'},
+        {key: 'choice', value: 'فیلد انتخابی'},
     ]
     const id = useParams().id
     const navigate = useNavigate()
@@ -42,7 +40,7 @@ export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDe
     return (
         <TableContainer component={Paper} sx={{mt: 3}}>
             <Table
-                sx={{minWidth: 650, border: '2px solid #3f3f3f', borderRadius: 2}}
+                sx={{minWidth: 650, border: '2px solid #3f3f3f', borderRadius: 10, mt: 2}}
                 aria-label="simple table"
             >
                 <TableHead>
@@ -117,18 +115,6 @@ export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDe
                             >
                                 {row.title}
                             </TableCell>
-
-                            <TableCell
-                                align="left"
-                                sx={{
-                                    fontSize: {
-                                        xs: '14px',
-                                        md: '16px',
-                                    },
-                                }}
-                            >
-                                {pershianType.find((item) => item.key === row.type)?.value}
-                            </TableCell>
                             <TableCell
                                 align="left"
                                 sx={{
@@ -140,6 +126,18 @@ export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDe
                             >
                                 {row.description}
                             </TableCell>
+                            <TableCell
+                                align="left"
+                                sx={{
+                                    fontSize: {
+                                        xs: '14px',
+                                        md: '16px',
+                                    },
+                                }}
+                            >
+                                {pershianType.find((item) => item.key === row.type)?.value}
+                            </TableCell>
+
                             <TableCell
                                 align="left"
                                 sx={{
@@ -165,10 +163,10 @@ export default function FieldsTable({data, setOpen, setDeleteId, editMode, hasDe
                                     <IconButton
                                         size="large"
                                         onClick={() => {
-                                           if(setOpen && setDeleteId){
-                                             setOpen(true)
-                                             setDeleteId(row.id)
-                                           }
+                                            if (setOpen && setDeleteId) {
+                                                setOpen(true)
+                                                setDeleteId(row.id)
+                                            }
                                         }}
                                     >
                                         <DeleteOutlinedIcon />

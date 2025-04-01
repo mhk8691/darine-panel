@@ -26,17 +26,21 @@ export function MethodsList() {
     const [loading, setLoading] = useState(false)
 
     const [methods, setMethods] = useState<{
+        total_results: number
         data: MethodType[]
     }>({
+        total_results: 0,
         data: [],
     })
     const getMethods = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
+            total_results: number
             results: MethodType[]
         }>(`${RECOURCE}/`, search)
         if (response) {
             setMethods({
+                total_results: response.data.total_results,
                 data: response.data.results,
             })
         }
@@ -49,7 +53,7 @@ export function MethodsList() {
     return (
         <ListPage
             header="مدیریت کاربران"
-            href={'base-accounts' + '/create'}
+            href={'base-accounts/create'}
             searchField="title"
             searchText="نام کاربری"
             setParams={setSearch}
@@ -70,7 +74,7 @@ export function MethodsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={methods.data}
-                count={0}
+                count={methods.total_results}
                 deleteName="name of deleting"
                 getList={getMethods}
                 hasDetail={true}

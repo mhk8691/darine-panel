@@ -28,17 +28,21 @@ export function CategoriesList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState<{
+        total_results: number
         data: CategoriesType[]
     }>({
+        total_results: 0,
         data: [],
     })
     const getCategories = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
+            total_results: number
             results: CategoriesType[]
         }>(`${RECOURCE}/`, search)
         if (response) {
             setCategories({
+                total_results: response.data.total_results,
                 data: response.data.results,
             })
         }
@@ -68,7 +72,7 @@ export function CategoriesList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={categories.data}
-                count={0}
+                count={categories.total_results}
                 deleteName="name of deleting"
                 getList={getCategories}
                 params={search}

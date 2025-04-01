@@ -10,7 +10,6 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {UserCreate} from '../Create/UserCreate'
 import {UsersType} from '../Users'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
 const RECOURCE = 'users'
 const tableHeadCells = [
     createTableHeadCells('نام', 'first_name'),
@@ -31,10 +30,10 @@ export function UsersList() {
     const [loading, setLoading] = useState(false)
 
     const [users, setUsers] = useState<{
+        total_results: number
         data: UsersType[]
-        pagination: PaginationType
-        count: number
     }>({
+        total_results: 0,
         data: [
             {
                 id: 1,
@@ -42,7 +41,8 @@ export function UsersList() {
                 last_name: 'mmdi',
                 phone_number: '09126320520',
                 role: 'admin',
-                profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                profile_picture:
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
             {
                 id: 2,
@@ -50,23 +50,21 @@ export function UsersList() {
                 last_name: 'mmdi',
                 phone_number: '09126320520',
                 role: 'user',
-                profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                profile_picture:
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
-        pagination: {} as PaginationType,
-        count: 0,
     })
     const getUsers = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<UsersType[]>>(
-            `${RECOURCE}/list`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            total_results: number
+            results: UsersType[]
+        }>(`${RECOURCE}/list`, search)
         if (response) {
             setUsers({
+                total_results: response.data.total_results,
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
@@ -99,7 +97,7 @@ export function UsersList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={users.data}
-                count={users.count}
+                count={users.total_results}
                 deleteName="name of deleting"
                 getList={getUsers}
                 params={search}
@@ -171,7 +169,11 @@ export function UsersList() {
                                     borderRadius: 2,
                                     objectFit: 'cover',
                                 }}
-                                src={typeof item?.profile_picture === 'string' ? item?.profile_picture : ''}
+                                src={
+                                    typeof item?.profile_picture === 'string'
+                                        ? item?.profile_picture
+                                        : ''
+                                }
                                 borderRadius={2}
                             />
                         </TableCell>

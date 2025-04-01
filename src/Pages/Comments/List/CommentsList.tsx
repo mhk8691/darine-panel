@@ -8,7 +8,6 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
 import {CommentsType} from '../Comments'
 import {CommentCreate} from '../Create/CommentCreate'
 
@@ -28,10 +27,10 @@ export function CommentsList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [comments, setComments] = useState<{
+        total_results: number
         data: CommentsType[]
-        pagination: PaginationType
-        count: number
     }>({
+        total_results: 0,
         data: [
             {
                 id: 1,
@@ -41,21 +40,18 @@ export function CommentsList() {
                 comment: 'تست',
             },
         ],
-        pagination: {} as PaginationType,
-        count: 0,
     })
     const getComments = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<CommentsType[]>>(
-            `${RECOURCE}/list`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            total_results: number
+            results: CommentsType[]
+        }>(`${RECOURCE}/list`, search)
 
         if (response) {
             setComments({
+                total_results: response.data.total_results,
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
@@ -87,7 +83,7 @@ export function CommentsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={comments.data}
-                count={comments.count}
+                count={comments.total_results}
                 deleteName="name of deleting"
                 getList={getComments}
                 params={search}

@@ -39,18 +39,22 @@ export function ProductsList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<{
+        total_results: number
         data: ProductsListType[]
     }>({
+        total_results: 0,
         data: [],
     })
     const getProducts = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
+            total_results: number
             results: ProductsListType[]
         }>(`${RECOURCE}/`, search)
 
         if (response) {
             setProducts({
+                total_results: response.data.total_results,
                 data: response.data.results,
             })
         }
@@ -84,7 +88,7 @@ export function ProductsList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={products.data}
-                count={0}
+                count={products.total_results}
                 deleteName="name of deleting"
                 getList={getProducts}
                 params={search}

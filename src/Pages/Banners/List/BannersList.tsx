@@ -9,7 +9,7 @@ import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {BannersType} from '../Banners'
-import { BannerCreate } from '../Create/BannerCreate'
+import {BannerCreate} from '../Create/BannerCreate'
 
 const RECOURCE = 'banners'
 const tableHeadCells = [
@@ -28,17 +28,21 @@ export function BannersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [banners, setBanners] = useState<{
+        total_results: number
         data: BannersType[]
     }>({
+        total_results: 0,
         data: [],
     })
     const getBanners = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
+            total_results: number
             results: BannersType[]
         }>(`${RECOURCE}/`, search)
         if (response) {
             setBanners({
+                total_results: response.data.total_results,
                 data: response.data.results,
             })
         }
@@ -68,7 +72,7 @@ export function BannersList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={banners.data}
-                count={0}
+                count={banners.total_results}
                 deleteName="name of deleting"
                 getList={getBanners}
                 params={search}

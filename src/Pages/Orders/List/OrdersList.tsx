@@ -7,10 +7,9 @@ import {CustomTable} from '../../../Components/Table/CustomTable'
 import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
+import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {OrdersType} from '../Orders'
-import {formatDate} from '../../../Core/FormatDate'
-import {PaginatedResponse, PaginationType} from '../../../Core/types'
 
 const RECOURCE = 'orders'
 const tableHeadCells = [
@@ -30,10 +29,10 @@ export function OrdersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [orders, setOrders] = useState<{
+        total_results: number
         data: OrdersType[]
-        pagination: PaginationType
-        count: number
     }>({
+        total_results: 0,
         data: [
             {
                 id: 1,
@@ -79,21 +78,18 @@ export function OrdersList() {
                 ],
             },
         ],
-        pagination: {} as PaginationType,
-        count: 0,
     })
     const getOrders = async () => {
         setLoading(true)
-        let response = await DataProvider.get<PaginatedResponse<OrdersType[]>>(
-            `${RECOURCE}/list`,
-            search,
-        )
+        let response = await DataProvider.get<{
+            total_results: number
+            results: OrdersType[]
+        }>(`${RECOURCE}/list`, search)
 
         if (response) {
             setOrders({
+                total_results: response.data.total_results,
                 data: response.data.results,
-                pagination: response.data.pagination,
-                count: response.data.pagination.pages * response.data.results.length,
             })
         }
         setLoading(false)
@@ -131,7 +127,7 @@ export function OrdersList() {
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={orders.data}
-                count={orders.count}
+                count={orders.total_results}
                 deleteName="name of deleting"
                 getList={getOrders}
                 params={search}
@@ -144,7 +140,7 @@ export function OrdersList() {
                         <TableCell>
                             <Typography
                                 variant="body2"
-                                  fontSize={{
+                                fontSize={{
                                     xs: '13px',
                                     sm: '14px',
                                     md: '16px',
@@ -160,7 +156,7 @@ export function OrdersList() {
                         <TableCell>
                             <Typography
                                 variant="body2"
-                                  fontSize={{
+                                fontSize={{
                                     xs: '13px',
                                     sm: '14px',
                                     md: '16px',
@@ -176,7 +172,7 @@ export function OrdersList() {
                         <TableCell>
                             <Typography
                                 variant="body2"
-                                  fontSize={{
+                                fontSize={{
                                     xs: '13px',
                                     sm: '14px',
                                     md: '16px',
@@ -192,7 +188,7 @@ export function OrdersList() {
                         <TableCell>
                             <Typography
                                 variant="body2"
-                                  fontSize={{
+                                fontSize={{
                                     xs: '13px',
                                     sm: '14px',
                                     md: '16px',

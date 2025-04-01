@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {CreatePage} from '../../../Components/Table/CreatePage'
 import {Products} from '../Products'
 

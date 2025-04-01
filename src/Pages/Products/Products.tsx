@@ -8,23 +8,17 @@ import {
     Select,
     SelectChangeEvent,
     Stack,
-    Typography,
 } from '@mui/material'
 import {ChangeEvent, useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
-import ImageUploader from '../../Components/Input/ImageUploader'
-import {PropertyType} from '../../Core/types'
-import PropertiesTable from '../../Components/Table/PropertiesTable'
-import {CategoriesType} from '../Categories/Categories'
-import {DataProvider} from '../../Core/DataProvider'
 import {BaseModal} from '../../Components/Modal/BaseModal'
+import {DataProvider} from '../../Core/DataProvider'
+import {PropertyType} from '../../Core/types'
+import {CategoriesType} from '../Categories/Categories'
 import {MethodType} from '../ConnectionMethod/Method'
 import {ProductDetailType} from './Detail/ProductDetail'
-import {useParams} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {setUtil} from '../../redux/UtilSlice'
-import {ElevatorSharp} from '@mui/icons-material'
 import Properties from './Properties'
 
 export type ProductsType = {
@@ -62,17 +56,13 @@ export function Products({
     const [files, setFiles] = useState<File[]>([])
     const productId = useParams().id
     const [open, setOpen] = useState(false)
-    const [deletModal, setDeleteModal] = useState(false)
 
-    const [newProperty, setNewProperty] = useState<PropertyType>({} as PropertyType)
     const [connectionMethod, setConnectionMethod] = useState<{
         results: MethodType[]
     } | null>(null)
     const [categories, setCategories] = useState<{
         results: CategoriesType[]
     } | null>(null)
-    const [deleteId, setDeleteId] = useState<number | null>(null)
-    const dispatch = useDispatch()
     const getCategories = async () => {
         try {
             const response = await DataProvider.get<{
@@ -98,80 +88,7 @@ export function Products({
         getConnectionMethods()
         console.log(product)
     }, [])
-    const addProperty = async () => {
-        if (!newProperty.name || !newProperty.value) {
-            return
-        }
 
-        if (editMode) {
-            try {
-                let res = await DataProvider.post<ProductDetailType>(
-                    `${RESOURCE}/${productId}/add_property/`,
-                    {
-                        data: {
-                            name: newProperty.name,
-                            value: newProperty.value,
-                        },
-                    },
-                )
-                dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
-                getProduct && getProduct()
-            } catch (error: any) {
-                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-            }
-        } else {
-            setProduct((prevProduct) => {
-                const existingPropertyIndex = prevProduct.properties?.findIndex(
-                    (property) => property.id === newProperty.id,
-                )
-
-                let updatedProperties
-                if (existingPropertyIndex !== -1 && existingPropertyIndex !== undefined) {
-                    updatedProperties = prevProduct.properties?.map((property) =>
-                        property.id === newProperty.id ? newProperty : property,
-                    )
-                } else {
-                    updatedProperties = [
-                        ...(prevProduct.properties || []),
-                        {
-                            id: Date.now(),
-                            name: newProperty.name,
-                            value: newProperty.value,
-                        },
-                    ]
-                }
-
-                return {
-                    ...prevProduct,
-                    properties: updatedProperties,
-                }
-            })
-        }
-        setNewProperty({name: '', value: ''} as PropertyType)
-    }
-
-    const removeProperty = async (id: number) => {
-        if (editMode) {
-            try {
-                dispatch(setUtil({loading: true}))
-                const res = await DataProvider.delete(`${RESOURCE}/${productId}/properties/${id}/`)
-                getProduct && getProduct()
-                dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
-            } catch (error: any) {
-                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-            }
-            dispatch(setUtil({loading: false}))
-        } else {
-            setProduct((prevProduct) => ({
-                ...prevProduct,
-                properties: prevProduct.properties.filter((property) => property.id !== id),
-            }))
-        }
-        setDeleteModal(false)
-    }
-    const editProperty = (id: number) => {
-        setNewProperty(product.properties.find((property) => property.id === id) as PropertyType)
-    }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = Array.from(event.target.files || [])
         if (file) {
@@ -323,7 +240,6 @@ export function Products({
                         rows={7}
                     />
                 </Grid>
-
                 <Grid item xs={12}>
                     <Stack
                         sx={{
@@ -375,25 +291,14 @@ export function Products({
                         />
                     )}
                 </Grid>
-                <Properties
-                    addProperty={addProperty}
-                    newProperty={newProperty}
-                    setNewProperty={setNewProperty}
-                />
 
-                {product.properties?.length > 0 && (
-                    <Grid item xs={12}>
-                        <PropertiesTable
-                            data={product.properties}
-                            editProperty={editProperty}
-                            removeProperty={removeProperty}
-                            url={`/product/${productId}/properties/`}
-                            editMode={editMode}
-                            setDeleteId={setDeleteId}
-                            setDeleteModal={setDeleteModal}
-                        />
-                    </Grid>
-                )}
+                <Properties
+                    editMode={editMode}
+                    product={product}
+                    getProduct={getProduct}
+                    setProduct={setProduct}
+                    productId={productId}
+                />
             </Grid>
             <BaseModal
                 open={open}
@@ -472,33 +377,6 @@ export function Products({
                     </Button>
                     <Button variant="outlined" color="primary" size="large" onClick={handleDelete}>
                         لغو
-                    </Button>
-                </Stack>
-            </BaseModal>
-            <BaseModal
-                open={deletModal}
-                setOpen={setDeleteModal}
-                title="توجه!"
-                style={{maxWidth: 'sm'}}
-            >
-                <Typography mb="1rem" variant="body2" fontSize={'17px'}>
-                    آیا از انجام این عمل مطمئن هستید؟
-                </Typography>
-                <Stack direction={'row'} spacing={2} mt={2.5}>
-                    <Button
-                        variant="contained"
-                        onClick={() => removeProperty(deleteId || 0)}
-                        size="large"
-                    >
-                        بله
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={(e) => setDeleteModal(false)}
-                        size="large"
-                    >
-                        خیر
                     </Button>
                 </Stack>
             </BaseModal>

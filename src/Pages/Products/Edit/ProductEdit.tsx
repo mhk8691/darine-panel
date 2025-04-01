@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react'
-import {useLocation, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
-import {Products, ProductsType} from '../Products'
 import {DataProvider} from '../../../Core/DataProvider'
 import {ProductDetailType} from '../Detail/ProductDetail'
+import {Products} from '../Products'
 
 const RESOURCE = 'product'
 export function ProductEdit() {

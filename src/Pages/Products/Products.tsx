@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    Divider,
     FormControl,
     Grid,
     InputLabel,
@@ -19,6 +20,7 @@ import {PropertyType} from '../../Core/types'
 import {CategoriesType} from '../Categories/Categories'
 import {MethodType} from '../ConnectionMethod/Method'
 import {ProductDetailType} from './Detail/ProductDetail'
+import Options from './Options'
 import Properties from './Properties'
 
 export type ProductsType = {
@@ -293,6 +295,14 @@ export function Products({
                 </Grid>
 
                 <Properties
+                    editMode={editMode}
+                    product={product}
+                    getProduct={getProduct}
+                    setProduct={setProduct}
+                    productId={productId}
+                />
+
+                <Options
                     editMode={editMode}
                     product={product}
                     getProduct={getProduct}

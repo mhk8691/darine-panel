@@ -1,13 +1,14 @@
-import {Button, Grid, Stack, Typography} from '@mui/material'
+import {Button, Divider, Grid, Stack, Typography} from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {BaseModal} from '../../Components/Modal/BaseModal'
 import PropertiesTable from '../../Components/Table/PropertiesTable'
 import {DataProvider} from '../../Core/DataProvider'
-import {PropertyType} from '../../Core/types'
+import {OptionType} from '../../Core/types'
 import {setUtil} from '../../redux/UtilSlice'
 import {ProductDetailType} from './Detail/ProductDetail'
+import OptionsTable from '../../Components/Table/OptionsTable'
 interface Props {
     productId: string | undefined
     getProduct: (() => Promise<void>) | undefined
@@ -17,24 +18,24 @@ interface Props {
 }
 const RESOURCE = 'product'
 export default function Options({productId, getProduct, setProduct, product, editMode}: Props) {
-    const [newProperty, setNewProperty] = useState<PropertyType>({} as PropertyType)
+    const [newOption, setNewOption] = useState<OptionType>({} as OptionType)
     const [deleteModal, setDeleteModal] = useState(false)
     const [deleteId, setDeleteId] = useState<number | null>(null)
 
     const dispatch = useDispatch()
     const addOption = async () => {
-        if (!newProperty.name || !newProperty.value) {
+        if (!newOption.title || !newOption.price) {
             return
         }
 
         if (editMode) {
             try {
                 let res = await DataProvider.post<ProductDetailType>(
-                    `${RESOURCE}/${productId}/add_property/`,
+                    `${RESOURCE}/${productId}/add_option/`,
                     {
                         data: {
-                            name: newProperty.name,
-                            value: newProperty.value,
+                            title: newOption.title,
+                            price: newOption.price,
                         },
                     },
                 )
@@ -45,40 +46,40 @@ export default function Options({productId, getProduct, setProduct, product, edi
             }
         } else {
             setProduct((prevProduct) => {
-                const existingPropertyIndex = prevProduct.properties?.findIndex(
-                    (property) => property.id === newProperty.id,
+                const existingOptionIndex = prevProduct.options?.findIndex(
+                    (option) => option.id === newOption.id,
                 )
 
-                let updatedProperties
-                if (existingPropertyIndex !== -1 && existingPropertyIndex !== undefined) {
-                    updatedProperties = prevProduct.properties?.map((property) =>
-                        property.id === newProperty.id ? newProperty : property,
+                let updatedOptions
+                if (existingOptionIndex !== -1 && existingOptionIndex !== undefined) {
+                    updatedOptions = prevProduct.options?.map((option) =>
+                        option.id === newOption.id ? newOption : option,
                     )
                 } else {
-                    updatedProperties = [
-                        ...(prevProduct.properties || []),
+                    updatedOptions = [
+                        ...(prevProduct.options || []),
                         {
                             id: Date.now(),
-                            name: newProperty.name,
-                            value: newProperty.value,
+                            title: newOption.title,
+                            price: newOption.price,
                         },
                     ]
                 }
 
                 return {
                     ...prevProduct,
-                    properties: updatedProperties,
+                    options: updatedOptions,
                 }
             })
         }
-        setNewProperty({name: '', value: ''} as PropertyType)
+        setNewOption({title: '', price: undefined} as OptionType)
     }
 
     const removeOption = async (id: number) => {
         if (editMode) {
             try {
                 dispatch(setUtil({loading: true}))
-                const res = await DataProvider.delete(`${RESOURCE}/${productId}/properties/${id}/`)
+                const res = await DataProvider.delete(`${RESOURCE}/${productId}/options/${id}/`)
                 getProduct && getProduct()
                 dispatch(setUtil({open: true, message: res.message, severity: 'success'}))
             } catch (error: any) {
@@ -88,47 +89,47 @@ export default function Options({productId, getProduct, setProduct, product, edi
         } else {
             setProduct((prevProduct) => ({
                 ...prevProduct,
-                properties: prevProduct.properties.filter((property) => property.id !== id),
+                options: prevProduct.options.filter((option) => option.id !== id),
             }))
         }
         setDeleteModal(false)
     }
     const editOption = (id: number) => {
-        setNewProperty(product.properties.find((property) => property.id === id) as PropertyType)
+        setNewOption(product.options.find((option) => option.id === id) as OptionType)
     }
 
     return (
         <>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{mt: 3}}>
                 <Typography variant="body2" fontSize={'15px'} sx={{fontWeight: '600'}}>
-                    افزودن properties
+                    افزودن آپشن
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4} xl={3}>
                 <CustomTextField
-                    key={newProperty.id}
-                    name="name"
+                    key={newOption.id}
+                    name="title"
                     resource={RESOURCE}
-                    value={newProperty.name}
-                    onChange={(e) => setNewProperty({...newProperty, name: e.target.value})}
-                    label={'نام'}
+                    value={newOption.title}
+                    onChange={(e) => setNewOption({...newOption, title: e.target.value})}
+                    label={'عنوان'}
                 />
             </Grid>
             <Grid item xs={12} sm={6} md={4} xl={3}>
                 <CustomTextField
-                    key={newProperty.id}
-                    name="label"
-                    setData={setNewProperty}
+                    key={newOption.id}
+                    name="price"
+                    setData={setNewOption}
                     resource={RESOURCE}
-                    value={newProperty.value}
-                    onChange={(e) => setNewProperty({...newProperty, value: e.target.value})}
-                    label={'مقدار'}
+                    value={newOption.price || ''}
+                    onChange={(e) => setNewOption({...newOption, price: Number(e.target.value)})}
+                    label={'قیمت'}
                 />
             </Grid>
             <Grid xs={12} sm={6} md={4} xl={3} item>
                 <Button
                     variant="outlined"
-                    onClick={addProperty}
+                    onClick={addOption}
                     size="large"
                     sx={{height: '53px', borderRadius: '4px !important'}}
                     fullWidth
@@ -136,19 +137,19 @@ export default function Options({productId, getProduct, setProduct, product, edi
                     {'تایید'}
                 </Button>
             </Grid>
-            {product.properties?.length > 0 && (
+            {product.options?.length > 0 && (
                 <Grid item xs={12}>
-                    <PropertiesTable
-                        data={product.properties}
-                        editProperty={editProperty}
-                        removeProperty={removeProperty}
-                        url={`/product/${productId}/properties/`}
+                    <OptionsTable
+                        data={product.options}
+                        editProperty={editOption}
+                        url={`/product/${productId}/options/`}
                         editMode={editMode}
                         setDeleteId={setDeleteId}
                         setDeleteModal={setDeleteModal}
                     />
                 </Grid>
             )}
+            
             <BaseModal
                 open={deleteModal}
                 setOpen={setDeleteModal}
@@ -161,7 +162,7 @@ export default function Options({productId, getProduct, setProduct, product, edi
                 <Stack direction={'row'} spacing={2} mt={2.5}>
                     <Button
                         variant="contained"
-                        onClick={() => removeProperty(deleteId || 0)}
+                        onClick={() => removeOption(deleteId || 0)}
                         size="large"
                     >
                         بله

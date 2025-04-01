@@ -14,6 +14,11 @@ export type PropertyType = {
     name: string
     value: string
 }
+export type OptionType = {
+    id: number
+    title: string
+    price: number | undefined
+}
 export type ProfileType = {
         phone_number: string
         first_name: string

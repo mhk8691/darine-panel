@@ -15,7 +15,7 @@ export function PropertiesEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش فیلد"
+            title="ویرایش properties"
             formDetails={property}
             initialData={state.row}
             redirect={`product/${id}`}
@@ -39,7 +39,6 @@ export function PropertiesEdit() {
                         label={'مقدار'}
                     />
                 </Grid>
-           
             </Grid>
         </EditPage>
     )

@@ -4,41 +4,42 @@ import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
 
+import {AccountCreate} from '../Accounts/Create/AccountCreate'
+import {AccountDetail} from '../Accounts/Detail/AccountDetail'
+import {AccountEdit} from '../Accounts/Edit/AccountEdit'
+import {AccountsList} from '../Accounts/List/AccountsList'
+import {BannerCreate} from '../Banners/Create/BannerCreate'
+import {BannerDetail} from '../Banners/Detail/BannerDetail'
+import {BannerEdit} from '../Banners/Edit/BannerEdit'
+import {BannersList} from '../Banners/List/BannersList'
 import {CategoryCreate} from '../Categories/Create/CategoryCreate'
 import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
 import {CategoriesList} from '../Categories/List/CategoriesList'
+import {CommentCreate} from '../Comments/Create/CommentCreate'
+import {CommentDetail} from '../Comments/Detail/CommentDetail'
+import {CommentEdit} from '../Comments/Edit/CommentEdit'
+import {CommentsList} from '../Comments/List/CommentsList'
+import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
+import {MethodDetail} from '../ConnectionMethod/Detail/MethodDetail'
+import {FieldEdit} from '../ConnectionMethod/Edit/Field/FieldEdit'
+import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
+import {MethodsList} from '../ConnectionMethod/List/MethodsList'
 import DashboardLayout from '../Dashboard/DashboardLayout'
+import {OrderDetail} from '../Orders/Detail/OrderDetail'
+import {OrderEdit} from '../Orders/Edit/OrderEdit'
+import {OrdersList} from '../Orders/List/OrdersList'
 import {ProductCreate} from '../Products/Create/ProductCreate'
 import {ProductDetail} from '../Products/Detail/ProductDetail'
+import {OptionsEdit} from '../Products/Edit/Options/OptionsEdit'
 import {ProductEdit} from '../Products/Edit/ProductEdit'
+import {PropertiesEdit} from '../Products/Edit/Properties/PropertiesEdit'
 import {ProductsList} from '../Products/List/ProductsList'
+import Profile from '../Profile/Profile'
 import {UserCreate} from '../Users/Create/UserCreate'
 import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
-import {AccountCreate} from '../Accounts/Create/AccountCreate'
-import {AccountsList} from '../Accounts/List/AccountsList'
-import {AccountEdit} from '../Accounts/Edit/AccountEdit'
-import {AccountDetail} from '../Accounts/Detail/AccountDetail'
-import {OrdersList} from '../Orders/List/OrdersList'
-import {OrderEdit} from '../Orders/Edit/OrderEdit'
-import {OrderDetail} from '../Orders/Detail/OrderDetail'
-import Profile from '../Profile/Profile'
-import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
-import {MethodsList} from '../ConnectionMethod/List/MethodsList'
-import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
-import {CommentCreate} from '../Comments/Create/CommentCreate'
-import {CommentsList} from '../Comments/List/CommentsList'
-import {CommentEdit} from '../Comments/Edit/CommentEdit'
-import {CommentDetail} from '../Comments/Detail/CommentDetail'
-import { FieldEdit } from '../ConnectionMethod/Edit/Field/FieldEdit'
-import { MethodDetail } from '../ConnectionMethod/Detail/MethodDetail'
-import { BannerCreate } from '../Banners/Create/BannerCreate'
-import { BannersList } from '../Banners/List/BannersList'
-import { BannerEdit } from '../Banners/Edit/BannerEdit'
-import { BannerDetail } from '../Banners/Detail/BannerDetail'
-import { PropertiesEdit } from '../Products/Edit/Properties/PropertiesEdit'
 
 export function Home(props) {
     const navigate = useNavigate()
@@ -98,7 +99,11 @@ export function Home(props) {
                         <Route path="product" element={<ProductsList />} />
                         <Route path="product/:id" element={<ProductEdit />} />
                         <Route path="product/detail/:id" element={<ProductDetail />} />
-                        <Route path="product/:productId/properties/:id" element={<PropertiesEdit />} />
+                        <Route
+                            path="product/:productId/properties/:id"
+                            element={<PropertiesEdit />}
+                        />
+                        <Route path="product/:productId/options/:id" element={<OptionsEdit />} />
                         {/* categories section */}
                         <Route
                             path="category/create"

@@ -12,9 +12,7 @@ import {PropertyType} from '../../Core/types'
 import {useNavigate} from 'react-router-dom'
 import {Dispatch, SetStateAction} from 'react'
 
-function createData(id: number, name: string, label: string, type: string) {
-    return {name, label, type, id}
-}
+
 
 interface Props {
     data: PropertyType[] | null
@@ -42,7 +40,10 @@ export default function PropertiesTable({
     const navigate = useNavigate()
     return (
         <TableContainer component={Paper} sx={{mt: 3}}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
+            <Table
+                sx={{minWidth: 650, border: '2px solid #3f3f3f', borderRadius: 10}}
+                aria-label="simple table"
+            >
                 <TableHead>
                     <TableRow>
                         <TableCell

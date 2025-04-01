@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import {Link, useParams} from 'react-router-dom'
 import Progress from '../../../Components/Progress/Progress'
 import {DataProvider} from '../../../Core/DataProvider'
+import {OptionType, PropertyType} from '../../../Core/types'
 
 const RECOURCE = 'product'
 export interface ProductDetailType {
@@ -22,10 +23,10 @@ export interface ProductDetailType {
     }
     type: string
     created_at: string
-    pictures:any
-    options: any[]
-    properties: any[]
-    video?:any
+    pictures: any
+    options: OptionType[]
+    properties: PropertyType[]
+    video?: any
 }
 export function ProductDetail() {
     const productId = useParams().id
@@ -33,14 +34,12 @@ export function ProductDetail() {
     const [product, setProduct] = useState<ProductDetailType>({} as ProductDetailType)
     const getProduct = async () => {
         setLoading(true)
-       try{
-         let response = await DataProvider.get<ProductDetailType>(`${RECOURCE}/${productId}/`)
-        if (response) {
-            setProduct(response.data)
-        }
-       }catch{
-
-       }
+        try {
+            let response = await DataProvider.get<ProductDetailType>(`${RECOURCE}/${productId}/`)
+            if (response) {
+                setProduct(response.data)
+            }
+        } catch {}
         setLoading(false)
     }
 

@@ -25,6 +25,7 @@ import {useParams} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {setUtil} from '../../redux/UtilSlice'
 import {ElevatorSharp} from '@mui/icons-material'
+import Properties from './Properties'
 
 export type ProductsType = {
     id: number
@@ -145,7 +146,6 @@ export function Products({
                     properties: updatedProperties,
                 }
             })
-
         }
         setNewProperty({name: '', value: ''} as PropertyType)
     }
@@ -375,39 +375,11 @@ export function Products({
                         />
                     )}
                 </Grid>
-
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        key={newProperty.id}
-                        name="name"
-                        resource={RESOURCE}
-                        value={newProperty.name}
-                        onChange={(e) => setNewProperty({...newProperty, name: e.target.value})}
-                        label={'نام'}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        key={newProperty.id}
-                        name="label"
-                        setData={setNewProperty}
-                        resource={RESOURCE}
-                        value={newProperty.value}
-                        onChange={(e) => setNewProperty({...newProperty, value: e.target.value})}
-                        label={'مقدار'}
-                    />
-                </Grid>
-                <Grid xs={12} sm={6} md={4} xl={3} item>
-                    <Button
-                        variant="outlined"
-                        onClick={addProperty}
-                        size="large"
-                        sx={{height: '53px', borderRadius: '4px !important'}}
-                        fullWidth
-                    >
-                        {'تایید'}
-                    </Button>
-                </Grid>
+                <Properties
+                    addProperty={addProperty}
+                    newProperty={newProperty}
+                    setNewProperty={setNewProperty}
+                />
 
                 {product.properties?.length > 0 && (
                     <Grid item xs={12}>

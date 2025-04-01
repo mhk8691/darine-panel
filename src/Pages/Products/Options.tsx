@@ -1,14 +1,13 @@
-import {Button, Divider, Grid, Stack, Typography} from '@mui/material'
+import {Button, Grid, Stack, Typography} from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {BaseModal} from '../../Components/Modal/BaseModal'
-import PropertiesTable from '../../Components/Table/PropertiesTable'
+import OptionsTable from '../../Components/Table/OptionsTable'
 import {DataProvider} from '../../Core/DataProvider'
 import {OptionType} from '../../Core/types'
 import {setUtil} from '../../redux/UtilSlice'
 import {ProductDetailType} from './Detail/ProductDetail'
-import OptionsTable from '../../Components/Table/OptionsTable'
 interface Props {
     productId: string | undefined
     getProduct: (() => Promise<void>) | undefined
@@ -149,7 +148,7 @@ export default function Options({productId, getProduct, setProduct, product, edi
                     />
                 </Grid>
             )}
-            
+
             <BaseModal
                 open={deleteModal}
                 setOpen={setDeleteModal}

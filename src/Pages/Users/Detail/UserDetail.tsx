@@ -13,11 +13,10 @@ export function UserDetail() {
         id: 1,
         first_name: 'ali',
         last_name: 'mmdi',
-        username: 'ali',
-        email: 'ali@gmail.com',
         phone_number: '09126320520',
         role: 'admin',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+        profile_picture:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
     })
     const getUser = async () => {
         setLoading(true)
@@ -79,34 +78,8 @@ export function UserDetail() {
                     {user?.last_name}
                 </Typography>
             </Stack>
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    ایمیل:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.email}
-                </Typography>
-            </Stack>
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    نام کاربری:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.username}
-                </Typography>
-            </Stack>
+            
+           
             <Stack
                 direction={{xs: 'column', sm: 'row'}}
                 spacing={{
@@ -147,7 +120,7 @@ export function UserDetail() {
                         borderRadius: 2,
                         objectFit: 'cover',
                     }}
-                    src={typeof user?.image === 'string' ? user?.image : ''}
+                    src={typeof user?.profile_picture === 'string' ? user?.profile_picture : ''}
                     borderRadius={2}
                 />
             </Stack>

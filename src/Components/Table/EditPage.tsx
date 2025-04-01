@@ -6,7 +6,17 @@ import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 
 export function EditPage(props) {
-    const {title, resource, noEdit, formDetails, initialData,isFormData = false,redirect} = props
+    const {
+        title,
+        resource,
+        noEdit,
+        formDetails,
+        initialData,
+        isFormData = false,
+        redirect,
+        noId = false,
+        reload = false,
+    } = props
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
@@ -32,9 +42,12 @@ export function EditPage(props) {
                     formData.append(key, String(value))
                 }
             })
-            const res = await DataProvider.put(`${resource}/${params.id || formDetails.id}/`, {
-                data: isFormData ? formData : updatedFields,
-            })
+            const res = await DataProvider.put(
+                noId ? `${resource}` : `${resource}/${params.id || formDetails.id}/`,
+                {
+                    data: isFormData ? formData : updatedFields,
+                },
+            )
             dispatch(
                 setUtil({
                     open: true,
@@ -42,7 +55,11 @@ export function EditPage(props) {
                     severity: 'success',
                 }),
             )
-            navigate(redirect ? `/${redirect}`: `/${resource}`)
+            if (reload) {
+                window.location.reload()
+            } else {
+                navigate(redirect ? `/${redirect}` : `/${resource}`)
+            }
         } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }

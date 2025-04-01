@@ -23,7 +23,7 @@ export default function ProfileUploader({user, setUser}: Props) {
             direction={'row'}
             justifyContent={{
                 xs: 'center',
-                sm: 'flex-start',   
+                sm: 'flex-start',
             }}
         >
             <Box
@@ -52,10 +52,10 @@ export default function ProfileUploader({user, setUser}: Props) {
                 <Box
                     component={'img'}
                     src={
-                        typeof user.image === 'string'
-                            ? user.image
-                            : imagePreview
+                        imagePreview
                             ? imagePreview
+                            : typeof user.profile_picture === 'string'
+                            ? user.profile_picture
                             : userImage
                     }
                     sx={{

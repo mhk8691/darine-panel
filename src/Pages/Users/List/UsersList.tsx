@@ -40,21 +40,17 @@ export function UsersList() {
                 id: 1,
                 first_name: 'ali',
                 last_name: 'mmdi',
-                username: 'ali',
-                email: 'ali@gmail.com',
                 phone_number: '09126320520',
                 role: 'admin',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
             {
                 id: 2,
                 first_name: 'amir',
                 last_name: 'mmdi',
-                username: 'amir',
-                email: 'amir@gmail.com',
                 phone_number: '09126320520',
                 role: 'user',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
+                profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
             },
         ],
         pagination: {} as PaginationType,
@@ -139,32 +135,7 @@ export function UsersList() {
                                 {item.last_name}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                            >
-                                {item.email}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                            >
-                                {item.username}
-                            </Typography>
-                        </TableCell>
+
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -200,7 +171,7 @@ export function UsersList() {
                                     borderRadius: 2,
                                     objectFit: 'cover',
                                 }}
-                                src={typeof item?.image === 'string' ? item?.image : ''}
+                                src={typeof item?.profile_picture === 'string' ? item?.profile_picture : ''}
                                 borderRadius={2}
                             />
                         </TableCell>

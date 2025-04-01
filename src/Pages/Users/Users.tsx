@@ -6,20 +6,20 @@ export type UsersType = {
     id: number
     first_name: string
     last_name: string
-    email: string
-    username: string
     phone_number: string
     role: string
-    image: string | File
+    profile_picture: string | File
 }
 const RESOURCE = 'users'
 
 export function Users({
     user,
     setUser,
+    editMode = false,
 }: {
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
+    editMode?: boolean
 }) {
     return (
         <Stack>
@@ -28,6 +28,7 @@ export function Users({
                 sx={{marginBottom: '16px'}}
                 data={[
                     <CustomTextField
+                        key={user.id}
                         name="first_name"
                         setData={setUser}
                         resource={RESOURCE}
@@ -35,32 +36,27 @@ export function Users({
                         defaultValue={user.first_name}
                     />,
                     <CustomTextField
+                        key={user.id}
                         name="last_name"
                         resource={RESOURCE}
                         setData={setUser}
                         label={'نام خانوادگی'}
                         defaultValue={user.last_name}
                     />,
+
                     <CustomTextField
-                        name="email"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        label={'ایمیل'}
-                        defaultValue={user.email}
-                    />,
-                    <CustomTextField
-                        name="username"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        label={'نام کاربری'}
-                        defaultValue={user.username}
-                    />,
-                    <CustomTextField
+                        key={user.id}
                         name="phone_number"
                         resource={RESOURCE}
                         setData={setUser}
                         label={'شماره تلفن'}
                         defaultValue={user.phone_number}
+                        disabled={editMode}
+                        sx={{
+                            '& .MuiInputBase-input.Mui-disabled': {
+                                bgcolor: 'background.light',
+                            },
+                        }}
                     />,
                 ]}
             />

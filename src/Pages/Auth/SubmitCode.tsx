@@ -31,7 +31,6 @@ export default function SubmitCode({getValues}: Props) {
                 `http://localhost:8000/api/auth/login/otp-verify/`,
                 newData,
             )
-            console.log(response?.data.data.token)
             dispatch(
                 setUser({
                     token: response.data.data.token,

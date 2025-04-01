@@ -45,7 +45,6 @@ export function Home(props) {
     const location = useLocation()
     const [data, setData] = useState({})
     const isLogin = useAppSelector((state) => state.user.token)
-
     useEffect(() => {
         if (!isLogin) {
             navigate('/login')

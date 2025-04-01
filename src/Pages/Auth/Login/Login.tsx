@@ -24,7 +24,6 @@ export function Login(props) {
     const classes = useStyles()
 
     async function onSubmit(data) {
-        console.log(data)
         dispatch(setUtil({loading: true}))
         try {
             await axios.post(`http://localhost:8000/api/auth/login/otp-request/`, data)

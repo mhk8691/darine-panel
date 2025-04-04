@@ -8,15 +8,35 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
-import {CommentsType} from '../Comments'
-import {CommentCreate} from '../Create/CommentCreate'
+import { formatDate } from '../../../Core/FormatDate'
 
 const RECOURCE = 'comments'
+export type CommentsType = {
+    id: number
+    user_info: {
+        id: number
+        name: string
+        phone_number: string
+        profile_picture: string
+    }
+    product_info: {
+        id: number
+        name: string
+        thumbnail: string | null
+    }
+    text: string
+    rating: number
+    replies_count: number
+    created_at: string
+    updated_at: string
+}
 const tableHeadCells = [
-    createTableHeadCells('نام محصول', 'product'),
     createTableHeadCells('نام مشتری', 'customer'),
+    createTableHeadCells('شماره تلفن', 'phone_number'),
+    createTableHeadCells('نام محصول', 'product'),
     createTableHeadCells('امتیاز', 'rating'),
     createTableHeadCells('دیدگاه', 'comment'),
+    createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -31,22 +51,14 @@ export function CommentsList() {
         data: CommentsType[]
     }>({
         total_results: 0,
-        data: [
-            {
-                id: 1,
-                customer: 'تست',
-                product: 'جم کلش',
-                rating: 2,
-                comment: 'تست',
-            },
-        ],
+        data: [],
     })
     const getComments = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
             total_results: number
             results: CommentsType[]
-        }>(`${RECOURCE}/list`, search)
+        }>(`${RECOURCE}/`, search)
 
         if (response) {
             setComments({
@@ -71,7 +83,7 @@ export function CommentsList() {
             resource={RECOURCE}
             getList={getComments}
             filtersData={queryNames}
-            createModal={CommentCreate}
+            noCreate
             defaultState={{
                 customer: '',
                 product: '',
@@ -90,7 +102,7 @@ export function CommentsList() {
                 setParams={setSearch}
                 handleSort={getComments}
                 loading={loading}
-                hasDetail={true}
+                noEdit
                 tableBodyCells={comments.data.map((item, index) => (
                     <>
                         <TableCell>
@@ -106,7 +118,7 @@ export function CommentsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.customer}
+                                {item.user_info.name}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -122,7 +134,23 @@ export function CommentsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.product}
+                                {item.user_info.phone_number}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.product_info.name}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -141,7 +169,23 @@ export function CommentsList() {
                                     whiteSpace: 'collapse',
                                 }}
                             >
-                                {item.comment}
+                                {item.text}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'collapse',
+                                }}
+                            >
+                                {formatDate(item.created_at)}
                             </Typography>
                         </TableCell>
                     </>

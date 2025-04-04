@@ -16,9 +16,6 @@ import {CategoryCreate} from '../Categories/Create/CategoryCreate'
 import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
 import {CategoriesList} from '../Categories/List/CategoriesList'
-import {CommentCreate} from '../Comments/Create/CommentCreate'
-import {CommentDetail} from '../Comments/Detail/CommentDetail'
-import {CommentEdit} from '../Comments/Edit/CommentEdit'
 import {CommentsList} from '../Comments/List/CommentsList'
 import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
 import {MethodDetail} from '../ConnectionMethod/Detail/MethodDetail'
@@ -143,13 +140,8 @@ export function Home(props) {
                         <Route path="banners/:id" element={<BannerEdit />} />
                         <Route path="banners/detail/:id" element={<BannerDetail />} />
                         {/* comment section */}
-                        <Route
-                            path="comments/create"
-                            element={<CommentCreate data={data} setData={setData} />}
-                        />
+
                         <Route path="comments" element={<CommentsList />} />
-                        <Route path="comments/:id" element={<CommentEdit />} />
-                        <Route path="comments/detail/:id" element={<CommentDetail />} />
                     </Routes>
                 </Box>
             </Box>

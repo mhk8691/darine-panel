@@ -1,16 +1,14 @@
-import {Box, Button, Stack, TextField, Typography} from '@mui/material'
+import {Box, Button, Stack, Typography} from '@mui/material'
 import {makeStyles} from '@mui/styles'
 import {useDispatch} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
-import {DataProvider} from '../../../Core/DataProvider'
 import {setUtil} from '../../../redux/UtilSlice'
 
+import axios from 'axios'
 import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import SubmitCode from '../SubmitCode'
-import axios from 'axios'
-import APP_URL from '../../../Core/APP_URL'
 export type LoginData = {
     username: string
     password: string
@@ -18,7 +16,7 @@ export type LoginData = {
 
 export function Login(props) {
     const [isSubmit, setIsSubmit] = useState(false)
-    const {register, handleSubmit,getValues} = useForm()
+    const {register, handleSubmit, getValues} = useForm()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles()

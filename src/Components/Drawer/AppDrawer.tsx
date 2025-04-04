@@ -6,18 +6,19 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import {makeStyles} from '@mui/styles'
 import {useEffect, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
-import {useAppSelector} from '../../redux/store'
+import {ProfileType} from '../../Core/types'
 import AppbarProfile from '../Appbar/AppbarProfile'
 import {drawerItems} from './DrawerItems'
-import {t} from 'i18next'
 
 export function AppDrawer({
     setSelectedTitle,
     drawerOpen,
+    user,
     setDrawerOpen,
 }: {
     setSelectedTitle: (title: string) => void
     drawerOpen: boolean
+    user: ProfileType
     setDrawerOpen: (open: boolean) => void
 }) {
     const [selected, setSelected] = useState<boolean[]>(new Array(drawerItems.length).fill(false))
@@ -26,7 +27,7 @@ export function AppDrawer({
     const navigate = useNavigate()
     const location = useLocation()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-    const role = useAppSelector((state) => state.user.role)
+
     useEffect(() => {
         const value = location.pathname
         let checked = false
@@ -92,13 +93,13 @@ export function AppDrawer({
                     {isMobile && (
                         <>
                             <ListItem sx={{textAlign: 'center'}}>
-                                <AppbarProfile />
+                                <AppbarProfile user={user} />
                             </ListItem>
                         </>
                     )}
                     {drawerItems.map(
                         (item, index) =>
-                            (item.role === role || item.role === 'all') && (
+                            (item.role === user.role || item.role === 'all') && (
                                 <ListItemButton
                                     onClick={(event) => handleClick(item.link, index, item.title)}
                                     selected={selected[index]}

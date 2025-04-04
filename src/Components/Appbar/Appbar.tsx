@@ -1,19 +1,21 @@
 import CloseIcon from '@mui/icons-material/Close'
 import MenuIcon from '@mui/icons-material/Menu'
 import {IconButton, Stack, Typography, useMediaQuery, useTheme} from '@mui/material'
+import {ProfileType} from '../../Core/types'
 import {drawerWidth} from '../Drawer/AppDrawer'
 import AppbarProfile from './AppbarProfile'
 import NewActivity from './NewActivity'
-import Notification from './Notification'
 
 const Appbar = ({
     selectedTitle,
     drawerOpen,
+    user,
     setDrawerOpen,
 }: {
     selectedTitle: string
     drawerOpen: boolean
     setDrawerOpen: (open: boolean) => void
+    user: ProfileType
 }) => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -68,7 +70,7 @@ const Appbar = ({
                     <NewActivity />
                     {!isMobile && (
                         <>
-                            <AppbarProfile />
+                            <AppbarProfile user={user} />
                         </>
                     )}
                 </Stack>

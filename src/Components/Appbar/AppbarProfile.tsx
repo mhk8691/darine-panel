@@ -1,37 +1,18 @@
 import {Avatar, Button, Popover, Stack, Typography} from '@mui/material'
-import axios from 'axios'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {ProfileType} from '../../Core/types'
-import {useAppDispatch, useAppSelector} from '../../redux/store'
+import {useAppDispatch} from '../../redux/store'
 import {logout} from '../../redux/user_slice'
 
-const AppbarProfile = () => {
+const AppbarProfile = ({user}: {user: ProfileType}) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const [profile, setProfile] = useState<ProfileType>({} as ProfileType)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
     }
-    const token = useAppSelector((state) => state.user.token)
-    useEffect(() => {
-        const getProfile = async () => {
-            try {
-                const response = await axios.get<{
-                    data: ProfileType
-                }>(`http://localhost:8000/api/auth/profile/`, {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                })
-                setProfile(response.data.data)
-            } catch (error: any) {
-                console.log(error)
-            }
-        }
-        getProfile()
-    }, [])
+
     const handleClose = () => {
         setAnchorEl(null)
     }
@@ -63,11 +44,11 @@ const AppbarProfile = () => {
                         },
                     }}
                 >
-                    {profile.first_name}
+                    {user.first_name}
                 </Typography>
                 <Avatar
                     alt="profile image"
-                    src={profile.profile_picture || ''}
+                    src={user.profile_picture || ''}
                     sx={{
                         height: {
                             xs: 45,
@@ -98,7 +79,7 @@ const AppbarProfile = () => {
                     <Stack direction="row" alignItems="center" gap={1.5}>
                         <Avatar
                             alt="profile image"
-                            src={profile.profile_picture || ''}
+                            src={user.profile_picture || ''}
                             sx={{height: 45, width: 45}}
                         />
                         <Stack>
@@ -107,7 +88,7 @@ const AppbarProfile = () => {
                                 fontWeight={700}
                                 fontSize={{xs: '15px', md: '16px'}}
                             >
-                                {profile.first_name}
+                                {user.first_name}
                             </Typography>
                             <Typography
                                 variant="caption"
@@ -120,7 +101,7 @@ const AppbarProfile = () => {
                                     },
                                 }}
                             >
-                                {profile.phone_number}
+                                {user.phone_number}
                             </Typography>
                         </Stack>
                     </Stack>

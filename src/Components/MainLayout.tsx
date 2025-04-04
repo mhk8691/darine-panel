@@ -1,15 +1,38 @@
 import {Box, Stack} from '@mui/material'
-import {useState} from 'react'
+import axios from 'axios'
+import {useEffect, useState} from 'react'
+import {ProfileType} from '../Core/types'
+import {useAppSelector} from '../redux/store'
 import Appbar from './Appbar/Appbar'
 import {AppDrawer, drawerWidth} from './Drawer/AppDrawer'
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
     const [selectedTitle, setSelectedTitle] = useState<string>('')
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const [user, setUser] = useState<ProfileType>({} as ProfileType)
+    const token = useAppSelector((state) => state.user.token)
 
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                const response = await axios.get<{
+                    data: ProfileType
+                }>(`http://localhost:8000/api/auth/profile/`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                })
+                setUser(response.data.data)
+            } catch (error: any) {
+                console.log(error)
+            }
+        }
+        getUser()
+    }, [])
     return (
         <Stack direction="row" minHeight="100vh" position={'relative'}>
             <AppDrawer
+                user={user}
                 setSelectedTitle={setSelectedTitle}
                 drawerOpen={drawerOpen}
                 setDrawerOpen={setDrawerOpen}
@@ -26,6 +49,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
                     selectedTitle={selectedTitle}
                     drawerOpen={drawerOpen}
                     setDrawerOpen={setDrawerOpen}
+                    user={user}
                 />
                 <Box sx={{p: 1}}>{children}</Box>
             </Box>

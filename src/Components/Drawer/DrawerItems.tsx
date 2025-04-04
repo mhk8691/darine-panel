@@ -26,7 +26,7 @@ export const drawerItems = [
     {
         title: 'مدیریت کاربران',
         link: 'users',
-        role: 'all',
+        role: 'super_admin',
         icon: (
             <GroupIcon
                 fontSize="large"

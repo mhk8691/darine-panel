@@ -15,7 +15,7 @@ export default function ProfileUploader({user, setUser}: Props) {
         const file = event.target.files?.[0]
         if (file) {
             setImagePreview(URL.createObjectURL(file))
-            setUser((prev) => ({...prev, image: file}))
+            setUser((prev) => ({...prev, profile_picture: file}))
         }
     }
     return (
@@ -54,7 +54,7 @@ export default function ProfileUploader({user, setUser}: Props) {
                     src={
                         imagePreview
                             ? imagePreview
-                            : typeof user.profile_picture === 'string'
+                            : typeof user.profile_picture === 'string' && user.profile_picture
                             ? user.profile_picture
                             : userImage
                     }

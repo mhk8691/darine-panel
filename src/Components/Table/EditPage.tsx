@@ -16,6 +16,7 @@ export function EditPage(props) {
         redirect,
         noId = false,
         reload = false,
+        hasChange = true,
     } = props
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -35,7 +36,7 @@ export function EditPage(props) {
                 dispatch(setUtil({loading: false}))
                 return
             }
-            Object.entries(updatedFields).forEach(([key, value]) => {
+            Object.entries(hasChange ? updatedFields : formDetails).forEach(([key, value]) => {
                 if (value instanceof File) {
                     formData.append(key, value)
                 } else {

@@ -36,7 +36,7 @@ export default function Profile() {
             noId={true}
             reload={true}
         >
-            <Users user={profile} setUser={setProfile} editMode />
+            <Users user={profile} setUser={setProfile} editMode isProfile />
         </EditPage>
     )
 }

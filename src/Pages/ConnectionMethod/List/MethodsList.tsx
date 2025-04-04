@@ -10,6 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {MethodCreate} from '../Create/MethodCreate'
 import {MethodType} from '../Method'
+import { setUtil } from '../../../redux/UtilSlice'
+import { useDispatch } from 'react-redux'
 const RECOURCE = 'account/base-accounts'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
@@ -32,9 +34,11 @@ export function MethodsList() {
         total_results: 0,
         data: [],
     })
+    const dispatch = useDispatch()
     const getMethods = async () => {
         setLoading(true)
-        let response = await DataProvider.get<{
+       try{
+         let response = await DataProvider.get<{
             total_results: number
             results: MethodType[]
         }>(`${RECOURCE}/`, search)
@@ -44,6 +48,9 @@ export function MethodsList() {
                 data: response.data.results,
             })
         }
+       }catch(error:any){
+        dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+       }
         setLoading(false)
     }
     useDeepCompareEffect(() => {

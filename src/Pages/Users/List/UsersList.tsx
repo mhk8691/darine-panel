@@ -10,7 +10,9 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {UserCreate} from '../Create/UserCreate'
 import {UsersType} from '../Users'
-import { formatDate } from '../../../Core/FormatDate'
+import {formatDate} from '../../../Core/FormatDate'
+import {setUtil} from '../../../redux/UtilSlice'
+import {useDispatch} from 'react-redux'
 const RECOURCE = 'users'
 const tableHeadCells = [
     createTableHeadCells('نام', 'first_name'),
@@ -28,7 +30,6 @@ const queryNames = tableHeadCells.map((cell) => ({
 export function UsersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-
     const [users, setUsers] = useState<{
         total_results: number
         data: UsersType[]
@@ -36,17 +37,22 @@ export function UsersList() {
         total_results: 0,
         data: [],
     })
+    const dispatch = useDispatch()
     const getUsers = async () => {
         setLoading(true)
-        let response = await DataProvider.get<{
-            total_results: number
-            results: UsersType[]
-        }>(`${RECOURCE}/`, search)
-        if (response) {
-            setUsers({
-                total_results: response.data.total_results,
-                data: response.data.results,
-            })
+        try {
+            let response = await DataProvider.get<{
+                total_results: number
+                results: UsersType[]
+            }>(`${RECOURCE}/`, search)
+            if (response) {
+                setUsers({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }

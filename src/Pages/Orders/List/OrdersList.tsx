@@ -10,6 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {OrdersType} from '../Orders'
+import { useDispatch } from 'react-redux'
+import { setUtil } from '../../../redux/UtilSlice'
 
 const RECOURCE = 'orders'
 const tableHeadCells = [
@@ -79,9 +81,11 @@ export function OrdersList() {
             },
         ],
     })
+    const dispatch = useDispatch()
     const getOrders = async () => {
         setLoading(true)
-        let response = await DataProvider.get<{
+        try{
+            let response = await DataProvider.get<{
             total_results: number
             results: OrdersType[]
         }>(`${RECOURCE}/list`, search)
@@ -91,6 +95,9 @@ export function OrdersList() {
                 total_results: response.data.total_results,
                 data: response.data.results,
             })
+        }
+        }catch(error:any){
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }

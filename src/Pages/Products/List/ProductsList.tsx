@@ -9,7 +9,9 @@ import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
+import {useAppDispatch} from '../../../redux/store'
 import {ProductCreate} from '../Create/ProductCreate'
+import { setUtil } from '../../../redux/UtilSlice'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -45,18 +47,23 @@ export function ProductsList() {
         total_results: 0,
         data: [],
     })
+    const dispatch = useAppDispatch()
     const getProducts = async () => {
         setLoading(true)
-        let response = await DataProvider.get<{
-            total_results: number
-            results: ProductsListType[]
-        }>(`${RECOURCE}/`, search)
+        try {
+            let response = await DataProvider.get<{
+                total_results: number
+                results: ProductsListType[]
+            }>(`${RECOURCE}/`, search)
 
-        if (response) {
-            setProducts({
-                total_results: response.data.total_results,
-                data: response.data.results,
-            })
+            if (response) {
+                setProducts({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }

@@ -10,6 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {CategoriesType} from '../Categories'
 import {CategoryCreate} from '../Create/CategoryCreate'
+import { setUtil } from '../../../redux/UtilSlice'
+import { useDispatch } from 'react-redux'
 
 const RECOURCE = 'category'
 const tableHeadCells = [
@@ -34,9 +36,11 @@ export function CategoriesList() {
         total_results: 0,
         data: [],
     })
+    const dispatch = useDispatch()
     const getCategories = async () => {
         setLoading(true)
-        let response = await DataProvider.get<{
+        try{
+            let response = await DataProvider.get<{
             total_results: number
             results: CategoriesType[]
         }>(`${RECOURCE}/`, search)
@@ -45,6 +49,9 @@ export function CategoriesList() {
                 total_results: response.data.total_results,
                 data: response.data.results,
             })
+        }
+        }catch(error:any){
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }

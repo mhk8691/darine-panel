@@ -27,6 +27,16 @@ const queryNames = tableHeadCells.map((cell) => ({
     label: cell.label,
     type: '',
 }))
+function formatRole(role: string) {
+    switch (role) {
+        case 'admin':
+            return 'کاربر عادی'
+        case 'user':
+            return 'ادمین'
+        default:
+            return 'سوپر ادمین'
+    }
+}
 export function UsersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
@@ -144,7 +154,7 @@ export function UsersList() {
                                     xl: '17px',
                                 }}
                             >
-                                {item.role}
+                                {formatRole(item.role)}
                             </Typography>
                         </TableCell>
                         <TableCell>

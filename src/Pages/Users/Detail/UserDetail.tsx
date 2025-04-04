@@ -4,20 +4,12 @@ import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {UsersType} from '../Users'
 
-const RECOURCE = 'user'
+const RECOURCE = 'users'
 
 export function UserDetail() {
     const id = useParams().id
     const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState<UsersType | null>({
-        id: 1,
-        first_name: 'ali',
-        last_name: 'mmdi',
-        phone_number: '09126320520',
-        role: 'admin',
-        profile_picture:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-    })
+    const [user, setUser] = useState<UsersType | null>({} as UsersType)
     const getUser = async () => {
         setLoading(true)
         let response = await DataProvider.get<UsersType>(`${RECOURCE}/${id}/`)
@@ -78,8 +70,7 @@ export function UserDetail() {
                     {user?.last_name}
                 </Typography>
             </Stack>
-            
-           
+
             <Stack
                 direction={{xs: 'column', sm: 'row'}}
                 spacing={{

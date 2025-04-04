@@ -9,6 +9,7 @@ export type UsersType = {
     phone_number: string
     role: string
     profile_picture: string | File
+    date_joined: string
 }
 const RESOURCE = 'users'
 
@@ -57,6 +58,14 @@ export function Users({
                                 bgcolor: 'background.light',
                             },
                         }}
+                    />,
+                    <CustomTextField
+                        key={user.id}
+                        name="role"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        label={'نقش کاربر'}
+                        defaultValue={user.role}
                     />,
                 ]}
             />

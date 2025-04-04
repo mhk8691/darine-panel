@@ -10,7 +10,7 @@ export function UserCreate({
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
     return (
-        <CreatePage title={'افزودن کاربر'} resource={'users'} formDetails={data}>
+        <CreatePage title={'افزودن کاربر'} resource={'users/'} formDetails={data} isFormData>
             <Users user={data} setUser={setData} />
         </CreatePage>
     )

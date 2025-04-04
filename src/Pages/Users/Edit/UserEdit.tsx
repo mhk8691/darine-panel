@@ -8,8 +8,14 @@ export function UserEdit() {
     const state = useLocation().state as {row: UsersType}
     const [user, setUser] = useState(state.row)
     return (
-        <EditPage  resource={RESOURCE} title="ویرایش کاربر" formDetails={user} initialData={state.row}>
-            <Users user={user} setUser={setUser} />
+        <EditPage
+            resource={RESOURCE}
+            title="ویرایش کاربر"
+            formDetails={user}
+            initialData={state.row}
+            isFormData
+        >
+            <Users user={user} setUser={setUser} editMode={true} />
         </EditPage>
     )
 }

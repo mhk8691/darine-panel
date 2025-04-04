@@ -10,15 +10,15 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {UserCreate} from '../Create/UserCreate'
 import {UsersType} from '../Users'
+import { formatDate } from '../../../Core/FormatDate'
 const RECOURCE = 'users'
 const tableHeadCells = [
     createTableHeadCells('نام', 'first_name'),
     createTableHeadCells('نام خانوادگی', 'last_name'),
-    createTableHeadCells('ایمیل', 'email'),
-    createTableHeadCells('نام کاربری', 'username'),
     createTableHeadCells('شماره تلفن', 'phone_number'),
     createTableHeadCells('نقش کاربر', 'role'),
     createTableHeadCells('تصویر پروفایل', 'image'),
+    createTableHeadCells('تاریخ عضویت', 'date_joined'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
     field: cell.name,
@@ -34,33 +34,14 @@ export function UsersList() {
         data: UsersType[]
     }>({
         total_results: 0,
-        data: [
-            {
-                id: 1,
-                first_name: 'ali',
-                last_name: 'mmdi',
-                phone_number: '09126320520',
-                role: 'admin',
-                profile_picture:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-            {
-                id: 2,
-                first_name: 'amir',
-                last_name: 'mmdi',
-                phone_number: '09126320520',
-                role: 'user',
-                profile_picture:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-        ],
+        data: [],
     })
     const getUsers = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
             total_results: number
             results: UsersType[]
-        }>(`${RECOURCE}/list`, search)
+        }>(`${RECOURCE}/`, search)
         if (response) {
             setUsers({
                 total_results: response.data.total_results,
@@ -176,6 +157,19 @@ export function UsersList() {
                                 }
                                 borderRadius={2}
                             />
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {formatDate(item.date_joined)}
+                            </Typography>
                         </TableCell>
                     </>
                 ))}

@@ -24,96 +24,101 @@ export function UserDetail() {
     }, [])
 
     return (
-        <Stack p={4} direction={'column'} spacing={2.5}>
+        <Stack p={4} direction={'column'}>
             <Typography variant="h6" fontWeight="600" sx={{fontSize: '18px !important', mb: 1}}>
                 جزئیات کاربر
             </Typography>
             <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
+                direction={'row'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
+                mt={2.5}
             >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    آیدی:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.id}
-                </Typography>
-            </Stack>
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    نام:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.first_name}
-                </Typography>
-            </Stack>
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    نام خانوادگی:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.last_name}
-                </Typography>
-            </Stack>
+                <Stack spacing={2.5}>
+                    <Stack
+                        direction={{xs: 'column', sm: 'row'}}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                            آیدی:
+                        </Typography>
+                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            {user?.id}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction={{xs: 'column', sm: 'row'}}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                            نام:
+                        </Typography>
+                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            {user?.first_name}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction={{xs: 'column', sm: 'row'}}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                            نام خانوادگی:
+                        </Typography>
+                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            {user?.last_name}
+                        </Typography>
+                    </Stack>
 
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    شماره تلفن:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.phone_number}
-                </Typography>
-            </Stack>
-            <Stack
-                direction={{xs: 'column', sm: 'row'}}
-                spacing={{
-                    xs: 1,
-                    sm: 0.5,
-                }}
-            >
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    نقش کاربر:
-                </Typography>
-                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {user?.role}
-                </Typography>
-            </Stack>
-            <Stack direction={'column'} spacing={1}>
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    تصویر پروفایل:
-                </Typography>
-                <Box
-                    component={'img'}
-                    sx={{
-                        width: '75px',
-                        height: '75px',
-                        borderRadius: 2,
-                        objectFit: 'cover',
-                    }}
-                    src={typeof user?.profile_picture === 'string' ? user?.profile_picture : ''}
-                    borderRadius={2}
-                />
+                    <Stack
+                        direction={{xs: 'column', sm: 'row'}}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                            شماره تلفن:
+                        </Typography>
+                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            {user?.phone_number}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction={{xs: 'column', sm: 'row'}}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                            نقش کاربر:
+                        </Typography>
+                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            {user?.role}
+                        </Typography>
+                    </Stack>
+                </Stack>
+                <Stack direction={'column'} spacing={1} pr={10}>
+                    <Box
+                        component={'img'}
+                        sx={{
+                            width: '120px',
+                            height: '120px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                        }}
+                        src={typeof user?.profile_picture === 'string' ? user?.profile_picture : ''}
+                    />
+                </Stack>
             </Stack>
         </Stack>
     )

@@ -442,9 +442,12 @@ export function Products({
                                 if (!editMode) {
                                     setProduct((prev) => ({
                                         ...prev,
-                                        pictures: files.map((file) => {
-                                            return file
-                                        }),
+                                        pictures: [
+                                            ...(prev.pictures || []),
+                                            ...files.map((file) => {
+                                                return file
+                                            }),
+                                        ],
                                     }))
                                     setFiles([])
                                 } else {

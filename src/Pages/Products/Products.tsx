@@ -1,9 +1,10 @@
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import {
     Box,
     Button,
-    Divider,
     FormControl,
     Grid,
+    IconButton,
     InputLabel,
     MenuItem,
     Select,
@@ -11,18 +12,19 @@ import {
     Stack,
 } from '@mui/material'
 import {ChangeEvent, useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {BaseModal} from '../../Components/Modal/BaseModal'
 import {DataProvider} from '../../Core/DataProvider'
 import {PropertyType} from '../../Core/types'
+import {setUtil} from '../../redux/UtilSlice'
 import {CategoriesType} from '../Categories/Categories'
 import {MethodType} from '../ConnectionMethod/Method'
 import {ProductDetailType} from './Detail/ProductDetail'
 import Options from './Options'
 import Properties from './Properties'
-
 export type ProductsType = {
     id: number
     name: string
@@ -58,13 +60,13 @@ export function Products({
     const [files, setFiles] = useState<File[]>([])
     const productId = useParams().id
     const [open, setOpen] = useState(false)
-
     const [connectionMethod, setConnectionMethod] = useState<{
         results: MethodType[]
     } | null>(null)
     const [categories, setCategories] = useState<{
         results: CategoriesType[]
     } | null>(null)
+    const dispatch = useDispatch()
     const getCategories = async () => {
         try {
             const response = await DataProvider.get<{
@@ -85,6 +87,26 @@ export function Products({
             console.log(error)
         }
     }
+
+    const handleDeletePicture = async (pictureId: number) => {
+        if (editMode) {
+            dispatch(setUtil({loading: true}))
+            try {
+                await DataProvider.delete(`product/${productId}/pictures/${pictureId}/`)
+                if (getProduct) {
+                    getProduct()
+                }
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            }
+            dispatch(setUtil({loading: false}))
+        } else {
+            setProduct((prev) => ({
+                ...prev,
+                pictures: prev.pictures.filter((image) => image.id !== pictureId),
+            }))
+        }
+    }
     useEffect(() => {
         getCategories()
         getConnectionMethods()
@@ -100,7 +122,6 @@ export function Products({
     const handleDelete = () => {
         setOpen(false)
         setFiles([])
-        console.log(product.pictures)
     }
     const handleVideo = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -350,7 +371,13 @@ export function Products({
                     {product?.pictures &&
                         files.length === 0 &&
                         product?.pictures?.map((image) => (
-                            <Grid item xs={3}>
+                            <Grid
+                                item
+                                xs={3}
+                                sx={{
+                                    position: 'relative',
+                                }}
+                            >
                                 <Box
                                     component={'img'}
                                     src={
@@ -364,6 +391,24 @@ export function Products({
                                         borderRadius: 2,
                                     }}
                                 />
+                                <Box
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 16,
+                                        left: 16,
+                                    }}
+                                >
+                                    <IconButton onClick={() => handleDeletePicture(image.id)}>
+                                        <DeleteOutlineIcon
+                                            color={'inherit'}
+                                            sx={{
+                                                bgcolor: 'primary.main',
+                                                borderRadius: 1,
+                                                fontSize: '1.8rem',
+                                            }}
+                                        />
+                                    </IconButton>
+                                </Box>
                             </Grid>
                         ))}
                 </Grid>
@@ -373,12 +418,14 @@ export function Products({
                         variant="contained"
                         size="large"
                         onClick={() => {
-                            setProduct((prev) => ({
-                                ...prev,
-                                pictures: files.map((file) => {
-                                    return file
-                                }),
-                            }))
+                            if (files.length > 0) {
+                                setProduct((prev) => ({
+                                    ...prev,
+                                    pictures: files.map((file) => {
+                                        return file
+                                    }),
+                                }))
+                            }
                             setOpen(false)
                         }}
                         disabled={!files}

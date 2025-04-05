@@ -71,7 +71,7 @@ export function Login(props) {
                     <Typography variant="body1" sx={{marginBottom: '1rem !important'}}>
                         ورود به حساب کاربری
                     </Typography>
-                    {isSubmit ? (
+                    {!isSubmit ? (
                         <SubmitCode getValues={getValues} />
                     ) : (
                         <>

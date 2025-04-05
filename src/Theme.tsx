@@ -94,6 +94,11 @@ AppTheme = createTheme({
     direction: 'rtl',
 
     components: {
+        MuiInputBase: {
+            defaultProps: {
+                disableInjectingGlobalStyles: true,
+            },
+        },
         MuiIconButton: {
             defaultProps: {
                 style: {padding: '0px'},

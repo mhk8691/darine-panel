@@ -13,7 +13,7 @@ import {Home} from './Pages/Home/Home'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {RTL} from './RTL'
-import { CssBaseline } from '@mui/material'
+import { CssBaseline, GlobalStyles } from '@mui/material'
 import { Login } from './Pages/Auth/Login/Login'
 import Register from './Pages/Auth/Register/Register'
 
@@ -40,7 +40,13 @@ function App() {
             <LocalizationProvider dateAdapter={AdapterMoment}>
                 <BrowserRouter>
                     <ThemeProvider theme={AppTheme}>
-                        <CssBaseline/>
+                        <GlobalStyles
+                            styles={{
+                                '@keyframes mui-auto-fill': {from: {display: 'block'}},
+                                '@keyframes mui-auto-fill-cancel': {from: {display: 'block'}},
+                            }}
+                        />
+                        <CssBaseline />
                         <Provider store={store}>
                             <CustomizedSnackbars />
                             <LoadingBackdrop />

@@ -134,6 +134,26 @@ export function Products({
             return {...prev, type: event.target.value as 'coins' | 'account'}
         })
     }
+    const handleNewPicture = async () => {
+        try {
+            const formData = new FormData()
+            files.forEach((file) => {
+                formData.append('pictures', file)
+            })
+            await DataProvider.post(`product/${productId}/add_picture/`, {
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            if (getProduct) {
+                getProduct()
+                setFiles([])
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+    }
 
     return (
         <Stack sx={{marginBottom: '16px'}}>
@@ -354,7 +374,6 @@ export function Products({
 
                 <Grid container spacing={2}>
                     {files.length > 0 &&
-                        files &&
                         files.map((file) => (
                             <Grid item xs={3}>
                                 <Box
@@ -369,7 +388,6 @@ export function Products({
                             </Grid>
                         ))}
                     {product?.pictures &&
-                        files.length === 0 &&
                         product?.pictures?.map((image) => (
                             <Grid
                                 item
@@ -391,24 +409,26 @@ export function Products({
                                         borderRadius: 2,
                                     }}
                                 />
-                                <Box
-                                    sx={{
-                                        position: 'absolute',
-                                        top: 16,
-                                        left: 16,
-                                    }}
-                                >
-                                    <IconButton onClick={() => handleDeletePicture(image.id)}>
-                                        <DeleteOutlineIcon
-                                            color={'inherit'}
-                                            sx={{
-                                                bgcolor: 'primary.main',
-                                                borderRadius: 1,
-                                                fontSize: '1.8rem',
-                                            }}
-                                        />
-                                    </IconButton>
-                                </Box>
+                                {editMode && (
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 16,
+                                            left: 16,
+                                        }}
+                                    >
+                                        <IconButton onClick={() => handleDeletePicture(image.id)}>
+                                            <DeleteOutlineIcon
+                                                color={'inherit'}
+                                                sx={{
+                                                    bgcolor: 'primary.main',
+                                                    borderRadius: 1,
+                                                    fontSize: '1.8rem',
+                                                }}
+                                            />
+                                        </IconButton>
+                                    </Box>
+                                )}
                             </Grid>
                         ))}
                 </Grid>
@@ -419,12 +439,17 @@ export function Products({
                         size="large"
                         onClick={() => {
                             if (files.length > 0) {
-                                setProduct((prev) => ({
-                                    ...prev,
-                                    pictures: files.map((file) => {
-                                        return file
-                                    }),
-                                }))
+                                if (!editMode) {
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        pictures: files.map((file) => {
+                                            return file
+                                        }),
+                                    }))
+                                    setFiles([])
+                                } else {
+                                    handleNewPicture()
+                                }
                             }
                             setOpen(false)
                         }}

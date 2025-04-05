@@ -1,10 +1,8 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import {
     Box,
     Button,
     FormControl,
     Grid,
-    IconButton,
     InputLabel,
     MenuItem,
     Select,
@@ -12,18 +10,16 @@ import {
     Stack,
 } from '@mui/material'
 import {ChangeEvent, useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
-import {BaseModal} from '../../Components/Modal/BaseModal'
 import {DataProvider} from '../../Core/DataProvider'
 import {PropertyType} from '../../Core/types'
-import {setUtil} from '../../redux/UtilSlice'
 import {CategoriesType} from '../Categories/Categories'
 import {MethodType} from '../ConnectionMethod/Method'
 import {ProductDetailType} from './Detail/ProductDetail'
 import Options from './Options'
+import Pictures from './Pictures'
 import Properties from './Properties'
 export type ProductsType = {
     id: number
@@ -57,16 +53,14 @@ export function Products({
     editMode?: boolean
     getProduct?: () => Promise<void>
 }) {
-    const [files, setFiles] = useState<File[]>([])
     const productId = useParams().id
-    const [open, setOpen] = useState(false)
     const [connectionMethod, setConnectionMethod] = useState<{
         results: MethodType[]
     } | null>(null)
     const [categories, setCategories] = useState<{
         results: CategoriesType[]
     } | null>(null)
-    const dispatch = useDispatch()
+
     const getCategories = async () => {
         try {
             const response = await DataProvider.get<{
@@ -88,41 +82,12 @@ export function Products({
         }
     }
 
-    const handleDeletePicture = async (pictureId: number) => {
-        if (editMode) {
-            dispatch(setUtil({loading: true}))
-            try {
-                await DataProvider.delete(`product/${productId}/pictures/${pictureId}/`)
-                if (getProduct) {
-                    getProduct()
-                }
-            } catch (error: any) {
-                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-            }
-            dispatch(setUtil({loading: false}))
-        } else {
-            setProduct((prev) => ({
-                ...prev,
-                pictures: prev.pictures.filter((image) => image.id !== pictureId),
-            }))
-        }
-    }
     useEffect(() => {
         getCategories()
         getConnectionMethods()
         console.log(product)
     }, [])
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = Array.from(event.target.files || [])
-        if (file) {
-            setFiles(file)
-        }
-    }
-    const handleDelete = () => {
-        setOpen(false)
-        setFiles([])
-    }
     const handleVideo = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
@@ -133,26 +98,6 @@ export function Products({
         setProduct((prev) => {
             return {...prev, type: event.target.value as 'coins' | 'account'}
         })
-    }
-    const handleNewPicture = async () => {
-        try {
-            const formData = new FormData()
-            files.forEach((file) => {
-                formData.append('pictures', file)
-            })
-            await DataProvider.post(`product/${productId}/add_picture/`, {
-                data: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-            if (getProduct) {
-                getProduct()
-                setFiles([])
-            }
-        } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-        }
     }
 
     return (
@@ -260,16 +205,12 @@ export function Products({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => setOpen(true)}
-                        size="large"
-                        fullWidth
-                        sx={{height: '53px', borderRadius: '4px !important'}}
-                    >
-                        {product.pictures ? 'ویرایش تصویر' : 'انتخاب تصویر'}
-                    </Button>
+                    <Pictures
+                        product={product}
+                        getProduct={getProduct}
+                        setProduct={setProduct}
+                        editMode={editMode}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTextField
@@ -351,120 +292,6 @@ export function Products({
                     productId={productId}
                 />
             </Grid>
-            <BaseModal
-                open={open}
-                setOpen={setOpen}
-                title="انتخاب تصویر"
-                onClose={handleDelete}
-                style={{maxWidth: 700}}
-            >
-                <input
-                    name="name"
-                    type="file"
-                    onChange={handleChange}
-                    multiple
-                    style={{
-                        marginBottom: '16px',
-                        border: '1px solid #525252',
-                        width: '100%',
-                        padding: '12px',
-                        borderRadius: '4px',
-                    }}
-                />
-
-                <Grid container spacing={2}>
-                    {files.length > 0 &&
-                        files.map((file) => (
-                            <Grid item xs={3}>
-                                <Box
-                                    component={'img'}
-                                    src={URL.createObjectURL(file)}
-                                    sx={{
-                                        width: '100%',
-                                        height: '100%',
-                                        borderRadius: 2,
-                                    }}
-                                />
-                            </Grid>
-                        ))}
-                    {product?.pictures &&
-                        product?.pictures?.map((image) => (
-                            <Grid
-                                item
-                                xs={3}
-                                sx={{
-                                    position: 'relative',
-                                }}
-                            >
-                                <Box
-                                    component={'img'}
-                                    src={
-                                        typeof image.picture === 'string'
-                                            ? image.picture
-                                            : URL.createObjectURL(image.picture || image)
-                                    }
-                                    sx={{
-                                        width: '100%',
-                                        height: '100%',
-                                        borderRadius: 2,
-                                    }}
-                                />
-                                {editMode && (
-                                    <Box
-                                        sx={{
-                                            position: 'absolute',
-                                            top: 16,
-                                            left: 16,
-                                        }}
-                                    >
-                                        <IconButton onClick={() => handleDeletePicture(image.id)}>
-                                            <DeleteOutlineIcon
-                                                color={'inherit'}
-                                                sx={{
-                                                    bgcolor: 'primary.main',
-                                                    borderRadius: 1,
-                                                    fontSize: '1.8rem',
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Box>
-                                )}
-                            </Grid>
-                        ))}
-                </Grid>
-
-                <Stack direction={'row'} spacing={2} mt={2}>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        onClick={() => {
-                            if (files.length > 0) {
-                                if (!editMode) {
-                                    setProduct((prev) => ({
-                                        ...prev,
-                                        pictures: [
-                                            ...(prev.pictures || []),
-                                            ...files.map((file) => {
-                                                return file
-                                            }),
-                                        ],
-                                    }))
-                                    setFiles([])
-                                } else {
-                                    handleNewPicture()
-                                }
-                            }
-                            setOpen(false)
-                        }}
-                        disabled={!files}
-                    >
-                        تایید
-                    </Button>
-                    <Button variant="outlined" color="primary" size="large" onClick={handleDelete}>
-                        لغو
-                    </Button>
-                </Stack>
-            </BaseModal>
         </Stack>
     )
 }

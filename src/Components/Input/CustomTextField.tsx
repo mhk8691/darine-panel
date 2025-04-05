@@ -1,10 +1,9 @@
-import React from 'react'
-import {alpha, styled} from '@mui/material/styles'
-import {TextField, TextFieldProps, Theme} from '@mui/material'
+import {TextField, TextFieldProps} from '@mui/material'
+import {styled} from '@mui/material/styles'
 
-type CustomTextFieldProps = {setData?: any; change?: any; register?:any} & TextFieldProps
+type CustomTextFieldProps = {setData?: any; change?: any; register?: any} & TextFieldProps
 export function CustomTextField(props: CustomTextFieldProps) {
-    const {setData, change,register} = props
+    const {setData, change, register} = props
     async function changeField(event) {
         if (!change && setData) {
             setData((prev) => {
@@ -36,6 +35,5 @@ const Custom = styled(TextField)(({theme}) => ({
     },
     '& .MuiInputLabel-root': {
         fontSize: 15,
-        
     },
 }))

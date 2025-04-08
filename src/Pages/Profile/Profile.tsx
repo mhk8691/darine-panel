@@ -2,7 +2,6 @@ import {Box, Button, Stack, Typography} from '@mui/material'
 import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {useParams} from 'react-router-dom'
 import {useAppSelector} from '../../redux/store'
 import {setUtil} from '../../redux/UtilSlice'
 import {Users, UsersType} from '../Users/Users'
@@ -13,7 +12,6 @@ export default function Profile() {
     const [initialData, setInitialData] = useState<UsersType>({} as UsersType)
     const token = useAppSelector((state) => state.user.token)
     const dispatch = useDispatch()
-    const params = useParams()
     useEffect(() => {
         const getProfile = async () => {
             try {

@@ -112,7 +112,6 @@ export function AccountsList() {
                 headCells={tableHeadCells}
                 rows={accounts.data}
                 count={accounts.count}
-                deleteName="name of deleting"
                 getList={getAccounts}
                 params={search}
                 setParams={setSearch}

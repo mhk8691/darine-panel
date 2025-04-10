@@ -80,7 +80,6 @@ export function BannersList() {
                 headCells={tableHeadCells}
                 rows={banners.data}
                 count={banners.total_results}
-                deleteName="name of deleting"
                 getList={getBanners}
                 params={search}
                 setParams={setSearch}

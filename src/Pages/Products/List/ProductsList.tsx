@@ -96,7 +96,6 @@ export function ProductsList() {
                 headCells={tableHeadCells}
                 rows={products.data}
                 count={products.total_results}
-                deleteName="name of deleting"
                 getList={getProducts}
                 params={search}
                 setParams={setSearch}

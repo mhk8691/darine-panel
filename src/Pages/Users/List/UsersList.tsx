@@ -95,7 +95,6 @@ export function UsersList() {
                 headCells={tableHeadCells}
                 rows={users.data}
                 count={users.total_results}
-                deleteName="name of deleting"
                 getList={getUsers}
                 params={search}
                 setParams={setSearch}

@@ -80,7 +80,6 @@ export function CategoriesList() {
                 headCells={tableHeadCells}
                 rows={categories.data}
                 count={categories.total_results}
-                deleteName="name of deleting"
                 getList={getCategories}
                 params={search}
                 setParams={setSearch}

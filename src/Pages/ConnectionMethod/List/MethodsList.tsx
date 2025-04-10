@@ -82,7 +82,6 @@ export function MethodsList() {
                 headCells={tableHeadCells}
                 rows={methods.data}
                 count={methods.total_results}
-                deleteName="name of deleting"
                 getList={getMethods}
                 hasDetail={true}
                 params={search}

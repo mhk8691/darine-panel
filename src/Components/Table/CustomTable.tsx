@@ -32,7 +32,6 @@ export function CustomTable(props: {
     noPagination?: boolean
     noDelete?: boolean
     getList: () => void
-    deleteName: string
     hasDetail?: boolean
 }) {
     const {
@@ -48,7 +47,6 @@ export function CustomTable(props: {
         noPagination,
         noDelete,
         getList,
-        deleteName,
         hasDetail,
     } = props
     const navigate = useNavigate()

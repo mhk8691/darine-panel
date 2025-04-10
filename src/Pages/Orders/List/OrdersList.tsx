@@ -135,7 +135,6 @@ export function OrdersList() {
                 headCells={tableHeadCells}
                 rows={orders.data}
                 count={orders.total_results}
-                deleteName="name of deleting"
                 getList={getOrders}
                 params={search}
                 setParams={setSearch}

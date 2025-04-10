@@ -96,7 +96,6 @@ export function CommentsList() {
                 headCells={tableHeadCells}
                 rows={comments.data}
                 count={comments.total_results}
-                deleteName="name of deleting"
                 getList={getComments}
                 params={search}
                 setParams={setSearch}

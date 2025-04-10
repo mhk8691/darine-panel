@@ -1,21 +1,23 @@
-import {ArrowBack} from '@mui/icons-material'
+import { ArrowBack } from '@mui/icons-material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Button, TableFooter} from '@mui/material'
-import Checkbox from '@mui/material/Checkbox'
-import LinearProgress, {linearProgressClasses} from '@mui/material/LinearProgress'
+import { Button, TableFooter, Typography } from '@mui/material'
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import {Box} from '@mui/system'
-import {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {BlankList} from '../Pictures/BlankList'
-import {CustomTableHead, HeadCellType} from './CustomTableHead'
-import {CustomToolbar} from './CustomToolbar'
-
+import { Box, Stack } from '@mui/system'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { DataProvider } from '../../Core/DataProvider'
+import { setUtil } from '../../redux/UtilSlice'
+import { BaseModal } from '../Modal/BaseModal'
+import { BlankList } from '../Pictures/BlankList'
+import { CustomTableHead, HeadCellType } from './CustomTableHead'
 export function CustomTable(props: {
     headCells: HeadCellType
     handleSort: () => void
@@ -50,150 +52,74 @@ export function CustomTable(props: {
         hasDetail,
     } = props
     const navigate = useNavigate()
-    const [selected, setSelected] = useState<string[]>([])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
-
-    const handleRequestSort = (event, property) => {
-        setParams((filter) => {
-            let isAsc = true
-            if (filter.ordering) {
-                isAsc = filter.ordering.includes(property) && !filter.ordering.includes('-')
-            }
-            return {
-                ...filter,
-                ordering: isAsc ? '-' + property : property,
-            }
-        })
-    }
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.id)
-            setSelected(newSelecteds)
-            return
-        }
-        setSelected([])
-    }
-
-    const handleClick = (event, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: string[] = []
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1))
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            )
-        }
-
-        setSelected(newSelected)
-    }
-
-    const handleChangePage = (event, newPage) => {
-        setParams((filter) => {
-            return {
-                ...filter,
-                page: newPage + 1,
-            }
-        })
-        setPage(newPage)
-    }
-
-    const handleChangeRowsPerPage = (event) => {
-        let newValue = parseInt(event.target.value, 10)
-        setParams((filter) => {
-            return {
-                ...filter,
-                page_size: newValue,
-            }
-        })
-        setRowsPerPage(newValue)
-        setPage(0)
-    }
+    const [open, setOpen] = useState(false)
+    const [selected, setSelected] = useState('')
+    const dispatch = useDispatch()
     function handleEditClick(event, id: string | number, row) {
         navigate(`${id}`, {state: {row}})
     }
+
     function handleDetailClick(id: string | number, hasDetail: boolean) {
         if (hasDetail) {
             navigate(`detail/${id}`)
         }
     }
 
-    const isSelected = (name) => selected.indexOf(name) !== -1
+    async function handleDelete() {
+        dispatch(setUtil({loading: true}))
+        try {
+            await DataProvider.delete(`${resource}/${selected}/`)
+            getList()
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+        dispatch(setUtil({loading: false}))
+        setOpen(false)
+        setSelected('')
+    }
+
     return !loading && rows.length === 0 ? (
         <BlankList />
     ) : (
-        <Box>
-            <LinearProgress
-                sx={{
-                    [`& .${linearProgressClasses.bar}`]: {
-                        backgroundColor: 'primary.main',
-                    },
-                    [`&.${linearProgressClasses.colorPrimary}`]: {
-                        backgroundColor: 'background.light',
-                    },
-
-                    mt: 0.5,
-                    mb: 1,
-                }}
-                variant={loading ? 'indeterminate' : 'determinate'}
-                value={0}
-            />
-            {!noDelete && (
-                <CustomToolbar
-                    setParams={setParams}
-                    setSelected={setSelected}
-                    resource={resource}
-                    selected={selected}
-                    getList={getList}
-                    numSelected={selected.length}
-                    deleteName={deleteName}
+        <>
+            <Box>
+                <LinearProgress
+                    sx={{
+                        [`& .${linearProgressClasses.bar}`]: {
+                            backgroundColor: 'primary.main',
+                        },
+                        [`&.${linearProgressClasses.colorPrimary}`]: {
+                            backgroundColor: 'background.light',
+                        },
+                        mt: 0.5,
+                        mb: 1,
+                    }}
+                    variant={loading ? 'indeterminate' : 'determinate'}
+                    value={0}
                 />
-            )}
-            <TableContainer sx={{overflowX: 'auto', maxWidth: '100%'}}>
-                <Table>
-                    <CustomTableHead
-                        headCells={headCells}
-                        search={params}
-                        onSelectAllClick={handleSelectAllClick}
-                        rowCount={rows.length}
-                        onRequestSort={handleRequestSort}
-                        numSelected={selected.length}
-                        noDelete={noDelete}
-                        noEdit={noEdit}
-                        hasDetail={hasDetail}
-                    />
-                    <TableBody>
-                        {rows.map((row, index) => {
-                            const isItemSelected = isSelected(row.id)
-                            const labelId = `enhanced-table-checkbox-${index}`
-
-                            return (
-                                <TableRow
-                                    hover
-                                    role="checkbox"
-                                    key={row._id}
-                                    selected={isItemSelected}
-                                >
-                                    {!noDelete && (
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="error"
-                                                checked={isItemSelected}
-                                                onChange={(event) => handleClick(event, row.id)}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
-                                    )}
+                <TableContainer sx={{overflowX: 'auto', maxWidth: '100%'}}>
+                    <Table>
+                        <CustomTableHead
+                            headCells={headCells}
+                            search={params}
+                            onRequestSort={(event, prop) => {
+                                const isAsc =
+                                    params.ordering?.includes(prop) &&
+                                    !params.ordering?.includes('-')
+                                setParams((prev) => ({
+                                    ...prev,
+                                    ordering: isAsc ? `-${prop}` : prop,
+                                }))
+                            }}
+                            noDelete={noDelete}
+                            noEdit={noEdit}
+                            hasDetail={hasDetail}
+                        />
+                        <TableBody>
+                            {rows.map((row, index) => (
+                                <TableRow hover key={row._id}>
                                     {tableBodyCells[index]}
                                     {!noEdit && (
                                         <TableCell width="32px">
@@ -215,51 +141,87 @@ export function CustomTable(props: {
                                                 color="primary"
                                                 variant="outlined"
                                                 sx={{padding: '4px 8px', minWidth: '0px'}}
-                                                onClick={(event) =>
-                                                    handleDetailClick(row.id, hasDetail)
-                                                }
+                                                onClick={() => handleDetailClick(row.id, hasDetail)}
                                             >
                                                 <ArrowBack />
                                             </Button>
                                         </TableCell>
                                     )}
+                                    {!noDelete && (
+                                        <TableCell width="32px">
+                                            <Button
+                                                color="error"
+                                                variant="outlined"
+                                                sx={{padding: '4px 8px', minWidth: '0px'}}
+                                                onClick={() => {
+                                                    setSelected(row.id)
+                                                    setOpen(true)
+                                                }}
+                                            >
+                                                <DeleteIcon />
+                                            </Button>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            {!noPagination && (
-                <TableFooter
-                    sx={{
-                        direction: 'rtl',
-                    }}
-                >
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 50, 100]}
-                        component="div"
-                        count={count}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        labelRowsPerPage={'تعداد ردیف در هر صفحه:'}
-                        labelDisplayedRows={({from, to, count}) =>
-                            `${from}–${to} از ${count !== -1 ? count : `بیشتر از ${to}`}`
-                        }
-                        sx={{
-                            '&.MuiTablePagination-root .MuiTablePagination-selectLabel': {
-                                fontSize: '15px',
-                                fontWeight: '500',
-                            },
-                            '&.MuiTablePagination-root .MuiTablePagination-displayedRows': {
-                                fontSize: '16px',
-                                fontWeight: '500',
-                            },
-                        }}
-                    />
-                </TableFooter>
-            )}
-        </Box>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+                {!noPagination && (
+                    <TableFooter sx={{direction: 'rtl'}}>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 50, 100]}
+                            component="div"
+                            count={count}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={(event, newPage) => {
+                                setPage(newPage)
+                                setParams((prev) => ({...prev, page: newPage + 1}))
+                            }}
+                            onRowsPerPageChange={(event) => {
+                                const newValue = parseInt(event.target.value, 10)
+                                setRowsPerPage(newValue)
+                                setPage(0)
+                                setParams((prev) => ({...prev, page_size: newValue}))
+                            }}
+                            labelRowsPerPage="تعداد ردیف در هر صفحه:"
+                            labelDisplayedRows={({from, to, count}) =>
+                                `${from}–${to} از ${count !== -1 ? count : `بیشتر از ${to}`}`
+                            }
+                            sx={{
+                                '& .MuiTablePagination-selectLabel': {
+                                    fontSize: '15px',
+                                    fontWeight: '500',
+                                },
+                                '& .MuiTablePagination-displayedRows': {
+                                    fontSize: '16px',
+                                    fontWeight: '500',
+                                },
+                            }}
+                        />
+                    </TableFooter>
+                )}
+            </Box>
+            <BaseModal open={open} setOpen={setOpen} title="توجه!" style={{maxWidth: 'sm'}}>
+                <Typography mb="1rem" variant="body2" fontSize={'17px'}>
+                    آیا از انجام این عمل مطمئن هستید؟
+                </Typography>
+                <Stack direction={'row'} spacing={2} mt={2.5}>
+                    <Button variant="contained" onClick={handleDelete} size="large">
+                        بله
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={(e) => setOpen(false)}
+                        size="large"
+                    >
+                        خیر
+                    </Button>
+                </Stack>
+            </BaseModal>
+        </>
     )
 }

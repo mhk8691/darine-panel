@@ -2,7 +2,6 @@ import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
-import Checkbox from '@mui/material/Checkbox'
 
 export type HeadCellType = {
     name: string
@@ -13,26 +12,14 @@ export function createTableHeadCells(label, name) {
 }
 export function CustomTableHead(props: {
     headCells: HeadCellType
-    onSelectAllClick: any
     search: any
-    numSelected: any
-    rowCount: number
     onRequestSort: any
     noDelete?: boolean
     noEdit?: boolean
     hasDetail?: boolean
 }) {
-    const {
-        headCells,
-        onSelectAllClick,
-        search,
-        numSelected,
-        rowCount,
-        onRequestSort,
-        noDelete,
-        noEdit,
-        hasDetail,
-    } = props
+    const {headCells, search, onRequestSort, noDelete, noEdit, hasDetail} = props
+
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property)
     }
@@ -40,19 +27,7 @@ export function CustomTableHead(props: {
     return (
         <TableHead>
             <TableRow>
-                {!noDelete && (
-                    <TableCell padding="checkbox">
-                        <Checkbox
-                            color="error"
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={rowCount > 0 && numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                            inputProps={{
-                                'aria-label': 'select all desserts',
-                            }}
-                        />
-                    </TableCell>
-                )}
+                {/* حذف سلکت آل چون حذف تکی داریم */}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.name}
@@ -87,6 +62,8 @@ export function CustomTableHead(props: {
                 ))}
                 {!noEdit && <TableCell></TableCell>}
                 {hasDetail && <TableCell></TableCell>}
+                {/* حذف جای سلکت آل */}
+                {!noDelete && <TableCell></TableCell>}
             </TableRow>
         </TableHead>
     )

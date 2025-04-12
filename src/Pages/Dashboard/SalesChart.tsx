@@ -1,4 +1,4 @@
-import {Grid, Stack, Typography, useMediaQuery} from '@mui/material'
+import {Box, Grid, Stack, Typography, useMediaQuery} from '@mui/material'
 import {BarChart} from '@mui/x-charts/BarChart'
 import {dataset, valueFormatter} from './sales'
 import {red} from '@mui/material/colors'
@@ -11,14 +11,11 @@ export default function SalesChart() {
         height: mdScreen ? 450 : smScreen ? 350 : xsScreen ? 280 : 100,
     }
     return (
-        <Grid item xs={12} width="100%">
+        <Grid item xs={12}>
             <Stack
                 bgcolor={'background.main'}
                 borderRadius={3}
-                px={{
-                    xs: 2,
-                    sm: 3,
-                }}
+                px={{xs: 2, sm: 3}}
                 py={3}
                 width="100%"
             >
@@ -28,31 +25,36 @@ export default function SalesChart() {
                 >
                     آمار فروش ماهانه
                 </Typography>
-                <BarChart
-                    dataset={dataset}
-                    xAxis={[
-                        {
-                            scaleType: 'band',
-                            dataKey: 'month',
-                        },
-                    ]}
-                    series={[
-                        {
-                            dataKey: 'sales',
-                            label: 'فروش ماهانه',
-                            valueFormatter,
-                        },
-                    ]}
-                    margin={{left: 87}}
-                    layout="vertical"
-                    colors={[red[700]]}
-                    sx={{
-                        width: '100% !important',
-                        '--Charts-categoryLabelFontSize': '12px',
-                    }}
-                    grid={{horizontal: true}}
-                    {...chartSetting}
-                />
+
+                <Box sx={{overflowX: 'auto', width: '100%'}}>
+                    <Box sx={{minWidth: '700px'}}>
+                        <BarChart
+                            dataset={dataset}
+                            xAxis={[
+                                {
+                                    scaleType: 'band',
+                                    dataKey: 'month',
+                                },
+                            ]}
+                            margin={{left: 87}}
+                            series={[
+                                {
+                                    dataKey: 'sales',
+                                    label: 'فروش ماهانه',
+                                    valueFormatter,
+                                },
+                            ]}
+                            layout="vertical"
+                            colors={[red[700]]}
+                            sx={{
+                                '--Charts-categoryLabelFontSize': '12px',
+                                width: '100%',
+                            }}
+                            grid={{horizontal: true}}
+                            {...chartSetting}
+                        />
+                    </Box>
+                </Box>
             </Stack>
         </Grid>
     )

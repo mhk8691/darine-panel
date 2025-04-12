@@ -4,10 +4,6 @@ import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
 
-import {AccountCreate} from '../Accounts/Create/AccountCreate'
-import {AccountDetail} from '../Accounts/Detail/AccountDetail'
-import {AccountEdit} from '../Accounts/Edit/AccountEdit'
-import {AccountsList} from '../Accounts/List/AccountsList'
 import {BannerCreate} from '../Banners/Create/BannerCreate'
 import {BannerDetail} from '../Banners/Detail/BannerDetail'
 import {BannerEdit} from '../Banners/Edit/BannerEdit'
@@ -110,14 +106,6 @@ export function Home(props) {
                         <Route path="category/:id" element={<CategoryEdit />} />
                         <Route path="category/detail/:id" element={<CategoryDetail />} />
 
-                        {/* game account section */}
-                        <Route
-                            path="accounts/create"
-                            element={<AccountCreate data={data} setData={setData} />}
-                        />
-                        <Route path="accounts" element={<AccountsList />} />
-                        <Route path="accounts/:id" element={<AccountEdit />} />
-                        <Route path="accounts/detail/:id" element={<AccountDetail />} />
                         {/* orders section */}
                         <Route path="orders" element={<OrdersList />} />
                         <Route path="orders/:id" element={<OrderEdit />} />

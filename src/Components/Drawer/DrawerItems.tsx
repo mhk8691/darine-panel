@@ -2,13 +2,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CableIcon from '@mui/icons-material/Cable'
 import CategoryIcon from '@mui/icons-material/Category'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import GamepadIcon from '@mui/icons-material/Gamepad'
 import GroupIcon from '@mui/icons-material/Group'
+import ImageIcon from '@mui/icons-material/Image'
 import InsertCommentIcon from '@mui/icons-material/InsertComment'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
-import ImageIcon from '@mui/icons-material/Image'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -55,32 +53,6 @@ export const drawerItems = [
         link: 'category',
         icon: (
             <CategoryIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-    {
-        title: 'اکانت های بازی',
-        role: 'all',
-        link: 'accounts',
-        icon: (
-            <SportsEsportsIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-    {
-        title: 'دسته بندی اکانت ها',
-        role: 'all',
-        link: 'account-category',
-        icon: (
-            <GamepadIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

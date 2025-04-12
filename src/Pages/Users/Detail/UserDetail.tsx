@@ -29,12 +29,19 @@ export function UserDetail() {
                 جزئیات کاربر
             </Typography>
             <Stack
-                direction={'row'}
+                direction={{
+                    xs: 'column-reverse',
+                    sm: 'row',
+                }}
                 alignItems={'center'}
-                justifyContent={'space-between'}
+                justifyContent={{
+                    xs: 'center',
+                    sm: 'space-between',
+                }}
                 mt={2.5}
+                gap={2}
             >
-                <Stack spacing={2.5}>
+                <Stack spacing={2.5} alignSelf={'flex-start'}>
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}
                         spacing={{
@@ -107,7 +114,14 @@ export function UserDetail() {
                         </Typography>
                     </Stack>
                 </Stack>
-                <Stack direction={'column'} spacing={1} pr={10}>
+                <Stack
+                    direction={'column'}
+                    spacing={1}
+                    pr={{
+                        xs: 0,
+                        sm: 10,
+                    }}
+                >
                     <Box
                         component={'img'}
                         sx={{

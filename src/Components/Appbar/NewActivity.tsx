@@ -1,14 +1,12 @@
 import AddIcon from '@mui/icons-material/Add'
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
-import MessageIcon from '@mui/icons-material/Message'
-import TtyIcon from '@mui/icons-material/Tty'
+import CategoryIcon from '@mui/icons-material/Category'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import {Button, Menu, MenuItem, Stack, Typography} from '@mui/material'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports'
+
 const addOptions = [
     {
         title: 'کاربر جدید',
@@ -23,10 +21,10 @@ const addOptions = [
         icon: <ShoppingBasketIcon sx={{fontSize: '30px'}} />,
     },
     {
-        title: 'آگهی جدید',
-        description: 'آگهی جدید ایجاد کنید',
-        link: 'accounts/create',
-        icon: <SportsEsportsIcon sx={{fontSize: '30px'}} />,
+        title: 'دسته بندی جدید',
+        description: 'دسته بندی جدید ایجاد کنید',
+        link: 'category/create',
+        icon: <CategoryIcon sx={{fontSize: '30px'}} />,
     },
 ]
 
@@ -67,7 +65,7 @@ const NewActivity = () => {
                         mt: '1rem',
                         '& .MuiList-root': {
                             width: '280px !important',
-                            borderRadius:2
+                            borderRadius: 2,
                         },
                     }}
                 >
@@ -87,7 +85,7 @@ const NewActivity = () => {
                             <Stack direction="row" alignItems="center" gap={1}>
                                 <ListItemIcon
                                     sx={{
-                                        py:1,
+                                        py: 1,
                                         borderRadius: '5px',
                                     }}
                                 >

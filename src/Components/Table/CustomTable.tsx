@@ -190,11 +190,11 @@ export function CustomTable(props: {
                             }
                             sx={{
                                 '& .MuiTablePagination-selectLabel': {
-                                    fontSize: '15px',
+                                    fontSize: '16px',
                                     fontWeight: '500',
                                 },
                                 '& .MuiTablePagination-displayedRows': {
-                                    fontSize: '16px',
+                                    fontSize: '17px',
                                     fontWeight: '500',
                                 },
                             }}

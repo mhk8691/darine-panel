@@ -34,10 +34,10 @@ export function CustomTableHead(props: {
                         color="secondary"
                         sx={{
                             fontSize: {
-                                xs: '13px',
-                                sm: '14px',
-                                lg: '15px',
-                                xl: '17px',
+                                xs: '14px',
+                                sm: '15px',
+                                lg: '16px',
+                                xl: '18px',
                             },
                         }}
                     >
@@ -62,7 +62,6 @@ export function CustomTableHead(props: {
                 ))}
                 {!noEdit && <TableCell></TableCell>}
                 {hasDetail && <TableCell></TableCell>}
-                {/* حذف جای سلکت آل */}
                 {!noDelete && <TableCell></TableCell>}
             </TableRow>
         </TableHead>

@@ -33,7 +33,7 @@ export default function Widgets({title, data, description, icon}: Props) {
                     py={3}
                     direction={'column'}
                 >
-                    <Typography variant="h6" sx={{fontSize: '16px !important', fontWeight: 'bold'}}>
+                    <Typography variant="h6" sx={{fontSize: '17px !important', fontWeight: 'bold'}}>
                         {title}
                     </Typography>
                     <Typography
@@ -53,7 +53,7 @@ export default function Widgets({title, data, description, icon}: Props) {
                     <Typography
                         variant="body2"
                         sx={{
-                            fontSize: '13px !important',
+                            fontSize: '14px !important',
                             color:
                                 description.status === 'increment'
                                     ? 'success.main'

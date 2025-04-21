@@ -113,11 +113,11 @@ export function ListPage({
                         variant="h6"
                         sx={{
                             fontSize: {
-                                xs: '15px !important',
+                                xs: '16px !important',
                                 sm: '18px !important',
                             },
                             '@media (max-width: 350px)': {
-                                fontSize: '14px !important',
+                                fontSize: '15px !important',
                             },
                             fontWeight: 600,
                         }}

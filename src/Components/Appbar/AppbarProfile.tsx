@@ -34,13 +34,12 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                 onClick={handleOpen}
             >
                 <Typography
-                    fontWeight={600}
                     variant="subtitle2"
                     noWrap
                     sx={{
                         fontSize: {
-                            xs: '15px',
-                            md: '16px',
+                            xs: '14px',
+                            md: '15px',
                         },
                     }}
                 >
@@ -86,7 +85,7 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                             <Typography
                                 variant="bodyLg"
                                 fontWeight={700}
-                                fontSize={{xs: '15px', md: '16px'}}
+                                fontSize={{xs: '14px', md: '15px'}}
                             >
                                 {user.first_name}
                             </Typography>

@@ -122,7 +122,12 @@ export function AppDrawer({
                                             {item.icon}
                                         </ListItemIcon>
                                     ) : (
-                                        <Tooltip title={item.title} placement="left" arrow>
+                                        <Tooltip
+                                            title={item.title}
+                                            placement="left"
+                                            arrow
+                                            
+                                        >
                                             <ListItemIcon
                                                 sx={{
                                                     color: selected[index] ? 'white' : '#606566',

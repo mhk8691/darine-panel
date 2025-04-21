@@ -21,7 +21,7 @@ export default function SalesChart() {
             >
                 <Typography
                     variant="h6"
-                    sx={{fontSize: '16px !important', fontWeight: 'bold', mb: 5}}
+                    sx={{fontSize: '17px !important', fontWeight: 'bold', mb: 5}}
                 >
                     آمار فروش ماهانه
                 </Typography>
@@ -47,7 +47,7 @@ export default function SalesChart() {
                             layout="vertical"
                             colors={[red[700]]}
                             sx={{
-                                '--Charts-categoryLabelFontSize': '12px',
+                                '--Charts-categoryLabelFontSize': '16px',
                                 width: '100%',
                             }}
                             grid={{horizontal: true}}

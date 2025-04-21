@@ -12,6 +12,7 @@ import {createQueryParam} from '../../../Core/QueryParams'
 import {useAppDispatch} from '../../../redux/store'
 import {ProductCreate} from '../Create/ProductCreate'
 import { setUtil } from '../../../redux/UtilSlice'
+import { formatPrice } from '../../../Core/FormatPrice'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -133,7 +134,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.base_price || '--'}
+                                {formatPrice(item.base_price)}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -149,7 +150,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.max_price || '--'}
+                                {formatPrice(item.max_price)}
                             </Typography>
                         </TableCell>
                         <TableCell>

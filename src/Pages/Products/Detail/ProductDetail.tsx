@@ -4,6 +4,7 @@ import {Link, useParams} from 'react-router-dom'
 import Progress from '../../../Components/Progress/Progress'
 import {DataProvider} from '../../../Core/DataProvider'
 import {OptionType, PropertyType} from '../../../Core/types'
+import { formatPrice } from '../../../Core/FormatPrice'
 
 const RECOURCE = 'product'
 export interface ProductDetailType {
@@ -136,7 +137,6 @@ export function ProductDetail() {
                             {product?.connection_method?.title || '--'}
                         </Typography>
                     </Stack>
-
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}
                         spacing={{
@@ -148,7 +148,7 @@ export function ProductDetail() {
                             قیمت پایه:
                         </Typography>
                         <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {product?.base_price || '--'}
+                            {formatPrice(product?.base_price)}
                         </Typography>
                     </Stack>
                     <Stack
@@ -162,7 +162,7 @@ export function ProductDetail() {
                             حداکثر قیمت:
                         </Typography>
                         <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {product?.max_price || '--'}
+                            {formatPrice(product?.max_price)}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={3}>

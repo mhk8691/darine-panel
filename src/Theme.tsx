@@ -125,7 +125,7 @@ AppTheme = createTheme({
         },
     },
     typography: {
-        fontFamily: 'Pelak',
+        fontFamily: 'Samim',
         displayMd: {
             fontSize: '45px',
             lineHeight: '52px',

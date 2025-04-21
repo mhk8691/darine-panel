@@ -23,91 +23,35 @@ html,
 }
 
 @font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-Thin.eot);
-    src: url(./Fonts/eot/Pelak-Thin.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-Thin.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-Thin.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-Thin.ttf) format('truetype');
-    font-weight: 100;
-}
-@font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-light.eot);
-    src: url(./Fonts/eot/Pelak-light.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-light.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-light.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-light.ttf) format('truetype');
-    font-weight: 300;
-}
-@font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-Regular.eot);
-    src: url(./Fonts/eot/Pelak-Regular.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-Regular.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-Regular.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-Regular.ttf) format('truetype');
+    font-family: 'Samim';
+    src: url(./Fonts/Samim-FD.woff2) format('woff2');
     font-weight: 400;
 }
 @font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-Medium.eot);
-    src: url(./Fonts/eot/Pelak-Medium.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-Medium.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-Medium.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-Medium.ttf) format('truetype');
+    font-family: 'Samim';
+    src: url(./Fonts/Samim-Medium-FD.woff2) format('woff2');
     font-weight: 500;
 }
 @font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-SemiBold.eot);
-    src: url(./Fonts/eot/Pelak-SemiBold.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-SemiBold.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-SemiBold.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-SemiBold.ttf) format('truetype');
-    font-weight: 600;
-}
-@font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-Bold.eot);
-    src: url(./Fonts/eot/Pelak-Bold.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-Bold.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-Bold.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-Bold.ttf) format('truetype');
+    font-family: 'Samim';
+    src: url(./Fonts/Samim-Bold-FD.woff2) format('woff2');
     font-weight: 700;
 }
-@font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-ExtraBold.eot);
-    src: url(./Fonts/eot/Pelak-ExtraBold.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-ExtraBold.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-ExtraBold.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-ExtraBold.ttf) format('truetype');
-    font-weight: 800;
-}
-@font-face {
-    font-family: 'Pelak';
-    src: url(./Fonts/eot/Pelak-Black.eot);
-    src: url(./Fonts/eot/Pelak-Black.eot) format('embedded-opentype'),
-        url(./Fonts/woff/Pelak-Black.woff) format('woff'),
-        url(./Fonts/woff2/Pelak-Black.woff2) format('woff2'),
-        url(./Fonts/ttf/Pelak-Black.ttf) format('truetype');
-    font-weight: 900;
-}
+
 ::-webkit-scrollbar {
-  width: 7px;
+    width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #242424;
-  border-radius: 5px;
+    background-color: #242424;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #525252;
-  border-radius: 5px;
+    background: #525252;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333333;
+    background: #333333;
 }

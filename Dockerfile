@@ -1,18 +1,19 @@
-FROM node:20-alpine AS development
-# Set environment variables
-ARG REACT_APP_API_URL
-ARG NODE_ENV
+FROM node:20-alpine AS build
 
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
-ENV NODE_ENV=$NODE_ENV
-# Add a work directory
 WORKDIR /app
-# Cache and Install dependencies
-COPY package.json .
-RUN npm install --force
-# Copy app files
+
+COPY package*.json ./
+
+RUN npm install
+
 COPY . .
-# Expose port
-EXPOSE 3000
-# Start the app
-CMD [ "npm", "start"]
+
+RUN npm run build
+
+FROM nginx:alpine AS production
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -67,14 +67,14 @@ export default function Register() {
                 sx={{
                     width: {
                         xs: '80%',
-                        sm: '62%',
-                        md: '50%',
-                        lg: '38%',
+                        sm: '60%',
+                        md: '43%',
+                        lg: '33%',
                     },
                 }}
                 borderRadius={3}
                 px={5}
-                py={7}
+                py={5}
             >
                 <Stack
                     direction={'column'}
@@ -113,7 +113,7 @@ export default function Register() {
                         <Button
                             variant="contained"
                             size="large"
-                            sx={{fontSize: '20px', width: '100%'}}
+                            sx={{fontSize: '18px', width: '100%'}}
                             type="submit"
                         >
                             ثبت نام

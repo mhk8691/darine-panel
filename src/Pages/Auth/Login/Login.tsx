@@ -51,9 +51,9 @@ export function Login(props) {
                 sx={{
                     width: {
                         xs: '80%',
-                        sm: '62%',
-                        md: '50%',
-                        lg: '38%',
+                        sm: '60%',
+                        md: '43%',
+                        lg: '33%',
                     },
                 }}
                 borderRadius={3}
@@ -71,7 +71,7 @@ export function Login(props) {
                     <Typography variant="body1" sx={{marginBottom: '1rem !important'}}>
                         ورود به حساب کاربری
                     </Typography>
-                    {!isSubmit ? (
+                    {isSubmit ? (
                         <SubmitCode getValues={getValues} />
                     ) : (
                         <>
@@ -87,7 +87,7 @@ export function Login(props) {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    sx={{fontSize: '20px', width: '100%'}}
+                                    sx={{fontSize: '18px', width: '100%'}}
                                     type="submit"
                                 >
                                     ورود

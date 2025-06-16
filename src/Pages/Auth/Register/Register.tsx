@@ -71,6 +71,7 @@ export default function Register() {
                         md: '43%',
                         lg: '33%',
                     },
+                    height: '66vh',
                 }}
                 borderRadius={3}
                 px={5}
@@ -113,7 +114,7 @@ export default function Register() {
                         <Button
                             variant="contained"
                             size="large"
-                            sx={{fontSize: '18px', width: '100%'}}
+                            sx={{fontSize: '16px', width: '100%'}}
                             type="submit"
                         >
                             ثبت نام

@@ -60,7 +60,7 @@ export default function SubmitCode({getValues}: Props) {
                 <Button
                     variant="contained"
                     size="large"
-                    sx={{fontSize: '20px', width: '100%'}}
+                    sx={{fontSize: '16px', width: '100%'}}
                     onClick={handleSubmit(onSubmit)}
                 >
                     تایید

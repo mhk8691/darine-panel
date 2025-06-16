@@ -22,10 +22,10 @@ export function Login(props) {
     const classes = useStyles()
 
     async function onSubmit(data) {
+        setIsSubmit(true)
         dispatch(setUtil({loading: true}))
         try {
             await axios.post(`http://localhost:8000/api/auth/login/otp-request/`, data)
-            setIsSubmit(true)
         } catch (error: any) {
             dispatch(
                 setUtil({
@@ -55,6 +55,11 @@ export function Login(props) {
                         md: '43%',
                         lg: '33%',
                     },
+                    height: '66vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
                 }}
                 borderRadius={3}
                 px={5}
@@ -67,6 +72,7 @@ export function Login(props) {
                     spacing={2.5}
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
+                    width={'100%'}
                 >
                     <Typography variant="body1" sx={{marginBottom: '1rem !important'}}>
                         ورود به حساب کاربری
@@ -87,7 +93,7 @@ export function Login(props) {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    sx={{fontSize: '18px', width: '100%'}}
+                                    sx={{fontSize: '16px', width: '100%'}}
                                     type="submit"
                                 >
                                     ورود

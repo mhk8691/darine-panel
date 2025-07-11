@@ -9,6 +9,7 @@ import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import SubmitCode from '../SubmitCode'
+import logoImage from '../../../Images/logo.png'
 export type LoginData = {
     username: string
     password: string
@@ -25,7 +26,7 @@ export function Login(props) {
         setIsSubmit(true)
         dispatch(setUtil({loading: true}))
         try {
-            await axios.post(`http://localhost:8000/api/auth/login/otp-request/`, data)
+            await axios.post(`https://api.ahmadshop1.com/api/auth/login/otp-request/`, data)
         } catch (error: any) {
             dispatch(
                 setUtil({
@@ -55,7 +56,6 @@ export function Login(props) {
                         md: '43%',
                         lg: '33%',
                     },
-                    height: '66vh',
                     display: 'flex',
                     alignItems: 'center',
                     flexDirection: 'column',
@@ -65,6 +65,18 @@ export function Login(props) {
                 px={5}
                 py={7}
             >
+                <Link to={'/'}>
+                    <Box
+                        component={'img'}
+                        src={logoImage}
+                        sx={{
+                            width: '120px',
+                            height: 'auto',
+                            objectFit: 'contain',
+                            mb: 2,
+                        }}
+                    />
+                </Link>
                 <Stack
                     direction={'column'}
                     justifyContent={'center'}
@@ -73,10 +85,18 @@ export function Login(props) {
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
                     width={'100%'}
+                    mt={3}
                 >
-                    <Typography variant="body1" sx={{marginBottom: '1rem !important'}}>
-                        ورود به حساب کاربری
-                    </Typography>
+                    <Stack flexDirection={'row'} width={'100%'} justifyContent={'flex-start'}>
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                fontSize: '17px',
+                            }}
+                        >
+                            ورود به حساب کاربری
+                        </Typography>
+                    </Stack>
                     {isSubmit ? (
                         <SubmitCode getValues={getValues} />
                     ) : (

@@ -6,31 +6,34 @@ import {Link, useNavigate} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {setUtil} from '../../../redux/UtilSlice'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
+import logoImage from '../../../Images/logo.png'
+import axios from 'axios'
+
 export type RegisterData = {
-    username: string
-    email: string
-    password: string
-    phone_number?: string
-    first_name?: string
-    last_name?: string
+    // username: string
+    // email: string
+    // password: string
+    phone_number: string
+    first_name: string
+    last_name: string
     profile_image?: any
 }
 
 export default function Register() {
-    const [errors, setErrors] = useState({username: false, email: false, password: false})
+    const [errors, setErrors] = useState({first_name: false, last_name: false, phone_number: false})
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles()
     const [data, setData] = useState<RegisterData>({
-        username: '',
-        password: '',
-        email: '',
+        first_name: '',
+        phone_number: '',
+        last_name: '',
     })
     const validateFields = (data: RegisterData) => {
         const newErrors = {
-            username: !data.username.trim(),
-            email: !data.email.trim(),
-            password: !data.password.trim(),
+            first_name: !data.first_name.trim(),
+            last_name: !data.last_name.trim(),
+            phone_number: !data.phone_number.trim(),
         }
         setErrors(newErrors)
 
@@ -45,8 +48,11 @@ export default function Register() {
 
         dispatch(setUtil({loading: true}))
         try {
-            const response = await DataProvider.post('auth/register/', {data})
-            dispatch(setUtil({open: true, message: response.message, severity: 'success'}))
+            const response = await axios.post(
+                `http://api.ahmadshop1.com/api/auth/register/otp-request/`,
+                data,
+            )
+            // dispatch(setUtil({open: true, message: response?.message, severity: 'success'}))
             navigate('/login')
         } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
@@ -71,7 +77,6 @@ export default function Register() {
                         md: '43%',
                         lg: '33%',
                     },
-                    height: '66vh',
                 }}
                 borderRadius={3}
                 px={5}
@@ -85,29 +90,42 @@ export default function Register() {
                     component="form"
                     onSubmit={handleSubmit}
                 >
-                    <Typography variant="body1">ثبت نام</Typography>
+                    <Link to={'/'}>
+                        <Box
+                            component={'img'}
+                            src={logoImage}
+                            sx={{
+                                width: '120px',
+                                height: 'auto',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </Link>
+                    <Stack flexDirection={'row'} width={'100%'} justifyContent={'flex-start'}>
+                        <Typography variant="body1">ثبت نام</Typography>
+                    </Stack>
                     <Box width={'100%'}>
                         <CustomTextField
-                            name="username"
+                            name="first_name"
                             setData={setData}
-                            label={'نام کاربری'}
-                            defaultValue={data.username}
+                            label={'نام'}
+                            defaultValue={data.first_name}
                         />
                     </Box>
                     <Box width={'100%'}>
                         <CustomTextField
-                            name="email"
+                            name="last_name"
                             setData={setData}
-                            label={'ایمیل'}
-                            defaultValue={data.email}
+                            label={'نام خانوادگی'}
+                            defaultValue={data.last_name}
                         />
                     </Box>
                     <Box width={'100%'}>
                         <CustomTextField
-                            name="password"
+                            name="phone_number"
                             setData={setData}
-                            label={'رمز عبور'}
-                            defaultValue={data.password}
+                            label={'شماره تلفن'}
+                            defaultValue={data.phone_number}
                         />
                     </Box>
                     <Box textAlign="center" width={'100%'}>

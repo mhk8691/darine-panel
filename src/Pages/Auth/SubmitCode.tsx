@@ -28,7 +28,7 @@ export default function SubmitCode({getValues}: Props) {
         }
         try {
             const response = await axios.post<AuthResponse>(
-                `http://localhost:8000/api/auth/login/otp-verify/`,
+                `https://api.ahmadshop1.com/api/auth/login/otp-verify/`,
                 newData,
             )
             dispatch(

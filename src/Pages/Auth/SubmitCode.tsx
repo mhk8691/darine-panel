@@ -15,20 +15,23 @@ type AuthResponse = {
     }
 }
 interface Props {
-    getValues: UseFormGetValues<FieldValues>
+    getValues?: UseFormGetValues<FieldValues>
+    children: React.ReactNode
+    phoneNumber?: string
+    resource:string
 }
-export default function SubmitCode({getValues}: Props) {
+export default function SubmitCode({getValues, children, phoneNumber, resource}: Props) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const onSubmit = async (data) => {
         dispatch(setUtil({loading: true}))
         const newData = {
-            phone_number: getValues('phone_number'),
+            phone_number: getValues ? getValues('phone_number') : phoneNumber,
             otp: data.otp,
         }
         try {
             const response = await axios.post<AuthResponse>(
-                `https://api.ahmadshop1.com/api/auth/login/otp-verify/`,
+                `https://api.ahmadshop1.com/api/auth/${resource}/otp-verify/`,
                 newData,
             )
             dispatch(
@@ -57,6 +60,7 @@ export default function SubmitCode({getValues}: Props) {
             </Box>
 
             <Box textAlign="center" width={'100%'} mt={3}>
+                {children}
                 <Button
                     variant="contained"
                     size="large"

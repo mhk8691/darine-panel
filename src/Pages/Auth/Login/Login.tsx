@@ -5,7 +5,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {setUtil} from '../../../redux/UtilSlice'
 
 import axios from 'axios'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import SubmitCode from '../SubmitCode'
@@ -15,18 +15,39 @@ export type LoginData = {
     password: string
 }
 
+export const formatTime = (seconds: number) => {
+    const min = Math.floor(seconds / 60)
+    const sec = seconds % 60
+    return `${min}:${sec < 10 ? '0' + sec : sec}`
+}
 export function Login(props) {
     const [isSubmit, setIsSubmit] = useState(false)
     const {register, handleSubmit, getValues} = useForm()
+    const [time, setTime] = useState(0)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const classes = useStyles()
+    useEffect(() => {
+        if (time === 0) return
 
+        const interval = setInterval(() => {
+            setTime((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval)
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [time])
     async function onSubmit(data) {
-        setIsSubmit(true)
         dispatch(setUtil({loading: true}))
         try {
             await axios.post(`https://api.ahmadshop1.com/api/auth/login/otp-request/`, data)
+            setTime(120)
+            setIsSubmit(true)
         } catch (error: any) {
             dispatch(
                 setUtil({
@@ -35,6 +56,7 @@ export function Login(props) {
                     severity: 'error',
                 }),
             )
+            
         } finally {
             dispatch(setUtil({loading: false}))
         }
@@ -98,7 +120,36 @@ export function Login(props) {
                         </Typography>
                     </Stack>
                     {isSubmit ? (
-                        <SubmitCode getValues={getValues} />
+                        <SubmitCode getValues={getValues} resource='login'>
+                            {time > 0 ? (
+                                <Typography variant="body2" sx={{fontSize: '13px', mb: 1.5}}>
+                                    {formatTime(time)} مانده تا دریافت مجدد کد
+                                </Typography>
+                            ) : (
+                                <Button
+                                    variant="text"
+                                    type="submit"
+                                    disableRipple
+                                    disableElevation
+                                    onSubmit={handleSubmit(onSubmit)}
+                                    sx={{
+                                        ':hover': {
+                                            backgroundColor: 'transparent',
+                                        },
+                                        ':active': {
+                                            backgroundColor: 'transparent',
+                                        },
+                                        ':focus': {
+                                            backgroundColor: 'transparent',
+                                        },
+                                        fontSize: '14px',
+                                        mb: 1.5,
+                                    }}
+                                >
+                                    دریافت مجدد کد
+                                </Button>
+                            )}
+                        </SubmitCode>
                     ) : (
                         <>
                             <Box width={'100%'}>

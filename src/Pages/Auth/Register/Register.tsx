@@ -67,7 +67,7 @@ export default function Register() {
         dispatch(setUtil({loading: true}))
         try {
             const response = await axios.post(
-                `http://api.ahmadshop1.com/api/auth/register/otp-request/`,
+                `https://api.ahmadshop1.com/api/auth/register/otp-request/`,
                 data,
             )
             setIsSubmit(true)

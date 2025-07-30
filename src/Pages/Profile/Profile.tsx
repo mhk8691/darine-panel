@@ -17,7 +17,7 @@ export default function Profile() {
             try {
                 const response = await axios.get<{
                     data: UsersType
-                }>(`http://localhost:8000/api/auth/profile/`, {
+                }>(`https://api.ahmadshop1.com/api/auth/profile/`, {
                     headers: {
                         Authorization: `Token ${token}`,
                     },
@@ -57,7 +57,7 @@ export default function Profile() {
                 data: UsersType
                 message: string
                 status: boolean
-            }>(`http://localhost:8000/api/${RESOURCE}/`, formData, {
+            }>(`https://api.ahmadshop1.com/api/${RESOURCE}/`, formData, {
                 headers: {
                     Authorization: `Token ${token}`,
                 },

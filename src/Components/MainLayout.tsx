@@ -17,7 +17,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
             try {
                 const response = await axios.get<{
                     data: ProfileType
-                }>(`http://localhost:8000/api/auth/profile/`, {
+                }>(`https://api.ahmadshop1.com/api/auth/profile/`, {
                     headers: {
                         Authorization: `Token ${token}`,
                     },

@@ -76,8 +76,6 @@ export default function Register() {
             navigate('/login')
         } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-            setTime(120)
-            setIsSubmit(true)
         } finally {
             dispatch(setUtil({loading: false}))
         }

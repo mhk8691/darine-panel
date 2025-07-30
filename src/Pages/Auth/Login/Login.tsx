@@ -56,8 +56,7 @@ export function Login(props) {
                     severity: 'error',
                 }),
             )
-            setTime(120)
-            setIsSubmit(true)
+           
         } finally {
             dispatch(setUtil({loading: false}))
         }

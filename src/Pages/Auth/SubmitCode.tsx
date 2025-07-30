@@ -5,7 +5,7 @@ import {DataProvider} from '../../Core/DataProvider'
 import {useDispatch} from 'react-redux'
 import {setUtil} from '../../redux/UtilSlice'
 import {setUser} from '../../redux/user_slice'
-import {Box, Button} from '@mui/material'
+import {Box, Button, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import APP_URL from '../../Core/APP_URL'
@@ -18,7 +18,7 @@ interface Props {
     getValues?: UseFormGetValues<FieldValues>
     children: React.ReactNode
     phoneNumber?: string
-    resource:string
+    resource: string
 }
 export default function SubmitCode({getValues, children, phoneNumber, resource}: Props) {
     const navigate = useNavigate()
@@ -56,9 +56,12 @@ export default function SubmitCode({getValues, children, phoneNumber, resource}:
     return (
         <>
             <Box width={'100%'}>
+            <Typography variant="body2" alignSelf={'flex-start'} sx={{my: 2, fontSize: '12px'}}>
+                کد تایید برای شماره {getValues ? getValues('phone_number') : phoneNumber} ارسال شده
+                است
+            </Typography>
                 <CustomTextField label={'کد تایید'} register={{...register('otp')}} name="otp" />
             </Box>
-
             <Box textAlign="center" width={'100%'} mt={3}>
                 {children}
                 <Button

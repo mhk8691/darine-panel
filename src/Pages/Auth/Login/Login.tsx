@@ -56,7 +56,8 @@ export function Login(props) {
                     severity: 'error',
                 }),
             )
-            
+            setTime(120)
+            setIsSubmit(true)
         } finally {
             dispatch(setUtil({loading: false}))
         }
@@ -120,7 +121,7 @@ export function Login(props) {
                         </Typography>
                     </Stack>
                     {isSubmit ? (
-                        <SubmitCode getValues={getValues} resource='login'>
+                        <SubmitCode getValues={getValues} resource="login">
                             {time > 0 ? (
                                 <Typography variant="body2" sx={{fontSize: '13px', mb: 1.5}}>
                                     {formatTime(time)} مانده تا دریافت مجدد کد
@@ -170,26 +171,25 @@ export function Login(props) {
                                     ورود
                                 </Button>
                             </Box>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontSize: '14px',
+                                    marginTop: '1.5rem !important',
+                                }}
+                            >
+                                آیا حساب کاربری ندارید؟{' '}
+                                <Box
+                                    component={Link}
+                                    to={'/register'}
+                                    color={'primary.main'}
+                                    sx={{ml: 0.5}}
+                                >
+                                    ثبت نام
+                                </Box>
+                            </Typography>
                         </>
                     )}
-
-                    <Typography
-                        variant="body2"
-                        sx={{
-                            fontSize: '14px',
-                            marginTop: '1.5rem !important',
-                        }}
-                    >
-                        آیا حساب کاربری ندارید؟{' '}
-                        <Box
-                            component={Link}
-                            to={'/register'}
-                            color={'primary.main'}
-                            sx={{ml: 0.5}}
-                        >
-                            ثبت نام
-                        </Box>
-                    </Typography>
                 </Stack>
             </Box>
         </Stack>

@@ -56,7 +56,6 @@ export function Login(props) {
                     severity: 'error',
                 }),
             )
-           
         } finally {
             dispatch(setUtil({loading: false}))
         }
@@ -157,6 +156,11 @@ export function Login(props) {
                                     label={'شماره تلفن'}
                                     register={{...register('phone_number')}}
                                     name="phone_number"
+                                    sx={{
+                                        '& .MuiFormLabel-root': {
+                                            fontSize: '14px',
+                                        },
+                                    }}
                                 />
                             </Box>
 

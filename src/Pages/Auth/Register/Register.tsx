@@ -163,6 +163,11 @@ export default function Register() {
                                     setData={setData}
                                     label={'نام'}
                                     defaultValue={data.first_name}
+                                    sx={{
+                                        '& .MuiFormLabel-root': {
+                                            fontSize: '14px',
+                                        },
+                                    }}
                                 />
                             </Box>
                             <Box width={'100%'}>
@@ -171,6 +176,11 @@ export default function Register() {
                                     setData={setData}
                                     label={'نام خانوادگی'}
                                     defaultValue={data.last_name}
+                                    sx={{
+                                        '& .MuiFormLabel-root': {
+                                            fontSize: '14px',
+                                        },
+                                    }}
                                 />
                             </Box>
                             <Box width={'100%'}>
@@ -179,6 +189,11 @@ export default function Register() {
                                     setData={setData}
                                     label={'شماره تلفن'}
                                     defaultValue={data.phone_number}
+                                    sx={{
+                                        '& .MuiFormLabel-root': {
+                                            fontSize: '14px',
+                                        },
+                                    }}
                                 />
                             </Box>
                             <Box textAlign="center" width={'100%'}>

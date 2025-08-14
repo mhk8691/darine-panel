@@ -43,7 +43,7 @@ export function EditPage(props) {
                     formData.append(key, String(value))
                 }
             })
-            const res = await DataProvider.put(
+            const res = await DataProvider.patch(
                 noId ? `${resource}` : `${resource}/${params.id || formDetails.id}/`,
                 {
                     data: isFormData ? formData : updatedFields,

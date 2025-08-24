@@ -13,6 +13,7 @@ import {UsersType} from '../Users'
 import {formatDate} from '../../../Core/FormatDate'
 import {setUtil} from '../../../redux/UtilSlice'
 import {useDispatch} from 'react-redux'
+import userImage from '../../../Images/user.png'
 const RECOURCE = 'users'
 const tableHeadCells = [
     createTableHeadCells('نام', 'first_name'),
@@ -168,7 +169,7 @@ export function UsersList() {
                                 src={
                                     typeof item?.profile_picture === 'string'
                                         ? item?.profile_picture
-                                        : ''
+                                        : userImage
                                 }
                                 borderRadius={2}
                             />

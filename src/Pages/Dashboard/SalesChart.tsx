@@ -1,9 +1,15 @@
 import {Box, Grid, Stack, Typography, useMediaQuery} from '@mui/material'
-import {BarChart} from '@mui/x-charts/BarChart'
-import {dataset, valueFormatter} from './sales'
 import {red} from '@mui/material/colors'
+import {BarChart} from '@mui/x-charts/BarChart'
+import {valueFormatter} from './sales'
 
-export default function SalesChart() {
+interface Props {
+    data: {
+        month: string
+        sales: number
+    }[]
+}
+export default function SalesChart({data}: Props) {
     const mdScreen = useMediaQuery('(min-width:900px)')
     const smScreen = useMediaQuery('(min-width:600px)')
     const xsScreen = useMediaQuery('(max-width:600px)')
@@ -29,7 +35,7 @@ export default function SalesChart() {
                 <Box sx={{overflowX: 'auto', width: '100%'}}>
                     <Box sx={{minWidth: '700px'}}>
                         <BarChart
-                            dataset={dataset}
+                            dataset={data}
                             xAxis={[
                                 {
                                     scaleType: 'band',

@@ -4,38 +4,89 @@ import SalesChart from './SalesChart'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
+import {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {setUtil} from '../../redux/UtilSlice'
+import {DataProvider} from '../../Core/DataProvider'
+import {formatPrice} from '../../Core/FormatPrice'
+interface GrowthData {
+    current_month: number
+    percentage_change: number
+}
+interface DashboardType {
+    monthly_growth: {
+        users: GrowthData
+        orders: GrowthData
+        revenue: GrowthData
+    }
+    annual_sales_overview: {
+        month: string
+        sales: number
+    }[]
+}
+
 export default function DashboardLayout() {
+    const [data, setData] = useState<DashboardType>({} as DashboardType)
+    const dispatch = useDispatch()
+    const getData = async () => {
+        try {
+            const response = await DataProvider.get<DashboardType>('dashboard/stats/')
+            setData(response.data)
+            console.log(response.data)
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+    }
+    useEffect(() => {
+        getData()
+    }, [])
+    const calculateChange: (percentageChange: number) => {
+        title: string
+        status: 'increment' | 'decrement'
+    } = (percentageChange: number) => {
+        if (percentageChange >= 0) {
+            return {title: `${percentageChange}%  افزایش یافته است`, status: 'increment'}
+        } else {
+            return {title: `${percentageChange}% کاهش یافته است`, status: 'decrement'}
+        }
+    }
     return (
         <Container maxWidth="xl">
             <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
                 <Widgets
                     title="درآمد ماهانه"
-                    data="100000000 تومان"
+                    data={formatPrice(data?.monthly_growth?.revenue?.current_month || 0)}
                     description={{
-                        title: '60% افزایش یافته است',
-                        status: 'increment',
+                        title: calculateChange(data?.monthly_growth?.revenue?.percentage_change)
+                            .title,
+                        status: calculateChange(data?.monthly_growth?.revenue?.percentage_change)
+                            .status,
                     }}
                     icon={<AttachMoneyIcon fontSize={'large'} />}
                 />
                 <Widgets
                     title="سفارشات ماهانه"
-                    data="45223"
+                    data={String(data?.monthly_growth?.orders?.current_month)}
                     description={{
-                        title: '10% کاهش یافته است',
-                        status: 'decrement',
+                        title: calculateChange(data?.monthly_growth?.orders?.percentage_change)
+                            .title,
+                        status: calculateChange(data?.monthly_growth?.orders?.percentage_change)
+                            .status,
                     }}
                     icon={<ShoppingCartOutlinedIcon fontSize={'large'} />}
                 />
                 <Widgets
                     title="کاربران جدید"
-                    data="32000"
+                    data={String(data?.monthly_growth?.users?.current_month)}
                     description={{
-                        title: '30% افزایش یافته است',
-                        status: 'increment',
+                        title: calculateChange(data?.monthly_growth?.users?.percentage_change)
+                            .title,
+                        status: calculateChange(data?.monthly_growth?.users?.percentage_change)
+                            .status,
                     }}
                     icon={<PersonAddAltOutlinedIcon fontSize={'large'} />}
                 />
-                <SalesChart />
+                {data && <SalesChart data={data?.annual_sales_overview} />}
             </Grid>
         </Container>
     )

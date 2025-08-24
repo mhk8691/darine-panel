@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {UsersType} from '../Users'
+import userImage from '../../../Images/user.png'
 
 const RECOURCE = 'users'
 
@@ -130,7 +131,7 @@ export function UserDetail() {
                             borderRadius: '50%',
                             objectFit: 'cover',
                         }}
-                        src={typeof user?.profile_picture === 'string' ? user?.profile_picture : ''}
+                        src={typeof user?.profile_picture === 'string' ? user?.profile_picture : userImage}
                     />
                 </Stack>
             </Stack>

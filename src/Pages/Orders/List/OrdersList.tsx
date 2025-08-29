@@ -1,4 +1,4 @@
-import {Box, Stack, Typography} from '@mui/material'
+import {Box, Chip, ChipPropsColorOverrides, Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -10,16 +10,18 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {OrdersType} from '../Orders'
-import { useDispatch } from 'react-redux'
-import { setUtil } from '../../../redux/UtilSlice'
+import {useDispatch} from 'react-redux'
+import {setUtil} from '../../../redux/UtilSlice'
+import { formatPrice } from '../../../Core/FormatPrice'
 
 const RECOURCE = 'orders'
 const tableHeadCells = [
     createTableHeadCells('نام کاربری', 'username'),
+    createTableHeadCells('شماره تلفن', 'user_phone'),
     createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('محصولات', 'products'),
+    createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('تاریخ سفارش', 'created_at'),
-    createTableHeadCells('رضایت نامه', 'consent'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
@@ -35,68 +37,24 @@ export function OrdersList() {
         data: OrdersType[]
     }>({
         total_results: 0,
-        data: [
-            {
-                id: 1,
-                status: 'در انتظار',
-                username: 'test',
-                createdAt: '2025-01-06T09:16:40.447096Z',
-                Payment_method: {
-                    title: null,
-                    image: 'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-                },
-                Consent: [
-                    'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-                    'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-                ],
-                products: [
-                    {
-                        id: 1,
-                        name: 'product1',
-                        price: 1000,
-                        image: 'https://via.placeholder.com/150',
-                        count: 3,
-
-                        account: {
-                            email: 'test@gmail.com',
-                            username: 'test',
-                            password: '123',
-                            method: 'facebook',
-                        },
-                    },
-                    {
-                        id: 2,
-                        name: 'product2',
-                        price: 2000,
-                        image: 'https://via.placeholder.com/150',
-                        count: 2,
-                        account: {
-                            email: 'test@gmail.com',
-                            username: 'test',
-                            password: '123',
-                            method: 'facebook',
-                        },
-                    },
-                ],
-            },
-        ],
+        data: [],
     })
     const dispatch = useDispatch()
     const getOrders = async () => {
         setLoading(true)
-        try{
+        try {
             let response = await DataProvider.get<{
-            total_results: number
-            results: OrdersType[]
-        }>(`${RECOURCE}/list`, search)
+                total_results: number
+                results: OrdersType[]
+            }>(`shop/${RECOURCE}/`, search)
 
-        if (response) {
-            setOrders({
-                total_results: response.data.total_results,
-                data: response.data.results,
-            })
-        }
-        }catch(error:any){
+            if (response) {
+                setOrders({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
@@ -104,7 +62,7 @@ export function OrdersList() {
     useDeepCompareEffect(() => {
         getOrders()
     }, [search])
-
+    const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
     return (
         <ListPage
             header="مدیریت سفارشات"
@@ -156,7 +114,23 @@ export function OrdersList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.username}
+                                {item.user_full_name}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.user_phone}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -176,56 +150,88 @@ export function OrdersList() {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.products.map((product) => product.name).join(', ')}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {formatDate(item.createdAt)}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Stack direction={'row'} spacing={1}>
-                                {item.Consent.map((item) => (
-                                    <Box
-                                        component={'img'}
+                            <Stack direction={'row'} gap={1}>
+                                {item.product_names.split(',').map((product, index) => (
+                                    <Chip
+                                        label={product}
+                                        color={randomColor[index]}
+                                        variant="outlined"
                                         sx={{
-                                            width: '60px',
-                                            height: '60px',
-                                            borderRadius: 2,
-                                            objectFit: 'cover',
+                                            fontSize: {
+                                                xs: '13px',
+                                                sm: '14px',
+                                                md: '16px',
+                                                xl: '17px',
+                                            },
                                         }}
-                                        src={item}
-                                        borderRadius={2}
                                     />
                                 ))}
                             </Stack>
+                            {/*                             
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.product_names}
+                            </Typography> */}
                         </TableCell>
                         <TableCell>
-                            {item.Payment_method.title && (
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {formatPrice(item.total_price)}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {formatDate(item.created_at)}
+                            </Typography>
+                        </TableCell>
+                        {/* <TableCell>
+                            <Stack direction={'row'} spacing={1}>
+                                <Box
+                                    component={'img'}
+                                    sx={{
+                                        width: '60px',
+                                        height: '60px',
+                                        borderRadius: 2,
+                                        objectFit: 'cover',
+                                    }}
+                                    src={item.}
+                                    borderRadius={2}
+                                />
+                            </Stack>
+                        </TableCell> */}
+                        <TableCell>
+                            {item.payment_method && (
                                 <Typography
                                     variant="body2"
                                     fontSize={{
@@ -238,10 +244,10 @@ export function OrdersList() {
                                         whiteSpace: 'nowrap',
                                     }}
                                 >
-                                    {item.Payment_method.title}
+                                    {item.payment_method}
                                 </Typography>
                             )}
-                            {item.Payment_method.image && (
+                            {/* {item.payment_method.image && (
                                 <Box
                                     component={'img'}
                                     sx={{
@@ -253,7 +259,7 @@ export function OrdersList() {
                                     src={item.Payment_method.image}
                                     borderRadius={2}
                                 />
-                            )}
+                            )} */}
                         </TableCell>
                     </>
                 ))}

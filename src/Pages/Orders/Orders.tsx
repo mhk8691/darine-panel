@@ -19,15 +19,14 @@ export type ProductsType = {
 }
 export type OrdersType = {
     id: number
-    status: 'در انتظار' | 'انجام شده' | 'لغو شده'
-    username: string
-    createdAt: string
-    Consent: string[]
-    Payment_method: {
-        title: string | null
-        image: string | null
-    }
-    products: ProductsType[]
+    user_full_name: string
+    user_phone: string
+    status: 'pending' | 'processing' | 'completed' | 'canceled'
+    status_display: string
+    product_names: string
+    total_price: number
+    payment_method: 'bank_transfer' | 'online'
+    created_at: string
 }
 
 export function Orders({

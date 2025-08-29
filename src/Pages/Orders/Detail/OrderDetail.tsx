@@ -25,48 +25,7 @@ export function OrderDetail() {
     const id = useParams().id
     const [loading, setLoading] = useState(false)
     const [isOpen, setIsOpen] = useState<number | null>(null)
-    const [order, setOrder] = useState<OrdersType>({
-        id: 1,
-        status: 'در انتظار',
-        username: 'test',
-        Consent: [
-            'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-            'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-        ],
-        Payment_method: {
-            title: null,
-            image: 'https://upload.wikimedia.org/wikipedia/en/0/07/CODM_logo.png',
-        },
-        createdAt: '2021-09-01',
-        products: [
-            {
-                account: {
-                    email: 'test@gmail.com',
-                    username: 'test',
-                    password: '123',
-                    method: 'facebook',
-                },
-                id: 1,
-                count: 3,
-                name: 'محصول ۱',
-                price: 1000,
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-            {
-                account: {
-                    email: 'test@gmail.com',
-                    username: 'test',
-                    password: '123',
-                    method: 'facebook',
-                },
-                id: 2,
-                count: 2,
-                name: 'محصول ۲',
-                price: 2000,
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGnxtjv86apxKpSladFDE1SuUqmaACYvH6w&s',
-            },
-        ],
-    })
+    const [order, setOrder] = useState<OrdersType>({} as OrdersType)
     const getOrder = async () => {
         setLoading(true)
         let response = await DataProvider.get<OrdersType>(`${RECOURCE}/${id}/`)
@@ -124,7 +83,7 @@ export function OrderDetail() {
                     نام کاربری:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {order?.username}
+                    {order?.user_full_name}
                 </Typography>
             </Stack>
             <Stack
@@ -138,14 +97,14 @@ export function OrderDetail() {
                     تاریخ سفارش:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {formatDate(order?.createdAt)}
+                    {formatDate(order?.created_at)}
                 </Typography>
             </Stack>
             <Stack direction="column" spacing={1}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     رضایت نامه:
                 </Typography>
-                <Stack direction={'row'} spacing={1}>
+                {/* <Stack direction={'row'} spacing={1}>
                     {order.Consent.map((item) => (
                         <Box
                             component={'img'}
@@ -159,12 +118,12 @@ export function OrderDetail() {
                             borderRadius={2}
                         />
                     ))}
-                </Stack>
+                </Stack> */}
             </Stack>
             <Stack
                 direction={{
                     xs: 'column',
-                    sm: order.Payment_method.title ? 'row' : 'column',
+                    sm: order.payment_method ? 'row' : 'column',
                 }}
                 spacing={1}
             >
@@ -172,12 +131,12 @@ export function OrderDetail() {
                     روش پرداخت:
                 </Typography>
                 <Stack direction={'row'} spacing={1}>
-                    {order.Payment_method.title && (
+                    {order.payment_method && (
                         <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {order.Payment_method.title}
+                            {order.payment_method}
                         </Typography>
                     )}
-                    {order.Payment_method.image && (
+                    {/* {order.payment_method.image && (
                         <Box
                             component={'img'}
                             sx={{
@@ -189,7 +148,7 @@ export function OrderDetail() {
                             src={order.Payment_method.image}
                             borderRadius={2}
                         />
-                    )}
+                    )} */}
                 </Stack>
             </Stack>
             <Stack direction="column" spacing={0.5}>

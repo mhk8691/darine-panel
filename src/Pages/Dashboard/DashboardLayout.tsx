@@ -24,7 +24,6 @@ interface DashboardType {
         sales: number
     }[]
 }
-
 export default function DashboardLayout() {
     const [data, setData] = useState<DashboardType>({} as DashboardType)
     const dispatch = useDispatch()
@@ -56,52 +55,50 @@ export default function DashboardLayout() {
             month: 'long',
         }).format(date)
     }
+    const loading = !data?.monthly_growth
+
     return (
         <Container maxWidth="xl">
             <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
                 <Widgets
                     title="درآمد ماهانه"
                     data={formatPrice(data?.monthly_growth?.revenue?.current_month || 0)}
-                    description={{
-                        title: calculateChange(data?.monthly_growth?.revenue?.percentage_change)
-                            .title,
-                        status: calculateChange(data?.monthly_growth?.revenue?.percentage_change)
-                            .status,
-                    }}
+                    description={calculateChange(
+                        data?.monthly_growth?.revenue?.percentage_change || 0,
+                    )}
                     icon={<AttachMoneyIcon fontSize={'large'} />}
+                    loading={loading}
                 />
+
                 <Widgets
                     title="سفارشات ماهانه"
-                    data={String(data?.monthly_growth?.orders?.current_month)}
-                    description={{
-                        title: calculateChange(data?.monthly_growth?.orders?.percentage_change)
-                            .title,
-                        status: calculateChange(data?.monthly_growth?.orders?.percentage_change)
-                            .status,
-                    }}
+                    data={String(data?.monthly_growth?.orders?.current_month || 0)}
+                    description={calculateChange(
+                        data?.monthly_growth?.orders?.percentage_change || 0,
+                    )}
                     icon={<ShoppingCartOutlinedIcon fontSize={'large'} />}
+                    loading={loading}
                 />
+
                 <Widgets
                     title="کاربران جدید"
-                    data={String(data?.monthly_growth?.users?.current_month)}
-                    description={{
-                        title: calculateChange(data?.monthly_growth?.users?.percentage_change)
-                            .title,
-                        status: calculateChange(data?.monthly_growth?.users?.percentage_change)
-                            .status,
-                    }}
+                    data={String(data?.monthly_growth?.users?.current_month || 0)}
+                    description={calculateChange(
+                        data?.monthly_growth?.users?.percentage_change || 0,
+                    )}
                     icon={<PersonAddAltOutlinedIcon fontSize={'large'} />}
+                    loading={loading}
                 />
-                {data && data?.annual_sales_overview && (
-                    <SalesChart
-                        data={data?.annual_sales_overview?.map((item) => {
-                            return {
-                                month: formatMonth(item.month),
-                                sales: item.sales,
-                            }
-                        })}
-                    />
-                )}
+
+                <SalesChart
+                    data={data?.annual_sales_overview?.map((item) => ({
+                        month: formatMonth(item.month),
+                        sales: item.sales,
+                    }))}
+                    loading={
+                        !data?.annual_sales_overview || data?.annual_sales_overview.length === 0
+                    }
+                />
             </Grid>
         </Container>
     )

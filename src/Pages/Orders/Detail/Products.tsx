@@ -1,14 +1,4 @@
-import {
-    Badge,
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Grid,
-    Stack,
-    Typography,
-} from '@mui/material'
+import {Box, Button, Card, CardActions, CardContent, Grid, Stack, Typography} from '@mui/material'
 import React from 'react'
 import {BaseModal} from '../../../Components/Modal/BaseModal'
 import AccountDetail from './AccountDetail'
@@ -25,14 +15,12 @@ export default function Products({order, isOpen, setIsOpen}: Props) {
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2.5}>
                     <Card sx={{boxShadow: 5, borderRadius: 3}}>
                         <Stack p={2} pb={0}>
-                            <Badge badgeContent={`${order.items.length}x`} color="primary">
-                                <Box
-                                    component={'img'}
-                                    sx={{height: '100%', width: '100%'}}
-                                    src={item.product_image_url}
-                                    borderRadius={2}
-                                />
-                            </Badge>
+                            <Box
+                                component={'img'}
+                                sx={{height: '100%', width: '100%'}}
+                                src={item.product_image_url}
+                                borderRadius={2}
+                            />
                         </Stack>
                         <CardContent
                             sx={{

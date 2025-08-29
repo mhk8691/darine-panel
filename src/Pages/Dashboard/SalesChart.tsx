@@ -1,21 +1,22 @@
-import {Box, Grid, Stack, Typography, useMediaQuery} from '@mui/material'
+import {Box, Grid, Skeleton, Stack, Typography, useMediaQuery} from '@mui/material'
 import {red} from '@mui/material/colors'
 import {BarChart} from '@mui/x-charts/BarChart'
 import {valueFormatter} from './sales'
 
 interface Props {
-    data: {
+    data?: {
         month: string
         sales: number
     }[]
+    loading?: boolean
 }
-export default function SalesChart({data}: Props) {
+
+export default function SalesChart({data, loading}: Props) {
     const mdScreen = useMediaQuery('(min-width:900px)')
     const smScreen = useMediaQuery('(min-width:600px)')
-    const xsScreen = useMediaQuery('(max-width:600px)')
-    const chartSetting = {
-        height: mdScreen ? 450 : smScreen ? 350 : xsScreen ? 280 : 100,
-    }
+
+    const chartHeight = mdScreen ? 450 : smScreen ? 350 : 280
+
     return (
         <Grid item xs={12}>
             <Stack
@@ -25,42 +26,58 @@ export default function SalesChart({data}: Props) {
                 py={3}
                 width="100%"
             >
-                <Typography
-                    variant="h6"
-                    sx={{fontSize: '17px !important', fontWeight: 'bold', mb: 5}}
-                >
-                    آمار فروش ماهانه
-                </Typography>
+                {/* عنوان */}
+                {loading ? (
+                    <Skeleton variant="text" width={180} height={30} sx={{mb: 5}} />
+                ) : (
+                    <Typography
+                        variant="h6"
+                        sx={{fontSize: '17px !important', fontWeight: 'bold', mb: 5}}
+                    >
+                        آمار فروش ماهانه
+                    </Typography>
+                )}
 
-                <Box sx={{overflowX: 'auto', width: '100%'}}>
-                    <Box sx={{minWidth: '700px'}}>
-                        <BarChart
-                            dataset={data}
-                            xAxis={[
-                                {
-                                    scaleType: 'band',
-                                    dataKey: 'month',
-                                },
-                            ]}
-                            margin={{left: 87}}
-                            series={[
-                                {
-                                    dataKey: 'sales',
-                                    label: 'فروش ماهانه',
-                                    valueFormatter,
-                                },
-                            ]}
-                            layout="vertical"
-                            colors={[red[700]]}
-                            sx={{
-                                '--Charts-categoryLabelFontSize': '16px',
-                                width: '100%',
-                            }}
-                            grid={{horizontal: true}}
-                            {...chartSetting}
-                        />
+                {/* بدنه چارت یا اسکلتن */}
+                {loading ? (
+                    <Skeleton
+                        animation="wave"
+                        variant="rectangular"
+                        width="100%"
+                        height={chartHeight}
+                        sx={{borderRadius: 2}}
+                    />
+                ) : (
+                    <Box sx={{overflowX: 'auto', width: '100%'}}>
+                        <Box sx={{minWidth: '700px'}}>
+                            <BarChart
+                                dataset={data || []}
+                                xAxis={[
+                                    {
+                                        scaleType: 'band',
+                                        dataKey: 'month',
+                                    },
+                                ]}
+                                margin={{left: 87}}
+                                series={[
+                                    {
+                                        dataKey: 'sales',
+                                        label: 'فروش ماهانه',
+                                        valueFormatter,
+                                    },
+                                ]}
+                                layout="vertical"
+                                colors={[red[700]]}
+                                sx={{
+                                    '--Charts-categoryLabelFontSize': '16px',
+                                    width: '100%',
+                                }}
+                                grid={{horizontal: true}}
+                                height={chartHeight}
+                            />
+                        </Box>
                     </Box>
-                </Box>
+                )}
             </Stack>
         </Grid>
     )

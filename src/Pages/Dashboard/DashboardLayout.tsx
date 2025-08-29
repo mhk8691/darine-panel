@@ -1,14 +1,14 @@
-import {Container, Grid} from '@mui/material'
-import Widgets from './Widgets'
-import SalesChart from './SalesChart'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import {Container, Grid} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {setUtil} from '../../redux/UtilSlice'
 import {DataProvider} from '../../Core/DataProvider'
 import {formatPrice} from '../../Core/FormatPrice'
+import {setUtil} from '../../redux/UtilSlice'
+import SalesChart from './SalesChart'
+import Widgets from './Widgets'
 interface GrowthData {
     current_month: number
     percentage_change: number
@@ -28,18 +28,18 @@ interface DashboardType {
 export default function DashboardLayout() {
     const [data, setData] = useState<DashboardType>({} as DashboardType)
     const dispatch = useDispatch()
-    const getData = async () => {
-        try {
-            const response = await DataProvider.get<DashboardType>('dashboard/stats/')
-            setData(response.data)
-            console.log(response.data)
-        } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-        }
-    }
     useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await DataProvider.get<DashboardType>('dashboard/stats/')
+                setData(response.data)
+                console.log(response.data)
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            }
+        }
         getData()
-    }, [])
+    }, [setData, data, dispatch])
     const calculateChange: (percentageChange: number) => {
         title: string
         status: 'increment' | 'decrement'
@@ -49,6 +49,12 @@ export default function DashboardLayout() {
         } else {
             return {title: `${percentageChange}% کاهش یافته است`, status: 'decrement'}
         }
+    }
+    const formatMonth = (dateString: string) => {
+        const date = new Date(dateString)
+        return new Intl.DateTimeFormat('fa-IR', {
+            month: 'long',
+        }).format(date)
     }
     return (
         <Container maxWidth="xl">
@@ -86,7 +92,16 @@ export default function DashboardLayout() {
                     }}
                     icon={<PersonAddAltOutlinedIcon fontSize={'large'} />}
                 />
-                {data && <SalesChart data={data?.annual_sales_overview} />}
+                {data && data?.annual_sales_overview && (
+                    <SalesChart
+                        data={data?.annual_sales_overview?.map((item) => {
+                            return {
+                                month: formatMonth(item.month),
+                                sales: item.sales,
+                            }
+                        })}
+                    />
+                )}
             </Grid>
         </Container>
     )

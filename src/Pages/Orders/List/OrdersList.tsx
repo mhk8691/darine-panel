@@ -1,6 +1,7 @@
-import {Box, Chip, ChipPropsColorOverrides, Stack, Typography} from '@mui/material'
+import {Chip, ChipPropsColorOverrides, Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
+import {useDispatch} from 'react-redux'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import {useQueryParams} from 'use-query-params'
 import {CustomTable} from '../../../Components/Table/CustomTable'
@@ -8,20 +9,19 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
+import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
-import {OrdersType} from '../Orders'
-import {useDispatch} from 'react-redux'
 import {setUtil} from '../../../redux/UtilSlice'
-import { formatPrice } from '../../../Core/FormatPrice'
+import {OrderStatus, OrdersType} from '../Orders'
 
-const RECOURCE = 'orders'
+const RECOURCE = 'shop/orders'
 const tableHeadCells = [
     createTableHeadCells('نام کاربری', 'username'),
     createTableHeadCells('شماره تلفن', 'user_phone'),
-    createTableHeadCells('وضعیت', 'status'),
+    createTableHeadCells('تاریخ سفارش', 'created_at'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('قیمت نهایی', 'total_price'),
-    createTableHeadCells('تاریخ سفارش', 'created_at'),
+    createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
 const queryNames = tableHeadCells.map((cell) => ({
@@ -46,7 +46,7 @@ export function OrdersList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: OrdersType[]
-            }>(`shop/${RECOURCE}/`, search)
+            }>(`${RECOURCE}/`, search)
 
             if (response) {
                 setOrders({
@@ -62,6 +62,12 @@ export function OrdersList() {
     useDeepCompareEffect(() => {
         getOrders()
     }, [search])
+    const statusCalc = (status: OrderStatus) => {
+        if (status === 'processing') return 'secondary'
+        else if (status === 'completed') return 'success'
+        else if (status === 'pending') return 'warning'
+        else return 'primary'
+    }
     const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
     return (
         <ListPage
@@ -146,9 +152,10 @@ export function OrdersList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.status}
+                                {formatDate(item.created_at)}
                             </Typography>
                         </TableCell>
+
                         <TableCell>
                             <Stack direction={'row'} gap={1}>
                                 {item.product_names.split(',').map((product, index) => (
@@ -167,22 +174,8 @@ export function OrdersList() {
                                     />
                                 ))}
                             </Stack>
-                            {/*                             
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.product_names}
-                            </Typography> */}
                         </TableCell>
+
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -200,36 +193,21 @@ export function OrdersList() {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
+                            <Chip
+                                label={item.status}
+                                color={statusCalc(item.status)}
+                                variant="filled"
                                 sx={{
-                                    whiteSpace: 'nowrap',
+                                    fontSize: {
+                                        xs: '13px',
+                                        sm: '14px',
+                                        md: '16px',
+                                        xl: '17px',
+                                    },
                                 }}
-                            >
-                                {formatDate(item.created_at)}
-                            </Typography>
+                            />
                         </TableCell>
-                        {/* <TableCell>
-                            <Stack direction={'row'} spacing={1}>
-                                <Box
-                                    component={'img'}
-                                    sx={{
-                                        width: '60px',
-                                        height: '60px',
-                                        borderRadius: 2,
-                                        objectFit: 'cover',
-                                    }}
-                                    src={item.}
-                                    borderRadius={2}
-                                />
-                            </Stack>
-                        </TableCell> */}
+
                         <TableCell>
                             {item.payment_method && (
                                 <Typography
@@ -247,19 +225,6 @@ export function OrdersList() {
                                     {item.payment_method}
                                 </Typography>
                             )}
-                            {/* {item.payment_method.image && (
-                                <Box
-                                    component={'img'}
-                                    sx={{
-                                        width: '60px',
-                                        height: '60px',
-                                        borderRadius: 2,
-                                        objectFit: 'cover',
-                                    }}
-                                    src={item.Payment_method.image}
-                                    borderRadius={2}
-                                />
-                            )} */}
                         </TableCell>
                     </>
                 ))}

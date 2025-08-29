@@ -1,7 +1,13 @@
-import {Stack} from '@mui/material'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
+import {
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+} from '@mui/material'
 import {GridProducer} from '../../Components/Table/GridProducer'
-import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 
 type AccountType = {
     method: string
@@ -17,11 +23,12 @@ export type ProductsType = {
     count: number
     account: AccountType
 }
+export type OrderStatus = 'pending' | 'processing' | 'completed' | 'canceled'
 export type OrdersType = {
     id: number
     user_full_name: string
     user_phone: string
-    status: 'pending' | 'processing' | 'completed' | 'canceled'
+    status: OrderStatus
     status_display: string
     product_names: string
     total_price: number
@@ -36,22 +43,89 @@ export function Orders({
     order: OrdersType
     setOrder: React.Dispatch<React.SetStateAction<OrdersType>>
 }) {
+    const handleChangeProductType = (event: SelectChangeEvent) => {
+        setOrder((prev) => {
+            return {...prev, status: event.target.value as OrderStatus}
+        })
+    }
     return (
         <Stack>
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
-                    <CustomAutocomplete
-                        options={[
-                            {label: 'در انتظار', id: 'pending'},
-                            {label: 'انجام شده', id: 'done'},
-                            {label: 'لغو شده', id: 'canceled'},
-                        ]}
-                        name="status"
-                        setData={setOrder}
-                        defaultValue={order.status}
-                        label={'وضعیت سفارش'}
-                    />,
+                    <Grid item xs={12}>
+                        <FormControl
+                            fullWidth
+                            sx={{
+                                '& .MuiInputBase-root': {
+                                    height: '54.56px !important',
+                                },
+                                '& .MuiSelect-select': {
+                                    fontSize: '15px !important',
+                                },
+                                '& .Mui-disabled': {
+                                    color: '#3f3f3f !important',
+                                },
+                            }}
+                        >
+                            <InputLabel
+                                id="demo-simple-select-label"
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                            >
+                                وضعیت سفارش
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={order.status ?? ''}
+                                label="وضعیت سفارش"
+                                onChange={handleChangeProductType}
+                                sx={{
+                                    '& .MuiAutocomplete-listbox': {
+                                        fontSize: '15px',
+                                    },
+                                    '& .MuiAutocomplete-option': {
+                                        py: '12px !important',
+                                    },
+                                }}
+                            >
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={'pending'}
+                                >
+                                    در انتظار
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={'processing'}
+                                >
+                                    در حال پردازش
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={'canceled'}
+                                >
+                                    لغو شده
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={'completed'}
+                                >
+                                    تکمیل شده
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>,
                 ]}
             />
         </Stack>

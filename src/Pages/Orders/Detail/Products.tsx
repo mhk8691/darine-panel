@@ -12,24 +12,24 @@ import {
 import React from 'react'
 import {BaseModal} from '../../../Components/Modal/BaseModal'
 import AccountDetail from './AccountDetail'
-import {OrdersType} from '../Orders'
+import {Order} from './OrderDetail'
 interface Props {
-    order: OrdersType
+    order: Order
     isOpen: number | null
     setIsOpen: React.Dispatch<React.SetStateAction<number | null>>
 }
-export default function Products({order,isOpen,setIsOpen}: Props) {
+export default function Products({order, isOpen, setIsOpen}: Props) {
     return (
         <Grid container spacing={2}>
-            {/* {order?.products.map((item) => (
+            {order?.items.map((item) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2.5}>
                     <Card sx={{boxShadow: 5, borderRadius: 3}}>
                         <Stack p={2} pb={0}>
-                            <Badge badgeContent={`${item.count}x`} color="primary">
+                            <Badge badgeContent={`${order.items.length}x`} color="primary">
                                 <Box
                                     component={'img'}
                                     sx={{height: '100%', width: '100%'}}
-                                    src={item.image}
+                                    src={item.product_image_url}
                                     borderRadius={2}
                                 />
                             </Badge>
@@ -47,7 +47,7 @@ export default function Products({order,isOpen,setIsOpen}: Props) {
                                 variant="body1"
                                 sx={{fontWeight: '400', fontSize: '16px !important'}}
                             >
-                                {item.name}
+                                {item.product_name}
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -70,13 +70,13 @@ export default function Products({order,isOpen,setIsOpen}: Props) {
                     <BaseModal
                         open={Boolean(isOpen === item.id)}
                         setOpen={setIsOpen}
-                        title="مشخصات اکانت"
+                        title={item.account_details.account_title}
                         style={{maxWidth: 700}}
                     >
-                        <AccountDetail item={item} />
+                        <AccountDetail item={item.account_details} />
                     </BaseModal>
                 </Grid>
-            ))} */}
+            ))}
         </Grid>
     )
 }

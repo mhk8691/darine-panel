@@ -1,43 +1,93 @@
-import {
-    Badge,
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Grid,
-    Stack,
-    Typography,
-} from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
-import {OrdersType} from '../Orders'
 import {formatDate} from '../../../Core/FormatDate'
-import {BaseModal} from '../../../Components/Modal/BaseModal'
-import AccountDetail from './AccountDetail'
+import {formatPrice} from '../../../Core/FormatPrice'
+import {setUtil} from '../../../redux/UtilSlice'
 import Products from './Products'
 
-const RECOURCE = 'orders'
+const RECOURCE = 'shop/orders'
+// User info
+interface User {
+    id: number
+    full_name: string
+    phone_number: string
+}
+
+// Account details fields
+interface AccountField {
+    field_title: string
+    value: string
+}
+
+// Account details
+export interface AccountDetails {
+    id: number
+    account_title: string
+    fields: AccountField[]
+}
+
+// Order item
+export interface OrderItem {
+    id: number
+    product_name: string
+    product_option_title: string
+    price: number
+    product_image_url: string
+    account_details: AccountDetails
+}
+
+interface Payment {
+    id: number
+    payment_method_display: string
+    status_display: string
+    transaction_id: string
+    ref_id: string
+    receipt_image_url: string | null
+    error: string
+    created_at: string
+}
+
+export interface Order {
+    id: number
+    user: User
+    status: string
+    status_display: string
+    total_price: number
+    created_at: string
+    items: OrderItem[]
+    payments: Payment[]
+}
 
 export function OrderDetail() {
     const id = useParams().id
-    const [loading, setLoading] = useState(false)
     const [isOpen, setIsOpen] = useState<number | null>(null)
-    const [order, setOrder] = useState<OrdersType>({} as OrdersType)
-    const getOrder = async () => {
-        setLoading(true)
-        let response = await DataProvider.get<OrdersType>(`${RECOURCE}/${id}/`)
-        if (response) {
-            setOrder(response.data)
-        }
-        setLoading(false)
-    }
+    const [order, setOrder] = useState<Order>({
+        id: 0,
+        user: {id: 0, full_name: '', phone_number: ''},
+        status: '',
+        status_display: '',
+        total_price: 0,
+        created_at: '',
+        items: [],
+        payments: [],
+    })
+    const dispatch = useDispatch()
 
     useEffect(() => {
+        const getOrder = async () => {
+            try {
+                let response = await DataProvider.get<Order>(`${RECOURCE}/${id}/`)
+
+                setOrder(response.data)
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            }
+        }
         getOrder()
-    }, [])
+    }, [id, dispatch])
 
     return (
         <Stack p={4} direction={'column'} spacing={2.5}>
@@ -56,6 +106,35 @@ export function OrderDetail() {
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                     {order?.id}
+                </Typography>
+            </Stack>
+
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    نام کاربری:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {order?.user.full_name}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    شماره تلفن:
+                </Typography>
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {order?.user.phone_number}
                 </Typography>
             </Stack>
             <Stack
@@ -80,10 +159,10 @@ export function OrderDetail() {
                 }}
             >
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    نام کاربری:
+                    تاریخ سفارش:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {order?.user_full_name}
+                    {formatDate(order?.created_at)}
                 </Typography>
             </Stack>
             <Stack
@@ -94,63 +173,42 @@ export function OrderDetail() {
                 }}
             >
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    تاریخ سفارش:
+                    قیمت نهایی:
                 </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {formatDate(order?.created_at)}
+                    {formatPrice(order?.total_price)}
                 </Typography>
-            </Stack>
-            <Stack direction="column" spacing={1}>
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    رضایت نامه:
-                </Typography>
-                {/* <Stack direction={'row'} spacing={1}>
-                    {order.Consent.map((item) => (
-                        <Box
-                            component={'img'}
-                            sx={{
-                                width: '75px',
-                                height: '75px',
-                                borderRadius: 2,
-                                objectFit: 'cover',
-                            }}
-                            src={item}
-                            borderRadius={2}
-                        />
-                    ))}
-                </Stack> */}
             </Stack>
             <Stack
-                direction={{
-                    xs: 'column',
-                    sm: order.payment_method ? 'row' : 'column',
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
                 }}
-                spacing={1}
             >
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     روش پرداخت:
                 </Typography>
-                <Stack direction={'row'} spacing={1}>
-                    {order.payment_method && (
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {order.payment_method}
-                        </Typography>
-                    )}
-                    {/* {order.payment_method.image && (
+                <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                    {order.payments[0]?.payment_method_display}
+                </Typography>
+            </Stack>
+            {order.payments[0]?.receipt_image_url && (
+                <Stack direction={'column'} spacing={1}>
+                    <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                        رسید پرداخت:
+                    </Typography>
+                    <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
                         <Box
                             component={'img'}
-                            sx={{
-                                width: '75px',
-                                height: '75px',
-                                borderRadius: 2,
-                                objectFit: 'cover',
-                            }}
-                            src={order.Payment_method.image}
+                            sx={{height: '200px', width: '200px'}}
+                            src={order.payments[0]?.receipt_image_url || ''}
                             borderRadius={2}
                         />
-                    )} */}
+                    </Typography>
                 </Stack>
-            </Stack>
+            )}
+
             <Stack direction="column" spacing={0.5}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     محصولات:

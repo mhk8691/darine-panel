@@ -11,19 +11,20 @@ import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {useAppDispatch} from '../../../redux/store'
 import {ProductCreate} from '../Create/ProductCreate'
-import { setUtil } from '../../../redux/UtilSlice'
-import { formatPrice } from '../../../Core/FormatPrice'
+import {setUtil} from '../../../redux/UtilSlice'
+import {formatPrice} from '../../../Core/FormatPrice'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('قیمت پایه', 'base_price'),
     createTableHeadCells('حداکثر قیمت', 'max_price'),
-    createTableHeadCells('دسته بندی', 'category_name'),
     createTableHeadCells('تایپ محصول', 'type'),
+    createTableHeadCells('دسته بندی', 'category'),
+    createTableHeadCells('نام دسته بندی', 'category_name'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
-const queryNames = tableHeadCells.map((cell) => ({
+const queryNames = tableHeadCells.slice(3, 5).map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',
@@ -77,7 +78,7 @@ export function ProductsList() {
             header="مدیریت محصولات"
             href={RECOURCE + '/create'}
             searchField="title"
-            searchText="محصول"
+            searchText="نام محصول"
             setParams={setSearch}
             params={search}
             resource={RECOURCE}
@@ -166,7 +167,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.category_name}
+                                {item.type}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -182,7 +183,23 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.type}
+                                {item.category}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.category_name}
                             </Typography>
                         </TableCell>
 

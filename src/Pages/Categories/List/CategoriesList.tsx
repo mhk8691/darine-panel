@@ -10,8 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {CategoriesType} from '../Categories'
 import {CategoryCreate} from '../Create/CategoryCreate'
-import { setUtil } from '../../../redux/UtilSlice'
-import { useDispatch } from 'react-redux'
+import {setUtil} from '../../../redux/UtilSlice'
+import {useDispatch} from 'react-redux'
 
 const RECOURCE = 'category'
 const tableHeadCells = [
@@ -21,7 +21,7 @@ const tableHeadCells = [
     createTableHeadCells('تعداد زیر دسته بندی', 'children_count'),
     createTableHeadCells('تصویر', 'thumbnail'),
 ]
-const queryNames = tableHeadCells.map((cell) => ({
+const queryNames = tableHeadCells.slice(1, 2).map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',
@@ -39,18 +39,18 @@ export function CategoriesList() {
     const dispatch = useDispatch()
     const getCategories = async () => {
         setLoading(true)
-        try{
+        try {
             let response = await DataProvider.get<{
-            total_results: number
-            results: CategoriesType[]
-        }>(`${RECOURCE}/`, search)
-        if (response) {
-            setCategories({
-                total_results: response.data.total_results,
-                data: response.data.results,
-            })
-        }
-        }catch(error:any){
+                total_results: number
+                results: CategoriesType[]
+            }>(`${RECOURCE}/`, search)
+            if (response) {
+                setCategories({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)

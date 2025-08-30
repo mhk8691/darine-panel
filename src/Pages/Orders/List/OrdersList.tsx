@@ -16,15 +16,15 @@ import {OrderStatus, OrdersType} from '../Orders'
 
 const RECOURCE = 'shop/orders'
 const tableHeadCells = [
-    createTableHeadCells('نام کاربری', 'username'),
+    createTableHeadCells('نام', 'user_name'),
     createTableHeadCells('شماره تلفن', 'user_phone'),
     createTableHeadCells('تاریخ سفارش', 'created_at'),
+    createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('قیمت نهایی', 'total_price'),
-    createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
-const queryNames = tableHeadCells.map((cell) => ({
+const queryNames = tableHeadCells.slice(0,4).map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',

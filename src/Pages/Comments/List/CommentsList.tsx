@@ -8,7 +8,7 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
-import { formatDate } from '../../../Core/FormatDate'
+import {formatDate} from '../../../Core/FormatDate'
 
 const RECOURCE = 'comments'
 export type CommentsType = {
@@ -31,14 +31,14 @@ export type CommentsType = {
     updated_at: string
 }
 const tableHeadCells = [
-    createTableHeadCells('نام مشتری', 'customer'),
     createTableHeadCells('شماره تلفن', 'phone_number'),
+    createTableHeadCells('نام مشتری', 'customer'),
     createTableHeadCells('نام محصول', 'product'),
     createTableHeadCells('امتیاز', 'rating'),
     createTableHeadCells('دیدگاه', 'comment'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
-const queryNames = tableHeadCells.map((cell) => ({
+const queryNames = tableHeadCells.slice(2, 4).map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',
@@ -77,7 +77,7 @@ export function CommentsList() {
             header="مدیریت دیدگاه ها"
             href={RECOURCE + '/create'}
             searchField="title"
-            searchText="دیدگاه"
+            searchText="نام مشتری"
             setParams={setSearch}
             params={search}
             resource={RECOURCE}
@@ -117,7 +117,7 @@ export function CommentsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.user_info.name}
+                                {item.user_info.phone_number}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -133,7 +133,7 @@ export function CommentsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.user_info.phone_number}
+                                {item.user_info.name}
                             </Typography>
                         </TableCell>
                         <TableCell>

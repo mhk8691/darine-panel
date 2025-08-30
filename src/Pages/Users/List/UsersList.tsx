@@ -23,7 +23,7 @@ const tableHeadCells = [
     createTableHeadCells('تصویر پروفایل', 'image'),
     createTableHeadCells('تاریخ عضویت', 'date_joined'),
 ]
-const queryNames = tableHeadCells.map((cell) => ({
+const queryNames = tableHeadCells.slice(2, 4).map((cell) => ({
     field: cell.name,
     label: cell.label,
     type: '',
@@ -76,7 +76,7 @@ export function UsersList() {
             header="مدیریت کاربران"
             href={RECOURCE + '/create'}
             searchField="title"
-            searchText="نام کاربری"
+            searchText="نام و نام خانوادگی"
             setParams={setSearch}
             params={search}
             resource={RECOURCE}

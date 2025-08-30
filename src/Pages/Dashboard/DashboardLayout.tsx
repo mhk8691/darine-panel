@@ -38,7 +38,7 @@ export default function DashboardLayout() {
             }
         }
         getData()
-    }, [setData, data, dispatch])
+    }, [dispatch])
     const calculateChange: (percentageChange: number) => {
         title: string
         status: 'increment' | 'decrement'

@@ -27,7 +27,6 @@ export function CustomTableHead(props: {
     return (
         <TableHead>
             <TableRow>
-                {/* حذف سلکت آل چون حذف تکی داریم */}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.name}

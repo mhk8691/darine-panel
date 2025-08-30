@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import DatePicker from '@mui/lab/DatePicker'
-import {TextField} from '@mui/material'
-import moment from 'moment'
-import flat from 'flat'
+import {LocalizationProvider} from '@mui/lab'
+import AdapterMoment from '@mui/lab/AdapterMoment'
 import {CustomTextField} from './CustomTextField'
+import flat from 'flat'
 import {ParamType} from '../Filter/CustomFilter'
 
 interface DateFilterProps {
@@ -14,6 +14,7 @@ interface DateFilterProps {
     defaultValue?: string
     onChange?: (event) => void
 }
+
 export function DateFilter({
     setParams,
     noFilter,
@@ -23,17 +24,19 @@ export function DateFilter({
     onChange,
 }: DateFilterProps) {
     const [selectedDate, setSelectedDate] = useState(defaultValue ?? null)
+
     const handleDate = (newValue) => {
         if (!noFilter) {
+            console.log('re')
             // setParams((filter) => {
-            //     let date = flat.flatten(filter.date ?? {})
-            //     let retValue = {...filter, date: {...date}}
-            //     if (newValue) {
-            //         retValue.date = {
-            //             ...flat.unflatten({...date, [field]: newValue}),
-            //         }
+            //   let date = flat.flatten(filter.date ?? {})
+            //   let retValue = { ...filter, date: { ...date } }
+            //   if (newValue) {
+            //     retValue.date = {
+            //       ...flat.unflatten({ ...date, [field]: newValue }),
             //     }
-            //     return retValue
+            //   }
+            //   return retValue
             // })
         } else if (onChange) {
             onChange(newValue)
@@ -43,22 +46,23 @@ export function DateFilter({
     }
 
     return (
-        <DatePicker
-            value={selectedDate}
-            mask="____/__/__"
-            onChange={handleDate}
-            label={label}
-            clearable
-            clearText="پاک کردن"
-            renderInput={(params) => (
-                <CustomTextField
-                    {...params}
-                    // placeholder={item.label}
-                    sx={{
-                        flexGrow: 1,
-                    }}
-                />
-            )}
-        />
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+                value={selectedDate}
+                mask="____/__/__"
+                onChange={handleDate}
+                label={label}
+                clearable
+                clearText="پاک کردن"
+                renderInput={(params) => (
+                    <CustomTextField
+                        {...params}
+                        sx={{
+                            flexGrow: 1,
+                        }}
+                    />
+                )}
+            />
+        </LocalizationProvider>
     )
 }

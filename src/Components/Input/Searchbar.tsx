@@ -1,8 +1,8 @@
-import {Box, Button, Collapse, Divider, IconButton, InputBase, Stack} from '@mui/material'
-import React, {useState} from 'react'
-import SearchIcon from '@mui/icons-material/Search'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
+import SearchIcon from '@mui/icons-material/Search'
+import {Box, Button, Collapse, Divider, IconButton, InputBase, Stack} from '@mui/material'
+import {useState} from 'react'
 import {CustomFilter} from '../Filter/CustomFilter'
 
 export function Searchbar(props) {

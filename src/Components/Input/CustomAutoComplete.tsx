@@ -4,28 +4,34 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {CustomTextField} from './CustomTextField'
 
 export function CustomAutocomplete(props) {
-    const {options, defaultValue, label, name, setData, optionValue} = props
-    const [inputValue, setInputValue] = useState(defaultValue)
-    async function changeField(value) {
+    const {options, defaultValue, label, name, setData, optionValue, onChange, value, sx} = props
+    const [inputValue, setInputValue] = useState(defaultValue || null)
+
+    function changeField(event, value) {
         if (value) {
-            setData((prev) => {
+            setData?.((prev) => {
                 return {...prev, [name]: optionValue ? value[optionValue] : value.id}
             })
             setInputValue(value)
+        }
+        // 🔥 حتماً onChange بیرونی رو هم صدا بزن
+        if (onChange) {
+            onChange(event, value)
         }
     }
 
     return (
         <Autocomplete
-            value={inputValue}
-            options={options ? options : []}
-            onChange={(e, value) => changeField(value)}
+            value={value ?? inputValue}
+            options={options || []}
+            onChange={changeField}
             popupIcon={<ExpandMoreIcon color="disabled" />}
             renderInput={(params) => <CustomTextField label={label} {...params} />}
             sx={{
                 '& .MuiOutlinedInput-input ': {
                     fontSize: '14px',
                 },
+                ...sx,
             }}
             componentsProps={{
                 paper: {
@@ -34,7 +40,7 @@ export function CustomAutocomplete(props) {
                             fontSize: '15px',
                         },
                         '& .MuiAutocomplete-option': {
-                            py:'12px !important',
+                            py: '12px !important',
                         },
                     },
                 },

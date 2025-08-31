@@ -1,12 +1,12 @@
 import {Button, Stack, Typography} from '@mui/material'
-import {Box, padding} from '@mui/system'
+import {Box} from '@mui/system'
 import React, {useState} from 'react'
-import AddButton from '../Buttons/add'
-import {Searchbar} from '../Input/Searchbar'
-import {BaseModal} from '../Modal/BaseModal'
 import {DataProvider} from '../../Core/DataProvider'
 import {setUtil} from '../../redux/UtilSlice'
 import {useAppDispatch} from '../../redux/store'
+import AddButton from '../Buttons/add'
+import {Searchbar} from '../Input/Searchbar'
+import {BaseModal} from '../Modal/BaseModal'
 export function ListPage({
     header,
     searchText,
@@ -107,7 +107,7 @@ export function ListPage({
                     width="100%"
                     alignItems="center"
                     justifyContent="space-between"
-                    mt={noCreate ? 1: 0}
+                    mt={noCreate ? 1 : 0}
                 >
                     <Typography
                         variant="h6"

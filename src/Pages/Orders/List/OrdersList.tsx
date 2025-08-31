@@ -24,11 +24,22 @@ const tableHeadCells = [
     createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
-const queryNames = tableHeadCells.slice(0,4).map((cell) => ({
-    field: cell.name,
-    label: cell.label,
-    type: '',
-}))
+const queryNames = tableHeadCells.slice(0, 4).map((cell) => {
+    if (cell.name === 'status')
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: 'choice',
+            choice: ['pending', 'processing', 'completed', 'canceled'],
+        }
+    else
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: '',
+            choice: [],
+        }
+})
 export function OrdersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)

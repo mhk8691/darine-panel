@@ -1,6 +1,6 @@
 import {Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import {useQueryParams} from 'use-query-params'
 import {CustomTable} from '../../../Components/Table/CustomTable'
@@ -13,23 +13,21 @@ import {useAppDispatch} from '../../../redux/store'
 import {ProductCreate} from '../Create/ProductCreate'
 import {setUtil} from '../../../redux/UtilSlice'
 import {formatPrice} from '../../../Core/FormatPrice'
+import {CategoriesType} from '../../Categories/Categories'
+import {MethodType} from '../../ConnectionMethod/Method'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
-    createTableHeadCells('قیمت پایه', 'base_price'),
-    createTableHeadCells('حداکثر قیمت', 'max_price'),
     createTableHeadCells('تایپ محصول', 'type'),
     createTableHeadCells('دسته بندی', 'category'),
+    createTableHeadCells('قیمت پایه', 'base_price'),
+    createTableHeadCells('حداکثر قیمت', 'max_price'),
     createTableHeadCells('نام دسته بندی', 'category_name'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
-const queryNames = tableHeadCells.slice(3, 5).map((cell) => ({
-    field: cell.name,
-    label: cell.label,
-    type: '',
-}))
-interface ProductsListType {
+
+export interface ProductsListType {
     id: number
     name: string
     base_price: number
@@ -40,8 +38,6 @@ interface ProductsListType {
     created_at: string
 }
 export function ProductsList() {
-    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
-    const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<{
         total_results: number
         data: ProductsListType[]
@@ -49,6 +45,61 @@ export function ProductsList() {
         total_results: 0,
         data: [],
     })
+    const [categories, setCategories] = useState<{
+        total_results: number
+        data: CategoriesType[]
+    }>({
+        total_results: 0,
+        data: [],
+    })
+
+    const getCategories = async () => {
+        setLoading(true)
+        try {
+            let response = await DataProvider.get<{
+                total_results: number
+                results: CategoriesType[]
+            }>(`category/`, search)
+            if (response) {
+                setCategories({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+        setLoading(false)
+    }
+
+    const queryNames = tableHeadCells.slice(1, 3).map((cell) => {
+        if (cell.name === 'category')
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: 'choice',
+                choice: categories.data.map((item) => {
+                    return item.id
+                }),
+            }
+        else if (cell.name === 'type')
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: 'choice',
+                choice: ['coins', 'account'],
+            }
+        else
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: '',
+                choice: [],
+            }
+    })
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
+    const [loading, setLoading] = useState(false)
+
     const dispatch = useAppDispatch()
     const getProducts = async () => {
         setLoading(true)
@@ -72,6 +123,9 @@ export function ProductsList() {
     useDeepCompareEffect(() => {
         getProducts()
     }, [search])
+    useEffect(() => {
+        getCategories()
+    }, [])
 
     return (
         <ListPage

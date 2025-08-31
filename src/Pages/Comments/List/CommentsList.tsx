@@ -1,6 +1,6 @@
 import {Rating, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import {useQueryParams} from 'use-query-params'
 import {CustomTable} from '../../../Components/Table/CustomTable'
@@ -9,6 +9,10 @@ import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {formatDate} from '../../../Core/FormatDate'
+import {CategoriesType} from '../../Categories/Categories'
+import {useDispatch} from 'react-redux'
+import {setUtil} from '../../../redux/UtilSlice'
+import {ProductsListType} from '../../Products/List/ProductsList'
 
 const RECOURCE = 'comments'
 export type CommentsType = {
@@ -38,12 +42,39 @@ const tableHeadCells = [
     createTableHeadCells('دیدگاه', 'comment'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
-const queryNames = tableHeadCells.slice(2, 4).map((cell) => ({
-    field: cell.name,
-    label: cell.label,
-    type: '',
-}))
+
 export function CommentsList() {
+    const [products, setProducts] = useState<{
+        total_results: number
+        data: ProductsListType[]
+    }>({
+        total_results: 0,
+        data: [],
+    })
+    const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
+        if (cell.name === 'product')
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: 'choice',
+                choice: products.data.map((item) => {
+                    return item.id
+                }),
+            }
+        else if (cell.name === 'rating')
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: 'choice',
+                choice: [1, 2, 3, 4, 5],
+            }
+        else
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: '',
+            }
+    })
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [comments, setComments] = useState<{
@@ -53,6 +84,25 @@ export function CommentsList() {
         total_results: 0,
         data: [],
     })
+
+    const dispatch = useDispatch()
+    const getProducts = async () => {
+        try {
+            let response = await DataProvider.get<{
+                total_results: number
+                results: ProductsListType[]
+            }>(`product/`, search)
+
+            if (response) {
+                setProducts({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+    }
     const getComments = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
@@ -71,6 +121,9 @@ export function CommentsList() {
     useDeepCompareEffect(() => {
         getComments()
     }, [search])
+    useEffect(() => {
+        getProducts()
+    }, [])
 
     return (
         <ListPage

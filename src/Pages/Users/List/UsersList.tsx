@@ -23,11 +23,22 @@ const tableHeadCells = [
     createTableHeadCells('تصویر پروفایل', 'image'),
     createTableHeadCells('تاریخ عضویت', 'date_joined'),
 ]
-const queryNames = tableHeadCells.slice(2, 4).map((cell) => ({
-    field: cell.name,
-    label: cell.label,
-    type: '',
-}))
+const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
+    if (cell.name === 'role')
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: 'choice',
+            choice: ['user', 'admin', 'superadmin'],
+        }
+    else
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: '',
+            choice: [],
+        }
+})
 function formatRole(role: string) {
     switch (role) {
         case 'admin':

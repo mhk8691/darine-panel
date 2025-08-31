@@ -21,14 +21,8 @@ const tableHeadCells = [
     createTableHeadCells('تعداد زیر دسته بندی', 'children_count'),
     createTableHeadCells('تصویر', 'thumbnail'),
 ]
-const queryNames = tableHeadCells.slice(1, 2).map((cell) => ({
-    field: cell.name,
-    label: cell.label,
-    type: '',
-}))
+
 export function CategoriesList() {
-    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
-    const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState<{
         total_results: number
         data: CategoriesType[]
@@ -36,6 +30,17 @@ export function CategoriesList() {
         total_results: 0,
         data: [],
     })
+    const queryNames = tableHeadCells.slice(1, 2).map((cell) => ({
+        field: cell.name,
+        label: cell.label,
+        type: 'choice',
+        choice: categories.data.map((item) => {
+            return item.id
+        }),
+    }))
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
+    const [loading, setLoading] = useState(false)
+
     const dispatch = useDispatch()
     const getCategories = async () => {
         setLoading(true)

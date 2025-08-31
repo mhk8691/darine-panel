@@ -85,6 +85,7 @@ export function MethodsList() {
                 getList={getMethods}
                 hasDetail={true}
                 params={search}
+                
                 setParams={setSearch}
                 handleSort={getMethods}
                 loading={loading}

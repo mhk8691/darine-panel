@@ -58,7 +58,10 @@ export function CommentsList() {
                 label: cell.label,
                 type: 'choice',
                 choice: products.data.map((item) => {
-                    return item.id
+                    return {
+                        label: item.name,
+                        id: item.id,
+                    }
                 }),
             }
         else if (cell.name === 'rating')
@@ -66,7 +69,13 @@ export function CommentsList() {
                 field: cell.name,
                 label: cell.label,
                 type: 'choice',
-                choice: [1, 2, 3, 4, 5],
+                choice: [
+                    {label: 1, id: 0},
+                    {label: 2, id: 1},
+                    {label: 3, id: 2},
+                    {label: 4, id: 3},
+                    {label: 5, id: 4},
+                ],
             }
         else
             return {

@@ -24,13 +24,18 @@ const tableHeadCells = [
     createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
 ]
-const queryNames = tableHeadCells.slice(0, 4).map((cell) => {
+const queryNames = tableHeadCells.slice(1, 4).map((cell) => {
     if (cell.name === 'status')
         return {
             field: cell.name,
             label: cell.label,
             type: 'choice',
-            choice: ['pending', 'processing', 'completed', 'canceled'],
+            choice: [
+                {id: 0, label: 'pending'},
+                {id: 1, label: 'processing'},
+                {id: 2, label: 'completed'},
+                {id: 3, label: 'canceled'},
+            ],
         }
     else
         return {
@@ -166,7 +171,21 @@ export function OrdersList() {
                                 {formatDate(item.created_at)}
                             </Typography>
                         </TableCell>
-
+                        <TableCell>
+                            <Chip
+                                label={item.status}
+                                color={statusCalc(item.status)}
+                                variant="filled"
+                                sx={{
+                                    fontSize: {
+                                        xs: '13px',
+                                        sm: '14px',
+                                        md: '16px',
+                                        xl: '17px',
+                                    },
+                                }}
+                            />
+                        </TableCell>
                         <TableCell>
                             <Stack direction={'row'} gap={1}>
                                 {item.product_names.split(',').map((product, index) => (
@@ -202,21 +221,6 @@ export function OrdersList() {
                             >
                                 {formatPrice(item.total_price)}
                             </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Chip
-                                label={item.status}
-                                color={statusCalc(item.status)}
-                                variant="filled"
-                                sx={{
-                                    fontSize: {
-                                        xs: '13px',
-                                        sm: '14px',
-                                        md: '16px',
-                                        xl: '17px',
-                                    },
-                                }}
-                            />
                         </TableCell>
 
                         <TableCell>

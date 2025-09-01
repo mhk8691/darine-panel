@@ -35,7 +35,10 @@ export function CategoriesList() {
         label: cell.label,
         type: 'choice',
         choice: categories.data.map((item) => {
-            return item.id
+            return {
+                label: item.name,
+                id: item.id,
+            }
         }),
     }))
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))

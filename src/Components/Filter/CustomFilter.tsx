@@ -31,12 +31,13 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
         })
     }
     const handleChangeAutocomplete = (value: any, item: any) => {
-        console.log(item)
+        const hasZeroId = item?.choice?.some((choice) => choice.id === 0)
         setParams((params) => {
+            
             return {
                 ...params,
 
-                [item.field]: value,
+                [item.field]: hasZeroId ? value?.label : value?.id,
             }
         })
     }
@@ -47,7 +48,9 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
                     <Grid item xs={12} sm={6} md={4} xl={3} key={item.field}>
                         {item.type === 'choice' ? (
                             <CustomAutocomplete
-                                options={item.choice}
+                                options={item?.choice?.map((itemChoice) => {
+                                    return {label: itemChoice.label, id: itemChoice.id}
+                                })}
                                 value={params?.filter ? params.filter[item.field] : null}
                                 onChange={(e, value) => {
                                     handleChangeAutocomplete(value, item)

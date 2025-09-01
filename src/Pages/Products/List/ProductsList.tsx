@@ -19,11 +19,10 @@ import {MethodType} from '../../ConnectionMethod/Method'
 const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
-    createTableHeadCells('تایپ محصول', 'type'),
-    createTableHeadCells('دسته بندی', 'category'),
     createTableHeadCells('قیمت پایه', 'base_price'),
     createTableHeadCells('حداکثر قیمت', 'max_price'),
-    createTableHeadCells('نام دسته بندی', 'category_name'),
+    createTableHeadCells('تایپ محصول', 'type'),
+    createTableHeadCells('دسته بندی', 'category'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 
@@ -72,14 +71,17 @@ export function ProductsList() {
         setLoading(false)
     }
 
-    const queryNames = tableHeadCells.slice(1, 3).map((cell) => {
+    const queryNames = tableHeadCells.slice(3, 5).map((cell) => {
         if (cell.name === 'category')
             return {
                 field: cell.name,
                 label: cell.label,
                 type: 'choice',
                 choice: categories.data.map((item) => {
-                    return item.id
+                    return {
+                        label: item.name,
+                        id: item.id,
+                    }
                 }),
             }
         else if (cell.name === 'type')
@@ -87,7 +89,10 @@ export function ProductsList() {
                 field: cell.name,
                 label: cell.label,
                 type: 'choice',
-                choice: ['coins', 'account'],
+                choice: [
+                    {label: 'coins', id: 0},
+                    {label: 'account', id: 1},
+                ],
             }
         else
             return {
@@ -224,22 +229,7 @@ export function ProductsList() {
                                 {item.type}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.category}
-                            </Typography>
-                        </TableCell>
+
                         <TableCell>
                             <Typography
                                 variant="body2"

@@ -85,6 +85,12 @@ export function OrdersList() {
         else return 'primary'
     }
     const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
+    const enToPer = (status: string) => {
+        if (status === 'processing') return 'در حال پردازش'
+        else if (status === 'completed') return 'تکمیل شده'
+        else if (status === 'pending') return 'درانتظار'
+        else return 'لغو شده'
+    }
     return (
         <ListPage
             header="مدیریت سفارشات"
@@ -173,15 +179,15 @@ export function OrdersList() {
                         </TableCell>
                         <TableCell>
                             <Chip
-                                label={item.status}
+                                label={enToPer(item.status)}
                                 color={statusCalc(item.status)}
                                 variant="filled"
                                 sx={{
                                     fontSize: {
-                                        xs: '13px',
-                                        sm: '14px',
-                                        md: '16px',
-                                        xl: '17px',
+                                        xs: '12px',
+                                        sm: '13px',
+                                        md: '14px',
+                                        xl: '15px',
                                     },
                                 }}
                             />
@@ -195,10 +201,10 @@ export function OrdersList() {
                                         variant="outlined"
                                         sx={{
                                             fontSize: {
-                                                xs: '13px',
-                                                sm: '14px',
-                                                md: '16px',
-                                                xl: '17px',
+                                                xs: '12px',
+                                                sm: '13px',
+                                                md: '14px',
+                                                xl: '15px',
                                             },
                                         }}
                                     />

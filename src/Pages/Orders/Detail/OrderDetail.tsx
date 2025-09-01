@@ -1,4 +1,4 @@
-import {Box, Stack, Typography} from '@mui/material'
+import {Stack, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router-dom'
@@ -6,6 +6,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {formatPrice} from '../../../Core/FormatPrice'
 import {setUtil} from '../../../redux/UtilSlice'
+import Payment from './Payment'
 import Products from './Products'
 
 const RECOURCE = 'shop/orders'
@@ -39,7 +40,7 @@ export interface OrderItem {
     account_details: AccountDetails
 }
 
-interface Payment {
+interface PaymentType {
     id: number
     payment_method_display: string
     status_display: string
@@ -58,7 +59,7 @@ export interface Order {
     total_price: number
     created_at: string
     items: OrderItem[]
-    payments: Payment[]
+    payments: PaymentType[]
 }
 
 export function OrderDetail() {
@@ -193,21 +194,8 @@ export function OrderDetail() {
                     {order.payments[0]?.payment_method_display}
                 </Typography>
             </Stack>
-            {order.payments[0]?.receipt_image_url && (
-                <Stack direction={'column'} spacing={1}>
-                    <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                        رسید پرداخت:
-                    </Typography>
-                    <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                        <Box
-                            component={'img'}
-                            sx={{height: '200px', width: '200px'}}
-                            src={order.payments[0]?.receipt_image_url || ''}
-                            borderRadius={2}
-                        />
-                    </Typography>
-                </Stack>
-            )}
+
+            <Payment order={order} />
 
             <Stack direction="column" spacing={0.5}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>

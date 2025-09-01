@@ -29,7 +29,11 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
             field: cell.name,
             label: cell.label,
             type: 'choice',
-            choice: [{label: 'user',id:0}, {label: 'admin',id:1}, {label: 'superadmin',id:2}],
+            choice: [
+                {label: 'کاربر', id: 'user'},
+                {label: 'ادمین', id: 'admin'},
+                {label: 'سوپر ادمین', id: 'superadmin'},
+            ],
         }
     else
         return {
@@ -44,7 +48,7 @@ function formatRole(role: string) {
         case 'admin':
             return 'ادمین'
         case 'user':
-            return 'کاربر عادی'
+            return 'کاربر'
         default:
             return 'سوپر ادمین'
     }

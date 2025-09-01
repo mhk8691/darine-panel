@@ -87,8 +87,8 @@ export function ProductsList() {
                     label: cell.label,
                     type: 'choice',
                     choice: [
-                        {label: 'coins', id: 0},
-                        {label: 'account', id: 1},
+                        {label: 'سکه', id: 'coins'},
+                        {label: 'اکانت', id: 'account'},
                     ],
                 }
             else

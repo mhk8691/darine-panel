@@ -32,10 +32,10 @@ const queryNames = [
                 label: cell.label,
                 type: 'choice',
                 choice: [
-                    {id: 0, label: 'pending'},
-                    {id: 1, label: 'processing'},
-                    {id: 2, label: 'completed'},
-                    {id: 3, label: 'canceled'},
+                    {id: 'pending', label: 'درانتظار'},
+                    {id: 'processing', label: 'درحال پردازش'},
+                    {id: 'completed', label: 'تکمیل شده'},
+                    {id: 'canceled', label: 'لغو شده'},
                 ],
             }
         else
@@ -99,7 +99,7 @@ export function OrdersList() {
     }
     const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
     const enToPer = (status: string) => {
-        if (status === 'processing') return 'در حال پردازش'
+        if (status === 'processing') return 'درحال پردازش'
         else if (status === 'completed') return 'تکمیل شده'
         else if (status === 'pending') return 'درانتظار'
         else return 'لغو شده'

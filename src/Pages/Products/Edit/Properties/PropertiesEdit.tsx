@@ -1,17 +1,16 @@
+import {Grid} from '@mui/material'
 import {useState} from 'react'
 import {useLocation, useParams} from 'react-router-dom'
-import {EditPage} from '../../../../Components/Table/EditPage'
-import {FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material'
 import {CustomTextField} from '../../../../Components/Input/CustomTextField'
-import { PropertyType } from '../../../../Core/types'
+import {EditPage} from '../../../../Components/Table/EditPage'
+import {PropertyType} from '../../../../Core/types'
 
 export function PropertiesEdit() {
     const id = useParams().productId
     const RESOURCE = `product/${id}/properties`
     const state = useLocation().state as {row: PropertyType}
     const [property, setProperty] = useState(state.row)
-  
-    
+
     return (
         <EditPage
             resource={RESOURCE}

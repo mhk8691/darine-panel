@@ -1,15 +1,14 @@
-import {Box, Button, Stack, TextField, Typography} from '@mui/material'
+import {Box, Button, Stack, Typography} from '@mui/material'
 import {makeStyles} from '@mui/styles'
+import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
-import {DataProvider} from '../../../Core/DataProvider'
-import {setUtil} from '../../../redux/UtilSlice'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import logoImage from '../../../Images/logo.png'
-import axios from 'axios'
-import SubmitCode from '../SubmitCode'
+import {setUtil} from '../../../redux/UtilSlice'
 import {formatTime} from '../Login/Login'
+import SubmitCode from '../SubmitCode'
 
 export type RegisterData = {
     // username: string
@@ -25,7 +24,6 @@ export default function Register() {
     const [errors, setErrors] = useState({first_name: false, last_name: false, phone_number: false})
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const classes = useStyles()
     const [time, setTime] = useState(0)
     const [isSubmit, setIsSubmit] = useState(false)
     const [data, setData] = useState<RegisterData>({
@@ -66,7 +64,7 @@ export default function Register() {
 
         dispatch(setUtil({loading: true}))
         try {
-            const response = await axios.post(
+            await axios.post(
                 `https://api.ahmadshop1.com/api/auth/register/otp-request/`,
                 data,
             )

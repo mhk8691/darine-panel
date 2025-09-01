@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react'
-import {useLocation, useParams} from 'react-router-dom'
-import {EditPage} from '../../../Components/Table/EditPage'
-import {ConnectionMethod, MethodType} from '../Method'
-import {DataProvider} from '../../../Core/DataProvider'
 import {useDispatch} from 'react-redux'
+import {useParams} from 'react-router-dom'
+import {EditPage} from '../../../Components/Table/EditPage'
+import {DataProvider} from '../../../Core/DataProvider'
 import {setUtil} from '../../../redux/UtilSlice'
+import {ConnectionMethod, MethodType} from '../Method'
 
 const RESOURCE = 'account/base-accounts'
 export function MethodEdit() {
@@ -12,17 +12,18 @@ export function MethodEdit() {
     const methodId = useParams().id
     const [method, setMethod] = useState({} as MethodType)
     const [initialData, setInitialData] = useState({} as MethodType)
-    const getMethod = async () => {
-        try {
-            const res = await DataProvider.get<MethodType>(`${RESOURCE}/${methodId}/`)
-            setMethod(res.data)
-            setInitialData(res.data)
-        } catch (error: any) {
-            console.log(error)
-        }
-        dispatch(setUtil({loading: false}))
-    }
+
     useEffect(() => {
+        const getMethod = async () => {
+            try {
+                const res = await DataProvider.get<MethodType>(`${RESOURCE}/${methodId}/`)
+                setMethod(res.data)
+                setInitialData(res.data)
+            } catch (error: any) {
+                console.log(error)
+            }
+            dispatch(setUtil({loading: false}))
+        }
         getMethod()
     }, [methodId])
     return (

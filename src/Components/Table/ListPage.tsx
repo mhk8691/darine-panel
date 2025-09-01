@@ -42,15 +42,7 @@ export function ListPage({
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(defaultState)
     const dispatch = useAppDispatch()
-    async function create() {
-        dispatch(setUtil({loading: true}))
-        // let result = await DataProvider.post(`${resource}`, {data: data})
-        // if (result) {
-        //     setData(result)
-        //     setOpen(true)
-        // }
-        // dispatch(setUtil({loading: false}))
-    }
+   
     async function update() {
         if (data._id) {
             let result = await DataProvider.patch(`${resource}/${data._id}`, {data: data})
@@ -60,12 +52,12 @@ export function ListPage({
             }
         }
     }
-    async function cancel() {
-        if (data._id) {
-            let result = await DataProvider.delete(`${resource}/${data._id}`)
-        }
-        setOpen(false)
-    }
+    // async function cancel() {
+    //     if (data._id) {
+    //         let result = await DataProvider.delete(`${resource}/${data._id}`)
+    //     }
+    //     setOpen(false)
+    // }
 
     // useEffect(() => {
     //     if (open) {

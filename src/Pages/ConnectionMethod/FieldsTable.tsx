@@ -1,16 +1,16 @@
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
+import {IconButton, Stack, Typography} from '@mui/material'
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import {FieldType} from './Method'
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import {IconButton, Stack, Typography} from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
-import {useNavigate, useParams} from 'react-router-dom'
 import {Dispatch, SetStateAction} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {FieldType} from './Method'
 function createData(id: number, name: string, label: string, type: string) {
     return {name, label, type, id}
 }

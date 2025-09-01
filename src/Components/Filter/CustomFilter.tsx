@@ -23,7 +23,6 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
     // const {filtersData, setParams, params} = props
     const handleChange = (event, item) => {
         setParams((params) => {
-            let filters = params.filter
             return {
                 ...params,
                 [item.field]: event.target.value,

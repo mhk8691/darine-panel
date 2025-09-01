@@ -1,6 +1,5 @@
-import React from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
-import {makeStyles, withStyles} from '@mui/styles'
+import {makeStyles} from '@mui/styles'
 
 export function ProgressBar(props) {
     const useStylesFacebook = makeStyles((theme) => ({

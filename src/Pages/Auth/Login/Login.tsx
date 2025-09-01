@@ -8,8 +8,8 @@ import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
-import SubmitCode from '../SubmitCode'
 import logoImage from '../../../Images/logo.png'
+import SubmitCode from '../SubmitCode'
 export type LoginData = {
     username: string
     password: string
@@ -24,9 +24,7 @@ export function Login(props) {
     const [isSubmit, setIsSubmit] = useState(false)
     const {register, handleSubmit, getValues} = useForm()
     const [time, setTime] = useState(0)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const classes = useStyles()
     useEffect(() => {
         if (time === 0) return
 

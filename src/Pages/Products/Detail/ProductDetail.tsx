@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react'
 import {Link, useParams} from 'react-router-dom'
 import Progress from '../../../Components/Progress/Progress'
 import {DataProvider} from '../../../Core/DataProvider'
+import {formatPrice} from '../../../Core/FormatPrice'
 import {OptionType, PropertyType} from '../../../Core/types'
-import { formatPrice } from '../../../Core/FormatPrice'
 
 const RECOURCE = 'product'
 export interface ProductDetailType {

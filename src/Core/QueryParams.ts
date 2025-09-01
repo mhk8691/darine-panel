@@ -1,5 +1,5 @@
 import {AxiosRequestConfig} from 'axios'
-import {StringParam, NumberParam, QueryParamConfig, ObjectParam, JsonParam} from 'use-query-params'
+import {JsonParam, NumberParam, QueryParamConfig, StringParam} from 'use-query-params'
 
 type QueryParamGenericConfig<T> = QueryParamConfig<T | null | undefined, T>
 

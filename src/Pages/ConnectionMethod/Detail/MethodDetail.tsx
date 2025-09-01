@@ -71,7 +71,7 @@ export function MethodDetail() {
                     {method?.fields_count}
                 </Typography>
             </Stack>
-                <FieldsTable data={method?.fields || []} hasDetail={true} />
+            <FieldsTable data={method?.fields || []} hasDetail={true} />
         </Stack>
     )
 }

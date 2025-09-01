@@ -17,14 +17,12 @@ export default function DatePickerFilter({
     item: any
 }) {
     const [value, setValue] = useState(null)
-    const [gregorianValue, setGregorianValue] = useState(null)
 
     const handleChange = (date) => {
         setValue(date)
 
         if (date) {
             const gregorianDate = date.convert(gregorian, gregorian_en).format('YYYY-MM-DD')
-            setGregorianValue(gregorianDate)
             setParams((params) => {
                 return {
                     ...params,

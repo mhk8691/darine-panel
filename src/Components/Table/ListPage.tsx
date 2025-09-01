@@ -21,6 +21,7 @@ export function ListPage({
     noCreate,
     children,
     href,
+    nofilter = false,
 }: {
     header: string
     searchText: string
@@ -35,6 +36,7 @@ export function ListPage({
     href: string
     noCreate?: boolean
     children: React.ReactNode
+    nofilter?: boolean
 }) {
     const CreaterModal = createModal
     const [open, setOpen] = useState(false)
@@ -129,10 +131,10 @@ export function ListPage({
                         <AddButton
                             href={href}
                             text={'جدید'}
-                            style={{
+                            sx={{
                                 fontSize: {
                                     xs: '14px',
-                                    sm: '16px',
+                                    sm: '18px',
                                 },
                                 padding: '7px 13px',
                             }}
@@ -140,14 +142,16 @@ export function ListPage({
                     )}
                 </Stack>
 
-                <Searchbar
-                    searchField={searchField}
-                    placeholder={`جستجو بر اساس ${searchText} ...`}
-                    setParams={setParams}
-                    filtersData={filtersData ?? []}
-                    noFilters={filtersData ? false : true}
-                    params={params}
-                />
+                {!nofilter && (
+                    <Searchbar
+                        searchField={searchField}
+                        placeholder={`جستجو بر اساس ${searchText} ...`}
+                        setParams={setParams}
+                        filtersData={filtersData ?? []}
+                        noFilters={filtersData ? false : true}
+                        params={params}
+                    />
+                )}
             </Stack>
             <Stack minHeight={'60vh'}>{children}</Stack>
         </Box>

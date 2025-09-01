@@ -10,8 +10,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {BannersType} from '../Banners'
 import {BannerCreate} from '../Create/BannerCreate'
-import { setUtil } from '../../../redux/UtilSlice'
-import { useDispatch } from 'react-redux'
+import {setUtil} from '../../../redux/UtilSlice'
+import {useDispatch} from 'react-redux'
 
 const RECOURCE = 'banners'
 const tableHeadCells = [
@@ -39,18 +39,18 @@ export function BannersList() {
     const dispatch = useDispatch()
     const getBanners = async () => {
         setLoading(true)
-        try{
+        try {
             let response = await DataProvider.get<{
-            total_results: number
-            results: BannersType[]
-        }>(`${RECOURCE}/`, search)
-        if (response) {
-            setBanners({
-                total_results: response.data.total_results,
-                data: response.data.results,
-            })
-        }
-        }catch(error:any){
+                total_results: number
+                results: BannersType[]
+            }>(`${RECOURCE}/`, search)
+            if (response) {
+                setBanners({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
             dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
@@ -65,6 +65,7 @@ export function BannersList() {
             href={RECOURCE + '/create'}
             searchField="title"
             searchText="نام"
+            nofilter
             setParams={setSearch}
             params={search}
             resource={RECOURCE}

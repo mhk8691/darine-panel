@@ -59,10 +59,11 @@ export function MethodsList() {
 
     return (
         <ListPage
-            header="مدیریت کاربران"
+            header="مدیریت روش اتصال"
             href={'base-accounts/create'}
             searchField="title"
             searchText="نام کاربری"
+            nofilter
             setParams={setSearch}
             params={search}
             resource={RECOURCE}

@@ -3,6 +3,7 @@ import {Box} from '@mui/system'
 import React from 'react'
 import {CustomAutocomplete} from '../Input/CustomAutoComplete'
 import {CustomTextField} from '../Input/CustomTextField'
+import DatePickerFilter from './DatePicker'
 
 export interface FilterType {
     date?: {}
@@ -22,7 +23,6 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
     // const {filtersData, setParams, params} = props
     const handleChange = (event, item) => {
         setParams((params) => {
-            console.log(item)
             let filters = params.filter
             return {
                 ...params,
@@ -33,7 +33,6 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
     const handleChangeAutocomplete = (value: any, item: any) => {
         const hasZeroId = item?.choice?.some((choice) => choice.id === 0)
         setParams((params) => {
-            
             return {
                 ...params,
 
@@ -57,12 +56,11 @@ export function CustomFilter({filtersData, setParams, params}: CustomFilterProps
                                 }}
                                 label={item.label}
                             />
+                        ) : item.type === 'date' ? (
+                            <Box width={'100%'}>
+                                <DatePickerFilter setParams={setParams} item={item} />
+                            </Box>
                         ) : (
-                            // <DateFilter
-                            //     label={item.label}
-                            //     field={item.field}
-                            //     setParams={setParams}
-                            // />
                             <CustomTextField
                                 value={params?.filter ? params?.filter[item.field] : null}
                                 onChange={(e) => handleChange(e, item)}

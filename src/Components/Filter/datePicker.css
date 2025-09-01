@@ -1,0 +1,6 @@
+.rmdp-container{
+  width: 100%;
+} 
+.rmdp-input::placeholder{
+  color: #BCBCBC;
+}

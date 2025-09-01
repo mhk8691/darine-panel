@@ -18,33 +18,46 @@ const RECOURCE = 'shop/orders'
 const tableHeadCells = [
     createTableHeadCells('نام', 'user_name'),
     createTableHeadCells('شماره تلفن', 'user_phone'),
-    createTableHeadCells('تاریخ سفارش', 'created_at'),
     createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
+    createTableHeadCells('تاریخ سفارش', 'created_at'),
 ]
-const queryNames = tableHeadCells.slice(1, 4).map((cell) => {
-    if (cell.name === 'status')
-        return {
-            field: cell.name,
-            label: cell.label,
-            type: 'choice',
-            choice: [
-                {id: 0, label: 'pending'},
-                {id: 1, label: 'processing'},
-                {id: 2, label: 'completed'},
-                {id: 3, label: 'canceled'},
-            ],
-        }
-    else
-        return {
-            field: cell.name,
-            label: cell.label,
-            type: '',
-            choice: [],
-        }
-})
+const queryNames = [
+    ...tableHeadCells.slice(1, 3).map((cell) => {
+        if (cell.name === 'status')
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: 'choice',
+                choice: [
+                    {id: 0, label: 'pending'},
+                    {id: 1, label: 'processing'},
+                    {id: 2, label: 'completed'},
+                    {id: 3, label: 'canceled'},
+                ],
+            }
+        else
+            return {
+                field: cell.name,
+                label: cell.label,
+                type: '',
+                choice: [],
+            }
+    }),
+    {
+        field: 'start_date',
+        label: 'تاریخ شروع',
+        type: 'date',
+    },
+    {
+        field: 'end_date',
+        label: 'تاریخ پایان',
+        type: 'date',
+    },
+]
+
 export function OrdersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
@@ -161,22 +174,7 @@ export function OrdersList() {
                                 {item.user_phone}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {formatDate(item.created_at)}
-                            </Typography>
-                        </TableCell>
+
                         <TableCell>
                             <Chip
                                 label={enToPer(item.status)}
@@ -246,6 +244,22 @@ export function OrdersList() {
                                     {item.payment_method}
                                 </Typography>
                             )}
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {formatDate(item.created_at)}
+                            </Typography>
                         </TableCell>
                     </>
                 ))}

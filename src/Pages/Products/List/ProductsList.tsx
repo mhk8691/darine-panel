@@ -8,13 +8,12 @@ import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
 import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
+import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {useAppDispatch} from '../../../redux/store'
-import {ProductCreate} from '../Create/ProductCreate'
 import {setUtil} from '../../../redux/UtilSlice'
-import {formatPrice} from '../../../Core/FormatPrice'
 import {CategoriesType} from '../../Categories/Categories'
-import {MethodType} from '../../ConnectionMethod/Method'
+import {ProductCreate} from '../Create/ProductCreate'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -51,7 +50,6 @@ export function ProductsList() {
         total_results: 0,
         data: [],
     })
-
     const getCategories = async () => {
         setLoading(true)
         try {
@@ -71,37 +69,38 @@ export function ProductsList() {
         setLoading(false)
     }
 
-    const queryNames = tableHeadCells.slice(3, 5).map((cell) => {
-        if (cell.name === 'category')
-            return {
-                field: cell.name,
-                label: cell.label,
-                type: 'choice',
-                choice: categories.data.map((item) => {
-                    return {
+    const queryNames = [
+        ...tableHeadCells.slice(3, 5).map((cell) => {
+            if (cell.name === 'category')
+                return {
+                    field: cell.name,
+                    label: cell.label,
+                    type: 'choice',
+                    choice: categories.data.map((item) => ({
                         label: item.name,
                         id: item.id,
-                    }
-                }),
-            }
-        else if (cell.name === 'type')
-            return {
-                field: cell.name,
-                label: cell.label,
-                type: 'choice',
-                choice: [
-                    {label: 'coins', id: 0},
-                    {label: 'account', id: 1},
-                ],
-            }
-        else
-            return {
-                field: cell.name,
-                label: cell.label,
-                type: '',
-                choice: [],
-            }
-    })
+                    })),
+                }
+            else if (cell.name === 'type')
+                return {
+                    field: cell.name,
+                    label: cell.label,
+                    type: 'choice',
+                    choice: [
+                        {label: 'coins', id: 0},
+                        {label: 'account', id: 1},
+                    ],
+                }
+            else
+                return {
+                    field: cell.name,
+                    label: cell.label,
+                    type: '',
+                    choice: [],
+                }
+        }),
+    ]
+
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
 

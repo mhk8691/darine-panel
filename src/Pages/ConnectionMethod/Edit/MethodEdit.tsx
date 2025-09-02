@@ -12,18 +12,17 @@ export function MethodEdit() {
     const methodId = useParams().id
     const [method, setMethod] = useState({} as MethodType)
     const [initialData, setInitialData] = useState({} as MethodType)
-
-    useEffect(() => {
-        const getMethod = async () => {
-            try {
-                const res = await DataProvider.get<MethodType>(`${RESOURCE}/${methodId}/`)
-                setMethod(res.data)
-                setInitialData(res.data)
-            } catch (error: any) {
-                console.log(error)
-            }
-            dispatch(setUtil({loading: false}))
+    const getMethod = async () => {
+        try {
+            const res = await DataProvider.get<MethodType>(`${RESOURCE}/${methodId}/`)
+            setMethod(res.data)
+            setInitialData(res.data)
+        } catch (error: any) {
+            console.log(error)
         }
+        dispatch(setUtil({loading: false}))
+    }
+    useEffect(() => {
         getMethod()
     }, [methodId])
     return (

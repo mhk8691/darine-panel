@@ -43,40 +43,56 @@ export function Categories({
     useEffect(() => {
         getCategory()
     }, [])
+    console.log(
+        'defaultValue:',
+        parentCategory.results
+            .map((item) => ({label: item.name, id: item.id}))
+            .find((option) => option.id === category.parent),
+    )
     return (
         <Stack>
-            <GridProducer
-                sx={{marginBottom: '16px'}}
-                data={[
-                    <CustomTextField
-                        name="name"
-                        setData={setCategory}
-                        resource={RESOURCE}
-                        label={'نام'}
-                        defaultValue={category.name}
-                    />,
-                    <CustomAutocomplete
-                        options={parentCategory.results.map((item) => ({
-                            label: item.name,
-                            id: item.id,
-                        }))}
-                        name="parent"
-                        setData={setCategory}
-                        defaultValue={category.parent}
-                        label={'دسته بندی والد'}
-                    />,
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => setOpen(true)}
-                        size="large"
-                        fullWidth
-                        sx={{height: '53px', borderRadius: '4px !important'}}
-                    >
-                        {category.thumbnail ? 'ویرایش تصویر' : 'انتخاب تصویر'}
-                    </Button>,
-                ]}
-            />
+            {category && (
+                <GridProducer
+                    sx={{marginBottom: '16px'}}
+                    data={[
+                        <CustomTextField
+                            name="name"
+                            setData={setCategory}
+                            resource={RESOURCE}
+                            label={'نام'}
+                            defaultValue={category.name}
+                        />,
+                        <CustomAutocomplete
+                            key={category.parent} // می‌تونی حتی اینو هم حذف کنی
+                            options={parentCategory.results.map((item) => ({
+                                label: item.name,
+                                id: item.id,
+                            }))}
+                            name="parent"
+                            setData={setCategory}
+                            value={
+                                parentCategory.results
+                                    .map((item) => ({
+                                        label: item.name,
+                                        id: item.id,
+                                    }))
+                                    .find((option) => option.id === category.parent) || null
+                            }
+                            label={'دسته بندی والد'}
+                        />,
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => setOpen(true)}
+                            size="large"
+                            fullWidth
+                            sx={{height: '53px', borderRadius: '4px !important'}}
+                        >
+                            {category.thumbnail ? 'ویرایش تصویر' : 'انتخاب تصویر'}
+                        </Button>,
+                    ]}
+                />
+            )}
             <ImageUploader
                 imageName="thumbnail"
                 data={category}

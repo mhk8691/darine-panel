@@ -2,7 +2,6 @@ import {Button, Stack, Typography} from '@mui/material'
 import {Box} from '@mui/system'
 import React, {useState} from 'react'
 import {DataProvider} from '../../Core/DataProvider'
-import {setUtil} from '../../redux/UtilSlice'
 import {useAppDispatch} from '../../redux/store'
 import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
@@ -42,7 +41,7 @@ export function ListPage({
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(defaultState)
     const dispatch = useAppDispatch()
-   
+
     async function update() {
         if (data._id) {
             let result = await DataProvider.patch(`${resource}/${data._id}`, {data: data})
@@ -71,7 +70,7 @@ export function ListPage({
                     open={open}
                     setOpen={setOpen}
                     title={'Add to ' + header}
-                    onClose={cancel}
+                    onClose={() => setOpen(false)}
                 >
                     <CreaterModal open={open} setOpen={setOpen} data={data} setData={setData} />
                     <Stack direction="row" margin={'10px 0px'} spacing={2}>
@@ -85,7 +84,7 @@ export function ListPage({
                         </Button>
                         <Button
                             variant="outlined"
-                            onClick={cancel}
+                            onClick={() => setOpen(false)}
                             size="large"
                             color="secondary"
                             sx={{fontSize: '20px'}}

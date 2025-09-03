@@ -1,13 +1,13 @@
-import {Box, Button, Stack, Typography} from '@mui/material'
-import {makeStyles} from '@mui/styles'
+import { Box, Button, Stack, Typography } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import axios from 'axios'
-import {useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {Link, useNavigate} from 'react-router-dom'
-import {CustomTextField} from '../../../Components/Input/CustomTextField'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { CustomTextField } from '../../../Components/Input/CustomTextField'
 import logoImage from '../../../Images/logo.png'
-import {setUtil} from '../../../redux/UtilSlice'
-import {formatTime} from '../Login/Login'
+import { setUtil } from '../../../redux/UtilSlice'
+import { formatTime } from '../Login/Login'
 import SubmitCode from '../SubmitCode'
 
 export type RegisterData = {
@@ -21,7 +21,7 @@ export type RegisterData = {
 }
 
 export default function Register() {
-    const [errors, setErrors] = useState({first_name: false, last_name: false, phone_number: false})
+    const [errors, setErrors] = useState({ first_name: false, last_name: false, phone_number: false })
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [time, setTime] = useState(0)
@@ -62,7 +62,7 @@ export default function Register() {
             return
         }
 
-        dispatch(setUtil({loading: true}))
+        dispatch(setUtil({ loading: true }))
         try {
             await axios.post(
                 `https://api.ahmadshop1.com/api/auth/register/otp-request/`,
@@ -71,11 +71,11 @@ export default function Register() {
             setIsSubmit(true)
             setTime(120)
             // dispatch(setUtil({open: true, message: response?.message, severity: 'success'}))
-            navigate('/login')
+            // navigate('/login')
         } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
         } finally {
-            dispatch(setUtil({loading: false}))
+            dispatch(setUtil({ loading: false }))
         }
     }
 
@@ -101,12 +101,8 @@ export default function Register() {
                 py={5}
             >
                 <Stack
-                    direction={'column'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    spacing={2.5}
-                    component="form"
-                    onSubmit={handleSubmit}
+
+
                 >
                     <Link to={'/'}>
                         <Box
@@ -125,7 +121,7 @@ export default function Register() {
                     {isSubmit ? (
                         <SubmitCode phoneNumber={data.phone_number} resource="register">
                             {time > 0 ? (
-                                <Typography variant="body2" sx={{fontSize: '13px', mb: 1.5}}>
+                                <Typography variant="body2" sx={{ fontSize: '13px', mb: 1.5 }}>
                                     {formatTime(time)} مانده تا دریافت مجدد کد
                                 </Typography>
                             ) : (
@@ -154,7 +150,11 @@ export default function Register() {
                             )}
                         </SubmitCode>
                     ) : (
-                        <>
+                        <Stack direction={'column'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                            spacing={2.5} component="form"
+                            onSubmit={handleSubmit}>
                             <Box width={'100%'}>
                                 <CustomTextField
                                     name="first_name"
@@ -198,7 +198,7 @@ export default function Register() {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    sx={{fontSize: '16px', width: '100%'}}
+                                    sx={{ fontSize: '16px', width: '100%' }}
                                     type="submit"
                                 >
                                     ثبت نام
@@ -215,12 +215,12 @@ export default function Register() {
                                     component={Link}
                                     to={'/login'}
                                     color={'primary.main'}
-                                    sx={{ml: 0.5}}
+                                    sx={{ ml: 0.5 }}
                                 >
                                     ورود
                                 </Box>
                             </Typography>
-                        </>
+                        </Stack>
                     )}
                 </Stack>
             </Box>
@@ -241,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '16px 0px',
         fontWeight: 700,
         color: 'white',
-        '&:hover': {background: '#2A303B'},
+        '&:hover': { background: '#2A303B' },
     },
     fieldTitle: {
         color: '#778191',

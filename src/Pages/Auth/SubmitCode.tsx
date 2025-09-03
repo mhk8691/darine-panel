@@ -1,12 +1,12 @@
-import {Box, Button, Typography} from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
-import {FieldValues, useForm, UseFormGetValues} from 'react-hook-form'
-import {useDispatch} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
-import {setUtil} from '../../redux/UtilSlice'
-import {setUser} from '../../redux/user_slice'
+import { FieldValues, useForm, UseFormGetValues } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { CustomTextField } from '../../Components/Input/CustomTextField'
+import { setUtil } from '../../redux/UtilSlice'
+import { setUser } from '../../redux/user_slice'
 type AuthResponse = {
     data: {
         token: string
@@ -18,11 +18,11 @@ interface Props {
     phoneNumber?: string
     resource: string
 }
-export default function SubmitCode({getValues, children, phoneNumber, resource}: Props) {
+export default function SubmitCode({ getValues, children, phoneNumber, resource }: Props) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const onSubmit = async (data) => {
-        dispatch(setUtil({loading: true}))
+        dispatch(setUtil({ loading: true }))
         const newData = {
             phone_number: getValues ? getValues('phone_number') : phoneNumber,
             otp: data.otp,
@@ -47,30 +47,30 @@ export default function SubmitCode({getValues, children, phoneNumber, resource}:
                 }),
             )
         } finally {
-            dispatch(setUtil({loading: false}))
+            dispatch(setUtil({ loading: false }))
         }
     }
-    const {register, handleSubmit} = useForm()
+    const { register, handleSubmit } = useForm()
     return (
-        <>
+        <Stack component={'form'} onSubmit={handleSubmit(onSubmit)} width={'100%'}>
             <Box width={'100%'}>
-                <Typography variant="body2" alignSelf={'flex-start'} sx={{my: 2, fontSize: '12px'}}>
+                <Typography variant="body2" alignSelf={'flex-start'} sx={{ my: 2, fontSize: '12px' }}>
                     کد تایید برای شماره {getValues ? getValues('phone_number') : phoneNumber} ارسال
                     شده است
                 </Typography>
-                <CustomTextField label={'کد تایید'} register={{...register('otp')}} name="otp" />
+                <CustomTextField label={'کد تایید'} register={{ ...register('otp') }} name="otp" />
             </Box>
-            <Box textAlign="center" width={'100%'} mt={3}>
+            <Box textAlign="center" width={'100%'} mt={3} >
                 {children}
                 <Button
                     variant="contained"
                     size="large"
-                    sx={{fontSize: '16px', width: '100%'}}
-                    onClick={handleSubmit(onSubmit)}
+                    sx={{ fontSize: '16px', width: '100%' }}
+                    type='submit'
                 >
                     تایید
                 </Button>
             </Box>
-        </>
+        </Stack>
     )
 }

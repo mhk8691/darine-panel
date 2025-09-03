@@ -73,7 +73,13 @@ export default function Register() {
             // dispatch(setUtil({open: true, message: response?.message, severity: 'success'}))
             // navigate('/login')
         } catch (error: any) {
-            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
+            dispatch(
+                setUtil({
+                    open: true,
+                    message: error.response.data.message,
+                    severity: 'error',
+                }),
+            )
         } finally {
             dispatch(setUtil({ loading: false }))
         }

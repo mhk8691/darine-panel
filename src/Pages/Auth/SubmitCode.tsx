@@ -39,10 +39,10 @@ export default function SubmitCode({ getValues, children, phoneNumber, resource 
             )
             navigate('/dashboard')
         } catch (error: any) {
-            dispatch(
+             dispatch(
                 setUtil({
                     open: true,
-                    message: error.message,
+                    message: error.response.data.message,
                     severity: 'error',
                 }),
             )

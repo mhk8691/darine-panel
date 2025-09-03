@@ -50,7 +50,7 @@ export function Login(props) {
             dispatch(
                 setUtil({
                     open: true,
-                    message: error.message,
+                    message: error.response.data.message,
                     severity: 'error',
                 }),
             )
@@ -154,7 +154,7 @@ export function Login(props) {
                                 alignItems: 'center',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                width:'100%'
+                                width: '100%'
                             }}>
                             <Box width={'100%'} >
                                 <CustomTextField

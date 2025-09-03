@@ -1,26 +1,29 @@
-import {Box, Button, Card, CardActions, CardContent, Grid, Stack, Typography} from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
-import {BaseModal} from '../../../Components/Modal/BaseModal'
+import { BaseModal } from '../../../Components/Modal/BaseModal'
 import AccountDetail from './AccountDetail'
-import {Order} from './OrderDetail'
+import { Order } from './OrderDetail'
+import ImageZoom from '../../../Components/ImageZoom/ImageZoom'
 interface Props {
     order: Order
     isOpen: number | null
     setIsOpen: React.Dispatch<React.SetStateAction<number | null>>
 }
-export default function Products({order, isOpen, setIsOpen}: Props) {
+export default function Products({ order, isOpen, setIsOpen }: Props) {
     return (
         <Grid container spacing={2}>
             {order?.items.map((item) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2.5}>
-                    <Card sx={{boxShadow: 5, borderRadius: 3}}>
+                    <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
                         <Stack p={2} pb={0}>
-                            <Box
-                                component={'img'}
-                                sx={{height: '100%', width: '100%'}}
-                                src={item.product_image_url}
-                                borderRadius={2}
-                            />
+                            <ImageZoom>
+                                <Box
+                                    component={'img'}
+                                    sx={{ height: '100%', width: '100%' }}
+                                    src={item.product_image_url}
+                                    borderRadius={2}
+                                />
+                            </ImageZoom>
                         </Stack>
                         <CardContent
                             sx={{
@@ -33,13 +36,13 @@ export default function Products({order, isOpen, setIsOpen}: Props) {
                         >
                             <Typography
                                 variant="body1"
-                                sx={{fontWeight: '400', fontSize: '16px !important'}}
+                                sx={{ fontWeight: '400', fontSize: '16px !important' }}
                             >
                                 {item.product_name}
                             </Typography>
                             <Typography
                                 variant="body1"
-                                sx={{fontWeight: '400', fontSize: '14px !important'}}
+                                sx={{ fontWeight: '400', fontSize: '14px !important' }}
                                 color={'primary'}
                             >
                                 {item.price} تومان
@@ -48,7 +51,7 @@ export default function Products({order, isOpen, setIsOpen}: Props) {
                         <CardActions>
                             <Button
                                 size="small"
-                                sx={{fontSize: '12px !important'}}
+                                sx={{ fontSize: '12px !important' }}
                                 onClick={() => setIsOpen(item.id)}
                             >
                                 نمایش بیشتر
@@ -59,7 +62,7 @@ export default function Products({order, isOpen, setIsOpen}: Props) {
                         open={Boolean(isOpen === item.id)}
                         setOpen={setIsOpen}
                         title={item.account_details.account_title}
-                        style={{maxWidth: 700}}
+                        style={{ maxWidth: 700 }}
                     >
                         <AccountDetail item={item.account_details} />
                     </BaseModal>

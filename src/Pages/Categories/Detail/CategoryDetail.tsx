@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {CategoriesType} from '../Categories'
+import ImageZoom from '../../../Components/ImageZoom/ImageZoom'
 
 const RECOURCE = 'category'
 
@@ -103,17 +104,25 @@ export function CategoryDetail() {
                     تصویر:
                 </Typography>
 
-                <Box
+               <ImageZoom>
+                 <Box
                     component={'img'}
                     sx={{
-                        width: '75px',
-                        height: '75px',
+                        width: {
+                            xs:'200px',
+                            sm:'250px'
+                        },
+                        height: {
+                            xs:'200px',
+                            sm:'250px'
+                        },
                         borderRadius: 2,
                         objectFit: 'cover',
                     }}
                     src={typeof category?.thumbnail === 'string' ? category?.thumbnail : ''}
                     borderRadius={2}
                 />
+               </ImageZoom>
             </Stack>
         </Stack>
     )

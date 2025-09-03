@@ -1,10 +1,11 @@
-import {Box, Grid, Stack, Typography} from '@mui/material'
-import {useEffect, useState} from 'react'
-import {Link, useParams} from 'react-router-dom'
+import { Box, Grid, Stack, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import Progress from '../../../Components/Progress/Progress'
-import {DataProvider} from '../../../Core/DataProvider'
-import {formatPrice} from '../../../Core/FormatPrice'
-import {OptionType, PropertyType} from '../../../Core/types'
+import { DataProvider } from '../../../Core/DataProvider'
+import { formatPrice } from '../../../Core/FormatPrice'
+import { OptionType, PropertyType } from '../../../Core/types'
+import ImageZoom from '../../../Components/ImageZoom/ImageZoom'
 
 const RECOURCE = 'product'
 export interface ProductDetailType {
@@ -40,7 +41,7 @@ export function ProductDetail() {
             if (response) {
                 setProduct(response.data)
             }
-        } catch {}
+        } catch { }
         setLoading(false)
     }
 
@@ -57,121 +58,121 @@ export function ProductDetail() {
                     <Typography
                         variant="h6"
                         fontWeight="600"
-                        sx={{fontSize: '18px !important', mb: 1}}
+                        sx={{ fontSize: '18px !important', mb: 1 }}
                     >
                         جزئیات محصول
                     </Typography>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             آیدی:
                         </Typography>
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                             {product?.id || '--'}
                         </Typography>
                     </Stack>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             نام محصول:
                         </Typography>
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                             {product?.name || '--'}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={1.5}>
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             معرفی کوتاه:
                         </Typography>
                         <Stack bgcolor={'background.light'} borderRadius={2} p={2}>
-                            <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                            <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                                 {product?.short_introduction || '--'}
                             </Typography>
                         </Stack>
                     </Stack>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             دسته بندی:
                         </Typography>
                         <Typography
                             component={Link}
                             to={`/category/detail/${product.category?.id}`}
                             variant="body1"
-                            sx={{fontWeight: '400', fontSize: '16px', color: 'primary.main'}}
+                            sx={{ fontWeight: '400', fontSize: '16px', color: 'primary.main' }}
                         >
                             {product?.category?.name || '--'}
                         </Typography>
                     </Stack>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             نوع اتصال:
                         </Typography>
                         <Typography
                             component={Link}
                             to={`/base-accounts/detail/${product.connection_method?.id}`}
                             variant="body1"
-                            sx={{fontWeight: '400', fontSize: '16px', color: 'primary.main'}}
+                            sx={{ fontWeight: '400', fontSize: '16px', color: 'primary.main' }}
                         >
                             {product?.connection_method?.title || '--'}
                         </Typography>
                     </Stack>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             قیمت پایه:
                         </Typography>
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                             {formatPrice(product?.base_price)}
                         </Typography>
                     </Stack>
                     <Stack
-                        direction={{xs: 'column', sm: 'row'}}
+                        direction={{ xs: 'column', sm: 'row' }}
                         spacing={{
                             xs: 1,
                             sm: 0.5,
                         }}
                     >
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             حداکثر قیمت:
                         </Typography>
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                             {formatPrice(product?.max_price)}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={3}>
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             ویژگی ها:
                         </Typography>
                         <Stack direction={'column'} spacing={1.5}>
                             {product?.properties?.map((item, index) => (
-                                <Grid container spacing={2} sx={{alignItems: 'center'}} key={index}>
+                                <Grid container spacing={2} sx={{ alignItems: 'center' }} key={index}>
                                     <Grid xs={1.8} sm={1.8} md={1.3} lg={1}>
                                         <Stack>
                                             <Typography variant="body2" fontSize={16}>
@@ -195,36 +196,38 @@ export function ProductDetail() {
                         </Stack>
                     </Stack>
                     <Stack direction={'column'} spacing={1}>
-                        <Typography variant="body1" sx={{fontWeight: '600', fontSize: '16px'}}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
                             تصاویر:
                         </Typography>
                         <Grid
                             container
                             spacing={{
-                                xs: 0.5,
+                                xs: 1,
                                 sm: 1.5,
                             }}
                         >
-                            {product?.pictures?.map((item) => (
+                            {product.pictures.map((item) => (
                                 <Grid
                                     item
-                                    xs={12 / 5}
-                                    sm={12 / 7}
-                                    md={12 / 8}
-                                    lg={12 / 10}
-                                    xl={12 / 13}
+                                    xs={6}
+                                    sm={4}
+                                    md={3}
+                                    lg={12 / 5}
+                                    xl={12 / 6}
                                 >
-                                    <Box
-                                        component={'img'}
-                                        sx={{
-                                            width: '100%',
-                                            height: '100%',
-                                            borderRadius: 2,
-                                            objectFit: 'cover',
-                                        }}
-                                        src={item.picture}
-                                        borderRadius={2}
-                                    />
+                                    <ImageZoom>
+                                        <Box
+                                            component={'img'}
+                                            sx={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: 2,
+                                                objectFit: 'cover',
+                                            }}
+                                            src={item.picture}
+                                            borderRadius={2}
+                                        />
+                                    </ImageZoom>
                                 </Grid>
                             ))}
                         </Grid>

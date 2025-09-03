@@ -7,7 +7,7 @@ import {
     SelectChangeEvent,
     Stack,
 } from '@mui/material'
-import {GridProducer} from '../../Components/Table/GridProducer'
+import { GridProducer } from '../../Components/Table/GridProducer'
 
 type AccountType = {
     method: string
@@ -32,7 +32,7 @@ export type OrdersType = {
     status_display: string
     product_names: string
     total_price: number
-    payment_method: 'bank_transfer' | 'online'
+    payment_method: 'Bank Transfer' | 'Online'
     created_at: string
 }
 
@@ -45,13 +45,13 @@ export function Orders({
 }) {
     const handleChangeProductType = (event: SelectChangeEvent) => {
         setOrder((prev) => {
-            return {...prev, status: event.target.value as OrderStatus}
+            return { ...prev, status: event.target.value as OrderStatus }
         })
     }
     return (
         <Stack>
             <GridProducer
-                sx={{marginBottom: '16px'}}
+                sx={{ marginBottom: '16px' }}
                 data={[
                     <Grid item xs={12}>
                         <FormControl

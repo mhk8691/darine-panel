@@ -1,18 +1,18 @@
-import {Chip, ChipPropsColorOverrides, Stack, Typography} from '@mui/material'
+import { Chip, ChipPropsColorOverrides, Stack, Typography } from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import {useQueryParams} from 'use-query-params'
-import {CustomTable} from '../../../Components/Table/CustomTable'
-import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
-import {ListPage} from '../../../Components/Table/ListPage'
-import {DataProvider} from '../../../Core/DataProvider'
-import {formatDate} from '../../../Core/FormatDate'
-import {formatPrice} from '../../../Core/FormatPrice'
-import {createQueryParam} from '../../../Core/QueryParams'
-import {setUtil} from '../../../redux/UtilSlice'
-import {OrderStatus, OrdersType} from '../Orders'
+import { useQueryParams } from 'use-query-params'
+import { CustomTable } from '../../../Components/Table/CustomTable'
+import { createTableHeadCells } from '../../../Components/Table/CustomTableHead'
+import { ListPage } from '../../../Components/Table/ListPage'
+import { DataProvider } from '../../../Core/DataProvider'
+import { formatDate } from '../../../Core/FormatDate'
+import { formatPrice } from '../../../Core/FormatPrice'
+import { createQueryParam } from '../../../Core/QueryParams'
+import { setUtil } from '../../../redux/UtilSlice'
+import { OrderStatus, OrdersType } from '../Orders'
 
 const RECOURCE = 'shop/orders'
 const tableHeadCells = [
@@ -32,10 +32,10 @@ const queryNames = [
                 label: cell.label,
                 type: 'choice',
                 choice: [
-                    {id: 'pending', label: 'درانتظار'},
-                    {id: 'processing', label: 'درحال پردازش'},
-                    {id: 'completed', label: 'تکمیل شده'},
-                    {id: 'canceled', label: 'لغو شده'},
+                    { id: 'pending', label: 'درانتظار' },
+                    { id: 'processing', label: 'درحال پردازش' },
+                    { id: 'completed', label: 'تکمیل شده' },
+                    { id: 'canceled', label: 'لغو شده' },
                 ],
             }
         else
@@ -84,7 +84,7 @@ export function OrdersList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
         }
         setLoading(false)
     }
@@ -241,7 +241,9 @@ export function OrdersList() {
                                         whiteSpace: 'nowrap',
                                     }}
                                 >
-                                    {item.payment_method}
+                                    {item.payment_method === 'Bank Transfer' && 'کارت به کارت'}
+                                    {item.payment_method === 'Online' && 'آنلاین'}
+                                    {item.payment_method !== 'Online' && item.payment_method !== 'Bank Transfer' && 'نامشخص'}
                                 </Typography>
                             )}
                         </TableCell>

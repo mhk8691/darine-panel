@@ -70,8 +70,6 @@ export default function Register() {
             )
             setIsSubmit(true)
             setTime(120)
-            // dispatch(setUtil({open: true, message: response?.message, severity: 'success'}))
-            // navigate('/login')
         } catch (error: any) {
             dispatch(
                 setUtil({
@@ -101,14 +99,17 @@ export default function Register() {
                         md: '43%',
                         lg: '33%',
                     },
+
                 }}
                 borderRadius={3}
                 px={5}
                 py={5}
             >
                 <Stack
-
-
+                    direction={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    spacing={2.5}
                 >
                     <Link to={'/'}>
                         <Box
@@ -156,10 +157,8 @@ export default function Register() {
                             )}
                         </SubmitCode>
                     ) : (
-                        <Stack direction={'column'}
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                            spacing={2.5} component="form"
+                        <Stack component="form" width={'100%'}
+                        gap={2.5}
                             onSubmit={handleSubmit}>
                             <Box width={'100%'}>
                                 <CustomTextField
@@ -214,6 +213,7 @@ export default function Register() {
                                 variant="body2"
                                 sx={{
                                     fontSize: '14px',
+                                    textAlign:'center'
                                 }}
                             >
                                 آیا از قبل ثبت نام کرده اید؟

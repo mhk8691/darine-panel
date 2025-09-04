@@ -28,6 +28,7 @@
     "date-fns": "^2.29.3",
     "flat": "^5.0.2",
     "i18next": "^21.9.1",
+    "jalaali-js": "^1.2.8",
     "moment": "^2.29.1",
     "mui-file-dropzone": "^4.0.2",
     "persian-date": "^1.1.0",

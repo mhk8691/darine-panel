@@ -206,7 +206,7 @@ export function ProductDetail() {
                                 sm: 1.5,
                             }}
                         >
-                            {product.pictures.map((item) => (
+                            {product.pictures?.map((item) => (
                                 <Grid
                                     item
                                     xs={6}

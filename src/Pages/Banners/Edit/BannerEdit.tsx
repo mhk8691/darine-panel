@@ -15,7 +15,7 @@ export function BannerEdit() {
             formDetails={banner}
             initialData={state.row}
             isFormData={true}
-            redirect={'/banners'}
+            redirect={'banners'}
         >
             <Banners banner={banner} setBanner={setBanner} />
         </EditPage>

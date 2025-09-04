@@ -1,9 +1,10 @@
-import {Button, Stack, Typography} from '@mui/material'
-import {Box} from '@mui/system'
-import {useDispatch} from 'react-redux'
-import {useNavigate, useParams} from 'react-router-dom'
-import {DataProvider} from '../../Core/DataProvider'
-import {setUtil} from '../../redux/UtilSlice'
+import { Button, Stack, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { useDispatch } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { DataProvider } from '../../Core/DataProvider'
+import { setUtil } from '../../redux/UtilSlice'
+import { useEffect, useState } from 'react'
 
 export function EditPage(props) {
     const {
@@ -20,22 +21,28 @@ export function EditPage(props) {
     } = props
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [updatedFields, setUpdatedFields] = useState({})
     const params = useParams()
-    async function saveChanges() {
-        try {
-            dispatch(setUtil({loading: true}))
-            const formData = new FormData()
-            const updatedFields = Object.keys(formDetails).reduce((acc, key) => {
-                if (formDetails[key] !== initialData[key]) {
-                    acc[key] = formDetails[key]
-                }
-                return acc
-            }, {})
-            if (Object.keys(updatedFields).length === 0) {
-                dispatch(setUtil({open: true, message: 'تغییری اعمال نشده است', severity: 'error'}))
-                dispatch(setUtil({loading: false}))
-                return
+    useEffect(() => {
+        const update = Object.keys(formDetails).reduce((acc, key) => {
+            if (formDetails[key] !== initialData[key]) {
+                acc[key] = formDetails[key]
             }
+            return acc
+        }, {})
+        setUpdatedFields(update)
+
+    }, [formDetails,initialData])
+    async function saveChanges() {
+        if (Object.keys(updatedFields).length === 0) {
+            dispatch(setUtil({ open: true, message: 'تغییری اعمال نشده است', severity: 'error' }))
+            dispatch(setUtil({ loading: false }))
+            return
+        }
+        try {
+            dispatch(setUtil({ loading: true }))
+            const formData = new FormData()
+
             Object.entries(hasChange ? updatedFields : formDetails).forEach(([key, value]) => {
                 if (value instanceof File) {
                     formData.append(key, value)
@@ -62,10 +69,10 @@ export function EditPage(props) {
                 navigate(redirect ? `/${redirect}` : `/${resource}`)
             }
         } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
         }
 
-        dispatch(setUtil({loading: false}))
+        dispatch(setUtil({ loading: false }))
     }
     return (
         <Box p={2}>
@@ -93,7 +100,7 @@ export function EditPage(props) {
                         {title}
                     </Typography>
                     <Stack>
-                        {!noEdit && (
+                        {!noEdit && Object.keys(updatedFields).length !== 0 ? (
                             <Button
                                 variant="outlined"
                                 onClick={saveChanges}
@@ -111,7 +118,23 @@ export function EditPage(props) {
                             >
                                 ذخیره تغییرات
                             </Button>
-                        )}
+                        ) : (<Button
+                            variant="outlined"
+                            onClick={() => navigate(redirect ? `/${redirect}` : `/${resource}`)}
+                            sx={{
+                                fontSize: {
+                                    xs: '14px !important',
+                                    sm: '16px !important',
+                                },
+                                py: {
+                                    xs: 0.7,
+                                    sm: 1,
+                                },
+                                whiteSpace: 'nowrap',
+                            }}
+                        >
+                            بازگشت
+                        </Button>)}
                     </Stack>
                 </Stack>
             </Stack>

@@ -28,7 +28,7 @@ export interface ProductDetailType {
     pictures: any
     options: OptionType[]
     properties: PropertyType[]
-    video?: any
+    intro_video?: any
 }
 export function ProductDetail() {
     const productId = useParams().id
@@ -230,6 +230,25 @@ export function ProductDetail() {
                                     </ImageZoom>
                                 </Grid>
                             ))}
+                        </Grid>
+                    </Stack>
+                    <Stack direction={'column'} spacing={1}>
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
+                            ویدئو:
+                        </Typography>
+                        <Grid
+                            container
+                            spacing={{
+                                xs: 1,
+                                sm: 1.5,
+                            }}
+                        >
+                           <Box
+                            component={'video'}
+                            src={product.intro_video}
+                            controls={true}
+                            sx={{ width: '50%', }}
+                        />
                         </Grid>
                     </Stack>
                 </Stack>

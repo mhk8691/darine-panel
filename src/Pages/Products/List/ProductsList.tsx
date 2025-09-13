@@ -1,23 +1,25 @@
-import {Typography} from '@mui/material'
+import { Typography } from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import {useQueryParams} from 'use-query-params'
-import {CustomTable} from '../../../Components/Table/CustomTable'
-import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
-import {ListPage} from '../../../Components/Table/ListPage'
-import {DataProvider} from '../../../Core/DataProvider'
-import {formatDate} from '../../../Core/FormatDate'
-import {formatPrice} from '../../../Core/FormatPrice'
-import {createQueryParam} from '../../../Core/QueryParams'
-import {useAppDispatch} from '../../../redux/store'
-import {setUtil} from '../../../redux/UtilSlice'
-import {CategoriesType} from '../../Categories/Categories'
-import {ProductCreate} from '../Create/ProductCreate'
+import { useQueryParams } from 'use-query-params'
+import { CustomTable } from '../../../Components/Table/CustomTable'
+import { createTableHeadCells } from '../../../Components/Table/CustomTableHead'
+import { ListPage } from '../../../Components/Table/ListPage'
+import { DataProvider } from '../../../Core/DataProvider'
+import { formatDate } from '../../../Core/FormatDate'
+import { formatPrice } from '../../../Core/FormatPrice'
+import { createQueryParam } from '../../../Core/QueryParams'
+import { useAppDispatch } from '../../../redux/store'
+import { setUtil } from '../../../redux/UtilSlice'
+import { CategoriesType } from '../../Categories/Categories'
+import { ProductCreate } from '../Create/ProductCreate'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
+    createTableHeadCells('وضعیت', 'visible'),
+    createTableHeadCells('تعداد', 'remaining'),
     createTableHeadCells('قیمت پایه', 'base_price'),
     createTableHeadCells('حداکثر قیمت', 'max_price'),
     createTableHeadCells('تایپ محصول', 'type'),
@@ -34,6 +36,9 @@ export interface ProductsListType {
     category_name: string
     type: string
     created_at: string
+    visible: boolean
+    remaining: number | null
+    stock: number | null
 }
 export function ProductsList() {
     const [products, setProducts] = useState<{
@@ -64,7 +69,7 @@ export function ProductsList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
         }
         setLoading(false)
     }
@@ -87,8 +92,8 @@ export function ProductsList() {
                     label: cell.label,
                     type: 'choice',
                     choice: [
-                        {label: 'سکه', id: 'coins'},
-                        {label: 'اکانت', id: 'account'},
+                        { label: 'سکه', id: 'coins' },
+                        { label: 'اکانت', id: 'account' },
                     ],
                 }
             else
@@ -120,7 +125,7 @@ export function ProductsList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
         }
         setLoading(false)
     }
@@ -178,6 +183,38 @@ export function ProductsList() {
                                 }}
                             >
                                 {item.name || '--'}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.visible ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.remaining === null ? 'نا محدود' : item.remaining}
                             </Typography>
                         </TableCell>
                         <TableCell>

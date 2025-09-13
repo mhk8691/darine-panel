@@ -29,6 +29,9 @@ export interface ProductDetailType {
     options: OptionType[]
     properties: PropertyType[]
     intro_video?: any
+    visibl: 'true' | 'false'
+    stock: number | null
+    remaining: number | null
 }
 export function ProductDetail() {
     const productId = useParams().id
@@ -88,6 +91,20 @@ export function ProductDetail() {
                         </Typography>
                         <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
                             {product?.name || '--'}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={{
+                            xs: 1,
+                            sm: 0.5,
+                        }}
+                    >
+                        <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '16px' }}>
+                            وضعیت:
+                        </Typography>
+                        <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
+                            {product?.visibl ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={1.5}>
@@ -243,12 +260,12 @@ export function ProductDetail() {
                                 sm: 1.5,
                             }}
                         >
-                           <Box
-                            component={'video'}
-                            src={product.intro_video}
-                            controls={true}
-                            sx={{ width: '50%', }}
-                        />
+                            <Box
+                                component={'video'}
+                                src={product.intro_video}
+                                controls={true}
+                                sx={{ width: '50%', }}
+                            />
                         </Grid>
                     </Stack>
                 </Stack>

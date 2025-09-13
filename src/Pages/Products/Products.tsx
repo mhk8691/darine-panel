@@ -1,7 +1,9 @@
 import {
     Box,
     Button,
+    Checkbox,
     FormControl,
+    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
@@ -99,6 +101,11 @@ export function Products({
             return { ...prev, type: event.target.value as 'coins' | 'account' }
         })
     }
+    const handleChangeVisible = (event: SelectChangeEvent) => {
+        setProduct((prev) => {
+            return { ...prev, visible: event.target.value as 'true' | 'false' }
+        })
+    }
 
     return (
         <Stack sx={{ marginBottom: '16px' }}>
@@ -113,6 +120,43 @@ export function Products({
                         defaultValue={product.name}
                     />
                 </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <CustomTextField
+                            key={product.id}
+                            name="stock"
+                            setData={setProduct}
+                            resource={RESOURCE}
+                            label={'تعداد موجودی'}
+                            type="number"
+                            value={product.stock ?? ''} 
+                            onChange={(e) =>
+                                setProduct((prev) => ({
+                                    ...prev,
+                                    stock: e.target.value === '' ? null : Number(e.target.value),
+                                }))
+                            }
+                            disabled={product.stock === null} 
+                        />
+
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={product.stock === null}
+                                    onChange={(e) =>
+                                        setProduct((prev) => ({
+                                            ...prev,
+                                            stock: e.target.checked ? null : 0,
+                                        }))
+                                    }
+                                />
+                            }
+                            label="نامحدود"
+                        />
+                    </div>
+                </Grid>
+
+
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomAutocomplete
                         key={product.id}
@@ -210,6 +254,62 @@ export function Products({
                                 value={'account'}
                             >
                                 {'اکانت'}
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <FormControl
+                        fullWidth
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                height: '54.56px !important',
+                            },
+                            '& .MuiSelect-select': {
+                                fontSize: '15px !important',
+                            },
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
+                    >
+                        <InputLabel
+                            id="demo-simple-select-label"
+                            sx={{
+                                fontSize: '15px !important',
+                            }}
+                        >
+                            وضعیت
+                        </InputLabel>
+                        <Select
+
+                            value={product.visibl}
+                            label="وضعیت"
+                            onChange={handleChangeVisible}
+                            sx={{
+                                '& .MuiAutocomplete-listbox': {
+                                    fontSize: '15px',
+                                },
+                                '& .MuiAutocomplete-option': {
+                                    py: '12px !important',
+                                },
+                            }}
+                        >
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'true'}
+                            >
+                                قابل مشاهده
+                            </MenuItem>
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'false'}
+                            >
+                                غیر قابل مشاهده
                             </MenuItem>
                         </Select>
                     </FormControl>

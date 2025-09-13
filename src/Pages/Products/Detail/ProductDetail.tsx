@@ -30,8 +30,8 @@ export interface ProductDetailType {
     properties: PropertyType[]
     intro_video?: any
     visibl: 'true' | 'false'
-    stock: number | null
-    remaining: number | null
+    stock: number | string | null
+    remaining: number | string | null
 }
 export function ProductDetail() {
     const productId = useParams().id

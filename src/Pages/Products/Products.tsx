@@ -136,17 +136,17 @@ export function Products({
                                     stock: e.target.value === '' ? null : Number(e.target.value),
                                 }))
                             }
-                            disabled={product.stock === null} 
+                            disabled={product.stock === null || product.stock === ''} 
                         />
 
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    checked={product.stock === null}
+                                    checked={product.stock === null || product.stock === ''}
                                     onChange={(e) =>
                                         setProduct((prev) => ({
                                             ...prev,
-                                            stock: e.target.checked ? null : 0,
+                                            stock: e.target.checked ? '' : 0,
                                         }))
                                     }
                                 />

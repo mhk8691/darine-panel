@@ -19,7 +19,7 @@ const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('وضعیت', 'visible'),
-    createTableHeadCells('تعداد', 'remaining'),
+    createTableHeadCells('تعداد', 'stock'),
     createTableHeadCells('قیمت پایه', 'base_price'),
     createTableHeadCells('حداکثر قیمت', 'max_price'),
     createTableHeadCells('تایپ محصول', 'type'),
@@ -214,7 +214,7 @@ export function ProductsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.remaining === null ? 'نا محدود' : item.remaining}
+                                {item.stock === null ? 'نامحدود' : item.stock}
                             </Typography>
                         </TableCell>
                         <TableCell>

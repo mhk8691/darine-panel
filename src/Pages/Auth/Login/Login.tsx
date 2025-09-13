@@ -124,10 +124,10 @@ export function Login(props) {
                             ) : (
                                 <Button
                                     variant="text"
-                                    type="submit"
+                                    
                                     disableRipple
                                     disableElevation
-                                    onSubmit={handleSubmit(onSubmit)}
+                                    onClick={handleSubmit(onSubmit)}
                                     sx={{
                                         ':hover': {
                                             backgroundColor: 'transparent',

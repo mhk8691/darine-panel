@@ -134,10 +134,10 @@ export default function Register() {
                             ) : (
                                 <Button
                                     variant="text"
-                                    type="submit"
+                                    
                                     disableRipple
                                     disableElevation
-                                    onSubmit={handleSubmit}
+                                    onClick={handleSubmit}
                                     sx={{
                                         ':hover': {
                                             backgroundColor: 'transparent',

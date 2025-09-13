@@ -101,11 +101,7 @@ export function Products({
             return { ...prev, type: event.target.value as 'coins' | 'account' }
         })
     }
-    // const handleChangeVisible = (event: SelectChangeEvent) => {
-    //     setProduct((prev) => {
-    //         return { ...prev, visible: event.target.value as 'true' | 'false' }
-    //     })
-    // }
+   
 
     return (
         <Stack sx={{ marginBottom: '16px' }}>

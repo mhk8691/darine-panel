@@ -29,7 +29,7 @@ export interface ProductDetailType {
     options: OptionType[]
     properties: PropertyType[]
     intro_video?: any
-    visibl: 'true' | 'false'
+    visible: boolean
     stock: number | string | null
     remaining: number | string | null
 }
@@ -104,7 +104,7 @@ export function ProductDetail() {
                             وضعیت:
                         </Typography>
                         <Typography variant="body1" sx={{ fontWeight: '400', fontSize: '16px' }}>
-                            {product?.visibl ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
+                            {product?.visible ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={1.5}>

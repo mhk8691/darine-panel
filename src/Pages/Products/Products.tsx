@@ -101,11 +101,11 @@ export function Products({
             return { ...prev, type: event.target.value as 'coins' | 'account' }
         })
     }
-    const handleChangeVisible = (event: SelectChangeEvent) => {
-        setProduct((prev) => {
-            return { ...prev, visible: event.target.value as 'true' | 'false' }
-        })
-    }
+    // const handleChangeVisible = (event: SelectChangeEvent) => {
+    //     setProduct((prev) => {
+    //         return { ...prev, visible: event.target.value as 'true' | 'false' }
+    //     })
+    // }
 
     return (
         <Stack sx={{ marginBottom: '16px' }}>
@@ -129,14 +129,14 @@ export function Products({
                             resource={RESOURCE}
                             label={'تعداد موجودی'}
                             type="number"
-                            value={product.stock ?? ''} 
+                            value={product.stock ?? ''}
                             onChange={(e) =>
                                 setProduct((prev) => ({
                                     ...prev,
                                     stock: e.target.value === '' ? null : Number(e.target.value),
                                 }))
                             }
-                            disabled={product.stock === null || product.stock === ''} 
+                            disabled={product.stock === null || product.stock === ''}
                         />
 
                         <FormControlLabel
@@ -282,36 +282,17 @@ export function Products({
                             وضعیت
                         </InputLabel>
                         <Select
-
-                            value={product.visibl}
+                            value={product.visible ? "true" : "false"} // بولین → استرینگ
                             label="وضعیت"
-                            onChange={handleChangeVisible}
-                            sx={{
-                                '& .MuiAutocomplete-listbox': {
-                                    fontSize: '15px',
-                                },
-                                '& .MuiAutocomplete-option': {
-                                    py: '12px !important',
-                                },
+                            onChange={(e) => {
+                                const value = e.target.value === "true"; // استرینگ → بولین
+                                setProduct((prev) => ({ ...prev, visible: value })); // اینجا هم visible با e
                             }}
                         >
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'true'}
-                            >
-                                قابل مشاهده
-                            </MenuItem>
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'false'}
-                            >
-                                غیر قابل مشاهده
-                            </MenuItem>
+                            <MenuItem value="true">قابل مشاهده</MenuItem>
+                            <MenuItem value="false">غیر قابل مشاهده</MenuItem>
                         </Select>
+
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>

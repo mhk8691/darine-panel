@@ -57,6 +57,22 @@ export default function DashboardLayout() {
     }
     const loading = !data?.monthly_growth
 
+    const sortPersianMonths = (data: {month: string; sales: number}[]) => {
+        return data.sort((a, b) => {
+            const aMonth = new Date(a.month).getMonth() + 1 // 1 تا 12
+            const bMonth = new Date(b.month).getMonth() + 1
+
+            const shift = 4
+            const aPersianOrder = (aMonth - shift + 12) % 12
+            const bPersianOrder = (bMonth - shift + 12) % 12
+
+            return aPersianOrder - bPersianOrder
+        })
+    }
+    const salesData = sortPersianMonths(data?.annual_sales_overview || []).map((item) => ({
+        month: formatMonth(item.month),
+        sales: item.sales,
+    }))
     return (
         <Container maxWidth="xl">
             <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
@@ -90,15 +106,7 @@ export default function DashboardLayout() {
                     loading={loading}
                 />
 
-                <SalesChart
-                    data={data?.annual_sales_overview?.map((item) => ({
-                        month: formatMonth(item.month),
-                        sales: item.sales,
-                    }))}
-                    loading={
-                        !data?.annual_sales_overview || data?.annual_sales_overview.length === 0
-                    }
-                />
+                <SalesChart data={salesData} loading={!salesData || salesData.length === 0} />
             </Grid>
         </Container>
     )

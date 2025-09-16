@@ -12,32 +12,16 @@ import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
 import {ProductsListType} from '../../Products/List/ProductsList'
+import {CommentsType} from '../Edit/CommentEdit'
 
 const RECOURCE = 'comments'
-export type CommentsType = {
-    id: number
-    user_info: {
-        id: number
-        name: string
-        phone_number: string
-        profile_picture: string
-    }
-    product_info: {
-        id: number
-        name: string
-        thumbnail: string | null
-    }
-    text: string
-    rating: number
-    replies_count: number
-    created_at: string
-    updated_at: string
-}
+
 const tableHeadCells = [
     createTableHeadCells('شماره تلفن', 'phone_number'),
     createTableHeadCells('نام مشتری', 'customer'),
     createTableHeadCells('نام محصول', 'product'),
     createTableHeadCells('امتیاز', 'rating'),
+    createTableHeadCells('وضعیت', 'accepted'),
     createTableHeadCells('دیدگاه', 'comment'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
@@ -94,23 +78,7 @@ export function CommentsList() {
     })
 
     const dispatch = useDispatch()
-    const getProducts = async () => {
-        try {
-            let response = await DataProvider.get<{
-                total_results: number
-                results: ProductsListType[]
-            }>(`product/`, search)
 
-            if (response) {
-                setProducts({
-                    total_results: response.data.total_results,
-                    data: response.data.results,
-                })
-            }
-        } catch (error: any) {
-            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
-        }
-    }
     const getComments = async () => {
         setLoading(true)
         let response = await DataProvider.get<{
@@ -130,6 +98,23 @@ export function CommentsList() {
         getComments()
     }, [search])
     useEffect(() => {
+        const getProducts = async () => {
+            try {
+                let response = await DataProvider.get<{
+                    total_results: number
+                    results: ProductsListType[]
+                }>(`product/`, search)
+
+                if (response) {
+                    setProducts({
+                        total_results: response.data.total_results,
+                        data: response.data.results,
+                    })
+                }
+            } catch (error: any) {
+                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+            }
+        }
         getProducts()
     }, [])
 
@@ -162,7 +147,6 @@ export function CommentsList() {
                 setParams={setSearch}
                 handleSort={getComments}
                 loading={loading}
-                noEdit
                 tableBodyCells={comments.data.map((item, index) => (
                     <>
                         <TableCell>
@@ -215,6 +199,23 @@ export function CommentsList() {
                         </TableCell>
                         <TableCell>
                             <Rating name="read-only" size="medium" value={item?.rating} readOnly />
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                    color: item.accepted ? 'success.main' : 'primary.main',
+                                }}
+                            >
+                                {item.accepted ? 'تایید شده' : 'رد شده'}
+                            </Typography>
                         </TableCell>
                         <TableCell>
                             <Typography

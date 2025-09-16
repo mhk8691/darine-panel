@@ -5,12 +5,14 @@ import {ProfileType} from '../Core/types'
 import {useAppSelector} from '../redux/store'
 import Appbar from './Appbar/Appbar'
 import {AppDrawer, drawerWidth} from './Drawer/AppDrawer'
+import Cookies from 'universal-cookie'
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
+    const cookies= new Cookies()
     const [selectedTitle, setSelectedTitle] = useState<string>('')
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [user, setUser] = useState<ProfileType>({} as ProfileType)
-    const token = useAppSelector((state) => state.user.token)
+    const token = cookies.get('token')
 
     useEffect(() => {
         const getUser = async () => {

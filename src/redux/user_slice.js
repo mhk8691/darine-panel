@@ -1,11 +1,14 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies()
 const initialState = {
     token: '',
 }
+
 function getInitialState() {
     try {
-        const user = JSON.parse(localStorage.getItem('user'))
+        const user = cookies.get("token")
         if (user) return user
         else return initialState
     } catch {
@@ -14,11 +17,12 @@ function getInitialState() {
 }
 
 const saveStateToLocalStorage = (state) => {
-    localStorage.setItem('user', JSON.stringify(state))
+    cookies.set("token", state.token, { path: "/", maxAge: 60 * 60 * 24 * 7 });
+
 }
 
 const emptyStorages = () => {
-    localStorage.clear()
+    cookies.remove("token", { path: "/" });
     sessionStorage.clear()
 }
 
@@ -43,6 +47,6 @@ const userSlice = createSlice({
     },
 })
 
-export const {setUser, logout} = userSlice.actions
+export const { setUser, logout } = userSlice.actions
 
 export default userSlice.reducer

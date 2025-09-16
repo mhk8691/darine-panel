@@ -10,7 +10,7 @@ const RESOURCE = 'auth/profile'
 export default function Profile() {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
     const [initialData, setInitialData] = useState<UsersType>({} as UsersType)
-    const token = useAppSelector((state) => state.user.token)
+    const token = useAppSelector((state) => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         const getProfile = async () => {

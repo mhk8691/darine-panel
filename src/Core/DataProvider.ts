@@ -2,15 +2,18 @@ import {ApiResponse, query} from './Request'
 import {AxiosRequestConfig} from 'axios'
 import {ApiParams} from './QueryParams'
 import APP_URL from './APP_URL'
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
 
 async function HttpRequest<DataType>(url: string, options) {
     options.headers = {
         ...options.headers,
         'Accept-language': 'fa',
     }
-    if (localStorage.getItem('user')) {
-        const userObj = JSON.parse(localStorage.getItem('user') || '')
-        options.headers.Authorization = 'Token ' + userObj.token
+    if (cookies.get('token')) {
+        const userObj = cookies.get('token')
+        options.headers.Authorization = 'Token ' + userObj
     }
     const data = await query<DataType>({url: url, ...options})
     return data

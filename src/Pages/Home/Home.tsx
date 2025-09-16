@@ -41,7 +41,7 @@ export function Home(props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
-    const isLogin = useAppSelector((state) => state.user.token)
+    const isLogin = useAppSelector((state) => state.user)
     useEffect(() => {
         const getProfile = async () => {
             try {

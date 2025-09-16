@@ -76,11 +76,9 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
             >
                 <Stack p="15px" bgcolor="background.main" minWidth="200px" gap={1}>
                     <Stack direction="row" alignItems="center" gap={1.5}>
-                        <Avatar
-                            alt="profile image"
-                            src={user.profile_picture || ''}
-                            sx={{height: 45, width: 45}}
-                        />
+                        <Avatar sx={{width: 36, height: 36}} src={user?.profile_picture || ''}>
+                            {user?.first_name?.slice(0, 1)}
+                        </Avatar>
                         <Stack>
                             <Typography
                                 variant="bodyLg"

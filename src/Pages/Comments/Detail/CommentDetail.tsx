@@ -1,4 +1,4 @@
-import {Stack, Typography} from '@mui/material'
+import {Rating, Stack, Typography} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
@@ -93,9 +93,7 @@ export function CommentDetail() {
                         <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                             امتیاز:
                         </Typography>
-                        <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {comment?.rating}
-                        </Typography>
+                        <Rating key={comment?.rating} name="read-only" size="medium" value={comment?.rating} readOnly />
                     </Stack>
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}

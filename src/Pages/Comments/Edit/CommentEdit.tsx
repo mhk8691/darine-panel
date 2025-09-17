@@ -34,7 +34,7 @@ export function CommentEdit() {
     useEffect(() => {
         const getComment = async () => {
             try {
-                let response = await DataProvider.get<CommentsType>(`users/${commentId}/`)
+                let response = await DataProvider.get<CommentsType>(`${RESOURCE}/${commentId}/`)
                 if (response) {
                     setComment(response.data)
                     setInitialData(response.data)
@@ -85,8 +85,7 @@ export function CommentEdit() {
                                 وضعیت
                             </InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                             
                                 value={comment.accepted ? 'تایید شده' : 'رد شده'}
                                 label="وضعیت"
                                 onChange={handleChange}

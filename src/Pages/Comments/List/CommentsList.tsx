@@ -22,7 +22,6 @@ const tableHeadCells = [
     createTableHeadCells('نام محصول', 'product'),
     createTableHeadCells('امتیاز', 'rating'),
     createTableHeadCells('وضعیت', 'accepted'),
-    createTableHeadCells('دیدگاه', 'comment'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 
@@ -130,7 +129,6 @@ export function CommentsList() {
             getList={getComments}
             filtersData={queryNames}
             noCreate
-            
             defaultState={{
                 customer: '',
                 product: '',
@@ -213,28 +211,22 @@ export function CommentsList() {
                                 }}
                                 sx={{
                                     whiteSpace: 'nowrap',
-                                    color: item.accepted ? 'success.main' : 'primary.main',
+                                    color:
+                                        item.accepted === 'accepted'
+                                            ? 'success.main'
+                                            : item.accepted === 'pending'
+                                            ? 'warning.main'
+                                            : 'primary.main',
                                 }}
                             >
-                                {item.accepted ? 'تایید شده' : 'رد شده'}
+                                {item.accepted === 'accepted'
+                                    ? 'تایید شده'
+                                    : item.accepted === 'pending'
+                                    ? 'درانتظار'
+                                    : 'رد شده'}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'collapse',
-                                }}
-                            >
-                                {item.text}
-                            </Typography>
-                        </TableCell>
+
                         <TableCell>
                             <Typography
                                 variant="body2"

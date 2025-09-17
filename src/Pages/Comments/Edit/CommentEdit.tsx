@@ -6,6 +6,7 @@ import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} fro
 import {GridProducer} from '../../../Components/Table/GridProducer'
 
 const RESOURCE = 'comments'
+type AcceptedType = 'accepted' | 'rejected' | 'pending'
 export type CommentsType = {
     id: number
     user_info: {
@@ -24,7 +25,7 @@ export type CommentsType = {
     replies_count: number
     created_at: string
     updated_at: string
-    accepted: boolean
+    accepted: AcceptedType
 }
 export function CommentEdit() {
     const commentId = useParams().id
@@ -47,7 +48,7 @@ export function CommentEdit() {
     }, [commentId])
     const handleChange = (event: SelectChangeEvent) => {
         setComment((prev) => {
-            return {...prev, accepted: event.target.value === 'تایید شده' ? true : false}
+            return {...prev, accepted: event.target.value as AcceptedType}
         })
     }
     return (
@@ -85,8 +86,8 @@ export function CommentEdit() {
                                 وضعیت
                             </InputLabel>
                             <Select
-                             
-                                value={comment.accepted ? 'تایید شده' : 'رد شده'}
+                            key={comment.accepted}
+                                value={comment.accepted}
                                 label="وضعیت"
                                 onChange={handleChange}
                                 sx={{
@@ -102,7 +103,15 @@ export function CommentEdit() {
                                     sx={{
                                         fontSize: '15px !important',
                                     }}
-                                    value={'تایید شده'}
+                                    value={'pending'}
+                                >
+                                    درانتظار
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
+                                    value={'accepted'}
                                 >
                                     تایید شده
                                 </MenuItem>
@@ -110,7 +119,7 @@ export function CommentEdit() {
                                     sx={{
                                         fontSize: '15px !important',
                                     }}
-                                    value={'رد شده'}
+                                    value={'rejected'}
                                 >
                                     رد شده
                                 </MenuItem>

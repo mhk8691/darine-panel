@@ -93,7 +93,13 @@ export function CommentDetail() {
                         <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                             امتیاز:
                         </Typography>
-                        <Rating key={comment?.rating} name="read-only" size="medium" value={comment?.rating} readOnly />
+                        <Rating
+                            key={comment?.rating}
+                            name="read-only"
+                            size="medium"
+                            value={comment?.rating}
+                            readOnly
+                        />
                     </Stack>
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}
@@ -110,10 +116,19 @@ export function CommentDetail() {
                             sx={{
                                 fontWeight: '400',
                                 fontSize: '16px',
-                                color: comment?.accepted ? 'success.main' : 'primary.main',
+                                color:
+                                    comment?.accepted === 'accepted'
+                                        ? 'success.main'
+                                        : comment?.accepted === 'pending'
+                                        ? 'warning.main'
+                                        : 'primary.main',
                             }}
                         >
-                            {comment?.accepted ? 'تایید شده' : 'رد شده'}
+                            {comment?.accepted === 'accepted'
+                                ? 'تایید شده'
+                                : comment?.accepted === 'pending'
+                                ? 'درانتظار'
+                                : 'رد شده'}
                         </Typography>
                     </Stack>
                     <Stack direction={'column'} spacing={1.5} width={'100%'}>

@@ -130,6 +130,7 @@ export function CommentsList() {
             getList={getComments}
             filtersData={queryNames}
             noCreate
+            
             defaultState={{
                 customer: '',
                 product: '',
@@ -147,6 +148,7 @@ export function CommentsList() {
                 setParams={setSearch}
                 handleSort={getComments}
                 loading={loading}
+                hasDetail
                 tableBodyCells={comments.data.map((item, index) => (
                     <>
                         <TableCell>

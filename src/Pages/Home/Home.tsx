@@ -4,6 +4,7 @@ import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
 
+import axios from 'axios'
 import {BannerCreate} from '../Banners/Create/BannerCreate'
 import {BannerDetail} from '../Banners/Detail/BannerDetail'
 import {BannerEdit} from '../Banners/Edit/BannerEdit'
@@ -12,6 +13,8 @@ import {CategoryCreate} from '../Categories/Create/CategoryCreate'
 import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
 import {CategoriesList} from '../Categories/List/CategoriesList'
+import {CommentDetail} from '../Comments/Detail/CommentDetail'
+import {CommentEdit} from '../Comments/Edit/CommentEdit'
 import {CommentsList} from '../Comments/List/CommentsList'
 import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
 import {MethodDetail} from '../ConnectionMethod/Detail/MethodDetail'
@@ -34,8 +37,6 @@ import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
-import axios from 'axios'
-import {CommentEdit} from '../Comments/Edit/CommentEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -155,6 +156,7 @@ export function Home(props) {
 
                         <Route path="comments" element={<CommentsList />} />
                         <Route path="comments/:id" element={<CommentEdit />} />
+                        <Route path="comments/detail/:id" element={<CommentDetail />} />
                     </Routes>
                 </Box>
             </Box>

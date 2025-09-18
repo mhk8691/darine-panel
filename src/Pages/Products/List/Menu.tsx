@@ -2,13 +2,13 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import InfoIcon from '@mui/icons-material/Info'
 import {Button, Menu, MenuItem, Stack, Typography} from '@mui/material'
-import React, {Dispatch, SetStateAction, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {ProductsListType} from './ProductsList'
-import {BaseModal} from '../../../Components/Modal/BaseModal'
+import {Dispatch, SetStateAction, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {setUtil} from '../../../redux/UtilSlice'
+import {useNavigate} from 'react-router-dom'
+import {BaseModal} from '../../../Components/Modal/BaseModal'
 import {DataProvider} from '../../../Core/DataProvider'
+import {setUtil} from '../../../redux/UtilSlice'
+import {ProductsListType} from './ProductsList'
 const options = [
     {
         name: 'مشاهده جزئیات',

@@ -36,7 +36,7 @@ export function Searchbar(props) {
             <Stack
                 direction="row"
                 width="100%"
-                border="1px solid #3f3f3f"
+                border={props.border ? props.border : '1px solid #3f3f3f'}
                 px={{
                     xs: '5px',
                     sm: '10px',

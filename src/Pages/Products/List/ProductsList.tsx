@@ -1,4 +1,12 @@
-import {Grid, Typography} from '@mui/material'
+import {
+    Box,
+    Grid,
+    Stack,
+    TableFooter,
+    TablePagination,
+    TableSortLabel,
+    Typography,
+} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useEffect, useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -15,6 +23,8 @@ import {setUtil} from '../../../redux/UtilSlice'
 import {CategoriesType} from '../../Categories/Categories'
 import {ProductCreate} from '../Create/ProductCreate'
 import ProductCard from './ProductCard'
+import {Searchbar} from '../../../Components/Input/Searchbar'
+import AddButton from '../../../Components/Buttons/add'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -40,7 +50,7 @@ export interface ProductsListType {
     visible: boolean
     remaining: number | null
     stock: number | null
-    picture:string
+    picture: string
 }
 export function ProductsList() {
     const [products, setProducts] = useState<{
@@ -110,6 +120,15 @@ export function ProductsList() {
 
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [page, setPage] = useState(0)
+    const createSortHandler = (property: string) => (event: React.MouseEvent) => {
+        const isAsc = search.ordering?.includes(property) && !search.ordering?.includes('-')
+        setSearch((prev) => ({
+            ...prev,
+            ordering: isAsc ? `-${property}` : property,
+        }))
+    }
 
     const dispatch = useAppDispatch()
     const getProducts = async () => {
@@ -139,178 +158,115 @@ export function ProductsList() {
     }, [])
 
     return (
-        // <ListPage
-        //     header="مدیریت محصولات"
-        //     href={RECOURCE + '/create'}
-        //     searchField="title"
-        //     searchText="نام محصول"
-        //     setParams={setSearch}
-        //     params={search}
-        //     resource={RECOURCE}
-        //     getList={getProducts}
-        //     filtersData={queryNames}
-        //     createModal={ProductCreate}
-        //     defaultState={{
-        //         name: '',
-        //         introduction: '',
-        //         connection_method: '',
-        //         description: '',
-        //         price: '',
-        //     }}
-        // >
-        //     <CustomTable
-        //         resource={RECOURCE}
-        //         headCells={tableHeadCells}
-        //         rows={products.data}
-        //         count={products.total_results}
-        //         getList={getProducts}
-        //         params={search}
-        //         setParams={setSearch}
-        //         handleSort={getProducts}
-        //         loading={loading}
-        //         hasDetail={true}
-        //         tableBodyCells={products.data.map((item, index) => (
-        //             <>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {item.name || '--'}
-        //                     </Typography>
-        //                 </TableCell>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {item.visible ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
-        //                     </Typography>
-        //                 </TableCell>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {item.stock === null ? 'نامحدود' : item.stock}
-        //                     </Typography>
-        //                 </TableCell>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {formatPrice(item.base_price)}
-        //                     </Typography>
-        //                 </TableCell>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {formatPrice(item.max_price)}
-        //                     </Typography>
-        //                 </TableCell>
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {item.type}
-        //                     </Typography>
-        //                 </TableCell>
-
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {item.category_name}
-        //                     </Typography>
-        //                 </TableCell>
-
-        //                 <TableCell>
-        //                     <Typography
-        //                         variant="body2"
-        //                         fontSize={{
-        //                             xs: '13px',
-        //                             sm: '14px',
-        //                             md: '16px',
-        //                             xl: '17px',
-        //                         }}
-        //                         sx={{
-        //                             whiteSpace: 'nowrap',
-        //                         }}
-        //                     >
-        //                         {formatDate(item.created_at)}
-        //                     </Typography>
-        //                 </TableCell>
-        //             </>
-        //         ))}
-        //     />
-        // </ListPage>
-        <Grid container spacing={2} sx={{px: 2, pb: 2}}>
-            {products.data.map((item) => (
-                <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                    <ProductCard item={item} getList={getProducts} />
-                </Grid>
-            ))}
-        </Grid>
+        <>
+            <Stack p={2}>
+                <Stack direction={'row'} justifyContent={'flex-end'}>
+                    <AddButton
+                        href={'/product/create'}
+                        text={'جدید'}
+                        sx={{
+                            fontSize: {
+                                xs: '14px',
+                                sm: '18px',
+                            },
+                            padding: '7px 13px',
+                        }}
+                    />
+                </Stack>
+                <Searchbar
+                    searchField="title"
+                    placeholder={`جستجو بر اساس نام محصول ...`}
+                    setParams={setSearch}
+                    filtersData={queryNames ?? []}
+                    noFilters={queryNames ? false : true}
+                    params={search}
+                    border={'1px solid #606566'}
+                />
+            </Stack>
+            <Box px={2}>
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    border={1}
+                    borderColor="#606566"
+                    borderRadius={2}
+                    overflow="auto"
+                    mb={3}
+                >
+                    {tableHeadCells.map((headCell) => (
+                        <TableCell
+                            key={headCell.name}
+                            sx={{
+                                fontSize: {
+                                    xs: '14px',
+                                    sm: '15px',
+                                    lg: '16px',
+                                    xl: '18px',
+                                },
+                                border: 'none',
+                            }}
+                        >
+                            <TableSortLabel
+                                // active={search?.sort === headCell.name}
+                                // direction={
+                                //     search?.sort === headCell.name
+                                //         ? search.order === 1
+                                //             ? 'asc'
+                                //             : 'desc'
+                                //         : 'asc'
+                                // }
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                                onClick={createSortHandler(headCell.name)}
+                                color="#434B59"
+                            >
+                                {headCell.label}
+                            </TableSortLabel>
+                        </TableCell>
+                    ))}
+                </Stack>
+            </Box>
+            <Grid container spacing={2} sx={{px: 2, pb: 2}}>
+                {products.data.map((item) => (
+                    <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+                        <ProductCard item={item} getList={getProducts} />
+                    </Grid>
+                ))}
+            </Grid>
+            <TableFooter sx={{direction: 'rtl'}}>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                    component="div"
+                    count={products.total_results}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={(event, newPage) => {
+                        setPage(newPage)
+                        setSearch((prev) => ({...prev, page: newPage + 1}))
+                    }}
+                    onRowsPerPageChange={(event) => {
+                        const newValue = parseInt(event.target.value, 10)
+                        setRowsPerPage(newValue)
+                        setPage(0)
+                        setSearch((prev) => ({...prev, page_size: newValue}))
+                    }}
+                    labelRowsPerPage="تعداد ردیف در هر صفحه:"
+                    labelDisplayedRows={({from, to, count}) =>
+                        `${from}–${to} از ${count !== -1 ? count : `بیشتر از ${to}`}`
+                    }
+                    sx={{
+                        '& .MuiTablePagination-selectLabel': {
+                            fontSize: '16px',
+                            fontWeight: '500',
+                        },
+                        '& .MuiTablePagination-displayedRows': {
+                            fontSize: '17px',
+                            fontWeight: '500',
+                        },
+                    }}
+                />
+            </TableFooter>
+        </>
     )
 }

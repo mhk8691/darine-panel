@@ -1,19 +1,20 @@
-import { Typography } from '@mui/material'
+import {Grid, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import { useQueryParams } from 'use-query-params'
-import { CustomTable } from '../../../Components/Table/CustomTable'
-import { createTableHeadCells } from '../../../Components/Table/CustomTableHead'
-import { ListPage } from '../../../Components/Table/ListPage'
-import { DataProvider } from '../../../Core/DataProvider'
-import { formatDate } from '../../../Core/FormatDate'
-import { formatPrice } from '../../../Core/FormatPrice'
-import { createQueryParam } from '../../../Core/QueryParams'
-import { useAppDispatch } from '../../../redux/store'
-import { setUtil } from '../../../redux/UtilSlice'
-import { CategoriesType } from '../../Categories/Categories'
-import { ProductCreate } from '../Create/ProductCreate'
+import {useQueryParams} from 'use-query-params'
+import {CustomTable} from '../../../Components/Table/CustomTable'
+import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
+import {ListPage} from '../../../Components/Table/ListPage'
+import {DataProvider} from '../../../Core/DataProvider'
+import {formatDate} from '../../../Core/FormatDate'
+import {formatPrice} from '../../../Core/FormatPrice'
+import {createQueryParam} from '../../../Core/QueryParams'
+import {useAppDispatch} from '../../../redux/store'
+import {setUtil} from '../../../redux/UtilSlice'
+import {CategoriesType} from '../../Categories/Categories'
+import {ProductCreate} from '../Create/ProductCreate'
+import ProductCard from './ProductCard'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -39,6 +40,7 @@ export interface ProductsListType {
     visible: boolean
     remaining: number | null
     stock: number | null
+    picture:string
 }
 export function ProductsList() {
     const [products, setProducts] = useState<{
@@ -69,7 +71,7 @@ export function ProductsList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }
@@ -92,8 +94,8 @@ export function ProductsList() {
                     label: cell.label,
                     type: 'choice',
                     choice: [
-                        { label: 'سکه', id: 'coins' },
-                        { label: 'اکانت', id: 'account' },
+                        {label: 'سکه', id: 'coins'},
+                        {label: 'اکانت', id: 'account'},
                     ],
                 }
             else
@@ -125,7 +127,7 @@ export function ProductsList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }
@@ -137,171 +139,178 @@ export function ProductsList() {
     }, [])
 
     return (
-        <ListPage
-            header="مدیریت محصولات"
-            href={RECOURCE + '/create'}
-            searchField="title"
-            searchText="نام محصول"
-            setParams={setSearch}
-            params={search}
-            resource={RECOURCE}
-            getList={getProducts}
-            filtersData={queryNames}
-            createModal={ProductCreate}
-            defaultState={{
-                name: '',
-                introduction: '',
-                connection_method: '',
-                description: '',
-                price: '',
-            }}
-        >
-            <CustomTable
-                resource={RECOURCE}
-                headCells={tableHeadCells}
-                rows={products.data}
-                count={products.total_results}
-                getList={getProducts}
-                params={search}
-                setParams={setSearch}
-                handleSort={getProducts}
-                loading={loading}
-                hasDetail={true}
-                tableBodyCells={products.data.map((item, index) => (
-                    <>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.name || '--'}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.visible ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.stock === null ? 'نامحدود' : item.stock}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {formatPrice(item.base_price)}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {formatPrice(item.max_price)}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.type}
-                            </Typography>
-                        </TableCell>
+        // <ListPage
+        //     header="مدیریت محصولات"
+        //     href={RECOURCE + '/create'}
+        //     searchField="title"
+        //     searchText="نام محصول"
+        //     setParams={setSearch}
+        //     params={search}
+        //     resource={RECOURCE}
+        //     getList={getProducts}
+        //     filtersData={queryNames}
+        //     createModal={ProductCreate}
+        //     defaultState={{
+        //         name: '',
+        //         introduction: '',
+        //         connection_method: '',
+        //         description: '',
+        //         price: '',
+        //     }}
+        // >
+        //     <CustomTable
+        //         resource={RECOURCE}
+        //         headCells={tableHeadCells}
+        //         rows={products.data}
+        //         count={products.total_results}
+        //         getList={getProducts}
+        //         params={search}
+        //         setParams={setSearch}
+        //         handleSort={getProducts}
+        //         loading={loading}
+        //         hasDetail={true}
+        //         tableBodyCells={products.data.map((item, index) => (
+        //             <>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {item.name || '--'}
+        //                     </Typography>
+        //                 </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {item.visible ? 'قابل مشاهده' : 'غیر قابل مشاهده'}
+        //                     </Typography>
+        //                 </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {item.stock === null ? 'نامحدود' : item.stock}
+        //                     </Typography>
+        //                 </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {formatPrice(item.base_price)}
+        //                     </Typography>
+        //                 </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {formatPrice(item.max_price)}
+        //                     </Typography>
+        //                 </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {item.type}
+        //                     </Typography>
+        //                 </TableCell>
 
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.category_name}
-                            </Typography>
-                        </TableCell>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {item.category_name}
+        //                     </Typography>
+        //                 </TableCell>
 
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {formatDate(item.created_at)}
-                            </Typography>
-                        </TableCell>
-                    </>
-                ))}
-            />
-        </ListPage>
+        //                 <TableCell>
+        //                     <Typography
+        //                         variant="body2"
+        //                         fontSize={{
+        //                             xs: '13px',
+        //                             sm: '14px',
+        //                             md: '16px',
+        //                             xl: '17px',
+        //                         }}
+        //                         sx={{
+        //                             whiteSpace: 'nowrap',
+        //                         }}
+        //                     >
+        //                         {formatDate(item.created_at)}
+        //                     </Typography>
+        //                 </TableCell>
+        //             </>
+        //         ))}
+        //     />
+        // </ListPage>
+        <Grid container spacing={2} sx={{px: 2,pb:2}}>
+            {products.data.map((item) => (
+                <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+                    <ProductCard item={item} />
+                </Grid>
+            ))}
+        </Grid>
     )
 }

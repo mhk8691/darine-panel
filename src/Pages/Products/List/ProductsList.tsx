@@ -305,10 +305,10 @@ export function ProductsList() {
         //         ))}
         //     />
         // </ListPage>
-        <Grid container spacing={2} sx={{px: 2,pb:2}}>
+        <Grid container spacing={2} sx={{px: 2, pb: 2}}>
             {products.data.map((item) => (
                 <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                    <ProductCard item={item} />
+                    <ProductCard item={item} getList={getProducts} />
                 </Grid>
             ))}
         </Grid>

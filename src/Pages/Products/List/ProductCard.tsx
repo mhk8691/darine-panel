@@ -19,7 +19,7 @@ import {ProductsListType} from './ProductsList'
 import ProductMenu from './Menu'
 import {useState} from 'react'
 
-export default function ProductCard({item}: {item: ProductsListType}) {
+export default function ProductCard({item, getList}: {item: ProductsListType; getList: () => Promise<void>}) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
@@ -69,7 +69,12 @@ export default function ProductCard({item}: {item: ProductsListType}) {
                     <MoreVertIcon fontSize="medium" />
                 </IconButton>
             </Box>
-            <ProductMenu item={item} anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+            <ProductMenu
+                item={item}
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+                getList={getList}
+            />
             <CardContent sx={{flexGrow: 1}}>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
                     <Typography variant="h6" fontWeight="bold">

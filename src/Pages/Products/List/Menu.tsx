@@ -1,10 +1,14 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import InfoIcon from '@mui/icons-material/Info'
-import {Menu, MenuItem, Stack, Typography} from '@mui/material'
+import {Button, Menu, MenuItem, Stack, Typography} from '@mui/material'
 import React, {Dispatch, SetStateAction, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {ProductsListType} from './ProductsList'
+import {BaseModal} from '../../../Components/Modal/BaseModal'
+import {useDispatch} from 'react-redux'
+import {setUtil} from '../../../redux/UtilSlice'
+import {DataProvider} from '../../../Core/DataProvider'
 const options = [
     {
         name: 'مشاهده جزئیات',
@@ -26,13 +30,16 @@ export default function ProductMenu({
     item,
     anchorEl,
     setAnchorEl,
+    getList,
 }: {
     item: ProductsListType
     anchorEl: HTMLElement | null
     setAnchorEl: Dispatch<SetStateAction<HTMLElement | null>>
+    getList: () => Promise<void>
 }) {
     const navigate = useNavigate()
-
+    const [openModal, setOpenModal] = useState(false)
+    const dispatch = useDispatch()
     const open = Boolean(anchorEl)
 
     const handleMenuClose = () => {
@@ -47,85 +54,120 @@ export default function ProductMenu({
         handleMenuClose()
     }
 
-    const handleDelete = () => {
-        console.log('حذف:', item)
-        handleMenuClose()
+    async function handleDelete() {
+        dispatch(setUtil({loading: true}))
+        try {
+            await DataProvider.delete(`product/${item.id}/`)
+            getList()
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+        dispatch(setUtil({loading: false}))
+        setOpenModal(false)
     }
     return (
-        <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleMenuClose}
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-            transformOrigin={{vertical: 'top', horizontal: 'left'}}
-            sx={{'& .MuiMenu-paper': {minWidth: 160}}}
-        >
-            <MenuItem
-                onClick={handleDetail}
-                sx={{
-                    p: 0,
-                }}
+        <>
+            <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                transformOrigin={{vertical: 'top', horizontal: 'left'}}
+                sx={{'& .MuiMenu-paper': {minWidth: 160}}}
             >
-                <Stack
-                    direction={'row'}
-                    gap={1.5}
-                    alignItems={'center'}
-                    width={'100%'}
-                    p={1.2}
-                    component={'div'}
+                <MenuItem
+                    onClick={handleDetail}
+                    sx={{
+                        p: 0,
+                    }}
                 >
-                    <Stack>
-                        <InfoIcon />
+                    <Stack
+                        direction={'row'}
+                        gap={1.5}
+                        alignItems={'center'}
+                        width={'100%'}
+                        p={1.2}
+                        component={'div'}
+                    >
+                        <Stack>
+                            <InfoIcon />
+                        </Stack>
+                        <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
+                            مشاهده جزئیات
+                        </Typography>
                     </Stack>
-                    <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
-                        مشاهده جزئیات
-                    </Typography>
-                </Stack>
-            </MenuItem>
-            <MenuItem
-                onClick={handleEdit}
-                sx={{
-                    p: 0,
-                }}
+                </MenuItem>
+                <MenuItem
+                    onClick={handleEdit}
+                    sx={{
+                        p: 0,
+                    }}
+                >
+                    <Stack
+                        direction={'row'}
+                        gap={1.5}
+                        alignItems={'center'}
+                        width={'100%'}
+                        p={1.2}
+                        component={'div'}
+                    >
+                        <Stack>
+                            <EditIcon />
+                        </Stack>
+                        <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
+                            ویرایش محصول
+                        </Typography>
+                    </Stack>
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setOpenModal(true)
+                        setAnchorEl(null)
+                    }}
+                    sx={{
+                        p: 0,
+                    }}
+                >
+                    <Stack
+                        direction={'row'}
+                        gap={1.5}
+                        alignItems={'center'}
+                        width={'100%'}
+                        p={1.2}
+                        component={'div'}
+                    >
+                        <Stack>
+                            <DeleteIcon />
+                        </Stack>
+                        <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
+                            حذف محصول
+                        </Typography>
+                    </Stack>
+                </MenuItem>
+            </Menu>
+            <BaseModal
+                open={openModal}
+                setOpen={setOpenModal}
+                title="توجه!"
+                style={{maxWidth: 'sm'}}
             >
-                <Stack
-                    direction={'row'}
-                    gap={1.5}
-                    alignItems={'center'}
-                    width={'100%'}
-                    p={1.2}
-                    component={'div'}
-                >
-                    <Stack>
-                        <EditIcon />
-                    </Stack>
-                    <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
-                        ویرایش محصول
-                    </Typography>
+                <Typography mb="1rem" variant="body2" fontSize={'17px'}>
+                    آیا از انجام این عمل مطمئن هستید؟
+                </Typography>
+                <Stack direction={'row'} spacing={2} mt={2.5}>
+                    <Button variant="contained" onClick={handleDelete} size="large">
+                        بله
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={(e) => setOpenModal(false)}
+                        size="large"
+                    >
+                        خیر
+                    </Button>
                 </Stack>
-            </MenuItem>
-            <MenuItem
-                onClick={handleDelete}
-                sx={{
-                    p: 0,
-                }}
-            >
-                <Stack
-                    direction={'row'}
-                    gap={1.5}
-                    alignItems={'center'}
-                    width={'100%'}
-                    p={1.2}
-                    component={'div'}
-                >
-                    <Stack>
-                        <DeleteIcon />
-                    </Stack>
-                    <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
-                        حذف محصول
-                    </Typography>
-                </Stack>
-            </MenuItem>
-        </Menu>
+            </BaseModal>
+        </>
     )
 }

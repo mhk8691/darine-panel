@@ -1,18 +1,4 @@
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Stack,
-} from '@mui/material'
-import {useEffect, useState} from 'react'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
-import ImageUploader from '../../Components/Input/ImageUploader'
-import {GridProducer} from '../../Components/Table/GridProducer'
-import {DataProvider} from '../../Core/DataProvider'
-import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
 
 export type RequestsType = {
     id: number
@@ -24,7 +10,6 @@ export type RequestsType = {
     status: 'pending' | 'done'
     created_at: string
 }
-const RESOURCE = 'requests'
 
 export function Requests({
     requests,

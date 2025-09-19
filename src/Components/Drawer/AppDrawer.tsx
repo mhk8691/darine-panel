@@ -26,7 +26,7 @@ export function AppDrawer({
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('mdl'))
 
     useEffect(() => {
         const value = location.pathname
@@ -69,7 +69,7 @@ export function AppDrawer({
                     zIndex: 1000,
                     overflow: 'hidden',
                     '& .MuiDrawer-paper': {
-                        width: {xs: '250px', sm: '350px', md: '100px'},
+                        width: {xs: '220px', sm: '220px', mdl: '220px'},
                         overflowY: 'auto',
                         '&::-webkit-scrollbar': {display: 'none'},
                     },
@@ -84,7 +84,7 @@ export function AppDrawer({
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: {xs: 'flex-start', md: 'center'},
+                        alignItems: {xs: 'flex-start', mdl: 'center'},
                         gap: '5px',
                         py: '1rem',
                         mt: isMobile ? 8 : 0,
@@ -104,7 +104,7 @@ export function AppDrawer({
                                     onClick={(event) => handleClick(item.link, index, item.title)}
                                     selected={selected[index]}
                                     sx={{
-                                        width: {xs: '100%', md: '65px'},
+                                        width: '100%',
                                         borderRadius: '8px',
                                     }}
                                     classes={{
@@ -132,17 +132,15 @@ export function AppDrawer({
                                             </ListItemIcon>
                                         </Tooltip>
                                     )}
-                                    {isMobile && (
-                                        <Typography
-                                            variant="bodyMd"
-                                            sx={{
-                                                color: selected[index] ? 'white' : 'grey.600',
-                                                whiteSpace: 'nowrap',
-                                            }}
-                                        >
-                                            {item.title}
-                                        </Typography>
-                                    )}
+                                    <Typography
+                                        variant="bodyMd"
+                                        sx={{
+                                            color: selected[index] ? 'white' : 'grey.600',
+                                            whiteSpace: 'nowrap',
+                                        }}
+                                    >
+                                        {item.title}
+                                    </Typography>
                                 </ListItemButton>
                             ),
                     )}
@@ -152,7 +150,7 @@ export function AppDrawer({
     )
 }
 
-export const drawerWidth = 100
+export const drawerWidth = 220
 
 const useStyles = makeStyles((theme: Theme) => ({
     drawer: {

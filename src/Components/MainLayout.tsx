@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie'
 const MainLayout = ({children}: {children: React.ReactNode}) => {
     const cookies= new Cookies()
     const [selectedTitle, setSelectedTitle] = useState<string>('')
-    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [drawerOpen, setDrawerOpen] = useState(true)
     const [user, setUser] = useState<ProfileType>({} as ProfileType)
     const token = cookies.get('token')
 
@@ -43,8 +43,8 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
                 component="main"
                 flexGrow={1}
                 sx={{
-                    ml: {xs: 0, md: `${drawerWidth}px`},
-                    width: {xs: '100%', md: `calc(100% - ${drawerWidth}px)`},
+                    ml: {xs: 0, mdl: `${drawerWidth}px`},
+                    width: {xs: '100%', mdl: `calc(100% - ${drawerWidth}px)`},
                 }}
             >
                 <Appbar

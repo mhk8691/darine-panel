@@ -9,6 +9,7 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
     }
@@ -27,7 +28,7 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
     return (
         <Stack>
             <Stack
-                direction={{xs: 'row-reverse', md: 'row'}}
+                direction={{xs: 'row-reverse', mdl: 'row'}}
                 alignItems="center"
                 gap={1}
                 sx={{cursor: 'pointer'}}
@@ -39,7 +40,7 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                     sx={{
                         fontSize: {
                             xs: '14px',
-                            md: '15px',
+                            mdl: '15px',
                         },
                     }}
                 >
@@ -51,11 +52,11 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                     sx={{
                         height: {
                             xs: 45,
-                            md: 35,
+                            mdl: 35,
                         },
                         width: {
                             xs: 45,
-                            md: 35,
+                            mdl: 35,
                         },
                     }}
                 />
@@ -83,18 +84,18 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                             <Typography
                                 variant="bodyLg"
                                 fontWeight={700}
-                                fontSize={{xs: '14px', md: '15px'}}
+                                fontSize={{xs: '14px', mdl: '15px'}}
                             >
                                 {user.first_name}
                             </Typography>
                             <Typography
                                 variant="caption"
                                 fontWeight={600}
-                                fontSize={{xs: '12px', md: '14px'}}
+                                fontSize={{xs: '12px', mdl: '14px'}}
                                 sx={{
                                     mt: {
                                         xs: 0.5,
-                                        md: 0,
+                                        mdl: 0,
                                     },
                                 }}
                             >

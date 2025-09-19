@@ -1,20 +1,30 @@
-import { cyan, red } from '@mui/material/colors'
+import {cyan, red} from '@mui/material/colors'
 import {createTheme} from '@mui/material/styles'
 const xs = 0
 const sm = 600
 const md = 900
+const mdl = 1000
 const lg = 1200
 const xl = 1540
-
 declare module '@mui/material/styles' {
-  interface TypeBackground {
-    main: string;
-    light: string;
-  }
+    interface BreakpointOverrides {
+        xs: true
+        sm: true
+        md: true
+        mdl: true 
+        lg: true
+        xl: true
+    }
+}
+declare module '@mui/material/styles' {
+    interface TypeBackground {
+        main: string
+        light: string
+    }
 
-  interface PaletteOptions {
-    background?: Partial<TypeBackground>;
-  }
+    interface PaletteOptions {
+        background?: Partial<TypeBackground>
+    }
     interface TypographyVariants {
         badge: React.CSSProperties
         label: React.CSSProperties
@@ -120,6 +130,7 @@ AppTheme = createTheme({
             xs: xs,
             sm: sm,
             md: md,
+            mdl: mdl,
             lg: lg,
             xl: xl,
         },

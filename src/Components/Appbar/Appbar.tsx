@@ -18,7 +18,7 @@ const Appbar = ({
     user: ProfileType
 }) => {
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobile = useMediaQuery(theme.breakpoints.down('mdl'))
 
     return (
         <Stack
@@ -27,7 +27,7 @@ const Appbar = ({
                 position: 'fixed',
                 top: 0,
                 right: 0,
-                left: {xs: 0, md: drawerWidth},
+                left: {xs: 0, mdl: drawerWidth},
                 height: '4.5rem',
                 bgcolor: 'background.main',
                 borderBottom: '1px solid',
@@ -65,7 +65,7 @@ const Appbar = ({
                         {selectedTitle}
                     </Typography>
                 </Stack>
-                <Stack direction="row" alignItems="center" spacing={{xs: 1, md: 2}}>
+                <Stack direction="row" alignItems="center" spacing={{xs: 1, mdl: 2}}>
                     {/* <Notification /> */}
                     <NewActivity />
                     {!isMobile && (

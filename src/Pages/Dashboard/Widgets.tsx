@@ -11,7 +11,7 @@ interface Props {
 
 export default function Widgets({title, data, description, icon, loading}: Props) {
     return (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={4} mdl={6} lg={4}>
             <Stack
                 direction={'row'}
                 justifyContent={'space-between'}

@@ -19,6 +19,7 @@ const tableHeadCells = [
     createTableHeadCells('نام', 'user_name'),
     createTableHeadCells('شماره تلفن', 'user_phone'),
     createTableHeadCells('وضعیت', 'status'),
+    createTableHeadCells('دلیل لغو', 'reason'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
@@ -191,6 +192,22 @@ export function OrdersList() {
                             />
                         </TableCell>
                         <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.reason}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
                             <Stack direction={'row'} gap={1}>
                                 {item.product_names.split(',').map((product, index) => (
                                     <Chip
@@ -243,7 +260,9 @@ export function OrdersList() {
                                 >
                                     {item.payment_method === 'Bank Transfer' && 'کارت به کارت'}
                                     {item.payment_method === 'Online' && 'آنلاین'}
-                                    {item.payment_method !== 'Online' && item.payment_method !== 'Bank Transfer' && 'نامشخص'}
+                                    {item.payment_method !== 'Online' &&
+                                        item.payment_method !== 'Bank Transfer' &&
+                                        'نامشخص'}
                                 </Typography>
                             )}
                         </TableCell>

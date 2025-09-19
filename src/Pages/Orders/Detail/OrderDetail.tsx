@@ -8,6 +8,7 @@ import {formatPrice} from '../../../Core/FormatPrice'
 import {setUtil} from '../../../redux/UtilSlice'
 import Payment from './Payment'
 import Products from './Products'
+import {enToPer, statusCalc} from '../List/OrdersList'
 
 const RECOURCE = 'shop/orders'
 // User info
@@ -43,7 +44,7 @@ export interface OrderItem {
 interface PaymentType {
     id: number
     payment_method_display: string
-    status_display: string
+    status: 'pending' | 'confirmed' | 'failed'
     transaction_id: string
     ref_id: string
     receipt_image_url: string | null
@@ -54,12 +55,13 @@ interface PaymentType {
 export interface Order {
     id: number
     user: User
-    status: string
+    status: 'pending' | 'processing' | 'completed' | 'canceled'
     status_display: string
     total_price: number
     created_at: string
     items: OrderItem[]
     payments: PaymentType[]
+    reason: string
 }
 
 export function OrderDetail() {
@@ -68,12 +70,13 @@ export function OrderDetail() {
     const [order, setOrder] = useState<Order>({
         id: 0,
         user: {id: 0, full_name: '', phone_number: ''},
-        status: '',
+        status: 'pending',
         status_display: '',
         total_price: 0,
         created_at: '',
         items: [],
         payments: [],
+        reason: '',
     })
     const dispatch = useDispatch()
 
@@ -148,8 +151,30 @@ export function OrderDetail() {
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     وضعیت سفارش:
                 </Typography>
+                <Typography
+                    variant="body1"
+                    
+                    color={statusCalc(order?.status)}
+                    sx={{
+                        fontWeight: '400',
+                        fontSize: '16px',
+                    }}
+                >
+                    {enToPer(order?.status)}
+                </Typography>
+            </Stack>
+            <Stack
+                direction={{xs: 'column', sm: 'row'}}
+                spacing={{
+                    xs: 1,
+                    sm: 0.5,
+                }}
+            >
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    دلیل لغو:
+                </Typography>
                 <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                    {order?.status}
+                    {order?.reason}
                 </Typography>
             </Stack>
             <Stack

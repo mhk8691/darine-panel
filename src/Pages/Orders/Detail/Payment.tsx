@@ -1,15 +1,16 @@
-import { Box, Stack, Typography } from '@mui/material'
+import {Box, Stack, Typography} from '@mui/material'
 import React from 'react'
-import { Order } from './OrderDetail'
-import { Divider } from '@mui/material'
-import { formatDate } from '../../../Core/FormatDate'
+import {Order} from './OrderDetail'
+import {Divider} from '@mui/material'
+import {formatDate} from '../../../Core/FormatDate'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import './style.css'
-export default function Payment({ order }: { order: Order }) {
+import {statusCalc} from '../List/OrdersList'
+export default function Payment({order}: {order: Order}) {
     return (
         <Stack direction="column" spacing={1.5}>
-            <Typography variant="body1" sx={{ fontWeight: '600', fontSize: '17px' }}>
+            <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                 پرداخت‌ها:
             </Typography>
 
@@ -29,11 +30,11 @@ export default function Payment({ order }: { order: Order }) {
                             <Stack direction="row" spacing={1}>
                                 <Typography
                                     variant="body2"
-                                    sx={{ fontWeight: 600, fontSize: '15px' }}
+                                    sx={{fontWeight: 600, fontSize: '15px'}}
                                 >
                                     روش پرداخت:
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                                <Typography variant="body2" sx={{fontSize: '15px'}}>
                                     {payment.payment_method_display}
                                 </Typography>
                             </Stack>
@@ -41,33 +42,41 @@ export default function Payment({ order }: { order: Order }) {
                             <Stack direction="row" spacing={1}>
                                 <Typography
                                     variant="body2"
-                                    sx={{ fontWeight: 600, fontSize: '15px' }}
+                                    sx={{fontWeight: 600, fontSize: '15px'}}
                                 >
                                     وضعیت:
                                 </Typography>
                                 <Typography
                                     variant="body2"
+                                    color={
+                                        payment.status === 'pending'
+                                            ? '#FFA726'
+                                            : payment.status === 'confirmed'
+                                            ? '#66BB6A'
+                                            : '#d32f2f'
+                                    }
                                     sx={{
                                         fontSize: '15px',
-                                        color:
-                                            payment.status_display === 'موفق'
-                                                ? 'success.main'
-                                                : 'error.main',
+
                                         fontWeight: 500,
                                     }}
                                 >
-                                    {payment.status_display}
+                                    {payment.status === 'pending'
+                                        ? 'در انتظار'
+                                        : payment.status === 'confirmed'
+                                        ? 'تکمیل شده'
+                                        : 'لغو شده'}
                                 </Typography>
                             </Stack>
 
                             <Stack direction="row" spacing={1}>
                                 <Typography
                                     variant="body2"
-                                    sx={{ fontWeight: 600, fontSize: '15px' }}
+                                    sx={{fontWeight: 600, fontSize: '15px'}}
                                 >
                                     شناسه تراکنش:
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                                <Typography variant="body2" sx={{fontSize: '15px'}}>
                                     {payment.transaction_id || '-'}
                                 </Typography>
                             </Stack>
@@ -75,11 +84,11 @@ export default function Payment({ order }: { order: Order }) {
                             <Stack direction="row" spacing={1}>
                                 <Typography
                                     variant="body2"
-                                    sx={{ fontWeight: 600, fontSize: '15px' }}
+                                    sx={{fontWeight: 600, fontSize: '15px'}}
                                 >
                                     Ref ID:
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                                <Typography variant="body2" sx={{fontSize: '15px'}}>
                                     {payment.ref_id || '-'}
                                 </Typography>
                             </Stack>
@@ -88,13 +97,13 @@ export default function Payment({ order }: { order: Order }) {
                                 <Stack direction="row" spacing={1}>
                                     <Typography
                                         variant="body2"
-                                        sx={{ fontWeight: 600, fontSize: '15px' }}
+                                        sx={{fontWeight: 600, fontSize: '15px'}}
                                     >
                                         خطا:
                                     </Typography>
                                     <Typography
                                         variant="body2"
-                                        sx={{ fontSize: '15px', color: 'error.main' }}
+                                        sx={{fontSize: '15px', color: 'error.main'}}
                                     >
                                         {payment.error}
                                     </Typography>
@@ -104,11 +113,11 @@ export default function Payment({ order }: { order: Order }) {
                             <Stack direction="row" spacing={1}>
                                 <Typography
                                     variant="body2"
-                                    sx={{ fontWeight: 600, fontSize: '15px' }}
+                                    sx={{fontWeight: 600, fontSize: '15px'}}
                                 >
                                     تاریخ پرداخت:
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                                <Typography variant="body2" sx={{fontSize: '15px'}}>
                                     {formatDate(payment.created_at)}
                                 </Typography>
                             </Stack>
@@ -117,7 +126,7 @@ export default function Payment({ order }: { order: Order }) {
                                 <Stack direction="column" spacing={1} mt={1}>
                                     <Typography
                                         variant="body2"
-                                        sx={{ fontWeight: 600, fontSize: '15px' }}
+                                        sx={{fontWeight: 600, fontSize: '15px'}}
                                     >
                                         رسید پرداخت:
                                     </Typography>
@@ -141,11 +150,11 @@ export default function Payment({ order }: { order: Order }) {
                         </Stack>
 
                         {/* خط جداکننده بین پرداخت‌ها (آخرین پرداخت خط نداره) */}
-                        {index !== order.payments.length - 1 && <Divider sx={{ mt: 2 }} />}
+                        {index !== order.payments.length - 1 && <Divider sx={{mt: 2}} />}
                     </Box>
                 ))
             ) : (
-                <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                <Typography variant="body2" sx={{fontSize: '15px'}}>
                     هیچ پرداختی ثبت نشده است.
                 </Typography>
             )}

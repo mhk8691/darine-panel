@@ -1,25 +1,25 @@
-import { Chip, ChipPropsColorOverrides, Stack, Typography } from '@mui/material'
+import {Chip, ChipPropsColorOverrides, Stack, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import {useState} from 'react'
+import {useDispatch} from 'react-redux'
 import useDeepCompareEffect from 'use-deep-compare-effect'
-import { useQueryParams } from 'use-query-params'
-import { CustomTable } from '../../../Components/Table/CustomTable'
-import { createTableHeadCells } from '../../../Components/Table/CustomTableHead'
-import { ListPage } from '../../../Components/Table/ListPage'
-import { DataProvider } from '../../../Core/DataProvider'
-import { formatDate } from '../../../Core/FormatDate'
-import { formatPrice } from '../../../Core/FormatPrice'
-import { createQueryParam } from '../../../Core/QueryParams'
-import { setUtil } from '../../../redux/UtilSlice'
-import { OrderStatus, OrdersType } from '../Orders'
+import {useQueryParams} from 'use-query-params'
+import {CustomTable} from '../../../Components/Table/CustomTable'
+import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
+import {ListPage} from '../../../Components/Table/ListPage'
+import {DataProvider} from '../../../Core/DataProvider'
+import {formatDate} from '../../../Core/FormatDate'
+import {formatPrice} from '../../../Core/FormatPrice'
+import {createQueryParam} from '../../../Core/QueryParams'
+import {setUtil} from '../../../redux/UtilSlice'
+import {OrderStatus, OrdersType} from '../Orders'
 
 const RECOURCE = 'shop/orders'
 const tableHeadCells = [
     createTableHeadCells('نام', 'user_name'),
     createTableHeadCells('شماره تلفن', 'user_phone'),
     createTableHeadCells('وضعیت', 'status'),
-    createTableHeadCells('دلیل لغو', 'reason'),
+    // createTableHeadCells('دلیل لغو', 'reason'),
     createTableHeadCells('محصولات', 'products'),
     createTableHeadCells('قیمت نهایی', 'total_price'),
     createTableHeadCells('روش پرداخت', 'payment_method'),
@@ -33,10 +33,10 @@ const queryNames = [
                 label: cell.label,
                 type: 'choice',
                 choice: [
-                    { id: 'pending', label: 'درانتظار' },
-                    { id: 'processing', label: 'درحال پردازش' },
-                    { id: 'completed', label: 'تکمیل شده' },
-                    { id: 'canceled', label: 'لغو شده' },
+                    {id: 'pending', label: 'درانتظار'},
+                    {id: 'processing', label: 'درحال پردازش'},
+                    {id: 'completed', label: 'تکمیل شده'},
+                    {id: 'canceled', label: 'لغو شده'},
                 ],
             }
         else
@@ -58,7 +58,18 @@ const queryNames = [
         type: 'date',
     },
 ]
-
+export const statusCalc = (status: OrderStatus) => {
+    if (status === 'processing') return 'secondary'
+    else if (status === 'completed') return 'success'
+    else if (status === 'pending') return 'warning'
+    else return 'primary'
+}
+export const enToPer = (status: string) => {
+    if (status === 'processing') return 'درحال پردازش'
+    else if (status === 'completed') return 'تکمیل شده'
+    else if (status === 'pending') return 'درانتظار'
+    else return 'لغو شده'
+}
 export function OrdersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
@@ -85,26 +96,16 @@ export function OrdersList() {
                 })
             }
         } catch (error: any) {
-            dispatch(setUtil({ open: true, message: error.message, severity: 'error' }))
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
         }
         setLoading(false)
     }
     useDeepCompareEffect(() => {
         getOrders()
     }, [search])
-    const statusCalc = (status: OrderStatus) => {
-        if (status === 'processing') return 'secondary'
-        else if (status === 'completed') return 'success'
-        else if (status === 'pending') return 'warning'
-        else return 'primary'
-    }
+    
     const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
-    const enToPer = (status: string) => {
-        if (status === 'processing') return 'درحال پردازش'
-        else if (status === 'completed') return 'تکمیل شده'
-        else if (status === 'pending') return 'درانتظار'
-        else return 'لغو شده'
-    }
+    
     return (
         <ListPage
             header="مدیریت سفارشات"
@@ -191,7 +192,7 @@ export function OrdersList() {
                                 }}
                             />
                         </TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                             <Typography
                                 variant="body2"
                                 fontSize={{
@@ -206,7 +207,7 @@ export function OrdersList() {
                             >
                                 {item.reason}
                             </Typography>
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell>
                             <Stack direction={'row'} gap={1}>
                                 {item.product_names.split(',').map((product, index) => (

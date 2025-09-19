@@ -18,7 +18,7 @@ const RECOURCE = 'requests'
 const tableHeadCells = [
     createTableHeadCells('شماره تلفن', 'phone_number'),
     createTableHeadCells('آیدی تلگرام', 'telegram_id'),
-    createTableHeadCells('نام کاربر', 'name'),
+    createTableHeadCells('نام کاربر', 'user_full_name'),
     createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
@@ -139,6 +139,7 @@ export function RequestsList() {
                                 }}
                                 sx={{
                                     whiteSpace: 'nowrap',
+                                    direction:'rtl !important'
                                 }}
                             >
                                 {item.telegram_id}
@@ -157,9 +158,10 @@ export function RequestsList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.text}
+                                {item.user_full_name}
                             </Typography>
                         </TableCell>
+                        
                         <TableCell>
                             <Chip
                                 label={item.status === 'done' ? 'بررسی شده' : 'درانتظار'}

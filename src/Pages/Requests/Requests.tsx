@@ -19,6 +19,7 @@ export type RequestsType = {
     phone_number: string
     telegram_id: string
     user_id: number
+    user_full_name: string
     text: string
     status: 'pending' | 'done'
     created_at: string

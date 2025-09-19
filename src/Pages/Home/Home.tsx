@@ -37,6 +37,9 @@ import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
+import { RequestsList } from '../Requests/List/RequestsList'
+import { RequestsEdit } from '../Requests/Edit/RequestsEdit'
+import { RequestsDetail } from '../Requests/Detail/RequestsDetail'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -157,6 +160,10 @@ export function Home(props) {
                         <Route path="comments" element={<CommentsList />} />
                         <Route path="comments/:id" element={<CommentEdit />} />
                         <Route path="comments/detail/:id" element={<CommentDetail />} />
+                        {/* requests section */}
+                        <Route path="requests" element={<RequestsList />} />
+                        <Route path="requests/:id" element={<RequestsEdit />} />
+                        <Route path="requests/detail/:id" element={<RequestsDetail />} />
                     </Routes>
                 </Box>
             </Box>

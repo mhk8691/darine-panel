@@ -1,0 +1,185 @@
+import {Typography} from '@mui/material'
+import TableCell from '@mui/material/TableCell'
+import {useState} from 'react'
+import {useDispatch} from 'react-redux'
+import useDeepCompareEffect from 'use-deep-compare-effect'
+import {useQueryParams} from 'use-query-params'
+import {CustomTable} from '../../../Components/Table/CustomTable'
+import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
+import {ListPage} from '../../../Components/Table/ListPage'
+import {DataProvider} from '../../../Core/DataProvider'
+import {formatDate} from '../../../Core/FormatDate'
+import {createQueryParam} from '../../../Core/QueryParams'
+import {setUtil} from '../../../redux/UtilSlice'
+import {CardCreate} from '../Create/CardCreate'
+import {CardType} from '../Card'
+const RECOURCE = 'card'
+const tableHeadCells = [
+    createTableHeadCells('نام خانوادگی', 'full_name'),
+    // createTableHeadCells('نام کارت', 'card_name'),
+    createTableHeadCells('شماره کارت', 'card_number'),
+    createTableHeadCells('شماره شبا', 'iban'),
+    createTableHeadCells('تاریخ ایجاد', 'created_at'),
+    createTableHeadCells('تاریخ ویرایش', 'updated_at'),
+]
+const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
+    if (cell.name === 'role')
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: 'choice',
+            choice: [
+                {label: 'کاربر', id: 'user'},
+                {label: 'ادمین', id: 'admin'},
+                {label: 'سوپر ادمین', id: 'superadmin'},
+            ],
+        }
+    else
+        return {
+            field: cell.name,
+            label: cell.label,
+            type: '',
+            choice: [],
+        }
+})
+
+export function CardList() {
+    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
+    const [loading, setLoading] = useState(false)
+    const [card, setCard] = useState<{
+        total_results: number
+        data: CardType[]
+    }>({
+        total_results: 0,
+        data: [],
+    })
+    const dispatch = useDispatch()
+    const getCard = async () => {
+        setLoading(true)
+        try {
+            let response = await DataProvider.get<{
+                total_results: number
+                results: CardType[]
+            }>(`${RECOURCE}/`, search)
+            if (response) {
+                setCard({
+                    total_results: response.data.total_results,
+                    data: response.data.results,
+                })
+            }
+        } catch (error: any) {
+            dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+        }
+        setLoading(false)
+    }
+    useDeepCompareEffect(() => {
+        getCard()
+    }, [search])
+
+    return (
+        <ListPage
+            header="مدیریت کارت ها"
+            href={RECOURCE + '/create'}
+            searchField="title"
+            searchText="نام و نام خانوادگی"
+            setParams={setSearch}
+            params={search}
+            resource={RECOURCE}
+            getList={getCard}
+            filtersData={queryNames}
+            createModal={CardCreate}
+            defaultState={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                username: '',
+                phoneNumber: '',
+            }}
+        >
+            <CustomTable
+                resource={RECOURCE}
+                headCells={tableHeadCells}
+                rows={card.data}
+                count={card.total_results}
+                getList={getCard}
+                params={search}
+                setParams={setSearch}
+                handleSort={getCard}
+                loading={loading}
+                hasDetail={true}
+                tableBodyCells={card.data.map((item) => (
+                    <>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.full_name}
+                            </Typography>
+                        </TableCell>
+                        
+
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.card_number}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.iban}
+                            </Typography>
+                        </TableCell>
+
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {formatDate(item.created_at)}
+                            </Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {formatDate(item.updated_at)}
+                            </Typography>
+                        </TableCell>
+                    </>
+                ))}
+            />
+        </ListPage>
+    )
+}

@@ -7,8 +7,8 @@ import ImageIcon from '@mui/icons-material/Image'
 import InsertCommentIcon from '@mui/icons-material/InsertComment'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import AssignmentIcon from '@mui/icons-material/Assignment'
+import CreditCardIcon from '@mui/icons-material/CreditCard'
 export const drawerItems = [
     {
         title: 'پیشخوان',
@@ -120,6 +120,19 @@ export const drawerItems = [
         role: 'all',
         icon: (
             <AssignmentIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
+    {
+        title: 'کارت ها',
+        link: 'card',
+        role: 'all',
+        icon: (
+            <CreditCardIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

@@ -40,6 +40,10 @@ import {UsersType} from '../Users/Users'
 import { RequestsList } from '../Requests/List/RequestsList'
 import { RequestsEdit } from '../Requests/Edit/RequestsEdit'
 import { RequestsDetail } from '../Requests/Detail/RequestsDetail'
+import { CardCreate } from '../Card/Create/CardCreate'
+import { CardList } from '../Card/List/CardList'
+import { CardEdit } from '../Card/Edit/CardEdit'
+import { CardDetail } from '../Card/Detail/CardDetail'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -164,6 +168,14 @@ export function Home(props) {
                         <Route path="requests" element={<RequestsList />} />
                         <Route path="requests/:id" element={<RequestsEdit />} />
                         <Route path="requests/detail/:id" element={<RequestsDetail />} />
+                        {/* card section */}
+                        <Route
+                            path="card/create"
+                            element={<CardCreate data={data} setData={setData} />}
+                        />
+                        <Route path="card" element={<CardList />} />
+                        <Route path="card/:id" element={<CardEdit />} />
+                        <Route path="card/detail/:id" element={<CardDetail />} />
                     </Routes>
                 </Box>
             </Box>

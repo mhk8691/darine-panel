@@ -1,9 +1,15 @@
 import {TextField, TextFieldProps} from '@mui/material'
 import {styled} from '@mui/material/styles'
+import {ReactNode} from 'react'
 
-type CustomTextFieldProps = {setData?: any; change?: any; register?: any} & TextFieldProps
+type CustomTextFieldProps = {
+    setData?: any
+    change?: any
+    register?: any
+    endIcon?: any
+} & TextFieldProps
 export function CustomTextField(props: CustomTextFieldProps) {
-    const {setData, change, register} = props
+    const {setData, change, register, endIcon} = props
     async function changeField(event) {
         if (!change && setData) {
             setData((prev) => {
@@ -16,7 +22,7 @@ export function CustomTextField(props: CustomTextFieldProps) {
     return (
         <Custom
             onChange={changeField}
-            InputProps={{disableUnderline: true}}
+            InputProps={{disableUnderline: true, endAdornment: endIcon}}
             variant="outlined"
             fullWidth
             {...register}

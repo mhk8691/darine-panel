@@ -3,7 +3,8 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {DataProvider} from '../../../Core/DataProvider'
 import {CardType} from '../Card'
-import { formatDate } from '../../../Core/FormatDate'
+import {formatDate} from '../../../Core/FormatDate'
+import {getBankInfoWithCardNumber} from 'ir-banks-info'
 
 const RECOURCE = 'card'
 
@@ -71,7 +72,23 @@ export function CardDetail() {
                             {card?.full_name}
                         </Typography>
                     </Stack>
-                   
+                    {card?.card_number && (
+                        <Stack
+                            direction={{xs: 'column', sm: 'row'}}
+                            spacing={{
+                                xs: 1,
+                                sm: 0.5,
+                            }}
+                        >
+                            <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                                نام بانک:
+                            </Typography>
+
+                            <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
+                                {getBankInfoWithCardNumber(card?.card_number)?.name}
+                            </Typography>
+                        </Stack>
+                    )}
 
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}

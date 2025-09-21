@@ -10,7 +10,7 @@ export function CardCreate({
     setData: React.Dispatch<React.SetStateAction<any>>
 }) {
     return (
-        <CreatePage title={'افزودن کارت'} resource={'card/'} formDetails={data} isFormData>
+        <CreatePage title={'افزودن کارت'} resource={'card'} formDetails={data} isFormData>
             <Card card={data} setCard={setData} />
         </CreatePage>
     )

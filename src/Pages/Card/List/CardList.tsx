@@ -1,5 +1,6 @@
 import {Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
+import {getBankInfoWithCardNumber} from 'ir-banks-info'
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -11,16 +12,15 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
-import {CardCreate} from '../Create/CardCreate'
 import {CardType} from '../Card'
+import {CardCreate} from '../Create/CardCreate'
 const RECOURCE = 'card'
 const tableHeadCells = [
     createTableHeadCells('نام خانوادگی', 'full_name'),
-    // createTableHeadCells('نام کارت', 'card_name'),
+    createTableHeadCells('بانک', 'bank'),
     createTableHeadCells('شماره کارت', 'card_number'),
     createTableHeadCells('شماره شبا', 'iban'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
-    createTableHeadCells('تاریخ ویرایش', 'updated_at'),
 ]
 const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
     if (cell.name === 'role')
@@ -122,7 +122,15 @@ export function CardList() {
                                 {item.full_name}
                             </Typography>
                         </TableCell>
-                        
+                        {item.card_number && (
+                            <TableCell>
+                                <img
+                                    style={{width: '40px', height: '40px'}}
+                                    src={getBankInfoWithCardNumber(item.card_number)?.logo}
+                                    alt=""
+                                />
+                            </TableCell>
+                        )}
 
                         <TableCell>
                             <Typography
@@ -162,19 +170,6 @@ export function CardList() {
                                 }}
                             >
                                 {formatDate(item.created_at)}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                            >
-                                {formatDate(item.updated_at)}
                             </Typography>
                         </TableCell>
                     </>

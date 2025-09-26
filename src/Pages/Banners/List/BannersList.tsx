@@ -134,7 +134,7 @@ export function BannersList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.url}
+                                {item.url || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>

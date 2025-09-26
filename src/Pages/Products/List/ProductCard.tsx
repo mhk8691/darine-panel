@@ -89,7 +89,7 @@ export default function ProductCard({
                     mb={1}
                     minHeight={75}
                 >
-                    <Typography variant="h6" fontWeight="bold" sx={{fontSize: '22px !important'}}>
+                    <Typography variant="h6" fontWeight="bold" sx={{fontSize: '18px !important'}}>
                         {item.name.length > 20 ? `${item.name.slice(0, 20)}...` : item.name}
                     </Typography>
 

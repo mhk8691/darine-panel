@@ -30,11 +30,8 @@ const RECOURCE = 'product'
 const tableHeadCells = [
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('وضعیت', 'visible'),
-    createTableHeadCells('تعداد', 'stock'),
-    createTableHeadCells('قیمت پایه', 'base_price'),
-    createTableHeadCells('حداکثر قیمت', 'max_price'),
+    createTableHeadCells('قیمت', 'max_price'),
     createTableHeadCells('تایپ محصول', 'type'),
-    createTableHeadCells('دسته بندی', 'category'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 

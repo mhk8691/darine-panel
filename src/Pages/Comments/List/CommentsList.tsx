@@ -122,7 +122,7 @@ export function CommentsList() {
             header="مدیریت دیدگاه ها"
             href={RECOURCE + '/create'}
             searchField="title"
-            searchText="نام مشتری"
+            searchText="شماره تلفن"
             setParams={setSearch}
             params={search}
             resource={RECOURCE}

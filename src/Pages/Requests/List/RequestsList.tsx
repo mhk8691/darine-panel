@@ -98,6 +98,7 @@ export function RequestsList() {
             defaultState={{
                 name: '',
             }}
+            noCreate
         >
             <CustomTable
                 resource={RECOURCE}

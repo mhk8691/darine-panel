@@ -2,7 +2,6 @@ import {Button, Stack, Typography} from '@mui/material'
 import {Box} from '@mui/system'
 import React, {useState} from 'react'
 import {DataProvider} from '../../Core/DataProvider'
-import {useAppDispatch} from '../../redux/store'
 import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
 import {BaseModal} from '../Modal/BaseModal'
@@ -40,7 +39,6 @@ export function ListPage({
     const CreaterModal = createModal
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(defaultState)
-    const dispatch = useAppDispatch()
 
     async function update() {
         if (data._id) {

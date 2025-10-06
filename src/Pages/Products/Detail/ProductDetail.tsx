@@ -30,7 +30,8 @@ export interface ProductDetailType {
     properties: PropertyType[]
     intro_video?: any
     visible: boolean
-    stock: number | string | null
+    inventory: boolean
+    // stock: number | string | null
     remaining: number | string | null
 }
 export function ProductDetail() {

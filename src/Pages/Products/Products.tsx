@@ -1,9 +1,7 @@
 import {
     Box,
     Button,
-    Checkbox,
     FormControl,
-    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
@@ -101,7 +99,11 @@ export function Products({
             return {...prev, type: event.target.value as 'coins' | 'account'}
         })
     }
-
+    const handleChangeInventory = (event: SelectChangeEvent) => {
+        setProduct((prev) => {
+            return {...prev, inventory: event.target.value === 'موجود' ? true : false}
+        })
+    }
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
@@ -128,7 +130,7 @@ export function Products({
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                    {/* <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <CustomTextField
                             key={product.id}
                             name="stock"
@@ -160,7 +162,62 @@ export function Products({
                             }
                             label="نامحدود"
                         />
-                    </div>
+                    </div> */}
+                    <FormControl
+                        fullWidth
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                height: '54.56px !important',
+                            },
+                            '& .MuiSelect-select': {
+                                fontSize: '15px !important',
+                            },
+                            '& .Mui-disabled': {
+                                color: '#3f3f3f !important',
+                            },
+                        }}
+                    >
+                        <InputLabel
+                            id="demo-simple-select-label"
+                            sx={{
+                                fontSize: '15px !important',
+                            }}
+                        >
+                            موجودی محصول
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={product.inventory ? 'موجود' : 'ناموجود'}
+                            label="موجودی محصول"
+                            onChange={handleChangeInventory}
+                            sx={{
+                                '& .MuiAutocomplete-listbox': {
+                                    fontSize: '15px',
+                                },
+                                '& .MuiAutocomplete-option': {
+                                    py: '12px !important',
+                                },
+                            }}
+                        >
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'موجود'}
+                            >
+                                موجود
+                            </MenuItem>
+                            <MenuItem
+                                sx={{
+                                    fontSize: '15px !important',
+                                }}
+                                value={'ناموجود'}
+                            >
+                                ناموجود
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={4} xl={3}>

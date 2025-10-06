@@ -11,20 +11,15 @@ import TableCell from '@mui/material/TableCell'
 import {useEffect, useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import {useQueryParams} from 'use-query-params'
-import {CustomTable} from '../../../Components/Table/CustomTable'
+import AddButton from '../../../Components/Buttons/add'
+import {Searchbar} from '../../../Components/Input/Searchbar'
 import {createTableHeadCells} from '../../../Components/Table/CustomTableHead'
-import {ListPage} from '../../../Components/Table/ListPage'
 import {DataProvider} from '../../../Core/DataProvider'
-import {formatDate} from '../../../Core/FormatDate'
-import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {useAppDispatch} from '../../../redux/store'
 import {setUtil} from '../../../redux/UtilSlice'
 import {CategoriesType} from '../../Categories/Categories'
-import {ProductCreate} from '../Create/ProductCreate'
 import ProductCard from './ProductCard'
-import {Searchbar} from '../../../Components/Input/Searchbar'
-import AddButton from '../../../Components/Buttons/add'
 
 const RECOURCE = 'product'
 const tableHeadCells = [
@@ -157,7 +152,22 @@ export function ProductsList() {
     return (
         <>
             <Stack p={2}>
-                <Stack direction={'row'} justifyContent={'flex-end'}>
+                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: {
+                                xs: '16px !important',
+                                sm: '18px !important',
+                            },
+                            '@media (max-width: 350px)': {
+                                fontSize: '15px !important',
+                            },
+                            fontWeight: 600,
+                        }}
+                    >
+                        مدیریت محصولات
+                    </Typography>
                     <AddButton
                         href={'/product/create'}
                         text={'جدید'}

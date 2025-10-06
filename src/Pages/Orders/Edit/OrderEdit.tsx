@@ -27,7 +27,7 @@ export function OrderEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="تغییر وضعیت"
+            title="جزئیات سفارش"
             formDetails={order}
             initialData={initialData}
             redirect={'orders'}

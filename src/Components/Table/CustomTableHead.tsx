@@ -59,7 +59,7 @@ export function CustomTableHead(props: {
                         </TableSortLabel>
                     </TableCell>
                 ))}
-                {!noEdit && <TableCell></TableCell>}
+                {/* {!noEdit && <TableCell></TableCell>} */}
                 {hasDetail && <TableCell></TableCell>}
                 {!noDelete && <TableCell></TableCell>}
             </TableRow>

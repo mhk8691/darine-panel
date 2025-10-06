@@ -20,7 +20,7 @@ export function BannerEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش بنر"
+            title="جزئیات بنر"
             formDetails={banner}
             initialData={state.row}
             isFormData={true}

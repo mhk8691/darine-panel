@@ -34,7 +34,7 @@ export function CategoryEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش دسته بندی"
+            title="جزئیات دسته بندی"
             formDetails={category}
             initialData={state.row}
             isFormData={true}

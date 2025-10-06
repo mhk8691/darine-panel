@@ -54,7 +54,7 @@ export function CardEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش کارت"
+            title="جزئیات کارت"
             formDetails={card}
             initialData={initialData}
             isFormData

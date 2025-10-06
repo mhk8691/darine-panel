@@ -27,7 +27,7 @@ export function ProductEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش محصول"
+            title="جزئیات محصول"
             formDetails={product}
             isFormData={true}
             initialData={initialData}

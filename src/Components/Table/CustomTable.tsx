@@ -59,9 +59,9 @@ export function CustomTable(props: {
         navigate(`${id}`, {state: {row}})
     }
 
-    function handleDetailClick(id: string | number, hasDetail: boolean) {
+    function handleDetailClick(id: string | number, hasDetail: boolean, row) {
         if (hasDetail) {
-            navigate(`detail/${id}`)
+            navigate(`${id}`, {state: {row}})
         }
     }
 
@@ -119,7 +119,7 @@ export function CustomTable(props: {
                             {rows.map((row, index) => (
                                 <TableRow hover key={row._id}>
                                     {tableBodyCells[index]}
-                                    {!noEdit && (
+                                    {/* {!noEdit && (
                                         <TableCell width="32px">
                                             <Button
                                                 color="primary"
@@ -132,14 +132,14 @@ export function CustomTable(props: {
                                                 <EditIcon />
                                             </Button>
                                         </TableCell>
-                                    )}
+                                    )} */}
                                     {hasDetail && (
                                         <TableCell width="32px">
                                             <Button
                                                 color="primary"
                                                 variant="outlined"
                                                 sx={{padding: '4px 8px', minWidth: '0px'}}
-                                                onClick={() => handleDetailClick(row.id, hasDetail)}
+                                                onClick={() => handleDetailClick(row.id, hasDetail,row)}
                                             >
                                                 <ArrowBack />
                                             </Button>

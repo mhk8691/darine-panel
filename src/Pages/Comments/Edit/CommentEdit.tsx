@@ -65,7 +65,7 @@ export function CommentEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش دیدگاه"
+            title="جزئیات دیدگاه"
             formDetails={comment}
             initialData={initialData}
             isFormData

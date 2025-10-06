@@ -25,7 +25,7 @@ export function RequestsEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش درخواست"
+            title="جزئیات درخواست"
             formDetails={requests}
             initialData={initialData}
             isFormData={true}

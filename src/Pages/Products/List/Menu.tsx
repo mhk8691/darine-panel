@@ -9,23 +9,7 @@ import {BaseModal} from '../../../Components/Modal/BaseModal'
 import {DataProvider} from '../../../Core/DataProvider'
 import {setUtil} from '../../../redux/UtilSlice'
 import {ProductsListType} from './ProductsList'
-const options = [
-    {
-        name: 'مشاهده جزئیات',
-        icon: <InfoIcon />,
-        href: '/profile',
-    },
-    {
-        name: 'ویرایش مخصول',
-        icon: <EditIcon />,
-        href: '/profile/orders',
-    },
-    {
-        name: 'حذف محصول',
-        icon: <DeleteIcon />,
-        href: '/profile/comments',
-    },
-]
+
 export default function ProductMenu({
     item,
     anchorEl,
@@ -46,13 +30,10 @@ export default function ProductMenu({
         setAnchorEl(null)
     }
     const handleDetail = () => {
-        navigate(`/product/detail/${item.id}`)
-        handleMenuClose()
-    }
-    const handleEdit = () => {
         navigate(`/product/${item.id}`)
         handleMenuClose()
     }
+    
 
     async function handleDelete() {
         dispatch(setUtil({loading: true}))
@@ -97,28 +78,7 @@ export default function ProductMenu({
                         </Typography>
                     </Stack>
                 </MenuItem>
-                <MenuItem
-                    onClick={handleEdit}
-                    sx={{
-                        p: 0,
-                    }}
-                >
-                    <Stack
-                        direction={'row'}
-                        gap={1.5}
-                        alignItems={'center'}
-                        width={'100%'}
-                        p={1.2}
-                        component={'div'}
-                    >
-                        <Stack>
-                            <EditIcon />
-                        </Stack>
-                        <Typography variant="body1" sx={{fontWeight: 400, fontSize: '13px'}}>
-                            ویرایش محصول
-                        </Typography>
-                    </Stack>
-                </MenuItem>
+               
                 <MenuItem
                     onClick={() => {
                         setOpenModal(true)

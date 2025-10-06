@@ -40,7 +40,7 @@ export function MethodEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="ویرایش روش اتصال"
+            title="جزئیات روش اتصال"
             formDetails={method}
             initialData={initialData}
             redirect={'base-accounts'}

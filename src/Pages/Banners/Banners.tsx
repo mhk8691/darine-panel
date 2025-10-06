@@ -25,9 +25,11 @@ const RESOURCE = 'banners'
 export function Banners({
     banner,
     setBanner,
+    children,
 }: {
     banner: BannersType
     setBanner: React.Dispatch<React.SetStateAction<BannersType>>
+    children?: React.ReactNode
 }) {
     const [open, setOpen] = useState(false)
     const [imagePreview, setImagePreview] = useState('')
@@ -41,13 +43,7 @@ export function Banners({
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
-                    <CustomTextField
-                        name="id"
-                        resource={RESOURCE}
-                        disabled
-                        label={'آیدی'}
-                        defaultValue={banner.id}
-                    />,
+                    ...(children ? [children] : []),
                     <CustomTextField
                         name="title"
                         setData={setBanner}

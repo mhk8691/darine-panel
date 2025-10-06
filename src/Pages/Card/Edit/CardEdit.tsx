@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import {Card, CardType} from '../Card'
+import { CustomTextField } from '../../../Components/Input/CustomTextField'
+import { Grid } from '@mui/material'
 
 const RESOURCE = 'card'
 export function CardEdit() {
@@ -23,6 +25,32 @@ export function CardEdit() {
     useEffect(() => {
         getCard()
     }, [cardId])
+    const element = [
+        <CustomTextField
+            key={card.id}
+            name="id"
+            disabled={true}
+            resource={RESOURCE}
+            label={'آیدی'}
+            defaultValue={card.id}
+        />,
+        <CustomTextField
+            key={card.id}
+            name="created_at"
+            disabled={true}
+            resource={RESOURCE}
+            label={'تاریخ ایجاد'}
+            defaultValue={card.created_at}
+        />,
+        <CustomTextField
+            key={card.id}
+            name="updated_at"
+            disabled={true}
+            resource={RESOURCE}
+            label={'تاریخ ویرایش'}
+            defaultValue={card.updated_at}
+        />,
+    ]
     return (
         <EditPage
             resource={RESOURCE}
@@ -31,7 +59,7 @@ export function CardEdit() {
             initialData={initialData}
             isFormData
         >
-            <Card card={card} setCard={setCard} />
+            <Card card={card} setCard={setCard} children={element} />
         </EditPage>
     )
 }

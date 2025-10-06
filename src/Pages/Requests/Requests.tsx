@@ -59,18 +59,20 @@ export function Requests({
                     <CustomTextField
                         disabled={true}
                         key={requests.id}
-                        name="text"
-                        label={'متن'}
-                        defaultValue={requests.text}
+                        name="created_at"
+                        label={'تاریخ درخواست'}
+                        defaultValue={formatDate(requests.created_at)}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         disabled={true}
                         key={requests.id}
-                        name="created_at"
-                        label={'تاریخ درخواست'}
-                        defaultValue={formatDate(requests.created_at)}
+                        name="text"
+                        label={'متن'}
+                        defaultValue={requests.text}
+                        multiline={true}
+                        rows={7}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>

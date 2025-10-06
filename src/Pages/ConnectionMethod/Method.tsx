@@ -49,11 +49,15 @@ export function ConnectionMethod({
     setMethod,
     editMode,
     getMethod,
+
+    children,
 }: {
     method: MethodType
     setMethod: React.Dispatch<React.SetStateAction<MethodType>>
     editMode: boolean
     getMethod?: () => Promise<void>
+
+    children?: React.ReactNode[]
 }) {
     const [newField, setNewField] = useState<FieldType>({} as FieldType)
     const [deleteId, setDeleteId] = useState<number | null>(null)
@@ -156,13 +160,8 @@ export function ConnectionMethod({
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
-                    <CustomTextField
-                        key={method.id}
-                        name="id"
-                        disabled
-                        label={'آیدی'}
-                        value={method.id}
-                    />,
+                    ...(children ?? []),
+                   
                     <CustomTextField
                         key={method.id}
                         name="title"
@@ -171,14 +170,7 @@ export function ConnectionMethod({
                         label={'عنوان'}
                         value={method.title}
                     />,
-                    <CustomTextField
-                        key={method.id}
-                        name="fields_count"
-                        disabled
-                        resource={RESOURCE}
-                        label={'تعداد فیلد'}
-                        value={method.fields_count}
-                    />,
+                  
                 ]}
             />
             <Grid container spacing={2} sx={{mt: 2}}>

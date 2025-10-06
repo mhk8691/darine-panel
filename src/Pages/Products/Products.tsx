@@ -105,16 +105,18 @@ export function Products({
     return (
         <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        key={product.id}
-                        name="name"
-                        resource={RESOURCE}
-                        disabled={true}
-                        label={'آیدی'}
-                        defaultValue={product.id}
-                    />
-                </Grid>
+                {editMode && (
+                    <Grid item xs={12} sm={6} md={4} xl={3}>
+                        <CustomTextField
+                            key={product.id}
+                            name="name"
+                            resource={RESOURCE}
+                            disabled={true}
+                            label={'آیدی'}
+                            defaultValue={product.id}
+                        />
+                    </Grid>
+                )}
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         key={product.id}

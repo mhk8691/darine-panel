@@ -19,9 +19,11 @@ const RESOURCE = 'category'
 export function Categories({
     category,
     setCategory,
+    children,
 }: {
     category: CategoriesType
     setCategory: React.Dispatch<React.SetStateAction<CategoriesType>>
+    children?: React.ReactNode[]
 }) {
     const [open, setOpen] = useState(false)
     const [imagePreview, setImagePreview] = useState('')
@@ -55,13 +57,8 @@ export function Categories({
                 <GridProducer
                     sx={{marginBottom: '16px'}}
                     data={[
-                        <CustomTextField
-                            name="id"
-                            resource={RESOURCE}
-                            disabled
-                            label={'آیدی'}
-                            defaultValue={category.id}
-                        />,
+                        ...(children ?? []),
+
                         <CustomTextField
                             name="name"
                             setData={setCategory}
@@ -69,20 +66,7 @@ export function Categories({
                             label={'نام'}
                             defaultValue={category.name}
                         />,
-                        <CustomTextField
-                            name="children_count"
-                            resource={RESOURCE}
-                            disabled
-                            label={'تعداد زیر دسته بندی'}
-                            defaultValue={category.children_count}
-                        />,
-                        <CustomTextField
-                            name="products_count"
-                            resource={RESOURCE}
-                            disabled
-                            label={'تعداد محصولات'}
-                            defaultValue={category.products_count}
-                        />,
+
                         <CustomAutocomplete
                             key={category.parent} // می‌تونی حتی اینو هم حذف کنی
                             options={parentCategory.results.map((item) => ({

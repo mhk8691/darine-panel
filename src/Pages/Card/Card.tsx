@@ -18,34 +18,28 @@ const RESOURCE = 'card'
 export function Card({
     card,
     setCard,
+    children,
 }: {
     card: CardType
     setCard: React.Dispatch<React.SetStateAction<CardType>>
+    children?: React.ReactNode[]
 }) {
     return (
         <Stack>
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
+                    ...(children ?? []),
                     <CustomTextField
-                        key={card.id}
-                        name="id"
-                        disabled={true}
-                        resource={RESOURCE}
-                        label={'آیدی'}
-                        defaultValue={card.id}
-                    />,
-                    <CustomTextField
-                        key={card.id}
+                        key={card.id + '-full_name'}
                         name="full_name"
                         setData={setCard}
                         resource={RESOURCE}
                         label={'نام و نام خانوادگی'}
                         defaultValue={card.full_name}
                     />,
-
                     <CustomTextField
-                        key={card.id}
+                        key={card.id + '-card_number'}
                         name="card_number"
                         resource={RESOURCE}
                         setData={setCard}
@@ -58,9 +52,7 @@ export function Card({
                                     src={getBankInfoWithCardNumber(card.card_number)?.logo}
                                     alt=""
                                 />
-                            ) : (
-                                <></>
-                            )
+                            ) : null
                         }
                         sx={{
                             '& .MuiInputBase-input.Mui-disabled': {
@@ -69,7 +61,7 @@ export function Card({
                         }}
                     />,
                     <CustomTextField
-                        key={card.id}
+                        key={card.id + '-iban'}
                         name="iban"
                         resource={RESOURCE}
                         setData={setCard}
@@ -82,31 +74,13 @@ export function Card({
                                     src={getBankInfoWithSheba(card.iban)?.logo}
                                     alt=""
                                 />
-                            ) : (
-                                <></>
-                            )
+                            ) : null
                         }
                         sx={{
                             '& .MuiInputBase-input.Mui-disabled': {
                                 bgcolor: 'background.light',
                             },
                         }}
-                    />,
-                    <CustomTextField
-                        key={card.id}
-                        name="created_at"
-                        disabled={true}
-                        resource={RESOURCE}
-                        label={'تاریخ ایجاد'}
-                        defaultValue={card.created_at}
-                    />,
-                    <CustomTextField
-                        key={card.id}
-                        name="updated_at"
-                        disabled={true}
-                        resource={RESOURCE}
-                        label={'تاریخ ویرایش'}
-                        defaultValue={card.updated_at}
                     />,
                 ]}
             />

@@ -2,8 +2,19 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
 import {DataProvider} from '../../../Core/DataProvider'
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Rating,
+    Select,
+    SelectChangeEvent,
+    Stack,
+    Typography,
+} from '@mui/material'
 import {GridProducer} from '../../../Components/Table/GridProducer'
+import {CustomTextField} from '../../../Components/Input/CustomTextField'
+import { formatDate } from '../../../Core/FormatDate'
 
 const RESOURCE = 'comments'
 type AcceptedType = 'accepted' | 'rejected' | 'pending'
@@ -63,6 +74,40 @@ export function CommentEdit() {
                 <GridProducer
                     sx={{marginBottom: '16px'}}
                     data={[
+                        <CustomTextField
+                            name="id"
+                            key={comment.id}
+                            resource={RESOURCE}
+                            disabled
+                            label={'آیدی'}
+                            defaultValue={comment.id}
+                        />,
+                        <CustomTextField
+                            name="r"
+                            key={comment.id}
+                            resource={RESOURCE}
+                            disabled
+                            label={'نام مشتری'}
+                            defaultValue={comment?.user_info?.name}
+                        />,
+
+                        <CustomTextField
+                            name="product_info"
+                            key={comment.id}
+                            resource={RESOURCE}
+                            disabled
+                            label={'نام محصول'}
+                            defaultValue={comment?.product_info?.name}
+                        />,
+
+                        <CustomTextField
+                            name="created_at"
+                            key={comment.id}
+                            resource={RESOURCE}
+                            disabled
+                            label={'تاریخ ایجاد'}
+                            defaultValue={formatDate(comment?.created_at)}
+                        />,
                         <FormControl
                             fullWidth
                             sx={{
@@ -86,7 +131,7 @@ export function CommentEdit() {
                                 وضعیت
                             </InputLabel>
                             <Select
-                            key={comment.accepted}
+                                key={comment.accepted}
                                 value={comment.accepted}
                                 label="وضعیت"
                                 onChange={handleChange}
@@ -125,6 +170,34 @@ export function CommentEdit() {
                                 </MenuItem>
                             </Select>
                         </FormControl>,
+                        <Stack
+                            direction={{xs: 'column', sm: 'row'}}
+                            spacing={{
+                                xs: 1,
+                                sm: 0.5,
+                            }}
+                        >
+                            <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                                امتیاز:
+                            </Typography>
+                            <Rating
+                                key={comment?.rating}
+                                name="read-only"
+                                size="medium"
+                                value={comment?.rating}
+                                readOnly
+                            />
+                        </Stack>,
+                        <CustomTextField
+                            key={comment.id}
+                            name="short_introduction"
+                            resource={RESOURCE}
+                            disabled
+                            label={'دیدگاه'}
+                            defaultValue={comment.text}
+                            multiline={true}
+                            rows={7}
+                        />,
                     ]}
                 />
             </Stack>

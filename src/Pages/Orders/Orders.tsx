@@ -6,9 +6,16 @@ import {
     Select,
     SelectChangeEvent,
     Stack,
+    Typography,
 } from '@mui/material'
-import {GridProducer} from '../../Components/Table/GridProducer'
 import {useEffect, useState} from 'react'
+import {CustomTextField} from '../../Components/Input/CustomTextField'
+import {GridProducer} from '../../Components/Table/GridProducer'
+import {formatDate} from '../../Core/FormatDate'
+import {formatPrice} from '../../Core/FormatPrice'
+import {Order} from './Detail/OrderDetail'
+import Payment from './Detail/Payment'
+import Products from './Detail/Products'
 
 type AccountType = {
     method: string
@@ -42,10 +49,11 @@ export function Orders({
     order,
     setOrder,
 }: {
-    order: OrdersType
-    setOrder: React.Dispatch<React.SetStateAction<OrdersType>>
+    order: Order
+    setOrder: React.Dispatch<React.SetStateAction<Order>>
 }) {
     const [isCanceled, setIsCanceled] = useState(false)
+    const [isOpen, setIsOpen] = useState<number | null>(null)
     const handleChangeProductType = (event: SelectChangeEvent) => {
         setOrder((prev) => {
             return {...prev, status: event.target.value as OrderStatus}
@@ -61,15 +69,13 @@ export function Orders({
             if (prev.status === 'canceled') {
                 setIsCanceled(true)
                 return prev
-            }
-            else {
+            } else {
                 setIsCanceled(false)
                 return {
                     ...prev,
                     reason: undefined,
                 }
             }
-            
         })
     }, [order, setOrder])
     return (
@@ -77,6 +83,57 @@ export function Orders({
             <GridProducer
                 sx={{marginBottom: '16px'}}
                 data={[
+                    <CustomTextField
+                        key={order.id}
+                        name="id"
+                        disabled
+                        label={'آیدی'}
+                        defaultValue={order.id}
+                    />,
+                    <CustomTextField
+                        key={order.id}
+                        name="user_full_name"
+                        disabled
+                        label={'نام کاربر'}
+                        defaultValue={order.user?.full_name}
+                    />,
+                    <CustomTextField
+                        key={order.id}
+                        name="user_phone"
+                        disabled
+                        label={'شماره تلفن'}
+                        defaultValue={order.user?.phone_number}
+                    />,
+                    <CustomTextField
+                        key={order.id}
+                        name="created_at"
+                        disabled
+                        label={'تاریخ سفارش'}
+                        defaultValue={formatDate(order.created_at)}
+                    />,
+                    <CustomTextField
+                        key={order.id}
+                        name="total_price"
+                        disabled
+                        label={'قیمت نهایی'}
+                        defaultValue={formatPrice(order.total_price)}
+                    />,
+                    order.payments && (
+                        <CustomTextField
+                            key={order.id}
+                            name="user_full_name"
+                            disabled
+                            label={'روش پرداخت'}
+                            defaultValue={
+                                order?.payments[0]?.payment_method_display === 'Bank Transfer'
+                                    ? 'کارت به کارت'
+                                    : order?.payments[0]?.payment_method_display === 'Online'
+                                    ? 'آنلاین'
+                                    : 'نامشخص'
+                            }
+                        />
+                    ),
+
                     <Grid item xs={12}>
                         <FormControl
                             fullWidth
@@ -211,6 +268,16 @@ export function Orders({
                     ),
                 ]}
             />
+            <Payment order={order} />
+            <Stack direction="column" spacing={0.5} sx={{mt: 2}}>
+                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                    محصولات:{' '}
+                    <Typography variant="body2"  sx={{fontSize: '14px',color:'text.secondary'}}>
+                        {order?.items?.length === 0 && 'هیچ محصولی ثبت نشده است'}
+                    </Typography>
+                </Typography>
+                <Products key={order.id} order={order} isOpen={isOpen} setIsOpen={setIsOpen} />
+            </Stack>
         </Stack>
     )
 }

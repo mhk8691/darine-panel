@@ -1,13 +1,13 @@
-import { Box, Button, Stack, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { setUtil } from '../../../redux/UtilSlice'
+import {Box, Button, Stack, Typography} from '@mui/material'
+import {makeStyles} from '@mui/styles'
+import {useDispatch} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {setUtil} from '../../../redux/UtilSlice'
 
 import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { CustomTextField } from '../../../Components/Input/CustomTextField'
+import {useEffect, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {CustomTextField} from '../../../Components/Input/CustomTextField'
 import logoImage from '../../../Images/logo.png'
 import SubmitCode from '../SubmitCode'
 export type LoginData = {
@@ -22,7 +22,7 @@ export const formatTime = (seconds: number) => {
 }
 export function Login(props) {
     const [isSubmit, setIsSubmit] = useState(false)
-    const { register, handleSubmit, getValues } = useForm()
+    const {register, handleSubmit, getValues} = useForm()
     const [time, setTime] = useState(0)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -41,7 +41,7 @@ export function Login(props) {
         return () => clearInterval(interval)
     }, [time])
     async function onSubmit(data) {
-        dispatch(setUtil({ loading: true }))
+        dispatch(setUtil({loading: true}))
         try {
             await axios.post(`https://api.ahmadshop1.com/api/auth/login/otp-request/`, data)
             setTime(120)
@@ -55,7 +55,7 @@ export function Login(props) {
                 }),
             )
         } finally {
-            dispatch(setUtil({ loading: false }))
+            dispatch(setUtil({loading: false}))
         }
     }
 
@@ -101,7 +101,6 @@ export function Login(props) {
                     justifyContent={'center'}
                     alignItems={'center'}
                     spacing={2.5}
-
                     width={'100%'}
                     mt={3}
                 >
@@ -118,13 +117,12 @@ export function Login(props) {
                     {isSubmit ? (
                         <SubmitCode getValues={getValues} resource="login">
                             {time > 0 ? (
-                                <Typography variant="body2" sx={{ fontSize: '13px', mb: 1.5 }}>
+                                <Typography variant="body2" sx={{fontSize: '13px', mb: 1.5}}>
                                     {formatTime(time)} مانده تا دریافت مجدد کد
                                 </Typography>
                             ) : (
                                 <Button
                                     variant="text"
-                                    
                                     disableRipple
                                     disableElevation
                                     onClick={handleSubmit(onSubmit)}
@@ -147,19 +145,21 @@ export function Login(props) {
                             )}
                         </SubmitCode>
                     ) : (
-                        <Stack component="form"
+                        <Stack
+                            component="form"
                             onSubmit={handleSubmit(onSubmit)}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                width: '100%'
-                            }}>
-                            <Box width={'100%'} >
+                                width: '100%',
+                            }}
+                        >
+                            <Box width={'100%'}>
                                 <CustomTextField
                                     label={'شماره تلفن'}
-                                    register={{ ...register('phone_number') }}
+                                    register={{...register('phone_number')}}
                                     name="phone_number"
                                     sx={{
                                         '& .MuiFormLabel-root': {
@@ -173,8 +173,8 @@ export function Login(props) {
                                 <Button
                                     variant="contained"
                                     size="large"
-                                    sx={{ fontSize: '16px', width: '100%' }}
-                                    type='submit'
+                                    sx={{fontSize: '16px', width: '100%'}}
+                                    type="submit"
                                 >
                                     ورود
                                 </Button>
@@ -191,7 +191,7 @@ export function Login(props) {
                                     component={Link}
                                     to={'/register'}
                                     color={'primary.main'}
-                                    sx={{ ml: 0.5 }}
+                                    sx={{ml: 0.5}}
                                 >
                                     ثبت نام
                                 </Box>
@@ -217,7 +217,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '16px 0px',
         fontWeight: 700,
         color: 'white',
-        '&:hover': { background: '#2A303B' },
+        '&:hover': {background: '#2A303B'},
     },
     fieldTitle: {
         color: '#778191',

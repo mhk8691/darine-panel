@@ -1,6 +1,5 @@
 import {TextField, TextFieldProps} from '@mui/material'
 import {styled} from '@mui/material/styles'
-import {ReactNode} from 'react'
 
 type CustomTextFieldProps = {
     setData?: any
@@ -32,14 +31,20 @@ export function CustomTextField(props: CustomTextFieldProps) {
 }
 
 const Custom = styled(TextField)(({theme}) => ({
-    '& .MuiFilledInput-root': {
-        overflow: 'hidden',
-        borderRadius: 10,
+    '& .MuiOutlinedInput-root': {
+        '&.Mui-disabled': {
+            backgroundColor: theme.palette.action.disabledBackground,
+            opacity: 0.6,
+        },
     },
-    '& .MuiOutlinedInput-input ': {
+    '& .MuiOutlinedInput-input': {
         fontSize: '15px',
     },
     '& .MuiInputLabel-root': {
         fontSize: 15,
+        '&.Mui-disabled': {
+            color: theme.palette.text.disabled,
+            opacity: 0.7,
+        },
     },
 }))

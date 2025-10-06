@@ -29,6 +29,14 @@ export function Card({
                 data={[
                     <CustomTextField
                         key={card.id}
+                        name="id"
+                        disabled={true}
+                        resource={RESOURCE}
+                        label={'آیدی'}
+                        defaultValue={card.id}
+                    />,
+                    <CustomTextField
+                        key={card.id}
                         name="full_name"
                         setData={setCard}
                         resource={RESOURCE}
@@ -68,7 +76,7 @@ export function Card({
                         label={'شماره شبا'}
                         defaultValue={card.iban}
                         endIcon={
-                           card.iban && card.iban.length === 24 ? (
+                            card.iban && card.iban.length === 24 ? (
                                 <img
                                     style={{width: '32px', height: '32px'}}
                                     src={getBankInfoWithSheba(card.iban)?.logo}
@@ -83,6 +91,22 @@ export function Card({
                                 bgcolor: 'background.light',
                             },
                         }}
+                    />,
+                    <CustomTextField
+                        key={card.id}
+                        name="created_at"
+                        disabled={true}
+                        resource={RESOURCE}
+                        label={'تاریخ ایجاد'}
+                        defaultValue={card.created_at}
+                    />,
+                    <CustomTextField
+                        key={card.id}
+                        name="updated_at"
+                        disabled={true}
+                        resource={RESOURCE}
+                        label={'تاریخ ویرایش'}
+                        defaultValue={card.updated_at}
                     />,
                 ]}
             />

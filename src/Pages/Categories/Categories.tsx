@@ -56,11 +56,32 @@ export function Categories({
                     sx={{marginBottom: '16px'}}
                     data={[
                         <CustomTextField
+                            name="id"
+                            resource={RESOURCE}
+                            disabled
+                            label={'آیدی'}
+                            defaultValue={category.id}
+                        />,
+                        <CustomTextField
                             name="name"
                             setData={setCategory}
                             resource={RESOURCE}
                             label={'نام'}
                             defaultValue={category.name}
+                        />,
+                        <CustomTextField
+                            name="children_count"
+                            resource={RESOURCE}
+                            disabled
+                            label={'تعداد زیر دسته بندی'}
+                            defaultValue={category.children_count}
+                        />,
+                        <CustomTextField
+                            name="products_count"
+                            resource={RESOURCE}
+                            disabled
+                            label={'تعداد محصولات'}
+                            defaultValue={category.products_count}
                         />,
                         <CustomAutocomplete
                             key={category.parent} // می‌تونی حتی اینو هم حذف کنی

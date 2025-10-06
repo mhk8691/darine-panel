@@ -42,6 +42,13 @@ export function Banners({
                 sx={{marginBottom: '16px'}}
                 data={[
                     <CustomTextField
+                        name="id"
+                        resource={RESOURCE}
+                        disabled
+                        label={'آیدی'}
+                        defaultValue={banner.id}
+                    />,
+                    <CustomTextField
                         name="title"
                         setData={setBanner}
                         resource={RESOURCE}

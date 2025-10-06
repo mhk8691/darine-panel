@@ -11,15 +11,15 @@ import {
     SelectChangeEvent,
     Stack,
 } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { CustomAutocomplete } from '../../Components/Input/CustomAutoComplete'
-import { CustomTextField } from '../../Components/Input/CustomTextField'
-import { DataProvider } from '../../Core/DataProvider'
-import { PropertyType } from '../../Core/types'
-import { CategoriesType } from '../Categories/Categories'
-import { MethodType } from '../ConnectionMethod/Method'
-import { ProductDetailType } from './Detail/ProductDetail'
+import {ChangeEvent, useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
+import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
+import {CustomTextField} from '../../Components/Input/CustomTextField'
+import {DataProvider} from '../../Core/DataProvider'
+import {PropertyType} from '../../Core/types'
+import {CategoriesType} from '../Categories/Categories'
+import {MethodType} from '../ConnectionMethod/Method'
+import {ProductDetailType} from './Detail/ProductDetail'
 import Options from './Options'
 import Pictures from './Pictures'
 import Properties from './Properties'
@@ -68,7 +68,7 @@ export function Products({
             const response = await DataProvider.get<{
                 results: CategoriesType[]
             }>('category/')
-            setCategories({ results: response.data.results })
+            setCategories({results: response.data.results})
         } catch (error: any) {
             console.log(error)
         }
@@ -78,7 +78,7 @@ export function Products({
             const response = await DataProvider.get<{
                 results: MethodType[]
             }>('account/base-accounts/')
-            setConnectionMethod({ results: response.data.results })
+            setConnectionMethod({results: response.data.results})
         } catch (error: any) {
             console.log(error)
         }
@@ -93,19 +93,28 @@ export function Products({
     const handleVideo = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
-            setProduct({ ...product, intro_video: file })
+            setProduct({...product, intro_video: file})
         }
     }
     const handleChangeProductType = (event: SelectChangeEvent) => {
         setProduct((prev) => {
-            return { ...prev, type: event.target.value as 'coins' | 'account' }
+            return {...prev, type: event.target.value as 'coins' | 'account'}
         })
     }
-   
 
     return (
-        <Stack sx={{ marginBottom: '16px' }}>
+        <Stack sx={{marginBottom: '16px'}}>
             <Grid container spacing={2} rowSpacing={2.5}>
+                <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <CustomTextField
+                        key={product.id}
+                        name="name"
+                        resource={RESOURCE}
+                        disabled={true}
+                        label={'آیدی'}
+                        defaultValue={product.id}
+                    />
+                </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         key={product.id}
@@ -117,7 +126,7 @@ export function Products({
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <CustomTextField
                             key={product.id}
                             name="stock"
@@ -152,12 +161,11 @@ export function Products({
                     </div>
                 </Grid>
 
-
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomAutocomplete
                         key={product.id}
                         options={categories?.results.map((category) => {
-                            return { label: category.name, id: category.id }
+                            return {label: category.name, id: category.id}
                         })}
                         name="category"
                         setData={setProduct}
@@ -169,7 +177,7 @@ export function Products({
                     <CustomAutocomplete
                         key={product.id}
                         options={connectionMethod?.results.map((method) => {
-                            return { label: method.title, id: method.id }
+                            return {label: method.title, id: method.id}
                         })}
                         name="connection_method"
                         setData={setProduct}
@@ -278,17 +286,16 @@ export function Products({
                             وضعیت
                         </InputLabel>
                         <Select
-                            value={product.visible ? "true" : "false"} // بولین → استرینگ
+                            value={product.visible ? 'true' : 'false'} // بولین → استرینگ
                             label="وضعیت"
                             onChange={(e) => {
-                                const value = e.target.value === "true"; // استرینگ → بولین
-                                setProduct((prev) => ({ ...prev, visible: value })); // اینجا هم visible با e
+                                const value = e.target.value === 'true' // استرینگ → بولین
+                                setProduct((prev) => ({...prev, visible: value})) // اینجا هم visible با e
                             }}
                         >
                             <MenuItem value="true">قابل مشاهده</MenuItem>
                             <MenuItem value="false">غیر قابل مشاهده</MenuItem>
                         </Select>
-
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -344,11 +351,11 @@ export function Products({
                             accept="video/mp4, video/webm, video/ogg, video/x-matroska"
                             id="video"
                             onChange={handleVideo}
-                            style={{ display: 'none', borderRadius: 2 }}
+                            style={{display: 'none', borderRadius: 2}}
                         />
                     </Stack>
                 </Grid>
-                <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Grid item xs={12} sx={{display: 'flex', justifyContent: 'center'}}>
                     {product.intro_video && (
                         <Box
                             component={'video'}
@@ -358,7 +365,7 @@ export function Products({
                                     : URL.createObjectURL(product.intro_video)
                             }
                             controls={true}
-                            sx={{ width: '50%', }}
+                            sx={{width: '50%'}}
                         />
                     )}
                 </Grid>

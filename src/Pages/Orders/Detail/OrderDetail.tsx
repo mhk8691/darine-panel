@@ -61,7 +61,7 @@ export interface Order {
     created_at: string
     items: OrderItem[]
     payments: PaymentType[]
-    reason: string
+    reason: string | undefined
 }
 
 export function OrderDetail() {

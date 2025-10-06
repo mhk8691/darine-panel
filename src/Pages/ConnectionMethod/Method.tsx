@@ -158,11 +158,26 @@ export function ConnectionMethod({
                 data={[
                     <CustomTextField
                         key={method.id}
+                        name="id"
+                        disabled
+                        label={'آیدی'}
+                        value={method.id}
+                    />,
+                    <CustomTextField
+                        key={method.id}
                         name="title"
                         setData={setMethod}
                         resource={RESOURCE}
                         label={'عنوان'}
                         value={method.title}
+                    />,
+                    <CustomTextField
+                        key={method.id}
+                        name="fields_count"
+                        disabled
+                        resource={RESOURCE}
+                        label={'تعداد فیلد'}
+                        value={method.fields_count}
                     />,
                 ]}
             />

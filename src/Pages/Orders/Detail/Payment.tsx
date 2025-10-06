@@ -1,12 +1,9 @@
-import {Box, Stack, Typography} from '@mui/material'
-import React from 'react'
-import {Order} from './OrderDetail'
-import {Divider} from '@mui/material'
-import {formatDate} from '../../../Core/FormatDate'
+import {Box, Divider, Stack, Typography} from '@mui/material'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import {formatDate} from '../../../Core/FormatDate'
+import {Order} from './OrderDetail'
 import './style.css'
-import {statusCalc} from '../List/OrdersList'
 export default function Payment({order}: {order: Order}) {
     return (
         <Stack direction="column" spacing={1.5}>
@@ -14,8 +11,8 @@ export default function Payment({order}: {order: Order}) {
                 پرداخت‌ها:
             </Typography>
 
-            {order.payments.length > 0 ? (
-                order.payments.map((payment, index) => (
+            {order?.payments?.length > 0 ? (
+                order?.payments?.map((payment, index) => (
                     <Box
                         key={payment.id}
                         sx={{
@@ -154,7 +151,7 @@ export default function Payment({order}: {order: Order}) {
                     </Box>
                 ))
             ) : (
-                <Typography variant="body2" sx={{fontSize: '15px'}}>
+                <Typography variant="body2" sx={{fontSize: '14px', color: 'text.secondary'}}>
                     هیچ پرداختی ثبت نشده است.
                 </Typography>
             )}

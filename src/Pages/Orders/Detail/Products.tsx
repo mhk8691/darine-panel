@@ -12,7 +12,7 @@ interface Props {
 export default function Products({ order, isOpen, setIsOpen }: Props) {
     return (
         <Grid container spacing={2}>
-            {order?.items.map((item) => (
+            {order?.items?.map((item) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={2.5}>
                     <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
                         <Stack p={2} pb={0}>

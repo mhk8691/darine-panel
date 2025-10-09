@@ -244,26 +244,17 @@ export function Products({
                         label={'روش اتصال'}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
+                {/* <Grid item xs={12} sm={6} md={4} xl={3}>
                     <CustomTextField
                         key={product.id}
                         name="base_price"
                         resource={RESOURCE}
                         setData={setProduct}
-                        label={'قیمت پایه'}
+                        label={'قیمت واحد'}
                         defaultValue={product.base_price}
                     />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        key={product.id}
-                        name="max_price"
-                        resource={RESOURCE}
-                        setData={setProduct}
-                        label={'حداکثر قیمت'}
-                        defaultValue={product.max_price}
-                    />
-                </Grid>
+                </Grid> */}
+              
                 <Grid item xs={12} sm={6} md={4} xl={3}>
                     <FormControl
                         fullWidth

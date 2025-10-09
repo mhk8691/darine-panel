@@ -5,6 +5,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {Card, CardType} from '../Card'
 import { CustomTextField } from '../../../Components/Input/CustomTextField'
 import { Grid } from '@mui/material'
+import { formatDate } from '../../../Core/FormatDate'
 
 const RESOURCE = 'card'
 export function CardEdit() {
@@ -40,7 +41,7 @@ export function CardEdit() {
             disabled={true}
             resource={RESOURCE}
             label={'تاریخ ایجاد'}
-            defaultValue={card.created_at}
+            defaultValue={formatDate(card.created_at)}
         />,
         <CustomTextField
             key={card.id}
@@ -48,7 +49,7 @@ export function CardEdit() {
             disabled={true}
             resource={RESOURCE}
             label={'تاریخ ویرایش'}
-            defaultValue={card.updated_at}
+            defaultValue={formatDate(card.updated_at)}
         />,
     ]
     return (

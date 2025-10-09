@@ -2,9 +2,8 @@ import {CssBaseline, GlobalStyles} from '@mui/material'
 import {ThemeProvider} from '@mui/material/styles'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
-import React from 'react'
 import {Provider} from 'react-redux'
-import {BrowserRouter, Route, Routes, useLocation, useNavigate} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import {QueryParamProvider} from 'use-query-params'
 import {ReactRouter6Adapter} from 'use-query-params/adapters/react-router-6'
 import './App.css'
@@ -16,25 +15,7 @@ import {Home} from './Pages/Home/Home'
 import {store} from './redux/store'
 import {RTL} from './RTL'
 import {AppTheme} from './Theme'
-
 function App() {
-    const RouteAdapter = ({children}) => {
-        const navigate = useNavigate()
-        const location = useLocation()
-
-        const adaptedHistory = React.useMemo(
-            () => ({
-                replace(location) {
-                    navigate(location, {replace: true, state: location.state})
-                },
-                push(location) {
-                    navigate(location, {replace: false, state: location.state})
-                },
-            }),
-            [navigate],
-        )
-        return children({history: adaptedHistory, location})
-    }
     return (
         <RTL>
             <LocalizationProvider dateAdapter={AdapterMoment}>

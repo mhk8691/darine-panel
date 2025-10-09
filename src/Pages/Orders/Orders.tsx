@@ -42,7 +42,7 @@ export type OrdersType = {
     total_price: number
     payment_method: 'Bank Transfer' | 'Online'
     created_at: string
-    reason: string | undefined
+    reason?: string
 }
 
 export function Orders({
@@ -64,20 +64,19 @@ export function Orders({
             return {...prev, reason: event.target.value}
         })
     }
-    useEffect(() => {
-        setOrder((prev) => {
-            if (prev.status === 'canceled') {
-                setIsCanceled(true)
-                return prev
-            } else {
-                setIsCanceled(false)
-                return {
-                    ...prev,
-                    reason: undefined,
-                }
-            }
-        })
-    }, [order, setOrder])
+ useEffect(() => {
+     setOrder((prev) => {
+         if (prev.status === 'canceled') {
+             setIsCanceled(true)
+             return prev
+         } else {
+             setIsCanceled(false)
+             const {reason, ...rest} = prev
+             return rest as Order
+         }
+     })
+ }, [order, setOrder])
+
     return (
         <Stack>
             <GridProducer

@@ -163,59 +163,42 @@ export function Products({
                             label="نامحدود"
                         />
                     </div> */}
-                    <FormControl
-                        fullWidth
-                        sx={{
-                            '& .MuiInputBase-root': {
-                                height: '54.56px !important',
-                            },
-                            '& .MuiSelect-select': {
-                                fontSize: '15px !important',
-                            },
-                            '& .Mui-disabled': {
-                                color: '#3f3f3f !important',
-                            },
-                        }}
-                    >
-                        <InputLabel
-                            id="demo-simple-select-label"
-                            sx={{
-                                fontSize: '15px !important',
-                            }}
-                        >
+                    <FormControl fullWidth>
+                        <InputLabel id="inventory-label" sx={{fontSize: '15px !important'}}>
                             موجودی محصول
                         </InputLabel>
                         <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={product.inventory ? 'موجود' : 'ناموجود'}
+                            labelId="inventory-label"
+                            id="inventory-select"
+                            value={
+                                product.inventory === undefined
+                                    ? ''
+                                    : product.inventory
+                                    ? 'موجود'
+                                    : 'ناموجود'
+                            }
                             label="موجودی محصول"
-                            onChange={handleChangeInventory}
+                            onChange={(e) => {
+                                if (e.target.value === '') {
+                                    // placeholder انتخاب شد → مقدار boolean false یا null بدیم
+                                    setProduct((prev) => ({...prev, inventory: undefined}))
+                                } else {
+                                    setProduct((prev) => ({
+                                        ...prev,
+                                        inventory: e.target.value === 'موجود', // boolean
+                                    }))
+                                }
+                            }}
                             sx={{
-                                '& .MuiAutocomplete-listbox': {
-                                    fontSize: '15px',
-                                },
-                                '& .MuiAutocomplete-option': {
-                                    py: '12px !important',
-                                },
+                                '& .MuiAutocomplete-listbox': {fontSize: '15px'},
+                                '& .MuiAutocomplete-option': {py: '12px !important'},
                             }}
                         >
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'موجود'}
-                            >
-                                موجود
+                            <MenuItem value="">
+                                <em>انتخاب کنید</em>
                             </MenuItem>
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'ناموجود'}
-                            >
-                                ناموجود
-                            </MenuItem>
+                            <MenuItem value="موجود">موجود</MenuItem>
+                            <MenuItem value="ناموجود">ناموجود</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -306,33 +289,38 @@ export function Products({
                     <FormControl
                         fullWidth
                         sx={{
-                            '& .MuiInputBase-root': {
-                                height: '54.56px !important',
-                            },
-                            '& .MuiSelect-select': {
-                                fontSize: '15px !important',
-                            },
-                            '& .Mui-disabled': {
-                                color: '#3f3f3f !important',
-                            },
+                            '& .MuiInputBase-root': {height: '54.56px !important'},
+                            '& .MuiSelect-select': {fontSize: '15px !important'},
+                            '& .Mui-disabled': {color: '#3f3f3f !important'},
                         }}
                     >
                         <InputLabel
                             id="demo-simple-select-label"
-                            sx={{
-                                fontSize: '15px !important',
-                            }}
+                            sx={{fontSize: '15px !important'}}
                         >
                             وضعیت
                         </InputLabel>
                         <Select
-                            value={product.visible ? 'true' : 'false'} // بولین → استرینگ
+                            value={
+                                product.visible === undefined
+                                    ? ''
+                                    : product.visible
+                                    ? 'true'
+                                    : 'false'
+                            }
                             label="وضعیت"
                             onChange={(e) => {
-                                const value = e.target.value === 'true' // استرینگ → بولین
-                                setProduct((prev) => ({...prev, visible: value})) // اینجا هم visible با e
+                                if (e.target.value === '') {
+                                    setProduct((prev) => ({...prev, visible: undefined}))
+                                } else {
+                                    const value = e.target.value === 'true'
+                                    setProduct((prev) => ({...prev, visible: value}))
+                                }
                             }}
                         >
+                            <MenuItem value="">
+                                <em>انتخاب کنید</em>
+                            </MenuItem>
                             <MenuItem value="true">قابل مشاهده</MenuItem>
                             <MenuItem value="false">غیر قابل مشاهده</MenuItem>
                         </Select>

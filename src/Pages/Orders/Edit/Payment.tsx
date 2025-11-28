@@ -2,7 +2,7 @@ import {Box, Divider, Stack, Typography} from '@mui/material'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import {formatDate} from '../../../Core/FormatDate'
-import {Order} from './OrderDetail'
+import {Order} from '../Detail/OrderDetail'
 import './style.css'
 export default function Payment({order}: {order: Order}) {
     return (

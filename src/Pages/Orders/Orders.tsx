@@ -14,8 +14,8 @@ import {GridProducer} from '../../Components/Table/GridProducer'
 import {formatDate} from '../../Core/FormatDate'
 import {formatPrice} from '../../Core/FormatPrice'
 import {Order} from './Detail/OrderDetail'
-import Payment from './Detail/Payment'
-import Products from './Detail/Products'
+import Payment from './Edit/Payment'
+import Products from './Edit/Products'
 
 type AccountType = {
     method: string
@@ -31,7 +31,7 @@ export type ProductsType = {
     count: number
     account: AccountType
 }
-export type OrderStatus = 'pending' | 'processing' | 'completed' | 'canceled'
+export type OrderStatus = 'pending' | 'processing' | 'completed' | 'canceled' | 'waiting_for_approval'
 export type OrdersType = {
     id: number
     user_full_name: string
@@ -64,18 +64,18 @@ export function Orders({
             return {...prev, reason: event.target.value}
         })
     }
- useEffect(() => {
-     setOrder((prev) => {
-         if (prev.status === 'canceled') {
-             setIsCanceled(true)
-             return prev
-         } else {
-             setIsCanceled(false)
-             const {reason, ...rest} = prev
-             return rest as Order
-         }
-     })
- }, [order, setOrder])
+    useEffect(() => {
+        setOrder((prev) => {
+            if (prev.status === 'canceled') {
+                setIsCanceled(true)
+                return prev
+            } else {
+                setIsCanceled(false)
+                const {reason, ...rest} = prev
+                return rest as Order
+            }
+        })
+    }, [order, setOrder])
 
     return (
         <Stack>
@@ -175,6 +175,14 @@ export function Orders({
                                     sx={{
                                         fontSize: '15px !important',
                                     }}
+                                    value={'waiting_for_approval'}
+                                >
+                                    در انتظار تایید
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        fontSize: '15px !important',
+                                    }}
                                     value={'pending'}
                                 >
                                     در انتظار
@@ -268,10 +276,27 @@ export function Orders({
                 ]}
             />
             <Payment order={order} />
+
+            {order.authentication_video && (
+                <Stack direction="column" spacing={1} sx={{mt: 2}}>
+                    <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
+                        احراز هویت:{' '}
+                    </Typography>
+                    <video
+                        controls
+                        src={order.authentication_video}
+                        style={{
+                            width: '100%',
+                            maxHeight: '400px',
+                            borderRadius: '12px',
+                        }}
+                    ></video>
+                </Stack>
+            )}
             <Stack direction="column" spacing={0.5} sx={{mt: 2}}>
                 <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
                     محصولات:{' '}
-                    <Typography variant="body2"  sx={{fontSize: '14px',color:'text.secondary'}}>
+                    <Typography variant="body2" sx={{fontSize: '14px', color: 'text.secondary'}}>
                         {order?.items?.length === 0 && 'هیچ محصولی ثبت نشده است'}
                     </Typography>
                 </Typography>

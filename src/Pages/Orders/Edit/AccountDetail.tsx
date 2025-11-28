@@ -1,5 +1,5 @@
 import {Stack, Typography} from '@mui/material'
-import {AccountDetails} from './OrderDetail'
+import { AccountDetails } from '../Detail/OrderDetail'
 interface Props {
     item: AccountDetails
 }

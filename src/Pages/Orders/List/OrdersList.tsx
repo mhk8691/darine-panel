@@ -34,6 +34,7 @@ const queryNames = [
                 type: 'choice',
                 choice: [
                     {id: 'pending', label: 'درانتظار'},
+                    {id: 'waiting_for_approval', label: 'در انتظار تایید'},
                     {id: 'processing', label: 'درحال پردازش'},
                     {id: 'completed', label: 'تکمیل شده'},
                     {id: 'canceled', label: 'لغو شده'},
@@ -61,13 +62,14 @@ const queryNames = [
 export const statusCalc = (status: OrderStatus) => {
     if (status === 'processing') return 'secondary'
     else if (status === 'completed') return 'success'
-    else if (status === 'pending') return 'warning'
+    else if (status === 'pending' || status === 'waiting_for_approval') return 'warning'
     else return 'primary'
 }
 export const enToPer = (status: string) => {
     if (status === 'processing') return 'درحال پردازش'
     else if (status === 'completed') return 'تکمیل شده'
     else if (status === 'pending') return 'درانتظار'
+    else if (status === 'waiting_for_approval') return 'در انتظار تایید'
     else return 'لغو شده'
 }
 export function OrdersList() {
@@ -103,9 +105,9 @@ export function OrdersList() {
     useDeepCompareEffect(() => {
         getOrders()
     }, [search])
-    
+
     const randomColor: ChipPropsColorOverrides = ['primary', 'secondary', 'success', 'warning']
-    
+
     return (
         <ListPage
             header="مدیریت سفارشات"

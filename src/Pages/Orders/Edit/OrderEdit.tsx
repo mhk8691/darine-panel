@@ -1,16 +1,16 @@
 import {useEffect, useState} from 'react'
-import {useLocation, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
-import {Orders, OrdersType} from '../Orders'
 import {DataProvider} from '../../../Core/DataProvider'
 import {Order} from '../Detail/OrderDetail'
+import {Orders} from '../Orders'
 
 const RESOURCE = 'shop/orders'
 export function OrderEdit() {
     const orderId = useParams().id
     const [order, setOrder] = useState<Order>({} as Order)
     const [initialData, setInitialData] = useState<Order>({} as Order)
-    useEffect(() => {   
+    useEffect(() => {
         const getOrder = async () => {
             try {
                 let response = await DataProvider.get<Order>(`shop/orders/${orderId}/`)

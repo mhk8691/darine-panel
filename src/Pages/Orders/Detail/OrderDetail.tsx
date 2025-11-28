@@ -6,8 +6,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {formatPrice} from '../../../Core/FormatPrice'
 import {setUtil} from '../../../redux/UtilSlice'
-import Payment from './Payment'
-import Products from './Products'
+import Payment from '../Edit/Payment'
+import Products from '../Edit/Products'
 import {enToPer, statusCalc} from '../List/OrdersList'
 
 const RECOURCE = 'shop/orders'
@@ -55,13 +55,14 @@ interface PaymentType {
 export interface Order {
     id: number
     user: User
-    status: 'pending' | 'processing' | 'completed' | 'canceled'
+    status: 'pending' | 'processing' | 'completed' | 'canceled' | 'waiting_for_approval'
     status_display: string
     total_price: number
     created_at: string
     items: OrderItem[]
     payments: PaymentType[]
     reason: string | undefined
+    authentication_video: string
 }
 
 export function OrderDetail() {
@@ -77,6 +78,7 @@ export function OrderDetail() {
         items: [],
         payments: [],
         reason: '',
+        authentication_video: '',
     })
     const dispatch = useDispatch()
 
@@ -153,7 +155,6 @@ export function OrderDetail() {
                 </Typography>
                 <Typography
                     variant="body1"
-                    
                     color={statusCalc(order?.status)}
                     sx={{
                         fontWeight: '400',

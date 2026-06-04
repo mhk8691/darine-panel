@@ -1,159 +1,93 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import CableIcon from '@mui/icons-material/Cable'
 import CategoryIcon from '@mui/icons-material/Category'
+import CreditCardIcon from '@mui/icons-material/CreditCard'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import GroupIcon from '@mui/icons-material/Group'
-import ImageIcon from '@mui/icons-material/Image'
-import InsertCommentIcon from '@mui/icons-material/InsertComment'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import CreditCardIcon from '@mui/icons-material/CreditCard'
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 export const drawerItems = [
+    // both
     {
         title: 'پیشخوان',
         link: '',
         role: 'all',
-        icon: (
-            <DashboardIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'both',
+        icon: <DashboardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
-        title: 'مدیریت کاربران',
+        title: 'کاربران',
         link: 'users',
         role: 'admin',
-        icon: (
-            <GroupIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-    {
-        title: 'مدیریت محصولات',
-        role: 'all',
-        link: 'product',
-        icon: (
-            <ShoppingBasketIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-       {
-        title: 'مدیریت محصولات 2',
-        role: 'all',
-        link: 'silver-product',
-        icon: (
-            <ShoppingBasketIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'both',
+        icon: <GroupIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'دسته بندی',
-        role: 'all',
         link: 'category',
-        icon: (
-            <CategoryIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-      {
-        title: 'کارت هدیه',
-        link: 'gift-cards',
         role: 'all',
-        icon: (
-            <ShoppingBagIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'both',
+        icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+    {
+        title: 'حساب کاربری',
+        link: 'profile',
+        role: 'all',
+        section: 'both',
+        icon: <AccountCircleIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+
+    // darineh
  
- 
+    {
+        title: 'محصولات',
+        link: 'product',
+        role: 'all',
+        section: 'darineh',
+        icon: <ShoppingBasketIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
     {
         title: 'سفارشات',
         link: 'orders',
         role: 'all',
-        icon: (
-            <ShoppingBagIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-    {
-        title: 'سفارشات ۲',
-        link: 'silver-orders',
-        role: 'all',
-        icon: (
-            <ShoppingBagIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'darineh',
+        icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'کارت های بانکی',
         link: 'gold-card',
         role: 'all',
-        icon: (
-            <CreditCardIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'darineh',
+        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
-      {
-        title: 'کارت های بانکی 2',
-        link: 'silver-card',
+       {
+        title: 'کارت هدیه',
+        link: 'gift-cards',
         role: 'all',
-        icon: (
-            <CreditCardIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'darineh',
+        icon: <CardGiftcardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
 
+    // silver
     {
-        title: 'حساب کاربری',
-        link: 'profile',
+        title: 'محصولات',
+        link: 'silver-product',
         role: 'all',
-        icon: (
-            <AccountCircleIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
+        section: 'silver',
+        icon: <ShoppingBasketIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+    {
+        title: 'سفارشات',
+        link: 'silver-orders',
+        role: 'all',
+        section: 'silver',
+        icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+    {
+        title: 'کارت های بانکی',
+        link: 'silver-card',
+        role: 'all',
+        section: 'silver',
+        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
 ]

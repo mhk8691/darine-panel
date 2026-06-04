@@ -1,4 +1,14 @@
-import {ListItem, Stack, Theme, Tooltip, Typography, useMediaQuery, useTheme} from '@mui/material'
+import {
+    Box,
+    Divider,
+    ListItem,
+    Stack,
+    Theme,
+    Tooltip,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -9,7 +19,8 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import {ProfileType} from '../../Core/types'
 import AppbarProfile from '../Appbar/AppbarProfile'
 import {drawerItems} from './DrawerItems'
-
+import darineLogo  from '../../Images/darineh.png'
+import noghrineLogo  from '../../Images/noghrine.png'
 export function AppDrawer({
     setSelectedTitle,
     drawerOpen,
@@ -31,29 +42,75 @@ export function AppDrawer({
     useEffect(() => {
         const value = location.pathname
         let checked = false
-        drawerItems.map((item) => {
+
+        drawerItems.forEach((item, index) => {
             if (value.toString().startsWith('/' + item.link)) {
-                let index = drawerItems.indexOf(item)
-                let newList = new Array(drawerItems.length).fill(false)
+                const newList = new Array(drawerItems.length).fill(false)
                 newList[index] = true
                 setSelected(newList)
                 setSelectedTitle(item.title)
                 checked = true
             }
         })
-        if (!checked) {
-            setSelectedTitle('')
-        }
+
+        if (!checked) setSelectedTitle('')
     }, [location.pathname])
 
     function handleClick(link, index, title) {
-        let newList = new Array(drawerItems.length).fill(false)
+        const newList = new Array(drawerItems.length).fill(false)
         newList[index] = true
         setSelected(newList)
         setSelectedTitle(title)
+
         if (isMobile) setDrawerOpen(false)
         navigate(link)
     }
+
+    const bothItems = drawerItems.filter((i) => i.section === 'both')
+    const darinehItems = drawerItems.filter((i) => i.section === 'darineh')
+    const silverItems = drawerItems.filter((i) => i.section === 'silver')
+
+    const renderItems = (items) =>
+        items.map((item) => {
+            const index = drawerItems.findIndex((i) => i.link === item.link)
+
+            if (!(item.role === user.role || item.role === 'all')) return null
+
+            return (
+                <ListItemButton
+                    key={item.title}
+                    onClick={() => handleClick(item.link, index, item.title)}
+                    selected={selected[index]}
+                    sx={{width: '100%', borderRadius: '8px'}}
+                    classes={{
+                        selected: classes.selected,
+                        root: classes.mainSelected,
+                    }}
+                >
+                    {isMobile ? (
+                        <ListItemIcon sx={{color: selected[index] ? 'black' : '#606566'}}>
+                            {item.icon}
+                        </ListItemIcon>
+                    ) : (
+                        <Tooltip title={item.title} placement="left" arrow>
+                            <ListItemIcon sx={{color: selected[index] ? 'black' : '#606566'}}>
+                                {item.icon}
+                            </ListItemIcon>
+                        </Tooltip>
+                    )}
+
+                    <Typography
+                        variant="bodyMd"
+                        sx={{
+                            color: selected[index] ? 'black' : 'grey.600',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {item.title}
+                    </Typography>
+                </ListItemButton>
+            )
+        })
 
     return (
         <Stack>
@@ -62,14 +119,12 @@ export function AppDrawer({
                 open={isMobile ? drawerOpen : true}
                 onClose={() => setDrawerOpen(false)}
                 anchor="left"
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
+                classes={{paper: classes.drawerPaper}}
                 sx={{
                     zIndex: 1000,
                     overflow: 'hidden',
                     '& .MuiDrawer-paper': {
-                        width: {xs: '220px', sm: '220px', mdl: '220px'},
+                        width: 220,
                         overflowY: 'auto',
                         '&::-webkit-scrollbar': {display: 'none'},
                     },
@@ -79,71 +134,45 @@ export function AppDrawer({
                 }}
             >
                 <List
-                    component="div"
-                    disablePadding
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: {xs: 'flex-start', mdl: 'center'},
                         gap: '5px',
                         py: '1rem',
                         mt: isMobile ? 8 : 0,
                     }}
                 >
                     {isMobile && (
-                        <>
-                            <ListItem sx={{textAlign: 'center'}}>
-                                <AppbarProfile user={user} />
-                            </ListItem>
-                        </>
+                        <ListItem>
+                            <AppbarProfile user={user} />
+                        </ListItem>
                     )}
-                    {drawerItems.map(
-                        (item, index) =>
-                            (item.role === user.role || item.role === 'all') && (
-                                <ListItemButton
-                                    onClick={(event) => handleClick(item.link, index, item.title)}
-                                    selected={selected[index]}
-                                    sx={{
-                                        width: '100%',
-                                        borderRadius: '8px',
-                                    }}
-                                    classes={{
-                                        selected: classes.selected,
-                                        root: classes.mainSelected,
-                                    }}
-                                    key={item.title}
-                                >
-                                    {isMobile ? (
-                                        <ListItemIcon
-                                            sx={{
-                                                color: selected[index] ? 'black' : '#606566',
-                                            }}
-                                        >
-                                            {item.icon}
-                                        </ListItemIcon>
-                                    ) : (
-                                        <Tooltip title={item.title} placement="left" arrow>
-                                            <ListItemIcon
-                                                sx={{
-                                                    color: selected[index] ? 'black' : '#606566',
-                                                }}
-                                            >
-                                                {item.icon}
-                                            </ListItemIcon>
-                                        </Tooltip>
-                                    )}
-                                    <Typography
-                                        variant="bodyMd"
-                                        sx={{
-                                            color: selected[index] ? 'black' : 'grey.600',
-                                            whiteSpace: 'nowrap',
-                                        }}
-                                    >
-                                        {item.title}
-                                    </Typography>
-                                </ListItemButton>
-                            ),
-                    )}
+
+                    <Typography sx={{fontWeight: 700, fontSize: 18, mt: 1,mb:2,ml:1.5}}>
+                       پنل
+                    </Typography>
+                    {renderItems(bothItems)}
+
+                    <Divider sx={{my: 2}} />
+
+                  
+                    <Stack direction={'row'} alignItems={'center'} ml={1.5} mb={2} gap={1}>
+                        <Box component={'img'} src={darineLogo} width={30} height={30} />
+                          <Typography sx={{fontWeight: 700, fontSize: 18}}>
+                        دارینه
+                    </Typography>
+                    </Stack>
+                    {renderItems(darinehItems)}
+
+                    <Divider sx={{my: 2}} />
+
+                   <Stack direction={'row'} alignItems={'center'} ml={1.5} mb={2} gap={1}>
+                        <Box component={'img'} src={noghrineLogo} width={30} height={30} />
+                          <Typography sx={{fontWeight: 700, fontSize: 18}}>
+                        نقرینه
+                    </Typography>
+                    </Stack>
+                    {renderItems(silverItems)}
                 </List>
             </Drawer>
         </Stack>
@@ -153,75 +182,18 @@ export function AppDrawer({
 export const drawerWidth = 220
 
 const useStyles = makeStyles((theme: Theme) => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        backgroundColor: `${theme.palette.background.main} !important`,
-    },
     drawerPaper: {
         width: drawerWidth,
         backgroundColor: `${theme.palette.background.main} !important`,
-    },
-    subMainSelected: {
-        width: '65px',
-        height: '65px',
-        borderRadius: '8px !important',
-        fontWeight: 500,
-        fontSize: '32px',
-        '&$selected': {
-            backgroundColor: theme.palette.background.main,
-            fontWeight: 700,
-            color: 'white',
-        },
     },
     mainSelected: {
         width: '65px',
         height: '65px',
         borderRadius: '8px !important',
-        fontWeight: 500,
         '&$selected': {
             backgroundColor: `${theme.palette.primary.main} !important`,
-            fontWeight: 700,
             color: 'white',
-            '&:hover': {
-                backgroundColor: theme.palette.primary.dark,
-            },
-        },
-    },
-    profileSelected: {
-        padding: '10px 5px 10px 40px',
-        marginBottom: '30px',
-        fontWeight: 500,
-        fontSize: '20px',
-        boxSizing: 'border-box',
-        overflowWrap: 'break-word',
-        '&$selected': {
-            backgroundColor: '#0487FF',
-            fontWeight: 700,
-            color: 'white',
-            '&:hover': {
-                backgroundColor: '#0487FF',
-            },
         },
     },
     selected: {},
-    listItemText: {
-        fontWeight: 700,
-        fontSize: '32px',
-    },
-    drawerFooter: {
-        display: 'flex',
-        marginLeft: '30px',
-        alignItems: 'center',
-        marginBottom: '40px',
-    },
-    drawerHeader: {
-        display: 'flex',
-        padding: '30px',
-        alignItems: 'center',
-    },
-    boldText: {
-        fontWeight: 700,
-        fontSize: '20px',
-    },
 }))

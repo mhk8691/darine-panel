@@ -5,17 +5,17 @@ import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 
 export type CardType = {
-    id: number
-    full_name: string
-    card_number: string
-    iban: string
-    created_at: string
-    updated_at: string
+    "id": number,
+    "card_number": string,
+    "full_name": string,
+    "sheba": string,
+    "is_active": true,
+    "created_at": string
 }
 
 const RESOURCE = 'card'
 
-export function Card({
+export function GoldCard({
     card,
     setCard,
     children,
@@ -31,7 +31,7 @@ export function Card({
                 data={[
                     ...(children ?? []),
                     <CustomTextField
-                        key={card.id + '-full_name'}
+                        key={card.id}
                         name="full_name"
                         setData={setCard}
                         resource={RESOURCE}
@@ -39,7 +39,7 @@ export function Card({
                         defaultValue={card.full_name}
                     />,
                     <CustomTextField
-                        key={card.id + '-card_number'}
+                       key={card.id}
                         name="card_number"
                         resource={RESOURCE}
                         setData={setCard}
@@ -61,17 +61,17 @@ export function Card({
                         }}
                     />,
                     <CustomTextField
-                        key={card.id + '-iban'}
-                        name="iban"
+                      key={card.id}
+                        name="sheba"
                         resource={RESOURCE}
                         setData={setCard}
                         label={'شماره شبا'}
-                        defaultValue={card.iban}
+                        defaultValue={card.sheba}
                         endIcon={
-                            card.iban && card.iban.length === 24 ? (
+                            card.sheba && card.sheba.length === 24 ? (
                                 <img
                                     style={{width: '32px', height: '32px'}}
-                                    src={getBankInfoWithSheba(card.iban)?.logo}
+                                    src={getBankInfoWithSheba(card.sheba)?.logo}
                                     alt=""
                                 />
                             ) : null

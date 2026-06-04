@@ -128,8 +128,8 @@ export const drawerItems = [
         ),
     },
     {
-        title: 'کارت ها',
-        link: 'card',
+        title: 'کارت های بانکی',
+        link: 'gold-card',
         role: 'all',
         icon: (
             <CreditCardIcon

@@ -31,10 +31,9 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
-import { CardCreate } from '../Card/Create/CardCreate'
-import { CardList } from '../Card/List/CardList'
-import { CardEdit } from '../Card/Edit/CardEdit'
-import { CardDetail } from '../Card/Detail/CardDetail'
+import { GoldCardCreate } from '../GoldCard/Create/GoldCardCreate'
+import { GoldCardList } from '../GoldCard/List/GoldCardList'
+import { GoldCardEdit } from '../GoldCard/Edit/GoldCardEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -148,12 +147,11 @@ export function Home(props) {
                         {/* requests section */}
                         {/* card section */}
                         <Route
-                            path="card/create"
-                            element={<CardCreate data={data} setData={setData} />}
+                            path="gold-card/create"
+                            element={<GoldCardCreate data={data} setData={setData} />}
                         />
-                        <Route path="card" element={<CardList />} />
-                        <Route path="card/:id" element={<CardEdit />} />
-                        <Route path="card/detail/:id" element={<CardDetail />} />
+                        <Route path="gold-card" element={<GoldCardList />} />
+                        <Route path="gold-card/:id" element={<GoldCardEdit />} />
                     </Routes>
                 </Box>
             </Box>

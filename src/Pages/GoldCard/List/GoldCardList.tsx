@@ -12,9 +12,9 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
-import {CardType} from '../Card'
-import {CardCreate} from '../Create/CardCreate'
-const RECOURCE = 'card'
+import {CardType} from '../GoldCard'
+import {GoldCardCreate} from '../Create/GoldCardCreate'
+const RECOURCE = 'gold-card'
 const tableHeadCells = [
     createTableHeadCells('نام خانوادگی', 'full_name'),
     createTableHeadCells('بانک', 'bank'),
@@ -43,7 +43,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
         }
 })
 
-export function CardList() {
+export function GoldCardList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [card, setCard] = useState<{
@@ -60,7 +60,7 @@ export function CardList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: CardType[]
-            }>(`${RECOURCE}/`, search)
+            }>(`gold-bank/`, search)
             if (response) {
                 setCard({
                     total_results: response.data.total_results,
@@ -78,7 +78,7 @@ export function CardList() {
 
     return (
         <ListPage
-            header="مدیریت کارت ها"
+        header='مدیریت کارت های بانکی'
             href={RECOURCE + '/create'}
             searchField="title"
             searchText="نام و نام خانوادگی"
@@ -87,7 +87,7 @@ export function CardList() {
             resource={RECOURCE}
             getList={getCard}
             filtersData={queryNames}
-            createModal={CardCreate}
+            createModal={GoldCardCreate}
             defaultState={{
                 firstName: '',
                 lastName: '',
@@ -123,12 +123,15 @@ export function CardList() {
                             </Typography>
                         </TableCell>
                         {item.card_number && (
-                            <TableCell>
+                            <TableCell sx={{display:'flex',alignItems:'center',gap:1}}>
                                 <img
                                     style={{width: '40px', height: '40px'}}
                                     src={getBankInfoWithCardNumber(item.card_number)?.logo}
                                     alt=""
                                 />
+                                <Typography variant="body2" >
+                                    {getBankInfoWithCardNumber(item.card_number)?.name}
+                                </Typography>
                             </TableCell>
                         )}
 
@@ -155,7 +158,7 @@ export function CardList() {
                                     xl: '17px',
                                 }}
                             >
-                                {item.iban}
+                                {item.sheba}
                             </Typography>
                         </TableCell>
 

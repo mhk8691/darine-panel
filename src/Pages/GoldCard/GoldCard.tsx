@@ -13,7 +13,7 @@ export type CardType = {
     "created_at": string
 }
 
-const RESOURCE = 'card'
+const RESOURCE = 'gold-card'
 
 export function GoldCard({
     card,

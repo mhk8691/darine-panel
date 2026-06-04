@@ -140,6 +140,19 @@ export const drawerItems = [
             />
         ),
     },
+      {
+        title: 'کارت های بانکی 2',
+        link: 'silver-card',
+        role: 'all',
+        icon: (
+            <CreditCardIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
 
     {
         title: 'حساب کاربری',

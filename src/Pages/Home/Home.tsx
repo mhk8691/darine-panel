@@ -34,6 +34,9 @@ import {UsersType} from '../Users/Users'
 import { GoldCardCreate } from '../GoldCard/Create/GoldCardCreate'
 import { GoldCardList } from '../GoldCard/List/GoldCardList'
 import { GoldCardEdit } from '../GoldCard/Edit/GoldCardEdit'
+import { SilverCardCreate } from '../SilverCard/Create/SilverCardCreate'
+import { SilverCardList } from '../SilverCard/List/SilverCardList'
+import { SilverCardEdit } from '../SilverCard/Edit/SilverCardEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -152,6 +155,14 @@ export function Home(props) {
                         />
                         <Route path="gold-card" element={<GoldCardList />} />
                         <Route path="gold-card/:id" element={<GoldCardEdit />} />
+
+
+                          <Route
+                            path="silver-card/create"
+                            element={<SilverCardCreate data={data} setData={setData} />}
+                        />
+                        <Route path="silver-card" element={<SilverCardList />} />
+                        <Route path="silver-card/:id" element={<SilverCardEdit />} />
                     </Routes>
                 </Box>
             </Box>

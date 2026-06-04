@@ -75,7 +75,19 @@ export const drawerItems = [
             />
         ),
     },
-  
+      {
+        title: 'کارت هدیه',
+        link: 'gift-cards',
+        role: 'all',
+        icon: (
+            <ShoppingBagIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
  
  
     {

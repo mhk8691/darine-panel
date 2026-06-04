@@ -1,419 +1,192 @@
 import {
-    Box,
-    Button,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    Stack,
-} from '@mui/material'
-import {ChangeEvent, useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
-import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
-import {DataProvider} from '../../Core/DataProvider'
-import {PropertyType} from '../../Core/types'
-import {CategoriesType} from '../Categories/Categories'
-import {MethodType} from '../ConnectionMethod/Method'
-import {ProductDetailType} from './Detail/ProductDetail'
-import Options from './Options'
-import Pictures from './Pictures'
-import Properties from './Properties'
-export type ProductsType = {
-    id: number
-    name: string
-    short_introduction: string
-    description: string
-    base_price: number
-    max_price: number
-    connectionMethod: number
-    type: 'coins' | 'account'
-    category: number
-    picture: any
-    options?: {
-        tittle: string
-        price: number
-    }[]
-    intro_video: string | File | null
-    properties: PropertyType[]
-}
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { CustomAutocomplete } from '../../Components/Input/CustomAutoComplete';
+import { DataProvider } from '../../Core/DataProvider';
+import { PropertyType } from '../../Core/types';
+import { CategoriesType } from '../Categories/Categories';
+import Pictures from './Pictures';
+import { ProductsListType } from './List/ProductsList';
+import { CustomTextField } from '../../Components/Input/CustomTextField';
 
-const RESOURCE = 'product'
+const RESOURCE = 'product';
 
 export function Products({
-    product,
-    setProduct,
-    editMode = false,
-    getProduct,
+  product,
+  setProduct,
+  editMode = false,
+  getProduct,
 }: {
-    product: ProductDetailType
-    setProduct: React.Dispatch<React.SetStateAction<ProductDetailType>>
-    editMode?: boolean
-    getProduct?: () => Promise<void>
+  product: ProductsListType;
+  setProduct: React.Dispatch<React.SetStateAction<ProductsListType>>;
+  editMode?: boolean;
+  getProduct?: () => Promise<void>;
 }) {
-    const productId = useParams().id
-    const [connectionMethod, setConnectionMethod] = useState<{
-        results: MethodType[]
-    } | null>(null)
-    const [categories, setCategories] = useState<{
-        results: CategoriesType[]
-    } | null>(null)
+  const productId = useParams().id;
 
-    const getCategories = async () => {
-        try {
-            const response = await DataProvider.get<{
-                results: CategoriesType[]
-            }>('category/')
-            setCategories({results: response.data.results})
-        } catch (error: any) {
-            console.log(error)
-        }
+  const [categories, setCategories] = useState<{ results: CategoriesType[] } | null>(null);
+ 
+  const getCategories = async () => {
+    try {
+      const res = await DataProvider.get<{ results: CategoriesType[] }>('categories/');
+      setCategories({ results: res.data.results });
+    } catch (e) {
+      console.log(e);
     }
-    const getConnectionMethods = async () => {
-        try {
-            const response = await DataProvider.get<{
-                results: MethodType[]
-            }>('account/base-accounts/')
-            setConnectionMethod({results: response.data.results})
-        } catch (error: any) {
-            console.log(error)
-        }
-    }
+  };
 
-    useEffect(() => {
-        getCategories()
-        getConnectionMethods()
-        console.log(product)
-    }, [])
+  useEffect(() => {
+    getCategories();
+  }, []);
 
-    const handleVideo = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]
-        if (file) {
-            setProduct({...product, intro_video: file})
-        }
-    }
-    const handleChangeProductType = (event: SelectChangeEvent) => {
-        setProduct((prev) => {
-            return {...prev, type: event.target.value as 'coins' | 'account'}
-        })
-    }
-    const handleChangeInventory = (event: SelectChangeEvent) => {
-        setProduct((prev) => {
-            return {...prev, inventory: event.target.value === 'موجود' ? true : false}
-        })
-    }
-    return (
-        <Stack sx={{marginBottom: '16px'}}>
-            <Grid container spacing={2} rowSpacing={2.5}>
-                {editMode && (
-                    <Grid item xs={12} sm={6} md={4} xl={3}>
-                        <CustomTextField
-                            key={product.id}
-                            name="name"
-                            resource={RESOURCE}
-                            disabled={true}
-                            label={'آیدی'}
-                            defaultValue={product.id}
-                        />
-                    </Grid>
-                )}
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomTextField
-                        key={product.id}
-                        name="name"
-                        setData={setProduct}
-                        resource={RESOURCE}
-                        label={'نام'}
-                        defaultValue={product.name}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    {/* <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                        <CustomTextField
-                            key={product.id}
-                            name="stock"
-                            setData={setProduct}
-                            resource={RESOURCE}
-                            label={'تعداد موجودی'}
-                            type="number"
-                            value={product.stock ?? ''}
-                            onChange={(e) =>
-                                setProduct((prev) => ({
-                                    ...prev,
-                                    stock: e.target.value === '' ? null : Number(e.target.value),
-                                }))
-                            }
-                            disabled={product.stock === null || product.stock === ''}
-                        />
+  return (
+    <Stack sx={{ mb: 2 }}>
+      <Grid container spacing={3} rowSpacing={3}>
+        {/* ID */}
+        {editMode && (
+          <Grid item xs={12} sm={6} md={4}>
+            <CustomTextField
+            key={product.id}
+              name="id"
+              label="آیدی"
+              defaultValue={product.id}
+              disabled
+            />
+          </Grid>
+        )}
 
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={product.stock === null || product.stock === ''}
-                                    onChange={(e) =>
-                                        setProduct((prev) => ({
-                                            ...prev,
-                                            stock: e.target.checked ? '' : 0,
-                                        }))
-                                    }
-                                />
-                            }
-                            label="نامحدود"
-                        />
-                    </div> */}
-                    <FormControl fullWidth>
-                        <InputLabel id="inventory-label" sx={{fontSize: '15px !important'}}>
-                            موجودی محصول
-                        </InputLabel>
-                        <Select
-                            labelId="inventory-label"
-                            id="inventory-select"
-                            value={
-                                product.inventory === undefined
-                                    ? ''
-                                    : product.inventory
-                                    ? 'موجود'
-                                    : 'ناموجود'
-                            }
-                            label="موجودی محصول"
-                            onChange={(e) => {
-                                if (e.target.value === '') {
-                                    // placeholder انتخاب شد → مقدار boolean false یا null بدیم
-                                    setProduct((prev) => ({...prev, inventory: undefined}))
-                                } else {
-                                    setProduct((prev) => ({
-                                        ...prev,
-                                        inventory: e.target.value === 'موجود', // boolean
-                                    }))
-                                }
-                            }}
-                            sx={{
-                                '& .MuiAutocomplete-listbox': {fontSize: '15px'},
-                                '& .MuiAutocomplete-option': {py: '12px !important'},
-                            }}
-                        >
-                            <MenuItem value="">
-                                <em>انتخاب کنید</em>
-                            </MenuItem>
-                            <MenuItem value="موجود">موجود</MenuItem>
-                            <MenuItem value="ناموجود">ناموجود</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
+        {/* Name */}
+        <Grid item xs={12} sm={6} md={4}>
+          <CustomTextField
+          key={product.id}
+            name="name"
+            setData={setProduct}
+            label="نام محصول"
+            defaultValue={product.name}
+          />
+        </Grid>
 
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomAutocomplete
-                        key={product.id}
-                        options={categories?.results.map((category) => {
-                            return {label: category.name, id: category.id}
-                        })}
-                        name="category"
-                        setData={setProduct}
-                        defaultValue={product.category?.name}
-                        label={'دسته بندی'}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <CustomAutocomplete
-                        key={product.id}
-                        options={connectionMethod?.results.map((method) => {
-                            return {label: method.title, id: method.id}
-                        })}
-                        name="connection_method_id"
-                        setData={setProduct}
-                        defaultValue={product.connection_method?.title}
-                        label={'روش اتصال'}
-                    />
-                </Grid>
+        {/* Category */}
+        <Grid item xs={12} sm={6} md={4}>
+       <CustomAutocomplete
+       
+  options={categories?.results.map((c) => ({
+    label: c.name,
+    id: c.id,
+  }))}
+  name="category"
+  key={product.id}
+  setData={setProduct}
+  defaultValue={
+    categories?.results
+      .map((c) => ({ label: c.name, id: c.id }))
+      .find((c) => c.id === product.category)
+  }
+  label="دسته بندی"
+/>
+        </Grid>
 
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <FormControl
-                        fullWidth
-                        sx={{
-                            '& .MuiInputBase-root': {
-                                height: '54.56px !important',
-                            },
-                            '& .MuiSelect-select': {
-                                fontSize: '15px !important',
-                            },
-                            '& .Mui-disabled': {
-                                color: '#3f3f3f !important',
-                            },
-                        }}
-                    >
-                        <InputLabel
-                            id="demo-simple-select-label"
-                            sx={{
-                                fontSize: '15px !important',
-                            }}
-                        >
-                            تایپ محصول
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={product.type ?? ''}
-                            label="تایپ اینپوت"
-                            onChange={handleChangeProductType}
-                            sx={{
-                                '& .MuiAutocomplete-listbox': {
-                                    fontSize: '15px',
-                                },
-                                '& .MuiAutocomplete-option': {
-                                    py: '12px !important',
-                                },
-                            }}
-                        >
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'coins'}
-                            >
-                                سکه
-                            </MenuItem>
-                            <MenuItem
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                                value={'account'}
-                            >
-                                {'اکانت'}
-                            </MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <FormControl
-                        fullWidth
-                        sx={{
-                            '& .MuiInputBase-root': {height: '54.56px !important'},
-                            '& .MuiSelect-select': {fontSize: '15px !important'},
-                            '& .Mui-disabled': {color: '#3f3f3f !important'},
-                        }}
-                    >
-                        <InputLabel
-                            id="demo-simple-select-label"
-                            sx={{fontSize: '15px !important'}}
-                        >
-                            وضعیت
-                        </InputLabel>
-                        <Select
-                            value={
-                                product.visible === undefined
-                                    ? ''
-                                    : product.visible
-                                    ? 'true'
-                                    : 'false'
-                            }
-                            label="وضعیت"
-                            onChange={(e) => {
-                                if (e.target.value === '') {
-                                    setProduct((prev) => ({...prev, visible: undefined}))
-                                } else {
-                                    const value = e.target.value === 'true'
-                                    setProduct((prev) => ({...prev, visible: value}))
-                                }
-                            }}
-                        >
-                            <MenuItem value="">
-                                <em>انتخاب کنید</em>
-                            </MenuItem>
-                            <MenuItem value="true">قابل مشاهده</MenuItem>
-                            <MenuItem value="false">غیر قابل مشاهده</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} xl={3}>
-                    <Pictures
-                        product={product}
-                        getProduct={getProduct}
-                        setProduct={setProduct}
-                        editMode={editMode}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <CustomTextField
-                        key={product.id}
-                        name="short_introduction"
-                        resource={RESOURCE}
-                        setData={setProduct}
-                        label={'معرفی محصول'}
-                        defaultValue={product.short_introduction}
-                        multiline={true}
-                        rows={7}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: '100%',
-                        }}
-                    >
-                        <Button
-                            component="label"
-                            htmlFor="video"
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                            sx={{
-                                py: 1.2,
-                                width: {
-                                    xs: '100%',
-                                    sm: '60%',
-                                    md: '50%',
-                                },
-                                mt: 1,
-                                borderRadius: '4px !important',
-                            }}
-                        >
-                            {product.intro_video ? 'ویرایش ویدئو' : 'انتخاب ویدئو'}
-                        </Button>
-                        <input
-                            type="file"
-                            accept="video/mp4, video/webm, video/ogg, video/x-matroska"
-                            id="video"
-                            onChange={handleVideo}
-                            style={{display: 'none', borderRadius: 2}}
-                        />
-                    </Stack>
-                </Grid>
-                <Grid item xs={12} sx={{display: 'flex', justifyContent: 'center'}}>
-                    {product.intro_video && (
-                        <Box
-                            component={'video'}
-                            src={
-                                typeof product.intro_video === 'string'
-                                    ? product.intro_video
-                                    : URL.createObjectURL(product.intro_video)
-                            }
-                            controls={true}
-                            sx={{width: '50%'}}
-                        />
-                    )}
-                </Grid>
+        {/* Inventory */}
+        <Grid item xs={12} sm={6} md={4}>
+          <CustomTextField
+          key={product.id}
+            name="inventory_count"
+            type="number"
+            setData={setProduct}
+            label="موجودی"
+            defaultValue={product.inventory_count}
+          />
+        </Grid>
 
-                <Properties
-                    editMode={editMode}
-                    product={product}
-                    getProduct={getProduct}
-                    setProduct={setProduct}
-                    productId={productId}
-                />
+        {/* Weight */}
+        <Grid item xs={12} sm={6} md={4}>
+          <CustomTextField
+          key={product.id}
+            name="weight"
+            setData={setProduct}
+            label="وزن (گرم)"
+            defaultValue={product.weight}
+          />
+        </Grid>
 
-                <Options
-                    editMode={editMode}
-                    product={product}
-                    getProduct={getProduct}
-                    setProduct={setProduct}
-                    productId={productId}
-                />
-            </Grid>
-        </Stack>
-    )
+     
+
+     
+
+        {/* Status */}
+        <Grid item xs={12} sm={6} md={4}>
+          <FormControl fullWidth>
+            <InputLabel>وضعیت</InputLabel>
+
+            <Select
+            key={product.id}
+              value={product.is_active ? 'true' : 'false'}
+              label="وضعیت"
+              onChange={(e: SelectChangeEvent) => {
+                const value = e.target.value === 'true';
+                setProduct((prev) => ({
+                  ...prev,
+                  is_active: value,
+                }));
+              }}
+            >
+              <MenuItem value="true">فعال</MenuItem>
+              <MenuItem value="false">غیرفعال</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* Delivery Type */}
+        <Grid item xs={12} sm={6} md={4}>
+          <FormControl fullWidth>
+            <InputLabel>نوع ارسال</InputLabel>
+
+            <Select
+            key={product.id}
+              value={product.delivery_type || ''}
+              label="نوع ارسال"
+              onChange={(e) => {
+                setProduct((prev) => ({
+                  ...prev,
+                  delivery_type: e.target.value,
+                }));
+              }}
+            >
+              <MenuItem value="HOME">در منزل</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/* Image */}
+        <Grid item xs={12} sm={6} md={4}>
+          <Pictures
+            product={product}
+            setProduct={setProduct}
+          />
+        </Grid>
+
+        {/* Description */}
+        <Grid item xs={12}>
+          <CustomTextField
+          key={product.id}
+            name="description"
+            setData={setProduct}
+            label="توضیحات"
+            defaultValue={product.description}
+            multiline
+            rows={6}
+          />
+        </Grid>
+      </Grid>
+    </Stack>
+  );
 }

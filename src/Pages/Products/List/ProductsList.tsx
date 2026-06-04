@@ -21,28 +21,31 @@ import {setUtil} from '../../../redux/UtilSlice'
 import {CategoriesType} from '../../Categories/Categories'
 import ProductCard from './ProductCard'
 
-const RECOURCE = 'product'
+const RECOURCE = 'products'
 const tableHeadCells = [
-    createTableHeadCells('نام', 'name'),
-    createTableHeadCells('وضعیت', 'visible'),
-    createTableHeadCells('قیمت', 'max_price'),
-    createTableHeadCells('تایپ محصول', 'type'),
-    createTableHeadCells('تاریخ ایجاد', 'created_at'),
-]
+  createTableHeadCells('نام محصول', 'name'),
+  createTableHeadCells('فعال/غیرفعال', 'is_active'),
+  createTableHeadCells('قیمت خرید (تومان)', 'buy_price'),
+  createTableHeadCells('قیمت فروش (تومان)', 'sell_price'),
+  createTableHeadCells('وزن (گرم)', 'weight'),
+  createTableHeadCells('تاریخ ایجاد', 'created_at'),
+];
 
 export interface ProductsListType {
-    id: number
-    name: string
-    base_price: number
-    max_price: number | null
-    category: number
-    category_name: string
-    type: string
-    created_at: string
-    visible: boolean
-    remaining: number | null
-    stock: number | null
-    picture: string
+  id: number;
+  category_name: string;
+  name: string;
+  delivery_type: "HOME" | string;
+  weight: string;
+  total_weight_with_fees: string;
+  buy_price: string;
+  sell_price: string;
+  inventory_count: number;
+  image: string | File | null;
+  description: string | null;
+  is_active: boolean;
+  created_at: string;
+  category: number;
 }
 export function ProductsList() {
     const [products, setProducts] = useState<{
@@ -65,7 +68,7 @@ export function ProductsList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: CategoriesType[]
-            }>(`category/`, search)
+            }>(`categories/`, search)
             if (response) {
                 setCategories({
                     total_results: response.data.total_results,

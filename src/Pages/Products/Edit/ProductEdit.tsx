@@ -2,17 +2,17 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
 import {DataProvider} from '../../../Core/DataProvider'
-import {ProductDetailType} from '../Detail/ProductDetail'
 import {Products} from '../Products'
+import { ProductsListType } from '../List/ProductsList'
 
-const RESOURCE = 'product'
+const RESOURCE = 'products'
 export function ProductEdit() {
     const productId = useParams().id
-    const [product, setProduct] = useState<ProductDetailType>({} as ProductDetailType)
-    const [initialData, setInitialData] = useState<ProductDetailType>({} as ProductDetailType)
+    const [product, setProduct] = useState<ProductsListType>({} as ProductsListType)
+    const [initialData, setInitialData] = useState<ProductsListType>({} as ProductsListType)
     const getProduct = async () => {
         try {
-            let response = await DataProvider.get<ProductDetailType>(`product/${productId}/`)
+            let response = await DataProvider.get<ProductsListType>(`${RESOURCE}/${productId}/`)
             if (response) {
                 setProduct(response.data)
                 setInitialData(response.data)
@@ -30,6 +30,7 @@ export function ProductEdit() {
             title="جزئیات محصول"
             formDetails={product}
             isFormData={true}
+            redirect={'/product'}
             initialData={initialData}
         >
             <Products

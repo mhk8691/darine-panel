@@ -24,19 +24,13 @@ import DashboardLayout from '../Dashboard/DashboardLayout'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrdersList} from '../Orders/List/OrdersList'
 import {ProductCreate} from '../Products/Create/ProductCreate'
-import {ProductDetail} from '../Products/Detail/ProductDetail'
-import {OptionsEdit} from '../Products/Edit/Options/OptionsEdit'
 import {ProductEdit} from '../Products/Edit/ProductEdit'
-import {PropertiesEdit} from '../Products/Edit/Properties/PropertiesEdit'
 import {ProductsList} from '../Products/List/ProductsList'
 import Profile from '../Profile/Profile'
 import {UserCreate} from '../Users/Create/UserCreate'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
-import { RequestsList } from '../Requests/List/RequestsList'
-import { RequestsEdit } from '../Requests/Edit/RequestsEdit'
-import { RequestsDetail } from '../Requests/Detail/RequestsDetail'
 import { CardCreate } from '../Card/Create/CardCreate'
 import { CardList } from '../Card/List/CardList'
 import { CardEdit } from '../Card/Edit/CardEdit'
@@ -117,12 +111,7 @@ export function Home(props) {
                         />
                         <Route path="product" element={<ProductsList />} />
                         <Route path="product/:id" element={<ProductEdit />} />
-                        <Route path="product/detail/:id" element={<ProductDetail />} />
-                        <Route
-                            path="product/:productId/properties/:id"
-                            element={<PropertiesEdit />}
-                        />
-                        <Route path="product/:productId/options/:id" element={<OptionsEdit />} />
+                   
                         {/* categories section */}
                         <Route
                             path="category/create"
@@ -157,9 +146,6 @@ export function Home(props) {
                         <Route path="comments/:id" element={<CommentEdit />} />
                         <Route path="comments/detail/:id" element={<CommentDetail />} />
                         {/* requests section */}
-                        <Route path="requests" element={<RequestsList />} />
-                        <Route path="requests/:id" element={<RequestsEdit />} />
-                        <Route path="requests/detail/:id" element={<RequestsDetail />} />
                         {/* card section */}
                         <Route
                             path="card/create"

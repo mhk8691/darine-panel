@@ -75,32 +75,8 @@ export const drawerItems = [
             />
         ),
     },
-    {
-        title: 'بنر',
-        link: 'banners',
-        role: 'all',
-        icon: (
-            <ImageIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
-    {
-        title: 'دیدگاه ها',
-        link: 'comments',
-        role: 'all',
-        icon: (
-            <InsertCommentIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
+ 
+ 
     {
         title: 'سفارشات',
         link: 'orders',
@@ -115,11 +91,11 @@ export const drawerItems = [
         ),
     },
     {
-        title: 'درخواست ها',
-        link: 'requests',
+        title: 'سفارشات ۲',
+        link: 'silver-orders',
         role: 'all',
         icon: (
-            <AssignmentIcon
+            <ShoppingBagIcon
                 fontSize="large"
                 sx={{
                     fontSize: '1.9rem !important',

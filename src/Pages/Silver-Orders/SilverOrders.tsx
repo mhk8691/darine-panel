@@ -1,0 +1,201 @@
+import {
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+    Typography,
+} from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { CustomTextField } from '../../Components/Input/CustomTextField'
+import { GridProducer } from '../../Components/Table/GridProducer'
+import { formatDate } from '../../Core/FormatDate'
+import { formatPrice } from '../../Core/FormatPrice'
+import { OrderStatus, OrdersType } from '../Orders/Orders'
+import Products from '../Orders/Edit/Products'
+
+
+
+export function SilverOrders({
+    order,
+    setOrder,
+}: {
+    order: OrdersType
+    setOrder: React.Dispatch<React.SetStateAction<OrdersType>>
+}) {
+    const [isCanceled, setIsCanceled] = useState(false)
+    const [isOpen, setIsOpen] = useState<number | null>(null)
+
+    const safe = (v: any) => v ?? '—'
+
+    const handleChangeStatus = (event: SelectChangeEvent) => {
+        setOrder((prev) => ({
+            ...prev,
+            status: event.target.value as OrderStatus,
+        }))
+    }
+
+    const handleChangeReason = (event: SelectChangeEvent) => {
+        setOrder((prev) => ({
+            ...prev,
+            reason: event.target.value,
+        }))
+    }
+
+    useEffect(() => {
+        setIsCanceled(order.status === 'CANCELED')
+    }, [order.status])
+
+    const data = useMemo(
+        () =>
+            [
+                <CustomTextField
+                    key={order.id}
+                    name="id"
+                    disabled
+                    label="آیدی"
+                    defaultValue={safe(order.id)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="user_full_name"
+                    disabled
+                    label="شماره تلفن"
+                    defaultValue={safe(order.user_mobile)}
+                />,
+            
+                <CustomTextField
+                    key={order.id}
+                    name="created_at"
+                    disabled
+                    label="تاریخ سفارش"
+                    defaultValue={formatDate(order.created_at)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="total_price"
+                    disabled
+                    label="قیمت نهایی"
+                    defaultValue={formatPrice(+order?.total_toman_amount)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="total_price"
+                    disabled
+                    label="طلا"
+                    defaultValue={`${order?.total_gold_amount} گرم`}
+                />,
+                <CustomTextField
+                key={order.id}
+  name="address_summary"
+  disabled
+  label="آدرس"
+
+  defaultValue={`${order?.province} - ${order?.city} - ${order?.address} - پلاک ${order?.plaque} - واحد ${order?.unit}`}
+/>,
+<CustomTextField
+key={order.id}
+  name="payment_method"
+  disabled
+  label="روش پرداخت"
+  defaultValue={order?.payment_method}
+/>,
+
+<CustomTextField
+key={order.id}
+  name="delivery_type"
+  disabled
+  label="روش ارسال"
+  defaultValue={order?.delivery_type}
+/>,
+              <CustomTextField
+              key={order.id}
+  name="tracking_code"
+  disabled
+  label="کد رهگیری"
+  defaultValue={order?.tracking_code}
+/>,
+
+                <Grid item xs={12} key={order.id}>
+                    <FormControl fullWidth>
+                        <InputLabel>وضعیت سفارش</InputLabel>
+                        <Select
+                            value={order.status ?? ''}
+                            label="وضعیت سفارش"
+                            onChange={handleChangeStatus}
+                        >
+                            <MenuItem value="PENDING">در انتظار</MenuItem>
+                            <MenuItem value="CANCELED">لغو شده</MenuItem>
+                            <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>,
+
+                isCanceled && (
+                    <Grid item xs={12} key={order.id}>
+                        <FormControl fullWidth>
+                            <InputLabel>دلیل لغو</InputLabel>
+                            <Select
+                                value={order.reason ?? ''}
+                                label="دلیل لغو"
+                                onChange={handleChangeReason}
+                            >
+                                <MenuItem value="عدم وجود آفر مورد نظر در حساب شما">
+                                    عدم وجود آفر مورد نظر
+                                </MenuItem>
+                                <MenuItem value="اشتباه بودن مشخصات حساب شما">
+                                    اشتباه بودن مشخصات حساب
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                ),
+            ].filter(Boolean),
+        [order, isCanceled]
+    )
+
+    return (
+        <Stack>
+            <GridProducer sx={{ mb: 2 }} data={data} />
+
+
+            {order.authentication_video && (
+                <Stack spacing={1} sx={{ mt: 2 }}>
+                    <Typography fontWeight={600} fontSize={17}>
+                        احراز هویت:
+                    </Typography>
+
+                    <video
+                        controls
+                        src={order.authentication_video}
+                        style={{
+                            width: '100%',
+                            maxHeight: 400,
+                            borderRadius: 12,
+                        }}
+                    />
+                </Stack>
+            )}
+
+            <Stack spacing={1} sx={{ mt: 2 }}>
+                <Typography fontWeight={600} fontSize={17}>
+                    محصولات:
+                </Typography>
+
+                {order?.items?.length ? (
+                    <Products
+                        order={order}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                    />
+                ) : (
+                    <Typography fontSize={14} color="text.secondary">
+                        هیچ محصولی ثبت نشده است
+                    </Typography>
+                )}
+            </Stack>
+        </Stack>
+    )
+}

@@ -37,6 +37,8 @@ import { GoldCardEdit } from '../GoldCard/Edit/GoldCardEdit'
 import { SilverCardCreate } from '../SilverCard/Create/SilverCardCreate'
 import { SilverCardList } from '../SilverCard/List/SilverCardList'
 import { SilverCardEdit } from '../SilverCard/Edit/SilverCardEdit'
+import { SilverOrdersList } from '../Silver-Orders/List/SilverOrdersList'
+import { SilverOrderEdit } from '../Silver-Orders/Edit/SilverOrderEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -125,6 +127,9 @@ export function Home(props) {
                         {/* orders section */}
                         <Route path="orders" element={<OrdersList />} />
                         <Route path="orders/:id" element={<OrderEdit />} />
+
+                           <Route path="silver-orders" element={<SilverOrdersList />} />
+                        <Route path="silver-orders/:id" element={<SilverOrderEdit />} />
                         {/* connection methods  section */}
                         <Route
                             path="base-accounts/create"

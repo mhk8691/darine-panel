@@ -1,4 +1,4 @@
-import {Box, Typography} from '@mui/material'
+import { Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {useState} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -15,11 +15,9 @@ import {useDispatch} from 'react-redux'
 
 const RECOURCE = 'category'
 const tableHeadCells = [
+    createTableHeadCells('آیدی', 'id'),
     createTableHeadCells('نام', 'name'),
-    createTableHeadCells('دسته بندی والد', 'parent'),
-    createTableHeadCells('تعداد محصولات', 'products_count'),
-    createTableHeadCells('تعداد زیر دسته بندی', 'children_count'),
-    createTableHeadCells('تصویر', 'thumbnail'),
+    createTableHeadCells('نام لاتین', 'slug'),
 ]
 
 export function CategoriesList() {
@@ -51,7 +49,7 @@ export function CategoriesList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: CategoriesType[]
-            }>(`${RECOURCE}/`, search)
+            }>(`categories/`, search)
             if (response) {
                 setCategories({
                     total_results: response.data.total_results,
@@ -96,6 +94,22 @@ export function CategoriesList() {
                 hasDetail={true}
                 tableBodyCells={categories.data.map((item, index) => (
                     <>
+                      <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                                sx={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.id}
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -112,6 +126,7 @@ export function CategoriesList() {
                                 {item.name}
                             </Typography>
                         </TableCell>
+                     
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -125,53 +140,10 @@ export function CategoriesList() {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.parent || '--'}
+                                {item.slug}
                             </Typography>
                         </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.products_count}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {item.children_count}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            <Box
-                                component={'img'}
-                                src={typeof item.thumbnail === 'string' ? item.thumbnail : ''}
-                                sx={{
-                                    width: '60px',
-                                    height: '60px',
-                                    borderRadius: 2,
-                                    objectFit: 'cover',
-                                }}
-                            />
-                        </TableCell>
+                     
                     </>
                 ))}
             />

@@ -10,7 +10,6 @@ import {BannerDetail} from '../Banners/Detail/BannerDetail'
 import {BannerEdit} from '../Banners/Edit/BannerEdit'
 import {BannersList} from '../Banners/List/BannersList'
 import {CategoryCreate} from '../Categories/Create/CategoryCreate'
-import {CategoryDetail} from '../Categories/Detail/CategoryDetail'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
 import {CategoriesList} from '../Categories/List/CategoriesList'
 import {CommentDetail} from '../Comments/Detail/CommentDetail'
@@ -132,7 +131,6 @@ export function Home(props) {
                         />
                         <Route path="category" element={<CategoriesList />} />
                         <Route path="category/:id" element={<CategoryEdit />} />
-                        <Route path="category/detail/:id" element={<CategoryDetail />} />
 
                         {/* orders section */}
                         <Route path="orders" element={<OrdersList />} />

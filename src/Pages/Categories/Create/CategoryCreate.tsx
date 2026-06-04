@@ -12,7 +12,7 @@ export function CategoryCreate({
     return (
         <CreatePage
             title={'افزودن دسته بندی'}
-            resource={'category/'}
+            resource={'categories/'}
             isFormData={true}
             redirect={'category'}
             formDetails={data}

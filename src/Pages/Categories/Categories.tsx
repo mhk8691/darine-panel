@@ -9,55 +9,38 @@ import {CustomAutocomplete} from '../../Components/Input/CustomAutoComplete'
 export type CategoriesType = {
     id: number
     name: string
-    thumbnail: string | File
-    parent: number
-    children_count: string
-    products_count: string
+    slug: string
 }
-const RESOURCE = 'category'
+const RESOURCE = 'categories'
 
 export function Categories({
     category,
     setCategory,
-    children,
 }: {
     category: CategoriesType
     setCategory: React.Dispatch<React.SetStateAction<CategoriesType>>
-    children?: React.ReactNode[]
 }) {
-    const [open, setOpen] = useState(false)
-    const [imagePreview, setImagePreview] = useState('')
-    const [parentCategory, setParentCategory] = useState<{
-        results: CategoriesType[]
-    }>({results: []})
-    async function getCategory() {
-        try {
-            const response = await DataProvider.get<{
-                results: CategoriesType[]
-            }>(`${RESOURCE}/`)
-            setParentCategory({
-                results: response.data.results,
-            })
-        } catch (error: any) {
-            console.log(error)
-        }
-    }
-    useEffect(() => {
-        getCategory()
-    }, [])
-    console.log(
-        'defaultValue:',
-        parentCategory.results
-            .map((item) => ({label: item.name, id: item.id}))
-            .find((option) => option.id === category.parent),
-    )
+
+    // async function getCategory() {
+    //     try {
+    //         const response = await DataProvider.get<{
+    //             results: CategoriesType[]
+    //         }>(`${RESOURCE}/`)
+    //         setCategory(response.data.results)
+    //     } catch (error: any) {
+    //         console.log(error)
+    //     }
+    // }
+    // useEffect(() => {
+    //     getCategory()
+    // }, [])
+   
     return (
         <Stack>
             {category && (
                 <GridProducer
                     sx={{marginBottom: '16px'}}
                     data={[
-                        ...(children ?? []),
 
                         <CustomTextField
                             name="name"
@@ -66,47 +49,19 @@ export function Categories({
                             label={'نام'}
                             defaultValue={category.name}
                         />,
-
-                        <CustomAutocomplete
-                            key={category.parent} // می‌تونی حتی اینو هم حذف کنی
-                            options={parentCategory.results.map((item) => ({
-                                label: item.name,
-                                id: item.id,
-                            }))}
-                            name="parent"
+<CustomTextField
+                            name="slug"
                             setData={setCategory}
-                            value={
-                                parentCategory.results
-                                    .map((item) => ({
-                                        label: item.name,
-                                        id: item.id,
-                                    }))
-                                    .find((option) => option.id === category.parent) || null
-                            }
-                            label={'دسته بندی والد'}
+                            resource={RESOURCE}
+                            label={'نام لاتین'}
+                            defaultValue={category.slug}
                         />,
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={() => setOpen(true)}
-                            size="large"
-                            fullWidth
-                            sx={{height: '53px', borderRadius: '4px !important'}}
-                        >
-                            {category.thumbnail ? 'ویرایش تصویر' : 'انتخاب تصویر'}
-                        </Button>,
+                   
+                       
                     ]}
                 />
             )}
-            <ImageUploader
-                imageName="thumbnail"
-                data={category}
-                open={open}
-                setOpen={setOpen}
-                imagePreview={imagePreview}
-                setImagePreview={setImagePreview}
-                setData={setCategory}
-            />
+          
         </Stack>
     )
 }

@@ -1,113 +1,138 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
-import {Container, Grid} from '@mui/material'
+import {Box, Grid} from '@mui/material'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
+
 import {DataProvider} from '../../Core/DataProvider'
 import {formatPrice} from '../../Core/FormatPrice'
 import {setUtil} from '../../redux/UtilSlice'
-import SalesChart from './SalesChart'
+
 import Widgets from './Widgets'
-interface GrowthData {
-    current_month: number
-    percentage_change: number
-}
+
 interface DashboardType {
-    monthly_growth: {
-        users: GrowthData
-        orders: GrowthData
-        revenue: GrowthData
-    }
-    annual_sales_overview: {
-        month: string
-        sales: number
-    }[]
+    users: number
+    products: number
+    gold_products: number
+    silver_products: number
+    orders: number
+    silver_orders: number
+    wallet_balance: number
 }
+
 export default function DashboardLayout() {
-    const [data, setData] = useState<DashboardType>({} as DashboardType)
+    const [data, setData] = useState<DashboardType | null>(null)
     const dispatch = useDispatch()
+
     useEffect(() => {
         const getData = async () => {
             try {
                 const response = await DataProvider.get<DashboardType>('dashboard/stats/')
                 setData(response.data)
-                console.log(response.data)
             } catch (error: any) {
-                dispatch(setUtil({open: true, message: error.message, severity: 'error'}))
+                dispatch(
+                    setUtil({
+                        open: true,
+                        message: error.message,
+                        severity: 'error',
+                    }),
+                )
             }
         }
+
         getData()
     }, [dispatch])
-    const calculateChange: (percentageChange: number) => {
-        title: string
-        status: 'increment' | 'decrement'
-    } = (percentageChange: number) => {
-        if (percentageChange >= 0) {
-            return {title: `${percentageChange}%  افزایش یافته است`, status: 'increment'}
-        } else {
-            return {title: `${percentageChange}% کاهش یافته است`, status: 'decrement'}
-        }
-    }
-    const formatMonth = (dateString: string) => {
-        const date = new Date(dateString)
-        return new Intl.DateTimeFormat('fa-IR', {
-            month: 'long',
-        }).format(date)
-    }
-    const loading = !data?.monthly_growth
 
-    const sortPersianMonths = (data: {month: string; sales: number}[]) => {
-        return data.sort((a, b) => {
-            const aMonth = new Date(a.month).getMonth() + 1 // 1 تا 12
-            const bMonth = new Date(b.month).getMonth() + 1
+    const loading = !data
 
-            const shift = 4
-            const aPersianOrder = (aMonth - shift + 12) % 12
-            const bPersianOrder = (bMonth - shift + 12) % 12
-
-            return aPersianOrder - bPersianOrder
-        })
-    }
-    const salesData = sortPersianMonths(data?.annual_sales_overview || []).map((item) => ({
-        month: formatMonth(item.month),
-        sales: item.sales,
-    }))
     return (
-        <Container maxWidth="xl">
-            <Grid container spacing={2} rowSpacing={3} sx={{marginTop: '1rem'}}>
-                <Widgets
-                    title="درآمد ماهانه"
-                    data={formatPrice(data?.monthly_growth?.revenue?.current_month || 0)}
-                    description={calculateChange(
-                        data?.monthly_growth?.revenue?.percentage_change || 0,
-                    )}
-                    icon={<AttachMoneyIcon fontSize={'large'} />}
-                    loading={loading}
-                />
+        <Box
+            sx={{
+                width: '100%',
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                bgcolor: '#0f0c08', // luxury gold dark background
+                color: '#fff',
+            }}
+        >
+            <Box
+                sx={{
+                    flex: 1,
+                    p: 3,
+                    display: 'flex',
+                }}
+            >
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        width: '100%',
+                        alignContent: 'flex-start',
+                    }}
+                >
+                    {/* USERS */}
+                    <Widgets
+                        title="کاربران"
+                        data={String(data?.users ?? 0)}
+                        description={{title: 'کل کاربران سایت', status: 'increment'}}
+                        icon="👤"
+                        loading={loading}
+                    />
 
-                <Widgets
-                    title="سفارشات ماهانه"
-                    data={String(data?.monthly_growth?.orders?.current_month || 0)}
-                    description={calculateChange(
-                        data?.monthly_growth?.orders?.percentage_change || 0,
-                    )}
-                    icon={<ShoppingCartOutlinedIcon fontSize={'large'} />}
-                    loading={loading}
-                />
+                    {/* PRODUCTS TOTAL */}
+                    <Widgets
+                        title="کل محصولات"
+                        data={String(data?.products ?? 0)}
+                        description={{title: 'کل محصولات ثبت‌شده', status: 'increment'}}
+                        icon="📦"
+                        loading={loading}
+                    />
 
-                <Widgets
-                    title="کاربران جدید"
-                    data={String(data?.monthly_growth?.users?.current_month || 0)}
-                    description={calculateChange(
-                        data?.monthly_growth?.users?.percentage_change || 0,
-                    )}
-                    icon={<PersonAddAltOutlinedIcon fontSize={'large'} />}
-                    loading={loading}
-                />
+                    {/* GOLD PRODUCTS */}
+                    <Widgets
+                        title="محصولات طلا"
+                        data={String(data?.gold_products ?? 0)}
+                        description={{title: 'آمار محصولات طلا', status: 'increment'}}
+                        icon="🥇"
+                        loading={loading}
+                    />
 
-                <SalesChart data={salesData} loading={!salesData || salesData.length === 0} />
-            </Grid>
-        </Container>
+                    {/* SILVER PRODUCTS */}
+                    <Widgets
+                        title="محصولات نقره"
+                        data={String(data?.silver_products ?? 0)}
+                        description={{title: 'آمار محصولات نقره', status: 'increment'}}
+                        icon="🥈"
+                        loading={loading}
+                    />
+
+                    {/* ORDERS */}
+                    <Widgets
+                        title="سفارشات طلا"
+                        data={String(data?.orders ?? 0)}
+                        description={{title: ' سفارشات ثبت شده طلا', status: 'increment'}}
+                        icon="🛒"
+                        loading={loading}
+                    />
+
+                    {/* SILVER ORDERS */}
+                    <Widgets
+                        title="سفارشات نقره"
+                        data={String(data?.silver_orders ?? 0)}
+                        description={{title: 'سفارشات ثبت شده نقره', status: 'increment'}}
+                        icon="📑"
+                        loading={loading}
+                    />
+
+                    {/* WALLET */}
+                    <Widgets
+                        title="کیف پول سایت"
+                        data={formatPrice(data?.wallet_balance ?? 0)}
+                        description={{title: 'موجودی کل سیستم', status: 'increment'}}
+                        icon="💎"
+                        loading={loading}
+                    />
+                </Grid>
+            </Box>
+        </Box>
     )
 }

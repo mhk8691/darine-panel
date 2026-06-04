@@ -1,4 +1,4 @@
-import {Grid, Stack, Typography, Skeleton} from '@mui/material'
+import {Grid, Stack, Typography, Skeleton, Box} from '@mui/material'
 import {ReactNode} from 'react'
 
 interface Props {
@@ -9,45 +9,79 @@ interface Props {
     loading?: boolean
 }
 
-export default function Widgets({title, data, description, icon, loading}: Props) {
+export default function Widgets({
+    title,
+    data,
+    description,
+    icon,
+    loading,
+}: Props) {
     return (
-        <Grid item xs={12} sm={6} md={4} mdl={6} lg={4}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
             <Stack
-                direction={'row'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-                bgcolor={'background.main'}
-                borderRadius={3}
-                px={3}
-                pr={0}
-                gap={1}
-                height="100%"
+                direction="row"
+                justifyContent="space-between"
+                alignItems="stretch"
+                sx={{
+                    height: '100%',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    position: 'relative',
+
+                    // 🟡 GOLD BACKGROUND
+                    bgcolor: '#0f0c08',
+
+                    border: '1px solid rgba(212,175,55,0.25)',
+
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+
+                    '&:hover': {
+                        transform: 'translateY(-5px)',
+                        boxShadow: '0 20px 50px rgba(212,175,55,0.15)',
+                        borderColor: 'rgba(212,175,55,0.5)',
+                    },
+
+                    // subtle gold glow line
+                    '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '2px',
+                        background:
+                            'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+                        opacity: 0.8,
+                    },
+                }}
             >
-                <Stack spacing={{xs: 4, sm: 3, md: 1.5}} py={3} direction={'column'}>
+                {/* LEFT SIDE */}
+                <Stack spacing={1.2} sx={{p: 2.5, flex: 1}}>
                     {loading ? (
-                        <Skeleton variant="text" width={120} height={25} />
+                        <Skeleton width={120} height={22} />
                     ) : (
                         <Typography
-                            variant="h6"
-                            sx={{fontSize: '17px !important', fontWeight: 'bold'}}
+                            sx={{
+                                fontSize: 14,
+                                color: 'rgba(212,175,55,0.8)',
+                                fontWeight: 500,
+                                letterSpacing: 0.3,
+                            }}
                         >
                             {title}
                         </Typography>
                     )}
 
                     {loading ? (
-                        <Skeleton variant="text" width={80} height={30} />
+                        <Skeleton width={90} height={40} />
                     ) : (
                         <Typography
-                            variant="h5"
                             sx={{
-                                fontSize: {
-                                    xs: '18px !important',
-                                    sm: '17px !important',
-                                    lg: '20px !important',
-                                },
-                                fontWeight: '400',
-                                whiteSpace: 'nowrap',
+                                fontSize: 26,
+                                fontWeight: 700,
+                                color: '#F5E6C8', // soft gold-white
+                                letterSpacing: '-0.5px',
                             }}
                         >
                             {data}
@@ -55,40 +89,55 @@ export default function Widgets({title, data, description, icon, loading}: Props
                     )}
 
                     {loading ? (
-                        <Skeleton variant="text" width={100} height={20} />
+                        <Skeleton width={140} height={18} />
                     ) : (
                         <Typography
-                            variant="body2"
                             sx={{
-                                fontSize: '14px !important',
+                                fontSize: 13,
                                 color:
                                     description.status === 'increment'
-                                        ? 'success.main'
-                                        : 'primary.main',
+                                        ? '#C9A227' // gold-green
+                                        : '#B91C1C', // deep red
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 0.5,
+                                fontWeight: 500,
                             }}
                         >
+                            {description.status === 'increment' ? '▲' : '▼'}
                             {description.title}
                         </Typography>
                     )}
                 </Stack>
 
-                <Stack
+                {/* RIGHT ICON GOLD PANEL */}
+                <Box
                     sx={{
-                        bgcolor: 'rgba(255,255,255,.1)',
-                        width: {xs: '25%', sm: '35%', lg: '30%'},
-                        height: '100%',
+                        width: 90,
                         display: 'flex',
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        alignItems: 'flex-end',
-                        px: 2,
-                        borderStartStartRadius: '50%',
-                        borderEndStartRadius: '50%',
-                        borderEndEndRadius: 3 * 4,
-                        borderStartEndRadius: 3 * 4,
+
+                        background:
+                            'linear-gradient(135deg, rgba(212,175,55,0.15), rgba(255,215,0,0.05))',
+
+                        borderLeft: '1px solid rgba(212,175,55,0.2)',
                     }}
                 >
-                    {loading ? <Skeleton variant="circular" width={40} height={40} /> : icon}
-                </Stack>
+                    {loading ? (
+                        <Skeleton variant="circular" width={40} height={40} />
+                    ) : (
+                        <Box
+                            sx={{
+                                color: '#D4AF37',
+                                filter: 'drop-shadow(0 0 8px rgba(212,175,55,0.3))',
+                                transform: 'scale(1.2)',
+                            }}
+                        >
+                            {icon}
+                        </Box>
+                    )}
+                </Box>
             </Stack>
         </Grid>
     )

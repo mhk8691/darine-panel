@@ -2,97 +2,81 @@ import {ApiResponse, query} from './Request'
 import {AxiosRequestConfig} from 'axios'
 import {ApiParams} from './QueryParams'
 import APP_URL from './APP_URL'
-import Cookies from 'universal-cookie'
 
-const cookies = new Cookies()
+async function HttpRequest<DataType>(url: string, options: AxiosRequestConfig = {}) {
+    const data = await query<DataType>({
+        url,
+        withCredentials: true,
+        ...options,
+        headers: {
+            'Accept-Language': 'fa',
+            ...options.headers,
+        },
+    })
 
-async function HttpRequest<DataType>(url: string, options) {
-    options.headers = {
-        ...options.headers,
-        'Accept-language': 'fa',
-    }
-    if (cookies.get('token')) {
-        const userObj = cookies.get('token')
-        options.headers.Authorization = 'Token ' + userObj
-    }
-    const data = await query<DataType>({url: url, ...options})
     return data
 }
+
 export class DataProvider {
     static baseUrl = APP_URL
-    static post = async <DataType>(resource: string, params?: ApiParams) => {
+
+    static async post<DataType>(resource: string, params?: ApiParams) {
         const url = `${this.baseUrl}/${resource}`
+
         const options: AxiosRequestConfig = {
-            method: 'post',
+            method: 'POST',
+            data: params?.data,
+            onUploadProgress: params?.onUploadProgress,
         }
-        if (params && params.data) {
-            options.data = params.data
-        }
-        if (params && params.onUploadProgress) {
-            options.onUploadProgress = params.onUploadProgress
-        }
-        const data = await HttpRequest<ApiResponse<DataType>>(url, options)
-        return data
+
+        return HttpRequest<ApiResponse<DataType>>(url, options)
     }
+
     static async get<DataType>(resource: string, params?: ApiParams) {
         const url = `${this.baseUrl}/${resource}`
+
         const options: AxiosRequestConfig = {
-            method: 'get',
+            method: 'GET',
+            params,
+            onUploadProgress: params?.onUploadProgress,
         }
-        if (params && params.data) {
-            options.data = params.data
-        }
-        if (params) {
-            options.params = params
-        }
-        if (params && params.onUploadProgress) {
-            options.onUploadProgress = params.onUploadProgress
-        }
-        const data = await HttpRequest<ApiResponse<DataType>>(url, options)
-        return data
+
+        return HttpRequest<ApiResponse<DataType>>(url, options)
     }
 
     static async patch<DataType>(resource: string, params?: ApiParams) {
         const url = `${this.baseUrl}/${resource}`
+
         const options: AxiosRequestConfig = {
             method: 'PATCH',
+            data: params?.data,
+            onUploadProgress: params?.onUploadProgress,
         }
-        if (params && params.data) {
-            options.data = params.data
-        }
-        if (params && params.onUploadProgress) {
-            options.onUploadProgress = params.onUploadProgress
-        }
-        const data = await HttpRequest<ApiResponse<DataType>>(url, options)
-        return data
+
+        return HttpRequest<ApiResponse<DataType>>(url, options)
     }
+
     static async put<DataType>(resource: string, params?: ApiParams) {
         const url = `${this.baseUrl}/${resource}`
+
         const options: AxiosRequestConfig = {
             method: 'PUT',
+            data: params?.data,
+            onUploadProgress: params?.onUploadProgress,
         }
-        if (params && params.data) {
-            options.data = params.data
-        }
-        if (params && params.onUploadProgress) {
-            options.onUploadProgress = params.onUploadProgress
-        }
-        const data = await HttpRequest<ApiResponse<DataType>>(url, options)
-        return data
+
+        return HttpRequest<ApiResponse<DataType>>(url, options)
     }
 
     static async delete<DataType>(resource: string, params?: ApiParams) {
         const url = `${this.baseUrl}/${resource}`
+
         const options: AxiosRequestConfig = {
             method: 'DELETE',
+            data: params?.data,
+            onUploadProgress: params?.onUploadProgress,
         }
-        if (params && params.data) {
-            options.data = params.data
-        }
-        if (params && params.onUploadProgress) {
-            options.onUploadProgress = params.onUploadProgress
-        }
-        const data = await HttpRequest<ApiResponse<DataType>>(url, options)
-        return data
+
+        return HttpRequest<ApiResponse<DataType>>(url, options)
     }
 }

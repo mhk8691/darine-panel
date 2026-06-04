@@ -2,25 +2,20 @@ import {Box, Button, Stack, Typography} from '@mui/material'
 import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {useAppSelector} from '../../redux/store'
 import {setUtil} from '../../redux/UtilSlice'
 import {Users, UsersType} from '../Users/Users'
-const RESOURCE = 'auth/profile'
 
 export default function Profile() {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
     const [initialData, setInitialData] = useState<UsersType>({} as UsersType)
-    const token = useAppSelector((state) => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         const getProfile = async () => {
             try {
                 const response = await axios.get<{
                     data: UsersType
-                }>(`https://api.ahmadshop1.com/api/auth/profile/`, {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
+                }>(`https://api.darine.shop/accounts/profile/`, {
+                    withCredentials:true
                 })
                 setProfile(response.data.data)
                 setInitialData(response.data.data)
@@ -57,10 +52,8 @@ export default function Profile() {
                 data: UsersType
                 message: string
                 status: boolean
-            }>(`https://api.ahmadshop1.com/api/${RESOURCE}/`, formData, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
+            }>(`https://api.darine.shop/accounts/profile/`, formData, {
+               withCredentials:true
             })
             dispatch(
                 setUtil({

@@ -97,7 +97,7 @@ export function UserDetail() {
                             شماره تلفن:
                         </Typography>
                         <Typography variant="body1" sx={{fontWeight: '400', fontSize: '16px'}}>
-                            {user?.phone_number}
+                            {user?.mobile}
                         </Typography>
                     </Stack>
                     <Stack

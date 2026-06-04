@@ -19,10 +19,8 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
             try {
                 const response = await axios.get<{
                     data: ProfileType
-                }>(`https://api.ahmadshop1.com/api/auth/profile/`, {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
+                }>(`https://api.darine.shop/accounts/profile/`, {
+                    withCredentials:true
                 })
                 setUser(response.data.data)
             } catch (error: any) {

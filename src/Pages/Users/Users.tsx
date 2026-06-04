@@ -6,7 +6,7 @@ export type UsersType = {
     id: number
     first_name: string
     last_name: string
-    phone_number: string
+    mobile: string
     role: string
     profile_picture: string | File
     date_joined: string
@@ -58,7 +58,7 @@ export function Users({
                         resource={RESOURCE}
                         setData={setUser}
                         label={'شماره تلفن'}
-                        defaultValue={user.phone_number}
+                        defaultValue={user.mobile}
                         disabled={editMode}
                         sx={{
                             '& .MuiInputBase-input.Mui-disabled': {

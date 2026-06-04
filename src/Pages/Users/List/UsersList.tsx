@@ -156,7 +156,7 @@ export function UsersList() {
                                     xl: '17px',
                                 }}
                             >
-                                {item.phone_number}
+                                {item.mobile}
                             </Typography>
                         </TableCell>
                         <TableCell>

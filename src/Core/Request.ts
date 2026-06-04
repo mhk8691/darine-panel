@@ -1,6 +1,6 @@
-import axios, {AxiosRequestConfig} from 'axios'
+import axios, {AxiosError, AxiosRequestConfig} from 'axios'
+import APP_URL from './APP_URL'
 
-export type ApiResponseList<DataType> = DataType
 export interface ApiResponse<DataType> {
     statusCode: string
     status: number
@@ -8,24 +8,82 @@ export interface ApiResponse<DataType> {
     data: DataType
 }
 
-export async function query<DataType>(options: AxiosRequestConfig<any>): Promise<DataType> {
-    return new Promise((resolve, reject) => {
-        axios(options)
-            .then((Response) => {
-                if (Response) {
-                    if (
-                        Response.status !== 200 &&
-                        Response.status !== 201 &&
-                        Response.status !== 204
-                    ) {
-                        console.log('api error', Response)
-                    } else resolve(Response.data as DataType)
-                }
-            })
-            .catch((error) => {
-                if (error && error.response) {
-                    reject(error.response.data)
-                }
-            })
+const api = axios.create({
+    baseURL: APP_URL,
+    withCredentials: true,
+    headers: {
+        'Accept-Language': 'fa',
+    },
+})
+
+let isRefreshing = false
+let failedQueue: {
+    resolve: (value?: any) => void
+    reject: (reason?: any) => void
+}[] = []
+
+const processQueue = (error: any = null) => {
+    failedQueue.forEach((promise) => {
+        if (error) {
+            promise.reject(error)
+        } else {
+            promise.resolve()
+        }
     })
+
+    failedQueue = []
 }
+
+api.interceptors.request.use(
+    (config: any) => {
+        return config
+    },
+    (error) => Promise.reject(error),
+)
+
+api.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+        const originalRequest: any = error.config
+
+        if (error.response?.status === 401 && !originalRequest?._retry) {
+            if (isRefreshing) {
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({
+                        resolve,
+                        reject,
+                    })
+                }).then(() => api(originalRequest))
+            }
+
+            originalRequest._retry = true
+            isRefreshing = true
+
+            try {
+                await api.post('/auth/refresh')
+
+                processQueue()
+
+                return api(originalRequest)
+            } catch (refreshError) {
+                processQueue(refreshError)
+
+                window.location.href = '/login'
+
+                return Promise.reject(refreshError)
+            } finally {
+                isRefreshing = false
+            }
+        }
+
+        return Promise.reject(error.response?.data ?? error)
+    },
+)
+
+export async function query<DataType>(options: AxiosRequestConfig): Promise<DataType> {
+    const response = await api(options)
+
+    return response.data as DataType
+}
+
+export default api

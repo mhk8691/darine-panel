@@ -116,7 +116,7 @@ export function AppDrawer({
                                     {isMobile ? (
                                         <ListItemIcon
                                             sx={{
-                                                color: selected[index] ? 'white' : '#606566',
+                                                color: selected[index] ? 'black' : '#606566',
                                             }}
                                         >
                                             {item.icon}
@@ -125,7 +125,7 @@ export function AppDrawer({
                                         <Tooltip title={item.title} placement="left" arrow>
                                             <ListItemIcon
                                                 sx={{
-                                                    color: selected[index] ? 'white' : '#606566',
+                                                    color: selected[index] ? 'black' : '#606566',
                                                 }}
                                             >
                                                 {item.icon}
@@ -135,7 +135,7 @@ export function AppDrawer({
                                     <Typography
                                         variant="bodyMd"
                                         sx={{
-                                            color: selected[index] ? 'white' : 'grey.600',
+                                            color: selected[index] ? 'black' : 'grey.600',
                                             whiteSpace: 'nowrap',
                                         }}
                                     >

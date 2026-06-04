@@ -20,7 +20,7 @@ export type OptionType = {
     price: number | undefined
 }
 export type ProfileType = {
-        phone_number: string
+        mobile: string
         first_name: string
         last_name: string
         profile_picture: string | null

@@ -56,10 +56,8 @@ export function Home(props) {
             try {
                 const response = await axios.get<{
                     data: UsersType
-                }>(`https://api.ahmadshop1.com/api/auth/profile/`, {
-                    headers: {
-                        Authorization: `Token ${isLogin}`,
-                    },
+                }>(`https://api.darine.shop/accounts/profile/`, {
+                   withCredentials:true
                 })
                 setProfile(response.data.data)
             } catch (error: any) {

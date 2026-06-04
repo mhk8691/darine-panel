@@ -99,7 +99,7 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
                                     },
                                 }}
                             >
-                                {user.phone_number}
+                                {user.mobile}
                             </Typography>
                         </Stack>
                     </Stack>

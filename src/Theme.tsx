@@ -330,8 +330,8 @@ AppTheme = createTheme({
             disabled: '#D8DEF1',
         },
         primary: {
-            main: red[700],
-            contrastText: '#FFF',
+            main: '#FCD535',
+            contrastText: '#000000',
         },
         error: {
             main: '#B3261E',

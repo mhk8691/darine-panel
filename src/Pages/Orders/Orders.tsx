@@ -8,299 +8,240 @@ import {
     Stack,
     Typography,
 } from '@mui/material'
-import {useEffect, useState} from 'react'
-import {CustomTextField} from '../../Components/Input/CustomTextField'
-import {GridProducer} from '../../Components/Table/GridProducer'
-import {formatDate} from '../../Core/FormatDate'
-import {formatPrice} from '../../Core/FormatPrice'
-import {Order} from './Detail/OrderDetail'
-import Payment from './Edit/Payment'
+import { useEffect, useMemo, useState } from 'react'
+import { CustomTextField } from '../../Components/Input/CustomTextField'
+import { GridProducer } from '../../Components/Table/GridProducer'
+import { formatDate } from '../../Core/FormatDate'
+import { formatPrice } from '../../Core/FormatPrice'
 import Products from './Edit/Products'
 
-type AccountType = {
-    method: string
-    email: string
-    password: string
-    username: string
+export type OrderStatus =
+  | 'PENDING'
+  | 'PROCESSING'
+  | 'COMPLETED'
+  | 'CANCELED'
+  | 'WAITING_FOR_APPROVAL'
+
+export type OrderItem = {
+  id: number
+  product_name: string
+  quantity: number
+  price_at_time: string
+  weight_at_time: string
+  order: number
+  product: number
 }
-export type ProductsType = {
-    id: number
-    name: string
-    price: number
-    image: string
-    count: number
-    account: AccountType
-}
-export type OrderStatus = 'pending' | 'processing' | 'completed' | 'canceled' | 'waiting_for_approval'
+
 export type OrdersType = {
-    id: number
-    user_full_name: string
-    user_phone: string
-    status: OrderStatus
-    status_display: string
-    product_names: string
-    total_price: number
-    payment_method: 'Bank Transfer' | 'Online'
-    created_at: string
-    reason?: string
+  id: number
+  user_mobile: string
+  user: number
+
+  items: OrderItem[]
+
+  province: string
+  city: string
+  address: string
+  postal_code: string
+  plaque: string
+  unit: string
+
+  payment_method: 'GOLD' | 'CASH' | string
+  delivery_type: 'HOME' | 'PICKUP' | string
+
+  status: OrderStatus
+
+  total_gold_amount: string
+  total_toman_amount: string
+
+  tracking_code: string
+  description: string | null
+
+  created_at: string
+  updated_at: string
+
+  authentication_video?: string
+  reason?: string
 }
 
 export function Orders({
     order,
     setOrder,
 }: {
-    order: Order
-    setOrder: React.Dispatch<React.SetStateAction<Order>>
+    order: OrdersType
+    setOrder: React.Dispatch<React.SetStateAction<OrdersType>>
 }) {
     const [isCanceled, setIsCanceled] = useState(false)
     const [isOpen, setIsOpen] = useState<number | null>(null)
-    const handleChangeProductType = (event: SelectChangeEvent) => {
-        setOrder((prev) => {
-            return {...prev, status: event.target.value as OrderStatus}
-        })
+
+    const safe = (v: any) => v ?? '—'
+
+    const handleChangeStatus = (event: SelectChangeEvent) => {
+        setOrder((prev) => ({
+            ...prev,
+            status: event.target.value as OrderStatus,
+        }))
     }
+
     const handleChangeReason = (event: SelectChangeEvent) => {
-        setOrder((prev) => {
-            return {...prev, reason: event.target.value}
-        })
+        setOrder((prev) => ({
+            ...prev,
+            reason: event.target.value,
+        }))
     }
+
+    // فقط وضعیت cancel را کنترل می‌کنیم (بدون loop)
     useEffect(() => {
-        setOrder((prev) => {
-            if (prev.status === 'canceled') {
-                setIsCanceled(true)
-                return prev
-            } else {
-                setIsCanceled(false)
-                const {reason, ...rest} = prev
-                return rest as Order
-            }
-        })
-    }, [order, setOrder])
+        setIsCanceled(order.status === 'CANCELED')
+    }, [order.status])
 
-    return (
-        <Stack>
-            <GridProducer
-                sx={{marginBottom: '16px'}}
-                data={[
-                    <CustomTextField
-                        key={order.id}
-                        name="id"
-                        disabled
-                        label={'آیدی'}
-                        defaultValue={order.id}
-                    />,
-                    <CustomTextField
-                        key={order.id}
-                        name="user_full_name"
-                        disabled
-                        label={'نام کاربر'}
-                        defaultValue={order.user?.full_name}
-                    />,
-                    <CustomTextField
-                        key={order.id}
-                        name="user_phone"
-                        disabled
-                        label={'شماره تلفن'}
-                        defaultValue={order.user?.phone_number}
-                    />,
-                    <CustomTextField
-                        key={order.id}
-                        name="created_at"
-                        disabled
-                        label={'تاریخ سفارش'}
-                        defaultValue={formatDate(order.created_at)}
-                    />,
-                    <CustomTextField
-                        key={order.id}
-                        name="total_price"
-                        disabled
-                        label={'قیمت نهایی'}
-                        defaultValue={formatPrice(order.total_price)}
-                    />,
-                    order.payments && (
-                        <CustomTextField
-                            key={order.id}
-                            name="user_full_name"
-                            disabled
-                            label={'روش پرداخت'}
-                            defaultValue={
-                                order?.payments[0]?.payment_method_display === 'Bank Transfer'
-                                    ? 'کارت به کارت'
-                                    : order?.payments[0]?.payment_method_display === 'Online'
-                                    ? 'آنلاین'
-                                    : 'نامشخص'
-                            }
-                        />
-                    ),
+    const data = useMemo(
+        () =>
+            [
+                <CustomTextField
+                    key={order.id}
+                    name="id"
+                    disabled
+                    label="آیدی"
+                    defaultValue={safe(order.id)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="user_full_name"
+                    disabled
+                    label="شماره تلفن"
+                    defaultValue={safe(order.user_mobile)}
+                />,
+            
+                <CustomTextField
+                    key={order.id}
+                    name="created_at"
+                    disabled
+                    label="تاریخ سفارش"
+                    defaultValue={formatDate(order.created_at)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="total_price"
+                    disabled
+                    label="قیمت نهایی"
+                    defaultValue={formatPrice(+order?.total_toman_amount)}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="total_price"
+                    disabled
+                    label="طلا"
+                    defaultValue={`${order?.total_gold_amount} گرم`}
+                />,
+                <CustomTextField
+                key={order.id}
+  name="address_summary"
+  disabled
+  label="آدرس"
 
-                    <Grid item xs={12}>
-                        <FormControl
-                            fullWidth
-                            sx={{
-                                '& .MuiInputBase-root': {
-                                    height: '54.56px !important',
-                                },
-                                '& .MuiSelect-select': {
-                                    fontSize: '15px !important',
-                                },
-                                '& .Mui-disabled': {
-                                    color: '#3f3f3f !important',
-                                },
-                            }}
+  defaultValue={`${order?.province} - ${order?.city} - ${order?.address} - پلاک ${order?.plaque} - واحد ${order?.unit}`}
+/>,
+<CustomTextField
+key={order.id}
+  name="payment_method"
+  disabled
+  label="روش پرداخت"
+  defaultValue={order?.payment_method}
+/>,
+
+<CustomTextField
+key={order.id}
+  name="delivery_type"
+  disabled
+  label="روش ارسال"
+  defaultValue={order?.delivery_type}
+/>,
+              <CustomTextField
+              key={order.id}
+  name="tracking_code"
+  disabled
+  label="کد رهگیری"
+  defaultValue={order?.tracking_code}
+/>,
+
+                <Grid item xs={12} key={order.id}>
+                    <FormControl fullWidth>
+                        <InputLabel>وضعیت سفارش</InputLabel>
+                        <Select
+                            value={order.status ?? ''}
+                            label="وضعیت سفارش"
+                            onChange={handleChangeStatus}
                         >
-                            <InputLabel
-                                id="demo-simple-select-label"
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                            >
-                                وضعیت سفارش
-                            </InputLabel>
+                            <MenuItem value="PENDING">در انتظار</MenuItem>
+                            <MenuItem value="CANCELED">لغو شده</MenuItem>
+                            <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>,
+
+                isCanceled && (
+                    <Grid item xs={12} key={order.id}>
+                        <FormControl fullWidth>
+                            <InputLabel>دلیل لغو</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={order.status ?? ''}
-                                label="وضعیت سفارش"
-                                onChange={handleChangeProductType}
-                                sx={{
-                                    '& .MuiAutocomplete-listbox': {
-                                        fontSize: '15px',
-                                    },
-                                    '& .MuiAutocomplete-option': {
-                                        py: '12px !important',
-                                    },
-                                }}
+                                value={order.reason ?? ''}
+                                label="دلیل لغو"
+                                onChange={handleChangeReason}
                             >
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'waiting_for_approval'}
-                                >
-                                    در انتظار تایید
+                                <MenuItem value="عدم وجود آفر مورد نظر در حساب شما">
+                                    عدم وجود آفر مورد نظر
                                 </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'pending'}
-                                >
-                                    در انتظار
-                                </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'processing'}
-                                >
-                                    در حال پردازش
-                                </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'canceled'}
-                                >
-                                    لغو شده
-                                </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'completed'}
-                                >
-                                    تکمیل شده
+                                <MenuItem value="اشتباه بودن مشخصات حساب شما">
+                                    اشتباه بودن مشخصات حساب
                                 </MenuItem>
                             </Select>
                         </FormControl>
-                    </Grid>,
-                    isCanceled && (
-                        <Grid item xs={12}>
-                            <FormControl
-                                fullWidth
-                                sx={{
-                                    '& .MuiInputBase-root': {
-                                        height: '54.56px !important',
-                                    },
-                                    '& .MuiSelect-select': {
-                                        fontSize: '15px !important',
-                                    },
-                                    '& .Mui-disabled': {
-                                        color: '#3f3f3f !important',
-                                    },
-                                }}
-                            >
-                                <InputLabel
-                                    id="demo-simple-select-label"
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                >
-                                    دلیل لغو
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={order.reason ?? ''}
-                                    label="دلیل لغو"
-                                    onChange={handleChangeReason}
-                                    sx={{
-                                        '& .MuiAutocomplete-listbox': {
-                                            fontSize: '15px',
-                                        },
-                                        '& .MuiAutocomplete-option': {
-                                            py: '12px !important',
-                                        },
-                                    }}
-                                >
-                                    <MenuItem
-                                        sx={{
-                                            fontSize: '15px !important',
-                                        }}
-                                        value={'عدم وجود آفر مورد نظر در حساب شما'}
-                                    >
-                                        عدم وجود آفر مورد نظر در حساب شما
-                                    </MenuItem>
-                                    <MenuItem
-                                        sx={{
-                                            fontSize: '15px !important',
-                                        }}
-                                        value={'اشتباه بودن مشخصات حساب شما'}
-                                    >
-                                        اشتباه بودن مشخصات حساب شما
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    ),
-                ]}
-            />
-            <Payment order={order} />
+                    </Grid>
+                ),
+            ].filter(Boolean),
+        [order, isCanceled]
+    )
+
+    return (
+        <Stack>
+            <GridProducer sx={{ mb: 2 }} data={data} />
+
 
             {order.authentication_video && (
-                <Stack direction="column" spacing={1} sx={{mt: 2}}>
-                    <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                        احراز هویت:{' '}
+                <Stack spacing={1} sx={{ mt: 2 }}>
+                    <Typography fontWeight={600} fontSize={17}>
+                        احراز هویت:
                     </Typography>
+
                     <video
                         controls
                         src={order.authentication_video}
                         style={{
                             width: '100%',
-                            maxHeight: '400px',
-                            borderRadius: '12px',
+                            maxHeight: 400,
+                            borderRadius: 12,
                         }}
-                    ></video>
+                    />
                 </Stack>
             )}
-            <Stack direction="column" spacing={0.5} sx={{mt: 2}}>
-                <Typography variant="body1" sx={{fontWeight: '600', fontSize: '17px'}}>
-                    محصولات:{' '}
-                    <Typography variant="body2" sx={{fontSize: '14px', color: 'text.secondary'}}>
-                        {order?.items?.length === 0 && 'هیچ محصولی ثبت نشده است'}
-                    </Typography>
+
+            <Stack spacing={1} sx={{ mt: 2 }}>
+                <Typography fontWeight={600} fontSize={17}>
+                    محصولات:
                 </Typography>
-                <Products key={order.id} order={order} isOpen={isOpen} setIsOpen={setIsOpen} />
+
+                {order?.items?.length ? (
+                    <Products
+                        order={order}
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                    />
+                ) : (
+                    <Typography fontSize={14} color="text.secondary">
+                        هیچ محصولی ثبت نشده است
+                    </Typography>
+                )}
             </Stack>
         </Stack>
     )

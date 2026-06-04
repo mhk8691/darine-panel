@@ -21,7 +21,6 @@ import {FieldEdit} from '../ConnectionMethod/Edit/Field/FieldEdit'
 import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
 import {MethodsList} from '../ConnectionMethod/List/MethodsList'
 import DashboardLayout from '../Dashboard/DashboardLayout'
-import {OrderDetail} from '../Orders/Detail/OrderDetail'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrdersList} from '../Orders/List/OrdersList'
 import {ProductCreate} from '../Products/Create/ProductCreate'
@@ -135,7 +134,6 @@ export function Home(props) {
                         {/* orders section */}
                         <Route path="orders" element={<OrdersList />} />
                         <Route path="orders/:id" element={<OrderEdit />} />
-                        <Route path="orders/detail/:id" element={<OrderDetail />} />
                         {/* connection methods  section */}
                         <Route
                             path="base-accounts/create"

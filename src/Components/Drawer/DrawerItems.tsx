@@ -49,6 +49,19 @@ export const drawerItems = [
             />
         ),
     },
+       {
+        title: 'مدیریت محصولات 2',
+        role: 'all',
+        link: 'silver-product',
+        icon: (
+            <ShoppingBasketIcon
+                fontSize="large"
+                sx={{
+                    fontSize: '1.9rem !important',
+                }}
+            />
+        ),
+    },
     {
         title: 'دسته بندی',
         role: 'all',
@@ -62,19 +75,7 @@ export const drawerItems = [
             />
         ),
     },
-    {
-        title: 'روش های اتصال',
-        link: 'base-accounts',
-        role: 'all',
-        icon: (
-            <CableIcon
-                fontSize="large"
-                sx={{
-                    fontSize: '1.9rem !important',
-                }}
-            />
-        ),
-    },
+  
  
  
     {

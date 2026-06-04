@@ -39,6 +39,9 @@ import { SilverCardList } from '../SilverCard/List/SilverCardList'
 import { SilverCardEdit } from '../SilverCard/Edit/SilverCardEdit'
 import { SilverOrdersList } from '../Silver-Orders/List/SilverOrdersList'
 import { SilverOrderEdit } from '../Silver-Orders/Edit/SilverOrderEdit'
+import { SilverProductCreate } from '../SilverProducts/Create/SilverProductCreate'
+import { SilverProductEdit } from '../SilverProducts/Edit/SilverProductEdit'
+import { SilverProductsList } from '../SilverProducts/List/SilverProductsList'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -116,6 +119,12 @@ export function Home(props) {
                         <Route path="product" element={<ProductsList />} />
                         <Route path="product/:id" element={<ProductEdit />} />
                    
+                          <Route
+                            path="silver-product/create"
+                            element={<SilverProductCreate data={data} setData={setData} />}
+                        />
+                        <Route path="silver-product" element={<SilverProductsList />} />
+                        <Route path="silver-product/:id" element={<SilverProductEdit />} />
                         {/* categories section */}
                         <Route
                             path="category/create"

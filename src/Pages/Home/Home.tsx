@@ -33,7 +33,6 @@ import {PropertiesEdit} from '../Products/Edit/Properties/PropertiesEdit'
 import {ProductsList} from '../Products/List/ProductsList'
 import Profile from '../Profile/Profile'
 import {UserCreate} from '../Users/Create/UserCreate'
-import {UserDetail} from '../Users/Detail/UserDetail'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
@@ -113,7 +112,6 @@ export function Home(props) {
                         />
                         <Route path="users" element={<UsersList />} />
                         <Route path="users/:id" element={<UserEdit />} />
-                        <Route path="users/detail/:id" element={<UserDetail />} />
                         {/* product section */}
                         <Route
                             path="product/create"

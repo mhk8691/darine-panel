@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import {ProfileType} from '../../Core/types'
 import {useAppDispatch} from '../../redux/store'
 import {logout} from '../../redux/user_slice'
+import axios from 'axios'
 
 const AppbarProfile = ({user}: {user: ProfileType}) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -17,10 +18,17 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
     const handleClose = () => {
         setAnchorEl(null)
     }
-    const handleLogout = () => {
-        dispatch(logout())
-        handleClose()
+    const handleLogout = async () => {
+        try{
+            await axios.post('https://api.darine.shop/accounts/logout/', {
+                    withCredentials:true
+                })
+                handleClose()
         navigate('/login')
+        }catch(error:unknown){
+            console.log(error)
+        }
+        
     }
 
     const open = Boolean(anchorEl)

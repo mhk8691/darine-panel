@@ -2,14 +2,45 @@ import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} fro
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import ProfileUploader from './ProfileUploader'
+import { formatDate } from '../../Core/FormatDate'
 export type UsersType = {
     id: number
+
+    username: string
     first_name: string
     last_name: string
+    email: string
+
     mobile: string
-    role: string
-    profile_picture: string | File
+    national_code: string
+    birth_date: string
+
+    card_number: string | null
+    shaba_number: string | null
+
+    referral_code: string | null
+    referred_by: number | null
+
+    role: 'user' | 'admin' | 'superadmin'
+
+    is_active: boolean
+    is_staff: boolean
+    is_superuser: boolean
+
+    auth_status: 'pending' | 'verified' | 'rejected'
+
+    last_login: string | null
     date_joined: string
+    updated_at: string
+
+    profile_picture: string | File
+
+    fees: {
+        gold_buy_fee: number
+        gold_sell_fee: number
+        silver_buy_fee: number
+        silver_sell_fee: number
+    }
 }
 const RESOURCE = 'users'
 
@@ -17,120 +48,162 @@ export function Users({
     user,
     setUser,
     editMode = false,
-    isProfile=false
+    isProfile = false,
 }: {
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
     editMode?: boolean
-    isProfile?:boolean
+    isProfile?: boolean
 }) {
-    const handleChange = (event: SelectChangeEvent) => {
-        setUser((prev) => {
-            return {...prev, role: event.target.value as 'superadmin' | 'admin' | 'user'}
-        })
+    const handleRoleChange = (event: SelectChangeEvent) => {
+        setUser((prev) => ({
+            ...prev,
+            role: event.target.value as UsersType['role'],
+        }))
     }
     return (
-        <Stack>
+        <Stack spacing={3}>
             <ProfileUploader user={user} setUser={setUser} />
             <GridProducer
-                sx={{marginBottom: '16px'}}
+                sx={{ marginBottom: '16px' }}
                 data={[
                     <CustomTextField
                         key={user.id}
                         name="first_name"
-                        setData={setUser}
+                        label="نام"
                         resource={RESOURCE}
-                        label={'نام'}
+                        setData={setUser}
                         defaultValue={user.first_name}
                     />,
                     <CustomTextField
                         key={user.id}
                         name="last_name"
+                        label="نام خانوادگی"
                         resource={RESOURCE}
                         setData={setUser}
-                        label={'نام خانوادگی'}
                         defaultValue={user.last_name}
                     />,
-
                     <CustomTextField
                         key={user.id}
-                        name="phone_number"
+                        name="national_code"
+                        label="کد ملی"
                         resource={RESOURCE}
                         setData={setUser}
-                        label={'شماره تلفن'}
+                        defaultValue={user.national_code}
+                        disabled={editMode}
+                    />,
+                    <CustomTextField
+                        key={user.id}
+                        name="mobile"
+                        label="شماره تلفن"
+                        resource={RESOURCE}
+                        setData={setUser}
                         defaultValue={user.mobile}
                         disabled={editMode}
-                        sx={{
-                            '& .MuiInputBase-input.Mui-disabled': {
-                                bgcolor: 'background.light',
-                            },
-                        }}
+                        
                     />,
+                ]}
+            />
+
+            <GridProducer
+                sx={{ marginBottom: '16px' }}
+                data={[
+                   
                     !isProfile && (
-                        <FormControl
-                            fullWidth
-                            sx={{
-                                '& .MuiInputBase-root': {
-                                    height: '54.56px !important',
-                                },
-                                '& .MuiSelect-select': {
-                                    fontSize: '15px !important',
-                                },
-                                '& .Mui-disabled': {
-                                    color: '#3f3f3f !important',
-                                },
-                            }}
+                <Stack spacing={2}>
+                    <FormControl fullWidth>
+                        <InputLabel>نقش کاربر</InputLabel>
+                        <Select
+                        key={user.id}
+                            value={user.role}
+                            label="نقش کاربر"
+                            onChange={handleRoleChange}
                         >
-                            <InputLabel
-                                id="demo-simple-select-label"
-                                sx={{
-                                    fontSize: '15px !important',
-                                }}
-                            >
-                                نقش کاربر
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={user.role ?? ''}
-                                label="نقش کاربر"
-                                onChange={handleChange}
-                                sx={{
-                                    '& .MuiAutocomplete-listbox': {
-                                        fontSize: '15px',
-                                    },
-                                    '& .MuiAutocomplete-option': {
-                                        py: '12px !important',
-                                    },
-                                }}
-                            >
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'user'}
-                                >
-                                    کاربر عادی
-                                </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'admin'}
-                                >
-                                    ادمین
-                                </MenuItem>
-                                <MenuItem
-                                    sx={{
-                                        fontSize: '15px !important',
-                                    }}
-                                    value={'superadmin'}
-                                >
-                                    سوپر ادمین
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    ),
+                            <MenuItem value="customer">کاربر عادی</MenuItem>
+                            <MenuItem value="admin">ادمین</MenuItem>
+                        </Select>
+                    </FormControl>
+                   
+                </Stack>
+                
+                ),
+                editMode && <CustomTextField
+                        key={user.id}
+                        name="birth_date"
+                        label="تاریخ تولد"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={formatDate(user.birth_date)}
+                         disabled={editMode}
+                    />,
+                 editMode && <CustomTextField
+                 key={user.id}
+                        name="auth_status"
+                        label="وضعیت احراز هویت"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.auth_status}
+                        disabled
+                    />,
+                      editMode &&<CustomTextField
+                      key={user.id}
+                        name="referral_code"
+                        label="کد نمایندگی"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_code}
+                        disabled
+                    />
+            
+                ]}
+            />
+            
+
+            <GridProducer
+                data={[
+                    
+                    
+                    <CustomTextField
+                        key={user.id}
+                        name="gold_buy_fee"
+                        label="کارمزد خرید طلا"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.fees?.gold_buy_fee}
+                    />,
+                    <CustomTextField
+                        key={user.id}
+                        name="gold_sell_fee"
+                        label="کارمزد فروش طلا"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user?.fees?.gold_sell_fee}
+                    />,
+                    <CustomTextField
+                        key={user.id}
+                        name="silver_buy_fee"
+                        label="کارمزد خرید نقره"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user?.fees?.silver_buy_fee}
+                    />,
+                    <CustomTextField
+                        key={user.id}
+                        name="silver_sell_fee"
+                        label="کارمزد فروش نقره"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user?.fees?.silver_sell_fee}
+                    />,
+                     editMode &&  <CustomTextField
+                        key={user.id}
+                        name="date_joined"
+                        label="تاریخ عضویت"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={formatDate(user.date_joined)}
+                        disabled
+                    />,
                 ]}
             />
         </Stack>

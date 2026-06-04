@@ -11,9 +11,6 @@ export interface ApiResponse<DataType> {
 const api = axios.create({
     baseURL: APP_URL,
     withCredentials: true,
-    headers: {
-        'Accept-Language': 'fa',
-    },
 })
 
 let isRefreshing = false

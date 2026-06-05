@@ -25,7 +25,7 @@ export default function DashboardLayout() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await DataProvider.get<DashboardType>('dashboard/stats/')
+                const response = await DataProvider.get<DashboardType>('dashboard/')
                 setData(response.data)
             } catch (error: any) {
                 dispatch(

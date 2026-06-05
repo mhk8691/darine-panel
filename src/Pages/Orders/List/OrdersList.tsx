@@ -55,12 +55,11 @@ const queryNames = [
 
 export const statusCalc = (status: OrderStatus) => {
     switch (status) {
-        case 'PROCESSING':
-            return 'secondary'
+        case 'FAILED':
+            return 'error'
         case 'COMPLETED':
             return 'success'
         case 'PENDING':
-        case 'WAITING_FOR_APPROVAL':
             return 'warning'
         default:
             return 'primary'
@@ -71,13 +70,11 @@ export const enToPer = (status: OrderStatus) => {
     switch (status) {
         case 'PENDING':
             return 'در انتظار'
-        case 'WAITING_FOR_APPROVAL':
-            return 'در انتظار تایید'
-        case 'PROCESSING':
-            return 'در حال پردازش'
+       
+    
         case 'COMPLETED':
             return 'تکمیل شده'
-        case 'CANCELED':
+        case 'FAILED':
             return 'لغو شده'
         default:
             return status
@@ -177,6 +174,7 @@ export function OrdersList() {
                 handleSort={getOrders}
                 loading={loading}
                 hasDetail={true}
+                noDelete
                 tableBodyCells={orders.data.map((item) => (
                     <React.Fragment key={item.id}>
                         <TableCell>

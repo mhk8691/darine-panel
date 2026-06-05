@@ -29,18 +29,18 @@ export const drawerItems = [
         section: 'both',
         icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
     },
-    {
-        title: 'حساب کاربری',
-        link: 'profile',
-        role: 'all',
-        section: 'both',
-        icon: <AccountCircleIcon sx={{fontSize: '1.9rem !important'}} />,
-    },
+    // {
+    //     title: 'حساب کاربری',
+    //     link: 'profile',
+    //     role: 'all',
+    //     section: 'both',
+    //     icon: <AccountCircleIcon sx={{fontSize: '1.9rem !important'}} />,
+    // },
 
     // darineh
  
     {
-        title: 'محصولات',
+        title: 'محصولات دارینه',
         link: 'product',
         role: 'all',
         section: 'darineh',
@@ -70,7 +70,7 @@ export const drawerItems = [
 
     // silver
     {
-        title: 'محصولات',
+        title: 'محصولات نقرینه',
         link: 'silver-product',
         role: 'all',
         section: 'silver',

@@ -106,7 +106,7 @@ export function SilverOrdersList() {
 
     return (
         <ListPage
-             header="مدیریت سفارشات نقره"
+             header="مدیریت سفارشات نقرینه"
             href={RECOURCE + '/create'}
             searchField="username"
             searchText="نام کاربری"

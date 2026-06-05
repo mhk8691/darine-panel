@@ -5,21 +5,9 @@ import MainLayout from '../../Components/MainLayout'
 import {useAppSelector} from '../../redux/store'
 
 import axios from 'axios'
-import {BannerCreate} from '../Banners/Create/BannerCreate'
-import {BannerDetail} from '../Banners/Detail/BannerDetail'
-import {BannerEdit} from '../Banners/Edit/BannerEdit'
-import {BannersList} from '../Banners/List/BannersList'
 import {CategoryCreate} from '../Categories/Create/CategoryCreate'
 import {CategoryEdit} from '../Categories/Edit/CategoryEdit'
 import {CategoriesList} from '../Categories/List/CategoriesList'
-import {CommentDetail} from '../Comments/Detail/CommentDetail'
-import {CommentEdit} from '../Comments/Edit/CommentEdit'
-import {CommentsList} from '../Comments/List/CommentsList'
-import {MethodCreate} from '../ConnectionMethod/Create/MethodCreate'
-import {MethodDetail} from '../ConnectionMethod/Detail/MethodDetail'
-import {FieldEdit} from '../ConnectionMethod/Edit/Field/FieldEdit'
-import {MethodEdit} from '../ConnectionMethod/Edit/MethodEdit'
-import {MethodsList} from '../ConnectionMethod/List/MethodsList'
 import DashboardLayout from '../Dashboard/DashboardLayout'
 import {OrderEdit} from '../Orders/Edit/OrderEdit'
 import {OrdersList} from '../Orders/List/OrdersList'
@@ -37,8 +25,8 @@ import { GoldCardEdit } from '../GoldCard/Edit/GoldCardEdit'
 import { SilverCardCreate } from '../SilverCard/Create/SilverCardCreate'
 import { SilverCardList } from '../SilverCard/List/SilverCardList'
 import { SilverCardEdit } from '../SilverCard/Edit/SilverCardEdit'
-import { SilverOrdersList } from '../Silver-Orders/List/SilverOrdersList'
-import { SilverOrderEdit } from '../Silver-Orders/Edit/SilverOrderEdit'
+import { SilverOrdersList } from '../SilverOrders/List/SilverOrdersList'
+import { SilverOrderEdit } from '../SilverOrders/Edit/SilverOrderEdit'
 import { SilverProductCreate } from '../SilverProducts/Create/SilverProductCreate'
 import { SilverProductEdit } from '../SilverProducts/Edit/SilverProductEdit'
 import { SilverProductsList } from '../SilverProducts/List/SilverProductsList'
@@ -142,28 +130,8 @@ export function Home(props) {
 
                            <Route path="silver-orders" element={<SilverOrdersList />} />
                         <Route path="silver-orders/:id" element={<SilverOrderEdit />} />
-                        {/* connection methods  section */}
-                        <Route
-                            path="base-accounts/create"
-                            element={<MethodCreate data={data} setData={setData} />}
-                        />
-                        <Route path="base-accounts" element={<MethodsList />} />
-                        <Route path="base-accounts/:id" element={<MethodEdit />} />
-                        <Route path="base-accounts/detail/:id" element={<MethodDetail />} />
-                        <Route path="base-accounts/:accountId/field/:id" element={<FieldEdit />} />
-                        {/* banners section */}
-                        <Route
-                            path="banners/create"
-                            element={<BannerCreate data={data} setData={setData} />}
-                        />
-                        <Route path="banners" element={<BannersList />} />
-                        <Route path="banners/:id" element={<BannerEdit />} />
-                        <Route path="banners/detail/:id" element={<BannerDetail />} />
-                        {/* comment section */}
-
-                        <Route path="comments" element={<CommentsList />} />
-                        <Route path="comments/:id" element={<CommentEdit />} />
-                        <Route path="comments/detail/:id" element={<CommentDetail />} />
+                    
+                       
                         {/* requests section */}
                         {/* card section */}
                         <Route

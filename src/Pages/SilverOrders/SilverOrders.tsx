@@ -45,7 +45,7 @@ export function SilverOrders({
     }
 
     useEffect(() => {
-        setIsCanceled(order.status === 'CANCELED')
+        setIsCanceled(order.status === 'FAILED')
     }, [order.status])
 
     const data = useMemo(

@@ -14,7 +14,7 @@ import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
 import {CardType} from '../GoldCard'
 import {GoldCardCreate} from '../Create/GoldCardCreate'
-const RECOURCE = 'gold-card'
+const RECOURCE = 'gold-bank'
 const tableHeadCells = [
     createTableHeadCells('نام خانوادگی', 'full_name'),
     createTableHeadCells('بانک', 'bank'),
@@ -79,7 +79,7 @@ export function GoldCardList() {
     return (
         <ListPage
         header='مدیریت کارت های بانکی'
-            href={RECOURCE + '/create'}
+            href={'gold-card' + '/create'}
             searchField="title"
             searchText="نام و نام خانوادگی"
             setParams={setSearch}

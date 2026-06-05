@@ -112,6 +112,7 @@ export function GiftCardsList() {
             getList={getOrders}
             filtersData={queryNames}
             noCreate={true}
+            
             defaultState={{
                 status: '',
                 username: '',
@@ -134,6 +135,7 @@ export function GiftCardsList() {
                 params={search}
                 setParams={setSearch}
                 handleSort={getOrders}
+                noDelete
                 loading={loading}
                 hasDetail={true}
                 tableBodyCells={orders.data.map((item) => (

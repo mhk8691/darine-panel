@@ -13,7 +13,7 @@ import {CategoryCreate} from '../Create/CategoryCreate'
 import {setUtil} from '../../../redux/UtilSlice'
 import {useDispatch} from 'react-redux'
 
-const RECOURCE = 'category'
+const RECOURCE = 'categories'
 const tableHeadCells = [
     createTableHeadCells('آیدی', 'id'),
     createTableHeadCells('نام', 'name'),
@@ -68,7 +68,7 @@ export function CategoriesList() {
     return (
         <ListPage
             header="مدیریت دسته بندی ها"
-            href={RECOURCE + '/create'}
+            href={'category' + '/create'}
             searchField="title"
             searchText="نام"
             setParams={setSearch}

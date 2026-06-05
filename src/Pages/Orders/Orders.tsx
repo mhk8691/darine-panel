@@ -17,10 +17,8 @@ import Products from './Edit/Products'
 
 export type OrderStatus =
   | 'PENDING'
-  | 'PROCESSING'
   | 'COMPLETED'
-  | 'CANCELED'
-  | 'WAITING_FOR_APPROVAL'
+  | 'FAILED'
 
 export type OrderItem = {
   id: number
@@ -92,7 +90,7 @@ export function Orders({
 
     // فقط وضعیت cancel را کنترل می‌کنیم (بدون loop)
     useEffect(() => {
-        setIsCanceled(order.status === 'CANCELED')
+        setIsCanceled(order.status === 'FAILED')
     }, [order.status])
 
     const data = useMemo(
@@ -174,31 +172,13 @@ key={order.id}
                             onChange={handleChangeStatus}
                         >
                             <MenuItem value="PENDING">در انتظار</MenuItem>
-                            <MenuItem value="CANCELED">لغو شده</MenuItem>
+                            {/* <MenuItem value="FAILED">لغو شده</MenuItem> */}
                             <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>,
 
-                isCanceled && (
-                    <Grid item xs={12} key={order.id}>
-                        <FormControl fullWidth>
-                            <InputLabel>دلیل لغو</InputLabel>
-                            <Select
-                                value={order.reason ?? ''}
-                                label="دلیل لغو"
-                                onChange={handleChangeReason}
-                            >
-                                <MenuItem value="عدم وجود آفر مورد نظر در حساب شما">
-                                    عدم وجود آفر مورد نظر
-                                </MenuItem>
-                                <MenuItem value="اشتباه بودن مشخصات حساب شما">
-                                    اشتباه بودن مشخصات حساب
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                ),
+               
             ].filter(Boolean),
         [order, isCanceled]
     )

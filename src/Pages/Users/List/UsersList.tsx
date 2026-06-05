@@ -131,6 +131,7 @@ export function UsersList() {
             resource={RECOURCE}
             getList={getUsers}
             filtersData={queryNames}
+            noCreate
             createModal={UserCreate}
             defaultState={{
                 firstName: '',

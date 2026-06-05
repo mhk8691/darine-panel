@@ -171,7 +171,7 @@ export function SilverProductsList() {
                             fontWeight: 600,
                         }}
                     >
-                        مدیریت محصولات
+                        مدیریت محصولات نقرینه
                     </Typography>
                     <AddButton
                         href={'/silver-product/create'}

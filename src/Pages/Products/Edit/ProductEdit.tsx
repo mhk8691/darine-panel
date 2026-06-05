@@ -30,7 +30,7 @@ export function ProductEdit() {
             title="جزئیات محصول"
             formDetails={product}
             isFormData={true}
-            redirect={'/product'}
+            redirect={'product'}
             initialData={initialData}
         >
             <Products

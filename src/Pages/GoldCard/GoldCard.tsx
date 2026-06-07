@@ -1,4 +1,4 @@
-import {Stack} from '@mui/material'
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
 import {getBankInfoWithCardNumber, getBankInfoWithSheba} from 'ir-banks-info'
 import 'iranianbanklogos/dist/ibl.css'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
@@ -9,7 +9,7 @@ export type CardType = {
     "card_number": string,
     "full_name": string,
     "sheba": string,
-    "is_active": true,
+    "is_active": boolean,
     "created_at": string
 }
 
@@ -82,6 +82,28 @@ export function GoldCard({
                             },
                         }}
                     />,
+      <FormControl fullWidth>
+        <InputLabel>وضعیت</InputLabel>
+
+        <Select
+            value={String(card.is_active)}
+          label="وضعیت"
+          onChange={(event: SelectChangeEvent) =>
+            setCard((prev) => ({
+              ...prev,
+              is_active: event.target.value === 'true' ? true :false,
+            }))
+          }
+        >
+          <MenuItem value="true">
+            فعال
+          </MenuItem>
+
+          <MenuItem value="false">
+           غیر فعال
+          </MenuItem>
+        </Select>
+      </FormControl>
                 ]}
             />
         </Stack>

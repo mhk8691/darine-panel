@@ -26,10 +26,10 @@ import SilverProductCard from './SilverProductCard'
 const RECOURCE = 'silver-products'
 const tableHeadCells = [
   createTableHeadCells('نام محصول', 'name'),
-  createTableHeadCells('فعال/غیرفعال', 'is_active'),
-  createTableHeadCells('قیمت خرید (تومان)', 'buy_price'),
-  createTableHeadCells('قیمت فروش (تومان)', 'sell_price'),
+  createTableHeadCells('وضعیت', 'is_active'),
   createTableHeadCells('وزن (گرم)', 'weight'),
+    createTableHeadCells('درصد سود', 'profit_percent'),
+  createTableHeadCells('قیمت نهایی', 'total_price'),
   createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ];
 

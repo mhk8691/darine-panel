@@ -115,7 +115,15 @@ export function SilverProducts({
             defaultValue={product.weight}
           />
         </Grid>
-
+ <Grid item xs={12} sm={6} md={4}>
+          <CustomTextField
+          key={product.id}
+            name="profit_percent"
+            setData={setProduct}
+            label="درصد سود"
+            defaultValue={product.profit_percent}
+          />
+        </Grid>
      
 
      
@@ -143,26 +151,6 @@ export function SilverProducts({
           </FormControl>
         </Grid>
 
-        {/* Delivery Type */}
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth>
-            <InputLabel>نوع ارسال</InputLabel>
-
-            <Select
-            key={product.id}
-              value={product.delivery_type || ''}
-              label="نوع ارسال"
-              onChange={(e) => {
-                setProduct((prev) => ({
-                  ...prev,
-                  delivery_type: e.target.value,
-                }));
-              }}
-            >
-              <MenuItem value="HOME">در منزل</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
 
         {/* Image */}
         <Grid item xs={12} sm={6} md={4}>

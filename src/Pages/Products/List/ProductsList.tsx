@@ -24,10 +24,10 @@ import ProductCard from './ProductCard'
 const RECOURCE = 'products'
 const tableHeadCells = [
   createTableHeadCells('نام محصول', 'name'),
-  createTableHeadCells('فعال/غیرفعال', 'is_active'),
-  createTableHeadCells('قیمت خرید (تومان)', 'buy_price'),
-  createTableHeadCells('قیمت فروش (تومان)', 'sell_price'),
+  createTableHeadCells('وضعیت', 'is_active'),
   createTableHeadCells('وزن (گرم)', 'weight'),
+    createTableHeadCells('درصد سود', 'profit_percent'),
+  createTableHeadCells('قیمت نهایی', 'total_price'),
   createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ];
 
@@ -37,15 +37,14 @@ export interface ProductsListType {
   name: string;
   delivery_type: "HOME" | string;
   weight: string;
-  total_weight_with_fees: string;
-  buy_price: string;
-  sell_price: string;
+  total_price:number
   inventory_count: number;
   image: string | File | null;
   description: string | null;
   is_active: boolean;
   created_at: string;
   category: number;
+  profit_percent:number
 }
 export function ProductsList() {
     const [products, setProducts] = useState<{

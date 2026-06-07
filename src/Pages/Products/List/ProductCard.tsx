@@ -96,11 +96,11 @@ export default function ProductCard({
 
           <Stack direction="column" spacing={0.5} mb={1}>
             <Typography variant="body2" color="text.secondary">
-              خرید: {formatPrice(+item.buy_price)}
+              درصد سود: {+item.profit_percent ||0}%
             </Typography>
 
             <Typography variant="body2" color="success.main" fontWeight="bold">
-              فروش: {formatPrice(+item.sell_price)}
+              قیمت نهایی: {formatPrice(+item.total_price)}
             </Typography>
           </Stack>
 

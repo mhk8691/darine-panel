@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material'
+import {Chip, Typography} from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import {getBankInfoWithCardNumber} from 'ir-banks-info'
 import {useState} from 'react'
@@ -20,6 +20,7 @@ const tableHeadCells = [
     createTableHeadCells('بانک', 'bank'),
     createTableHeadCells('شماره کارت', 'card_number'),
     createTableHeadCells('شماره شبا', 'iban'),
+     createTableHeadCells('وضعیت', 'is_active'),
     createTableHeadCells('تاریخ ایجاد', 'created_at'),
 ]
 const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
@@ -161,7 +162,13 @@ export function GoldCardList() {
                                 {item.sheba}
                             </Typography>
                         </TableCell>
-
+ <TableCell>
+        <Chip
+            label={item.is_active? 'فعال' : 'غیرفعال'}
+            color={item.is_active? 'success' : 'error'}
+            size="small"
+        />
+    </TableCell>
                         <TableCell>
                             <Typography
                                 variant="body2"

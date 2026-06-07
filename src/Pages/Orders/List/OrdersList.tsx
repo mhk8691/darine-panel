@@ -192,7 +192,7 @@ export function OrdersList() {
                                     variant="body2"
                                     sx={{whiteSpace: 'nowrap'}}
                                 >
-                                    {item.items?.[0]?.product_name}
+                                    {item.items?.[0]?.product_name || '--'}
                                 </Typography>
 
                                 {item.items?.length > 1 && (

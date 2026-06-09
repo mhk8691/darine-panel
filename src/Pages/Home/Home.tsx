@@ -58,7 +58,7 @@ export function Home(props) {
         if (!isLogin) {
             navigate('/login')
         }
-        if (profile.role === 'user') {
+        if (profile.role === 'customer') {
             navigate('/login')
         }
         if (location.pathname === '/') {

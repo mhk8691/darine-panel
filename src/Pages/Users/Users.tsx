@@ -21,7 +21,7 @@ export type UsersType = {
     referral_code: string | null
     referred_by: number | null
 
-    role: 'user' | 'admin' | 'superadmin'
+    role: 'customer' | 'admin' 
 
     is_active: boolean
     is_staff: boolean
@@ -65,7 +65,6 @@ export function Users({
         <Stack spacing={3}>
             <ProfileUploader user={user} setUser={setUser} />
             <GridProducer
-                sx={{ marginBottom: '16px' }}
                 data={[
                     <CustomTextField
                         key={user.id}
@@ -106,7 +105,7 @@ export function Users({
             />
 
             <GridProducer
-                sx={{ marginBottom: '16px' }}
+               
                 data={[
                    
                     !isProfile && (
@@ -136,15 +135,7 @@ export function Users({
                         defaultValue={formatDate(user.birth_date)}
                          disabled={editMode}
                     />,
-                 editMode && <CustomTextField
-                 key={user.id}
-                        name="auth_status"
-                        label="وضعیت احراز هویت"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={user.auth_status}
-                        disabled
-                    />,
+              
                       editMode &&<CustomTextField
                       key={user.id}
                         name="referral_code"
@@ -152,8 +143,16 @@ export function Users({
                         resource={RESOURCE}
                         setData={setUser}
                         defaultValue={user.referral_code}
+                    />,
+                         editMode &&  <CustomTextField
+                        key={user.id}
+                        name="date_joined"
+                        label="تاریخ عضویت"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={formatDate(user.date_joined)}
                         disabled
-                    />
+                    />,
             
                 ]}
             />
@@ -162,7 +161,7 @@ export function Users({
             <GridProducer
                 data={[
                     
-                    
+                   
                     <CustomTextField
                         key={user.id}
                         name="gold_buy_fee"
@@ -195,17 +194,11 @@ export function Users({
                         setData={setUser}
                         defaultValue={user?.fees?.silver_sell_fee}
                     />,
-                     editMode &&  <CustomTextField
-                        key={user.id}
-                        name="date_joined"
-                        label="تاریخ عضویت"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={formatDate(user.date_joined)}
-                        disabled
-                    />,
+                 
                 ]}
+                
             />
+         
         </Stack>
     )
 }

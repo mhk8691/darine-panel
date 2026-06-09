@@ -20,9 +20,10 @@ const tableHeadCells = [
     createTableHeadCells('نام', 'first_name'),
     createTableHeadCells('نام خانوادگی', 'last_name'),
     createTableHeadCells('موبایل', 'mobile'),
+    createTableHeadCells('کد ملی', 'national_code'),
     createTableHeadCells('نقش', 'role'),
     createTableHeadCells('کارمزدها', 'fees'),
-    createTableHeadCells('وضعیت احراز هویت', 'auth_status'),
+    createTableHeadCells('کد نمایندگی', 'referral_code'),
     createTableHeadCells('وضعیت حساب', 'is_active'),
     createTableHeadCells('تاریخ عضویت', 'date_joined'),
 ]
@@ -34,9 +35,8 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
             label: cell.label,
             type: 'choice',
             choice: [
-                { label: 'کاربر', id: 'user' },
+                { label: 'کاربر', id: 'customer' },
                 { label: 'ادمین', id: 'admin' },
-                { label: 'سوپر ادمین', id: 'superadmin' },
             ],
         }
 
@@ -52,10 +52,9 @@ function formatRole(role: string) {
     switch (role) {
         case 'admin':
             return 'ادمین'
-        case 'user':
+        case 'customer':
             return 'کاربر'
-        case 'superadmin':
-            return 'سوپر ادمین'
+   
         default:
             return role
     }
@@ -131,7 +130,6 @@ export function UsersList() {
             resource={RECOURCE}
             getList={getUsers}
             filtersData={queryNames}
-            noCreate
             createModal={UserCreate}
             defaultState={{
                 firstName: '',
@@ -195,7 +193,19 @@ export function UsersList() {
                                 {item.mobile}
                             </Typography>
                         </TableCell>
-
+  <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.national_code}
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography
                                 variant="body2"
@@ -263,7 +273,7 @@ export function UsersList() {
                                     xl: '17px',
                                 }}
                             >
-                                {formatAuthStatus(item.auth_status)}
+                                {item.referral_code}
                             </Typography>
                         </TableCell>
 

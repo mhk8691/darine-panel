@@ -3,6 +3,9 @@ import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import ProfileUploader from './ProfileUploader'
 import { formatDate } from '../../Core/FormatDate'
+import DatePickerFilter from '../../Components/Filter/DatePicker'
+import { ParamType } from '../../Components/Filter/CustomFilter'
+import { useEffect } from 'react'
 export type UsersType = {
     id: number
 
@@ -49,11 +52,16 @@ export function Users({
     setUser,
     editMode = false,
     isProfile = false,
+    setDate,
+    date
 }: {
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
+     setDate: React.Dispatch<React.SetStateAction<ParamType>>
+     date:ParamType
     editMode?: boolean
     isProfile?: boolean
+    
 }) {
     const handleRoleChange = (event: SelectChangeEvent) => {
         setUser((prev) => ({
@@ -61,8 +69,20 @@ export function Users({
             role: event.target.value as UsersType['role'],
         }))
     }
+       const queryNames = {
+  label: "تاریخ تولد",
+  field: "date",
+}   
+useEffect(() => {
+    if (!date.date) return;
+
+    setUser(prev => ({
+        ...prev,
+        birth_date: date.date as string,
+    }));
+}, [date]);
     return (
-        <Stack spacing={3}>
+        <Stack gap={3} >
             <ProfileUploader user={user} setUser={setUser} />
             <GridProducer
                 data={[
@@ -126,17 +146,10 @@ export function Users({
                 </Stack>
                 
                 ),
-                editMode && <CustomTextField
-                        key={user.id}
-                        name="birth_date"
-                        label="تاریخ تولد"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={formatDate(user.birth_date)}
-                         disabled={editMode}
-                    />,
+        
+                    <DatePickerFilter setParams={setDate} item={queryNames} initialValue={user.birth_date} /> ,
               
-                      editMode &&<CustomTextField
+                      editMode &&<CustomTextField   
                       key={user.id}
                         name="referral_code"
                         label="کد نمایندگی"

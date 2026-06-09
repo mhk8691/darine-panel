@@ -69,16 +69,15 @@ export default function DashboardLayout() {
                         alignContent: 'flex-start',
                     }}
                 >
-                    {/* USERS */}
                     <Widgets
                         title="کاربران"
                         data={String(data?.users ?? 0)}
                         description={{title: 'کل کاربران سایت', status: 'increment'}}
                         icon="👤"
                         loading={loading}
+                        link='/users'
                     />
 
-                    {/* PRODUCTS TOTAL */}
                     <Widgets
                         title="کل محصولات"
                         data={String(data?.products ?? 0)}
@@ -86,44 +85,42 @@ export default function DashboardLayout() {
                         icon="📦"
                         loading={loading}
                     />
-
-                    {/* GOLD PRODUCTS */}
                     <Widgets
                         title="محصولات طلا"
                         data={String(data?.gold_products ?? 0)}
                         description={{title: 'آمار محصولات طلا', status: 'increment'}}
                         icon="🥇"
                         loading={loading}
+                        link='/product'
                     />
 
-                    {/* SILVER PRODUCTS */}
                     <Widgets
                         title="محصولات نقره"
                         data={String(data?.silver_products ?? 0)}
                         description={{title: 'آمار محصولات نقره', status: 'increment'}}
                         icon="🥈"
                         loading={loading}
+                        link='/silver-product'
                     />
 
-                    {/* ORDERS */}
                     <Widgets
                         title="سفارشات طلا"
                         data={String(data?.orders ?? 0)}
                         description={{title: ' سفارشات ثبت شده طلا', status: 'increment'}}
                         icon="🛒"
                         loading={loading}
+                        link='/orders'
                     />
 
-                    {/* SILVER ORDERS */}
                     <Widgets
                         title="سفارشات نقره"
                         data={String(data?.silver_orders ?? 0)}
                         description={{title: 'سفارشات ثبت شده نقره', status: 'increment'}}
                         icon="📑"
                         loading={loading}
+                        link='/silver-orders'
                     />
 
-                    {/* WALLET */}
                     <Widgets
                         title="کیف پول سایت"
                         data={formatPrice(data?.wallet_balance ?? 0)}

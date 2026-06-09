@@ -1,5 +1,6 @@
 import {Grid, Stack, Typography, Skeleton, Box} from '@mui/material'
 import {ReactNode} from 'react'
+import { Link } from 'react-router-dom'
 
 interface Props {
     title: string
@@ -7,7 +8,9 @@ interface Props {
     description: {title: string; status: 'increment' | 'decrement'}
     icon: ReactNode
     loading?: boolean
-}
+    link?:string
+}   
+
 
 export default function Widgets({
     title,
@@ -15,9 +18,10 @@ export default function Widgets({
     description,
     icon,
     loading,
+    link
 }: Props) {
     return (
-        <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid component={link ? Link : 'div'} to={link} item xs={12} sm={6} md={4} lg={3}>
             <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -28,13 +32,11 @@ export default function Widgets({
                     overflow: 'hidden',
                     position: 'relative',
 
-                    // 🟡 GOLD BACKGROUND
                     bgcolor: '#0f0c08',
 
                     border: '1px solid rgba(212,175,55,0.25)',
 
                     transition: 'all 0.3s ease',
-                    cursor: 'pointer',
 
                     '&:hover': {
                         transform: 'translateY(-5px)',

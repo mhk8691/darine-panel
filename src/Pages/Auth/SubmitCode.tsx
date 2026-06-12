@@ -24,12 +24,12 @@ export default function SubmitCode({ getValues, children, phoneNumber, resource 
     const onSubmit = async (data) => {
         dispatch(setUtil({ loading: true }))
         const newData = {
-            phone_number: getValues ? getValues('phone_number') : phoneNumber,
-            otp: data.otp,
+            mobile: getValues ? getValues('mobile') : phoneNumber,
+            code: data.otp,
         }
         try {
             const response = await axios.post<AuthResponse>(
-                `https://api.ahmadshop1.com/api/auth/${resource}/otp-verify/`,
+                `https://api.darine.shop/accounts/login/otp/`,
                 newData,
             )
             dispatch(

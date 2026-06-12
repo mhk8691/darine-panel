@@ -43,7 +43,7 @@ export function Login(props) {
     async function onSubmit(data) {
         dispatch(setUtil({loading: true}))
         try {
-            await axios.post(`https://api.ahmadshop1.com/api/auth/login/otp-request/`, data)
+            await axios.post(`https://api.darine.shop/accounts/send-otp/`, data)
             setTime(120)
             setIsSubmit(true)
         } catch (error: any) {
@@ -159,8 +159,8 @@ export function Login(props) {
                             <Box width={'100%'}>
                                 <CustomTextField
                                     label={'شماره تلفن'}
-                                    register={{...register('phone_number')}}
-                                    name="phone_number"
+                                    register={{...register('mobile')}}
+                                    name="mobile"
                                     sx={{
                                         '& .MuiFormLabel-root': {
                                             fontSize: '14px',
@@ -204,42 +204,3 @@ export function Login(props) {
     )
 }
 
-const useStyles = makeStyles((theme) => ({
-    title: {
-        fontWeight: 700,
-    },
-    logButton: {
-        background: '#2A303B',
-        width: '100%',
-        borderRadius: '0px',
-        fontSize: '20px',
-        lineHeight: '24px',
-        padding: '16px 0px',
-        fontWeight: 700,
-        color: 'white',
-        '&:hover': {background: '#2A303B'},
-    },
-    fieldTitle: {
-        color: '#778191',
-        fontWeight: 700,
-        marginBottom: '10px',
-    },
-    garageImage: {
-        width: '60px',
-        height: '60px',
-        marginRight: '13px',
-    },
-    iconImage: {
-        width: '80px',
-        height: '80px',
-        marginRight: '10px',
-    },
-    icon: {
-        color: 'white',
-        fontSize: '18px',
-    },
-    background: {
-        flexGrow: 4,
-        height: 'calc(100vh - 1px)',
-    },
-}))

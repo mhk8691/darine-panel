@@ -20,9 +20,9 @@ const AppbarProfile = ({user}: {user: ProfileType}) => {
     }
     const handleLogout = async () => {
         try{
-            await axios.post('https://api.darine.shop/accounts/logout/', {
-                    withCredentials:true
-                })
+        await axios.post('https://api.darine.shop/accounts/logout/', null, {
+  withCredentials: true,
+})
                 handleClose()
         navigate('/login')
         }catch(error:unknown){

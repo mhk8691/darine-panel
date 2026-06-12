@@ -2,13 +2,10 @@ import {Avatar, Button, Popover, Stack, Typography} from '@mui/material'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {ProfileType} from '../../Core/types'
-import {useAppDispatch} from '../../redux/store'
-import {logout} from '../../redux/user_slice'
 import axios from 'axios'
 
 const AppbarProfile = ({user}: {user: ProfileType}) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {

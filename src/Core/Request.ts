@@ -57,7 +57,7 @@ api.interceptors.response.use(
             isRefreshing = true
 
             try {
-                await api.post('/auth/refresh')
+                await axios.post('https://api.darine.shop/accounts/token/refresh/')
 
                 processQueue()
 
@@ -65,7 +65,7 @@ api.interceptors.response.use(
             } catch (refreshError) {
                 processQueue(refreshError)
 
-                window.location.href = '/login'
+                // window.location.href = '/login'
 
                 return Promise.reject(refreshError)
             } finally {

@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CustomTextField } from '../../Components/Input/CustomTextField'
 import { setUtil } from '../../redux/UtilSlice'
-import { setUser } from '../../redux/user_slice'
 type AuthResponse = {
     data: {
         token: string
@@ -28,15 +27,11 @@ export default function SubmitCode({ getValues, children, phoneNumber, resource 
             code: data.otp,
         }
         try {
-            const response = await axios.post<AuthResponse>(
+             await axios.post<AuthResponse>(
                 `https://api.darine.shop/accounts/login/otp/`,
                 newData,
             )
-            dispatch(
-                setUser({
-                    token: response.data.data.token,
-                }),
-            )
+           
             navigate('/dashboard')
         } catch (error: any) {
              dispatch(

@@ -34,7 +34,6 @@ export function Home(props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
-    const isLogin = useAppSelector((state) => state.user)
     useEffect(() => {
         const getProfile = async () => {
             try {
@@ -51,16 +50,16 @@ export function Home(props) {
         getProfile()
     }, [])
     useEffect(() => {
-        if (!isLogin) {
-            navigate('/login')
-        }
+       if (!profile){
+        navigate('/login')
+       }
         if (profile.role === 'customer') {
             navigate('/login')
         }
         if (location.pathname === '/') {
             navigate('/dashboard')
         }
-    }, [isLogin, navigate, profile])
+    }, [ navigate, profile])
 
     return (
         <MainLayout>

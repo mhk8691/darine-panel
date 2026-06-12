@@ -10,7 +10,6 @@ import './App.css'
 import {LoadingBackdrop} from './Components/Backdrop/Backdrop'
 import {CustomizedSnackbars} from './Components/Snackbar/Snackbar'
 import {Login} from './Pages/Auth/Login/Login'
-import Register from './Pages/Auth/Register/Register'
 import {Home} from './Pages/Home/Home'
 import {store} from './redux/store'
 import {RTL} from './RTL'
@@ -35,7 +34,6 @@ function App() {
                                 <Routes>
                                     <Route path="/*" element={<Home />} />
                                     <Route path="login" element={<Login />} />
-                                    <Route path="register" element={<Register />} />
                                 </Routes>
                             </QueryParamProvider>
                         </Provider>

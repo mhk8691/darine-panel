@@ -32,6 +32,9 @@ import { SilverProductEdit } from '../SilverProducts/Edit/SilverProductEdit'
 import { SilverProductsList } from '../SilverProducts/List/SilverProductsList'
 import { GiftCardsList } from '../GiftCard/List/GiftCardsList'
 import { GiftCardEdit } from '../GiftCard/Edit/GiftCardEdit'
+import { BannerCreate } from '../Banners/Create/BannerCreate'
+import { BannersList } from '../Banners/List/BannersList'
+import { BannerEdit } from '../Banners/Edit/BannerEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -148,6 +151,20 @@ export function Home(props) {
                         />
                         <Route path="silver-card" element={<SilverCardList />} />
                         <Route path="silver-card/:id" element={<SilverCardEdit />} />
+
+                        <Route
+                            path="gold-banners/create"
+                            element={<BannerCreate data={data} setData={setData} resource='gold-banners' />}
+                        />
+                        <Route path="gold-banners" element={<BannersList resource='gold-banners' />} />
+                        <Route path="gold-banners/:id" element={<BannerEdit resource='gold-banners' />} />
+
+                        <Route
+                            path="silver-banners/create"
+                            element={<BannerCreate data={data} setData={setData} resource='silver-banners' />}
+                        />
+                        <Route path="silver-banners" element={<BannersList resource='silver-banners' />} />
+                        <Route path="silver-banners/:id" element={<BannerEdit resource='silver-banners' />} />
                     </Routes>
                 </Box>
             </Box>

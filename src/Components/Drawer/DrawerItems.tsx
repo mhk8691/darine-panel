@@ -6,6 +6,7 @@ import GroupIcon from '@mui/icons-material/Group'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import ImageIcon from '@mui/icons-material/Image';
 export const drawerItems = [
     // both
     {
@@ -67,6 +68,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <CardGiftcardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+      {
+        title: 'بنر ها',
+        link: 'gold-banners',
+        role: 'all',
+        section: 'darineh',
+        icon: <ImageIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
 
     // silver
     {
@@ -89,5 +97,12 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+          {
+        title: 'بنر ها',
+        link: 'silver-banners',
+        role: 'all',
+        section: 'silver',
+        icon: <ImageIcon sx={{fontSize: '1.9rem !important'}} />,
     },
 ]

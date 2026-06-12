@@ -83,7 +83,6 @@ useEffect(() => {
 }, [date]);
     return (
         <Stack gap={3} >
-            <ProfileUploader user={user} setUser={setUser} />
             <GridProducer
                 data={[
                     <CustomTextField
@@ -123,58 +122,8 @@ useEffect(() => {
                     />,
                 ]}
             />
-
-            <GridProducer
-               
+<GridProducer
                 data={[
-                   
-                    !isProfile && (
-                <Stack spacing={2}>
-                    <FormControl fullWidth>
-                        <InputLabel>نقش کاربر</InputLabel>
-                        <Select
-                        key={user.id}
-                            value={user.role}
-                            label="نقش کاربر"
-                            onChange={handleRoleChange}
-                        >
-                            <MenuItem value="customer">کاربر عادی</MenuItem>
-                            <MenuItem value="admin">ادمین</MenuItem>
-                        </Select>
-                    </FormControl>
-                   
-                </Stack>
-                
-                ),
-        
-                    <DatePickerFilter setParams={setDate} item={queryNames} initialValue={user.birth_date} /> ,
-              
-                      editMode &&<CustomTextField   
-                      key={user.id}
-                        name="referral_code"
-                        label="کد نمایندگی"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={user.referral_code}
-                    />,
-                         editMode &&  <CustomTextField
-                        key={user.id}
-                        name="date_joined"
-                        label="تاریخ عضویت"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={formatDate(user.date_joined)}
-                        disabled
-                    />,
-            
-                ]}
-            />
-            
-
-            <GridProducer
-                data={[
-                    
-                   
                     <CustomTextField
                         key={user.id}
                         name="gold_buy_fee"
@@ -211,6 +160,61 @@ useEffect(() => {
                 ]}
                 
             />
+            <GridProducer
+               
+                data={[
+                   
+                    !isProfile && (
+                <Stack spacing={2}>
+                    <FormControl fullWidth>
+                        <InputLabel>نقش کاربر</InputLabel>
+                        <Select
+                        key={user.id}
+                            value={user.role}
+                            label="نقش کاربر"
+                            onChange={handleRoleChange}
+                        >
+                            <MenuItem value="customer">کاربر عادی</MenuItem>
+                            <MenuItem value="admin">ادمین</MenuItem>
+                        </Select>
+                    </FormControl>
+                   
+                </Stack>
+                
+                ),
+        
+                    <DatePickerFilter setParams={setDate} item={queryNames} initialValue={user.birth_date} /> ,
+              <CustomTextField   
+                      key={user.id}
+                        name="referral_code"
+                        label="سود کد نمایندگی"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_code}
+                    />,
+                      editMode &&<CustomTextField   
+                      key={user.id}
+                        name="referral_code"
+                        label="کد نمایندگی"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_code}
+                    />,
+                         editMode &&  <CustomTextField
+                        key={user.id}
+                        name="date_joined"
+                        label="تاریخ عضویت"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={formatDate(user.date_joined)}
+                        disabled
+                    />,
+            
+                ]}
+            />
+            
+
+            
          
         </Stack>
     )

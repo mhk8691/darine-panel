@@ -18,6 +18,7 @@ import {OrderStatus, OrdersType} from '../Orders'
 
 
 const tableHeadCells = [
+    createTableHeadCells('شماره تلفن', 'user_mobile'),
     createTableHeadCells('کد پیگیری', 'tracking_code'),
     createTableHeadCells('محصول', 'items'),
     createTableHeadCells('وضعیت', 'status'),
@@ -39,6 +40,11 @@ const queryNames = [
             {id: 'COMPLETED', label: 'تکمیل شده'},
             {id: 'CANCELED', label: 'لغو شده'},
         ],
+    },
+      {
+        field: 'tracking_code',
+        label: 'کد پیگیری',
+        type: '',
     },
     {
         field: 'start_date',
@@ -142,7 +148,7 @@ export function OrdersList({resource,title}:{resource:string,title:string}) {
              header={title}
             href={resource + '/create'}
             searchField="username"
-            searchText="نام کاربری"
+            searchText="شماره تلفن"
             setParams={setSearch}
             params={search}
             resource={resource}
@@ -176,6 +182,14 @@ export function OrdersList({resource,title}:{resource:string,title:string}) {
                 noDelete
                 tableBodyCells={orders.data.map((item) => (
                     <React.Fragment key={item.id}>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                sx={{whiteSpace: 'nowrap'}}
+                            >
+                                {item.user_mobile}
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography
                                 variant="body2"

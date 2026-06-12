@@ -20,31 +20,14 @@ const tableHeadCells = [
     createTableHeadCells('شماره تلفن', 'mobile'),
     createTableHeadCells('توضیحات', 'description'),
 ]
-
-const queryNames = [
-    {
-        field: 'status',
-        label: 'وضعیت',
-        type: 'choice',
-        choice: [
-            {id: 'PENDING', label: 'در انتظار'},
-            {id: 'WAITING_FOR_APPROVAL', label: 'در انتظار تایید'},
-            {id: 'PROCESSING', label: 'در حال پردازش'},
-            {id: 'COMPLETED', label: 'تکمیل شده'},
-            {id: 'CANCELED', label: 'لغو شده'},
-        ],
-    },
-    {
-        field: 'start_date',
-        label: 'تاریخ شروع',
-        type: 'date',
-    },
-    {
-        field: 'end_date',
-        label: 'تاریخ پایان',
-        type: 'date',
-    },
-]
+const queryNames = tableHeadCells.slice(2, 3).map((cell) => {
+    return {
+        field: cell.name,
+        label: cell.label,
+        type: '',
+        choice: [],
+    }
+})
 
 export type PartnersType = {
   id: number
@@ -105,7 +88,7 @@ export function PartnersList() {
              header={'مدیریت درخواست همکاری'}
             href={resource + '/create'}
             searchField="username"
-            searchText="نام کاربری"
+            searchText="نام و نام خانوادگی"
             setParams={setSearch}
             params={search}
             resource={resource}

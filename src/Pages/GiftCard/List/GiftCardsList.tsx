@@ -33,23 +33,22 @@ const queryNames = [
         label: 'وضعیت',
         type: 'choice',
         choice: [
-            {id: 'PENDING', label: 'در انتظار'},
-            {id: 'WAITING_FOR_APPROVAL', label: 'در انتظار تایید'},
-            {id: 'PROCESSING', label: 'در حال پردازش'},
-            {id: 'COMPLETED', label: 'تکمیل شده'},
-            {id: 'CANCELED', label: 'لغو شده'},
+            {id: 'ACTIVE', label: 'فعال'},
+            {id: 'USED', label: 'استفاده شده'},
+       
         ],
     },
     {
-        field: 'start_date',
-        label: 'تاریخ شروع',
-        type: 'date',
+          field: 'activated_by_name',
+    label: 'شماره تلفن فعال کننده',
+    type: '',
     },
     {
-        field: 'end_date',
-        label: 'تاریخ پایان',
-        type: 'date',
-    },
+          field: 'serial_number',
+    label: 'شماره سریال',
+    type: '',
+    }
+  
 ]
 
 
@@ -105,7 +104,7 @@ export function GiftCardsList() {
              header="مدیریت کارت هدیه"
             href={RECOURCE + '/create'}
             searchField="username"
-            searchText="نام کاربری"
+            searchText="شماره تلفن مشتری"
             setParams={setSearch}
             params={search}
             resource={RECOURCE}

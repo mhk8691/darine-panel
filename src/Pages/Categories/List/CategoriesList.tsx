@@ -28,18 +28,8 @@ export function CategoriesList() {
         total_results: 0,
         data: [],
     })
-    const queryNames = tableHeadCells.slice(1, 2).map((cell) => ({
-        field: cell.name,
-        label: cell.label,
-        type: 'choice',
-        choice: categories.data.map((item) => {
-            return {
-                label: item.name,
-                id: item.id,
-            }
-        }),
-    }))
-    const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
+ 
+    const [search, setSearch] = useQueryParams(createQueryParam())
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
@@ -75,7 +65,7 @@ export function CategoriesList() {
             params={search}
             resource={RECOURCE}
             getList={getCategories}
-            filtersData={queryNames}
+            filtersData={[]}
             createModal={CategoryCreate}
             defaultState={{
                 name: '',

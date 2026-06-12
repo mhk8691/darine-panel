@@ -80,29 +80,8 @@ export function ProductsList({resource,title}:{resource:string,title:string}) {
     }
 
     const queryNames = [
-        ...tableHeadCells.slice(3, 5).map((cell) => {
-            if (cell.name === 'category')
-                return {
-                    field: cell.name,
-                    label: cell.label,
-                    type: 'choice',
-                    choice: categories.data.map((item) => ({
-                        label: item.name,
-                        id: item.id,
-                    })),
-                }
-            else if (cell.name === 'type')
-                return {
-                    field: cell.name,
-                    label: cell.label,
-                    type: 'choice',
-                    choice: [
-                        {label: 'سکه', id: 'coins'},
-                        {label: 'اکانت', id: 'account'},
-                    ],
-                }
-            else
-                return {
+        ...tableHeadCells.slice(2,3).map((cell) => {
+                    return {
                     field: cell.name,
                     label: cell.label,
                     type: '',

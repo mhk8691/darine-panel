@@ -8,7 +8,7 @@ import axios from 'axios'
 import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {CustomTextField} from '../../../Components/Input/CustomTextField'
-import logoImage from '../../../Images/logo.png'
+import logoImage from '../../../Images/darine.png'
 import SubmitCode from '../SubmitCode'
 export type LoginData = {
     username: string

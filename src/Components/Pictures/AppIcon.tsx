@@ -1,6 +1,6 @@
 import {Box} from '@mui/system'
 import React from 'react'
-import logo from '../../Images/mainLogo.png'
+import logo from '../../Images/darine.png'
 
 export function AppIcon(props) {
     return (

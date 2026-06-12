@@ -19,7 +19,7 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import {ProfileType} from '../../Core/types'
 import AppbarProfile from '../Appbar/AppbarProfile'
 import {drawerItems} from './DrawerItems'
-import darineLogo  from '../../Images/darineh.png'
+import darineLogo  from '../../Images/darine.png'
 import noghrineLogo  from '../../Images/noghrine.png'
 export function AppDrawer({
     setSelectedTitle,

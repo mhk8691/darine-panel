@@ -120,6 +120,20 @@ export default function DashboardLayout() {
                         loading={loading}
                         link='/silver-orders'
                     />
+                        <Widgets
+                        title="مجموع خرید ها"
+                        data={String(data?.silver_orders ?? 0)}
+                        description={{title: 'مجموع خرید های ثبت شده', status: 'increment'}}
+                        icon="💸"
+                        loading={loading}
+                    />
+                        <Widgets
+                        title="مجموع فروش ها"
+                        data={String(data?.silver_orders ?? 0)}
+                        description={{title: 'مجموع فروش های ثبت شده', status: 'increment'}}
+                        icon="💵"
+                        loading={loading}
+                    />
 
                     <Widgets
                         title="کیف پول سایت"

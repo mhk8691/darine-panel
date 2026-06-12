@@ -6,6 +6,7 @@ import GroupIcon from '@mui/icons-material/Group'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import ImageIcon from '@mui/icons-material/Image';
 export const drawerItems = [
     // both
@@ -29,6 +30,13 @@ export const drawerItems = [
         role: 'all',
         section: 'both',
         icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+      {
+        title: 'درخواست همکاری',
+        link: 'partners',
+        role: 'all',
+        section: 'both',
+        icon: <HandshakeIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     // {
     //     title: 'حساب کاربری',

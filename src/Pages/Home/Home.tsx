@@ -27,6 +27,7 @@ import { BannerEdit } from '../Banners/Edit/BannerEdit'
 import { BankCardCreate } from '../BankCard/Create/BankCardCreate'
 import { BankCardList } from '../BankCard/List/BankCardList'
 import { BankCardEdit } from '../BankCard/Edit/BankCardEdit'
+import { PartnersList } from '../partners/List/PartnersList'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -160,6 +161,9 @@ export function Home(props) {
                         />
                         <Route path="silver-banners" element={<BannersList resource='silver-banners' title='مدیریت بنر های نقرینه' key={'silver-banners'} />} />
                         <Route path="silver-banners/:id" element={<BannerEdit resource='silver-banners' key={'silver-banners'} />} />
+                    {/* ...........partners.......... */}
+                    <Route path="partners" element={<PartnersList key={'partners'} />} />
+
                     </Routes>
                 </Box>
             </Box>

@@ -5,8 +5,7 @@ import {DataProvider} from '../../../Core/DataProvider'
 // import {Order} from '../Detail/OrderDetail'
 import {Orders, OrdersType} from '../Orders'
 
-const RESOURCE = 'orders'
-export function OrderEdit() {
+export function OrderEdit({resource}:{resource:string}) {
     const orderId = useParams().id
     const [order, setOrder] = useState<OrdersType>({} as OrdersType)
     const [initialData, setInitialData] = useState<OrdersType>({} as OrdersType)
@@ -26,11 +25,10 @@ export function OrderEdit() {
     }, [orderId])
     return (
         <EditPage
-            resource={RESOURCE}
+            resource={resource}
             title="جزئیات سفارش"
             formDetails={order}
             initialData={initialData}
-            redirect={'orders'}
         >
             <Orders order={order} setOrder={setOrder} />
         </EditPage>

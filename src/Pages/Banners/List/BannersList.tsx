@@ -24,7 +24,7 @@ const queryNames = tableHeadCells.map((cell) => ({
     label: cell.label,
     type: '',
 }))
-export function BannersList({resource}:{resource:string}) {
+export function BannersList({resource,title}:{resource:string,title:string}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [banners, setBanners] = useState<{
@@ -59,7 +59,7 @@ export function BannersList({resource}:{resource:string}) {
 
     return (
         <ListPage
-            header="مدیریت بنر ها"
+            header={title}
             href={resource + '/create'}
             searchField="title"
             searchText="نام"

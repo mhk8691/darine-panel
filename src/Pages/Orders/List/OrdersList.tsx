@@ -16,7 +16,6 @@ import {setUtil} from '../../../redux/UtilSlice'
 
 import {OrderStatus, OrdersType} from '../Orders'
 
-const RECOURCE = 'orders'
 
 const tableHeadCells = [
     createTableHeadCells('کد پیگیری', 'tracking_code'),
@@ -92,7 +91,7 @@ export const paymentMethodFa = (method: string) => {
     }
 }
 
-export function OrdersList() {
+export function OrdersList({resource,title}:{resource:string,title:string}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
 
@@ -113,7 +112,7 @@ export function OrdersList() {
             const response = await DataProvider.get<{
                 total_results: number
                 results: OrdersType[]
-            }>(`${RECOURCE}/`, search)
+            }>(`${resource}/`, search)
 
             if (response) {
                 setOrders({
@@ -140,13 +139,13 @@ export function OrdersList() {
 
     return (
         <ListPage
-             header="مدیریت سفارشات"
-            href={RECOURCE + '/create'}
+             header={title}
+            href={resource + '/create'}
             searchField="username"
             searchText="نام کاربری"
             setParams={setSearch}
             params={search}
-            resource={RECOURCE}
+            resource={resource}
             getList={getOrders}
             filtersData={queryNames}
             noCreate={true}
@@ -164,7 +163,7 @@ export function OrdersList() {
             }}
         >
             <CustomTable
-                resource={RECOURCE}
+                resource={resource}
                 headCells={tableHeadCells}
                 rows={orders.data}
                 count={orders.total_results}

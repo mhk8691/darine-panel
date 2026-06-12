@@ -43,7 +43,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
         }
 })
 
-export function BankCardList({resource}:{resource:string}) {
+export function BankCardList({resource,title}:{resource:string,title:string}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [card, setCard] = useState<{
@@ -78,7 +78,7 @@ export function BankCardList({resource}:{resource:string}) {
 
     return (
         <ListPage
-        header='مدیریت کارت های بانکی'
+        header={title}
             href={resource+ '/create'}
             searchField="title"
             searchText="نام و نام خانوادگی"

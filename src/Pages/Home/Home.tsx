@@ -19,12 +19,6 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
-import { GoldCardCreate } from '../GoldCard/Create/GoldCardCreate'
-import { GoldCardList } from '../GoldCard/List/GoldCardList'
-import { GoldCardEdit } from '../GoldCard/Edit/GoldCardEdit'
-import { SilverCardCreate } from '../SilverCard/Create/SilverCardCreate'
-import { SilverCardList } from '../SilverCard/List/SilverCardList'
-import { SilverCardEdit } from '../SilverCard/Edit/SilverCardEdit'
 import { SilverOrdersList } from '../SilverOrders/List/SilverOrdersList'
 import { SilverOrderEdit } from '../SilverOrders/Edit/SilverOrderEdit'
 import { SilverProductCreate } from '../SilverProducts/Create/SilverProductCreate'
@@ -35,6 +29,9 @@ import { GiftCardEdit } from '../GiftCard/Edit/GiftCardEdit'
 import { BannerCreate } from '../Banners/Create/BannerCreate'
 import { BannersList } from '../Banners/List/BannersList'
 import { BannerEdit } from '../Banners/Edit/BannerEdit'
+import { BankCardCreate } from '../BankCard/Create/BankCardCreate'
+import { BankCardList } from '../BankCard/List/BankCardList'
+import { BankCardEdit } from '../BankCard/Edit/BankCardEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -134,24 +131,24 @@ export function Home(props) {
                            <Route path="silver-orders" element={<SilverOrdersList />} />
                         <Route path="silver-orders/:id" element={<SilverOrderEdit />} />
                     
-                       
-                        {/* requests section */}
-                        {/* card section */}
+
+                        {/* ...........bank card.......... */}
                         <Route
-                            path="gold-card/create"
-                            element={<GoldCardCreate data={data} setData={setData} />}
+                            path="gold-bank/create"
+                            element={<BankCardCreate data={data} setData={setData} resource='gold-bank' />}
                         />
-                        <Route path="gold-card" element={<GoldCardList />} />
-                        <Route path="gold-card/:id" element={<GoldCardEdit />} />
+                        <Route path="gold-bank" element={<BankCardList resource='gold-bank' />} />
+                        <Route path="gold-bank/:id" element={<BankCardEdit resource='gold-bank' />} />
 
 
-                          <Route
-                            path="silver-card/create"
-                            element={<SilverCardCreate data={data} setData={setData} />}
+                         <Route
+                            path="silver-bank/create"
+                            element={<BankCardCreate data={data} setData={setData} resource='silver-bank' />}
                         />
-                        <Route path="silver-card" element={<SilverCardList />} />
-                        <Route path="silver-card/:id" element={<SilverCardEdit />} />
+                        <Route path="silver-bank" element={<BankCardList resource='silver-bank' />} />
+                        <Route path="silver-bank/:id" element={<BankCardEdit resource='silver-bank' />} />
 
+                        {/* ...........banners.......... */}
                         <Route
                             path="gold-banners/create"
                             element={<BannerCreate data={data} setData={setData} resource='gold-banners' />}

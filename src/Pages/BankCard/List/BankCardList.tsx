@@ -12,9 +12,8 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {formatDate} from '../../../Core/FormatDate'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
-import {CardType} from '../GoldCard'
-import {GoldCardCreate} from '../Create/GoldCardCreate'
-const RECOURCE = 'gold-bank'
+import {CardType} from '../BankCard'
+import { BankCardCreate } from '../Create/BankCardCreate'
 const tableHeadCells = [
     createTableHeadCells('نام خانوادگی', 'full_name'),
     createTableHeadCells('بانک', 'bank'),
@@ -44,7 +43,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
         }
 })
 
-export function GoldCardList() {
+export function BankCardList({resource}:{resource:string}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
     const [card, setCard] = useState<{
@@ -61,7 +60,7 @@ export function GoldCardList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: CardType[]
-            }>(`gold-bank/`, search)
+            }>(resource, search)
             if (response) {
                 setCard({
                     total_results: response.data.total_results,
@@ -80,15 +79,15 @@ export function GoldCardList() {
     return (
         <ListPage
         header='مدیریت کارت های بانکی'
-            href={'gold-card' + '/create'}
+            href={resource+ '/create'}
             searchField="title"
             searchText="نام و نام خانوادگی"
             setParams={setSearch}
             params={search}
-            resource={RECOURCE}
+            resource={resource}
             getList={getCard}
             filtersData={queryNames}
-            createModal={GoldCardCreate}
+            createModal={BankCardCreate}
             defaultState={{
                 firstName: '',
                 lastName: '',
@@ -98,7 +97,7 @@ export function GoldCardList() {
             }}
         >
             <CustomTable
-                resource={RECOURCE}
+                resource={resource}
                 headCells={tableHeadCells}
                 rows={card.data}
                 count={card.total_results}

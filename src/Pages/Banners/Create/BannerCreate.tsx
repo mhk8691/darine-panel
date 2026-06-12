@@ -14,9 +14,9 @@ export function BannerCreate({
     return (
         <CreatePage
             title={'افزودن بنر'}
-            resource={resource}
+            resource={resource + '/'}
             isFormData={true}
-            redirect={'banners'}
+            redirect={resource}
             formDetails={data}
         >
             <Banners banner={data} setBanner={setData} />

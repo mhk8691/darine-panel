@@ -56,7 +56,7 @@ export const drawerItems = [
     },
     {
         title: 'کارت های بانکی',
-        link: 'gold-card',
+        link: 'gold-bank',
         role: 'all',
         section: 'darineh',
         icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
@@ -93,7 +93,7 @@ export const drawerItems = [
     },
     {
         title: 'کارت های بانکی',
-        link: 'silver-card',
+        link: 'silver-bank',
         role: 'all',
         section: 'silver',
         icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,

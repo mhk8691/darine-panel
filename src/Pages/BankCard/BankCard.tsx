@@ -13,16 +13,17 @@ export type CardType = {
     "created_at": string
 }
 
-const RESOURCE = 'gold-card'
 
-export function GoldCard({
+export function BankCard({
     card,
     setCard,
     children,
+    resource
 }: {
     card: CardType
     setCard: React.Dispatch<React.SetStateAction<CardType>>
     children?: React.ReactNode[]
+    resource:string
 }) {
     return (
         <Stack>
@@ -34,14 +35,14 @@ export function GoldCard({
                         key={card.id}
                         name="full_name"
                         setData={setCard}
-                        resource={RESOURCE}
+                        resource={resource}
                         label={'نام و نام خانوادگی'}
                         defaultValue={card.full_name}
                     />,
                     <CustomTextField
                        key={card.id}
                         name="card_number"
-                        resource={RESOURCE}
+                        resource={resource}
                         setData={setCard}
                         label={'شماره کارت'}
                         defaultValue={card.card_number}
@@ -63,7 +64,7 @@ export function GoldCard({
                     <CustomTextField
                       key={card.id}
                         name="sheba"
-                        resource={RESOURCE}
+                        resource={resource}
                         setData={setCard}
                         label={'شماره شبا'}
                         defaultValue={card.sheba}

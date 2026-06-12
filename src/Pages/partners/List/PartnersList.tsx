@@ -36,7 +36,7 @@ export type PartnersType = {
   description:string  
 }
 
-const resource = 'partners'
+const resource = 'CooperationRequest'
 export function PartnersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
@@ -87,6 +87,7 @@ export function PartnersList() {
         <ListPage
              header={'مدیریت درخواست همکاری'}
             href={resource + '/create'}
+            
             searchField="username"
             searchText="نام و نام خانوادگی"
             setParams={setSearch}
@@ -118,8 +119,8 @@ export function PartnersList() {
                 setParams={setSearch}
                 handleSort={getPartners}
                 loading={loading}
-                hasDetail={true}
-                noDelete
+                hasDetail={false}
+                noEdit
                 tableBodyCells={partners.data.map((item) => (
                     <React.Fragment key={item.id}>
                         <TableCell>

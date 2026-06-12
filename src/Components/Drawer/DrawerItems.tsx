@@ -42,7 +42,7 @@ export const drawerItems = [
  
     {
         title: 'محصولات دارینه',
-        link: 'product',
+        link: 'products',
         role: 'all',
         section: 'darineh',
         icon: <ShoppingBasketIcon sx={{fontSize: '1.9rem !important'}} />,
@@ -79,7 +79,7 @@ export const drawerItems = [
     // silver
     {
         title: 'محصولات نقرینه',
-        link: 'silver-product',
+        link: 'silver-products',
         role: 'all',
         section: 'silver',
         icon: <ShoppingBasketIcon sx={{fontSize: '1.9rem !important'}} />,

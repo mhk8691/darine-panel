@@ -19,9 +19,11 @@ import { ProductsListType } from './ProductsList';
 export default function ProductCard({
   item,
   getList,
+  resource
 }: {
   item: ProductsListType;
   getList: () => Promise<void>;
+  resource:string
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ export default function ProductCard({
   async function handleDelete() {
     dispatch(setUtil({ loading: true }));
     try {
-      await DataProvider.delete(`products/${item.id}/`);
+      await DataProvider.delete(`${resource}/${item.id}/`);
       await getList();
     } catch (error: any) {
       dispatch(setUtil({ open: true, message: error.message, severity: 'error' }));
@@ -44,7 +46,7 @@ export default function ProductCard({
   return (
     <>
       <Card
-        onClick={() => navigate(`/product/${item.id}`)}
+        onClick={() => navigate(`/${resource}/${item.id}`)}
         sx={{
           borderRadius: 3,
           boxShadow: 3,

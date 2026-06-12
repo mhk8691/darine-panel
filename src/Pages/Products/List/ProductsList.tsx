@@ -21,7 +21,6 @@ import {setUtil} from '../../../redux/UtilSlice'
 import {CategoriesType} from '../../Categories/Categories'
 import ProductCard from './ProductCard'
 
-const RECOURCE = 'products'
 const tableHeadCells = [
   createTableHeadCells('نام محصول', 'name'),
   createTableHeadCells('وضعیت', 'is_active'),
@@ -46,7 +45,7 @@ export interface ProductsListType {
   category: number;
   profit_percent:number
 }
-export function ProductsList() {
+export function ProductsList({resource,title}:{resource:string,title:string}) {
     const [products, setProducts] = useState<{
         total_results: number
         data: ProductsListType[]
@@ -131,7 +130,7 @@ export function ProductsList() {
             let response = await DataProvider.get<{
                 total_results: number
                 results: ProductsListType[]
-            }>(`${RECOURCE}/`, search)
+            }>(`${resource}/`, search)
 
             if (response) {
                 setProducts({
@@ -168,10 +167,10 @@ export function ProductsList() {
                             fontWeight: 600,
                         }}
                     >
-                        مدیریت محصولات
+                       {title}
                     </Typography>
                     <AddButton
-                        href={'/product/create'}
+                        href={`/${resource}/create/`}
                         text={'جدید'}
                         sx={{
                             fontSize: {
@@ -239,7 +238,7 @@ export function ProductsList() {
             <Grid container spacing={2} sx={{px: 2, pb: 2}}>
                 {products.data.map((item) => (
                     <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                        <ProductCard item={item} getList={getProducts} />
+                        <ProductCard item={item} getList={getProducts} resource={resource} />
                     </Grid>
                 ))}
             </Grid>

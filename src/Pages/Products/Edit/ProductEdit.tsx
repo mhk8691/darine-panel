@@ -5,14 +5,14 @@ import {DataProvider} from '../../../Core/DataProvider'
 import {Products} from '../Products'
 import { ProductsListType } from '../List/ProductsList'
 
-const RESOURCE = 'products'
-export function ProductEdit() {
+
+export function ProductEdit({resource}:{resource:string}) {
     const productId = useParams().id
     const [product, setProduct] = useState<ProductsListType>({} as ProductsListType)
     const [initialData, setInitialData] = useState<ProductsListType>({} as ProductsListType)
     const getProduct = async () => {
         try {
-            let response = await DataProvider.get<ProductsListType>(`${RESOURCE}/${productId}/`)
+            let response = await DataProvider.get<ProductsListType>(`${resource}/${productId}/`)
             if (response) {
                 setProduct(response.data)
                 setInitialData(response.data)
@@ -26,11 +26,10 @@ export function ProductEdit() {
     }, [productId])
     return (
         <EditPage
-            resource={RESOURCE}
+            resource={resource}
             title="جزئیات محصول"
             formDetails={product}
             isFormData={true}
-            redirect={'product'}
             initialData={initialData}
         >
             <Products

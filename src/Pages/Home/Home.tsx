@@ -19,9 +19,6 @@ import {UserCreate} from '../Users/Create/UserCreate'
 import {UserEdit} from '../Users/Edit/UserEdit'
 import {UsersList} from '../Users/List/UsersList'
 import {UsersType} from '../Users/Users'
-import { SilverProductCreate } from '../SilverProducts/Create/SilverProductCreate'
-import { SilverProductEdit } from '../SilverProducts/Edit/SilverProductEdit'
-import { SilverProductsList } from '../SilverProducts/List/SilverProductsList'
 import { GiftCardsList } from '../GiftCard/List/GiftCardsList'
 import { GiftCardEdit } from '../GiftCard/Edit/GiftCardEdit'
 import { BannerCreate } from '../Banners/Create/BannerCreate'
@@ -92,75 +89,77 @@ export function Home(props) {
                     <Routes>
                         <Route path="dashboard" element={<DashboardLayout />} />
                         <Route path="profile" element={<Profile />} />
-                        {/* users section */}
+                        {/* ...........users.......... */}
                         <Route
                             path="users/create"
                             element={<UserCreate data={data} setData={setData} />}
                         />
                         <Route path="users" element={<UsersList />} />
                         <Route path="users/:id" element={<UserEdit />} />
-                        {/* product section */}
+                        {/* ...........products.......... */}
                         <Route
-                            path="product/create"
-                            element={<ProductCreate data={data} setData={setData} />}
+                            path="products/create"
+                            element={<ProductCreate data={data} setData={setData} resource='products' key={'products'} />}
                         />
-                        <Route path="product" element={<ProductsList />} />
-                        <Route path="product/:id" element={<ProductEdit />} />
+                        <Route path="products" element={<ProductsList resource='products' title='مدیریت محصولات دارینه' key={'products'} />} />
+                        <Route path="products/:id" element={<ProductEdit resource='products' key={'products'} />} />
                    
                           <Route
-                            path="silver-product/create"
-                            element={<SilverProductCreate data={data} setData={setData} />}
+                            path="silver-products/create"
+                            element={<ProductCreate data={data} setData={setData} resource='silver-products' key={'silver-products'} />}
                         />
-                        <Route path="silver-product" element={<SilverProductsList />} />
-                        <Route path="silver-product/:id" element={<SilverProductEdit />} />
-                        {/* categories section */}
+                        <Route path="silver-products" element={<ProductsList resource='silver-products' title='مدیریت محصولات نقرینه' key={'silver-products'} />} />
+                        <Route path="silver-products/:id" element={<ProductEdit resource='silver-products' key={'silver-products'} />} />
+                        {/* ...........categories.......... */}
                         <Route
                             path="category/create"
                             element={<CategoryCreate data={data} setData={setData} />}
                         />
                         <Route path="category" element={<CategoriesList />} />
                         <Route path="category/:id" element={<CategoryEdit />} />
+
+                        {/* ...........gift card.......... */}
                          <Route path="gift-cards" element={<GiftCardsList />} />
                         <Route path="gift-cards/:id" element={<GiftCardEdit />} />
 
                         {/* ...........orders.......... */}
-                        <Route path="orders" element={<OrdersList resource='orders' title='مدیریت سفارشات دارینه' />} />
-                        <Route path="orders/:id" element={<OrderEdit resource='orders' />} />
+                        <Route path="orders" element={<OrdersList resource='orders' title='مدیریت سفارشات دارینه' key={'orders'} />} />
+                        <Route path="orders/:id" element={<OrderEdit resource='orders' key={'orders'} />} />
 
-                        <Route path="silver-orders" element={<OrdersList resource='silver-orders' title='مدیریت سفارشات نقرینه' />} />
-                        <Route path="silver-orders/:id" element={<OrderEdit resource='silver-orders' />} />
+                        <Route path="silver-orders" element={<OrdersList resource='silver-orders' title='مدیریت سفارشات نقرینه' key={'silver-orders'} />} />
+                        <Route path="silver-orders/:id" element={<OrderEdit resource='silver-orders' key={'silver-orders'} />} />
                     
 
                         {/* ...........bank card.......... */}
                         <Route
                             path="gold-bank/create"
-                            element={<BankCardCreate data={data} setData={setData} resource='gold-bank' />}
+                            element={<BankCardCreate data={data} setData={setData} resource='gold-bank' key={'gold-bank'} />}
                         />
-                        <Route path="gold-bank" element={<BankCardList resource='gold-bank' title='مدیریت کارت های بانکی دارینه'  />} />
-                        <Route path="gold-bank/:id" element={<BankCardEdit resource='gold-bank' />} />
+                        <Route path="gold-bank" element={<BankCardList resource='gold-bank' title='مدیریت کارت های بانکی دارینه' key={'gold-bank'}  />} />
+                        <Route path="gold-bank/:id" element={<BankCardEdit resource='gold-bank' key={'gold-bank'} />} />
 
 
                          <Route
                             path="silver-bank/create"
-                            element={<BankCardCreate data={data} setData={setData} resource='silver-bank' />}
+                            element={<BankCardCreate data={data} setData={setData} resource='silver-bank' key={'silver-bank'} />}
                         />
-                        <Route path="silver-bank" element={<BankCardList resource='silver-bank'  title='مدیریت کارت های بانکی نقرینه' />} />
-                        <Route path="silver-bank/:id" element={<BankCardEdit resource='silver-bank' />} />
+                        <Route path="silver-bank" element={<BankCardList resource='silver-bank'  title='مدیریت کارت های بانکی نقرینه' key={'silver-bank'} />} />
+                        <Route path="silver-bank/:id" element={<BankCardEdit resource='silver-bank' key={'silver-bank'} />} />
 
                         {/* ...........banners.......... */}
                         <Route
                             path="gold-banners/create"
-                            element={<BannerCreate data={data} setData={setData} resource='gold-banners' />}
+                            element={<BannerCreate data={data} setData={setData} resource='gold-banners' key={'gold-banners'} />}
                         />
-                        <Route path="gold-banners" element={<BannersList resource='gold-banners' title='مدیریت بنر های دارینه' />} />
-                        <Route path="gold-banners/:id" element={<BannerEdit resource='gold-banners' />} />
+                        <Route path="gold-banners" element={<BannersList resource='gold-banners' title='مدیریت بنر های دارینه' key={'gold-banners'} />} />
+                        <Route path="gold-banners/:id" element={<BannerEdit resource='gold-banners' key={'gold-banners'} />} />
 
                         <Route
                             path="silver-banners/create"
-                            element={<BannerCreate data={data} setData={setData} resource='silver-banners' />}
+                            element={<BannerCreate data={data} setData={setData} resource='silver-banners' key={'silver-banners'} />}
                         />
-                        <Route path="silver-banners" element={<BannersList resource='silver-banners' title='مدیریت بنر های نقرینه' />} />
-                        <Route path="silver-banners/:id" element={<BannerEdit resource='silver-banners' />} />
+                        <Route path="silver-banners" element={<BannersList resource='silver-banners' title='مدیریت بنر های نقرینه' key={'silver-banners'} />} />
+                        <Route path="silver-banners/:id" element={<BannerEdit resource='silver-banners' key={'silver-banners'} />} />
                     </Routes>
                 </Box>
             </Box>

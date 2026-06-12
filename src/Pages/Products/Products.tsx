@@ -12,13 +12,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CustomAutocomplete } from '../../Components/Input/CustomAutoComplete';
 import { DataProvider } from '../../Core/DataProvider';
-import { PropertyType } from '../../Core/types';
 import { CategoriesType } from '../Categories/Categories';
 import Pictures from './Pictures';
 import { ProductsListType } from './List/ProductsList';
 import { CustomTextField } from '../../Components/Input/CustomTextField';
 
-const RESOURCE = 'product';
 
 export function Products({
   product,
@@ -31,7 +29,6 @@ export function Products({
   editMode?: boolean;
   getProduct?: () => Promise<void>;
 }) {
-  const productId = useParams().id;
 
   const [categories, setCategories] = useState<{ results: CategoriesType[] } | null>(null);
  

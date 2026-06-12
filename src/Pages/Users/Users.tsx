@@ -209,6 +209,25 @@ useEffect(() => {
                         defaultValue={formatDate(user.date_joined)}
                         disabled
                     />,
+                    <FormControl fullWidth>
+                                <InputLabel>وضعیت حساب</InputLabel>
+                    
+                                <Select
+                                key={user.id}
+                                  value={user.is_active ? 'true' : 'false'}
+                                  label="وضعیت حساب"
+                                  onChange={(e: SelectChangeEvent) => {
+                                    const value = e.target.value === 'true';
+                                    setUser((prev) => ({
+                                      ...prev,
+                                      is_active: value,
+                                    }));
+                                  }}
+                                >
+                                  <MenuItem value="true">فعال</MenuItem>
+                                  <MenuItem value="false">غیرفعال</MenuItem>
+                                </Select>
+                              </FormControl>
             
                 ]}
             />

@@ -8,6 +8,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ImageIcon from '@mui/icons-material/Image';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 export const drawerItems = [
     // both
     {
@@ -62,6 +63,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+     {
+        title: 'واریز و برداشت ',
+        link: 'transactions',
+        role: 'all',
+        section: 'darineh',
+        icon: <AccountBalanceIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
     {
         title: 'کارت های بانکی',
         link: 'gold-bank',
@@ -98,6 +106,13 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+      {
+        title: 'واریز و برداشت ',
+        link: 'silver-transactions',
+        role: 'all',
+        section: 'silver',
+        icon: <AccountBalanceIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'کارت های بانکی',

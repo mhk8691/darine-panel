@@ -60,6 +60,7 @@ export type OrdersType = {
 
   authentication_video?: string
   reason?: string
+  bank_receipt?: string
 }
 
 export function Orders({
@@ -88,7 +89,6 @@ export function Orders({
         }))
     }
 
-    // فقط وضعیت cancel را کنترل می‌کنیم (بدون loop)
     useEffect(() => {
         setIsCanceled(order.status === 'FAILED')
     }, [order.status])
@@ -110,7 +110,6 @@ export function Orders({
                     label="شماره تلفن"
                     defaultValue={safe(order.user_mobile)}
                 />,
-            
                 <CustomTextField
                     key={order.id}
                     name="created_at"
@@ -133,36 +132,33 @@ export function Orders({
                     defaultValue={`${order?.total_gold_amount} گرم`}
                 />,
                 <CustomTextField
-                key={order.id}
-  name="address_summary"
-  disabled
-  label="آدرس"
-
-  defaultValue={`${order?.province} - ${order?.city} - ${order?.address} - پلاک ${order?.plaque} - واحد ${order?.unit}`}
-/>,
-<CustomTextField
-key={order.id}
-  name="payment_method"
-  disabled
-  label="روش پرداخت"
-  defaultValue={order?.payment_method}
-/>,
-
-<CustomTextField
-key={order.id}
-  name="delivery_type"
-  disabled
-  label="روش ارسال"
-  defaultValue={order?.delivery_type}
-/>,
-              <CustomTextField
-              key={order.id}
-  name="tracking_code"
-  disabled
-  label="کد رهگیری"
-  defaultValue={order?.tracking_code}
-/>,
-
+                    key={order.id}
+                    name="address_summary"
+                    disabled
+                    label="آدرس"
+                    defaultValue={`${order?.province} - ${order?.city} - ${order?.address} - پلاک ${order?.plaque} - واحد ${order?.unit}`}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="payment_method"
+                    disabled
+                    label="روش پرداخت"
+                    defaultValue={order?.payment_method}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="delivery_type"
+                    disabled
+                    label="روش ارسال"
+                    defaultValue={order?.delivery_type}
+                />,
+                <CustomTextField
+                    key={order.id}
+                    name="tracking_code"
+                    disabled
+                    label="کد رهگیری"
+                    defaultValue={order?.tracking_code}
+                />,
                 <Grid item xs={12} key={order.id}>
                     <FormControl fullWidth>
                         <InputLabel>وضعیت سفارش</InputLabel>
@@ -177,8 +173,6 @@ key={order.id}
                         </Select>
                     </FormControl>
                 </Grid>,
-
-               
             ].filter(Boolean),
         [order, isCanceled]
     )
@@ -186,7 +180,6 @@ key={order.id}
     return (
         <Stack>
             <GridProducer sx={{ mb: 2 }} data={data} />
-
 
             {order.authentication_video && (
                 <Stack spacing={1} sx={{ mt: 2 }}>
@@ -206,7 +199,28 @@ key={order.id}
                 </Stack>
             )}
 
-            <Stack spacing={1} sx={{ mt: 2 }}>
+            {order.bank_receipt && (
+                <Stack spacing={1} sx={{ mt: 2 }}>
+                    <Typography fontWeight={600} fontSize={17}>
+                        رسید بانکی:
+                    </Typography>
+
+                    <img
+                        src={order.bank_receipt}
+                        alt="رسید بانکی"
+                        style={{
+                            width: '100%',
+                            maxHeight: 400,
+                            borderRadius: 12,
+                            objectFit: 'contain',
+                        }}
+                    />
+                </Stack>
+            )}
+
+            {
+                order.items.length>0 && (
+                    <Stack spacing={1} sx={{ mt: 2 }}>
                 <Typography fontWeight={600} fontSize={17}>
                     محصولات:
                 </Typography>
@@ -223,6 +237,8 @@ key={order.id}
                     </Typography>
                 )}
             </Stack>
+                )
+            }
         </Stack>
     )
 }

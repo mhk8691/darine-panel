@@ -28,6 +28,8 @@ import { BankCardCreate } from '../BankCard/Create/BankCardCreate'
 import { BankCardList } from '../BankCard/List/BankCardList'
 import { BankCardEdit } from '../BankCard/Edit/BankCardEdit'
 import { PartnersList } from '../partners/List/PartnersList'
+import { TransactionsList } from '../Transaction/List/TransactionsList'
+import { TransactionsEdit } from '../Transaction/Edit/TransactionEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -162,6 +164,17 @@ export function Home(props) {
                         <Route path="silver-banners/:id" element={<BannerEdit resource='silver-banners' key={'silver-banners'} />} />
                     {/* ...........partners.......... */}
                     <Route path="partners" element={<PartnersList key={'partners'} />} />
+
+                     {/* ...........banners.......... */}
+                       
+                        <Route path="transactions" element={<TransactionsList resource='transactions' title='مدیریت واریز و برداشت دارینه' key={'transactions'} />} />
+                        <Route path="transactions/:id" element={<TransactionsEdit resource='transactions' key={'transactions'} />} />
+                        
+                        
+                        <Route path="silver-transactions" element={<TransactionsList resource='silver-transactions' title='مدیریت واریز و برداشت نقرینه' key={'silver-transactions'} />} />
+                        <Route path="silver-transactions/:id" element={<TransactionsEdit resource='silver-transactions' key={'silver-transactions'} />} />
+
+
 
                     </Routes>
                 </Box>

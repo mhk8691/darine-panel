@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Grid, Stack, Typography } from '@mui/material'
 import TableCell from '@mui/material/TableCell'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useQueryParams } from 'use-query-params'
 import { CustomTable } from '../../../Components/Table/CustomTable'
@@ -13,6 +13,10 @@ import { UsersType } from '../Users'
 import { formatDate } from '../../../Core/FormatDate'
 import { setUtil } from '../../../redux/UtilSlice'
 import { useDispatch } from 'react-redux'
+import { BaseModal } from '../../../Components/Modal/BaseModal'
+import { CustomTextField } from '../../../Components/Input/CustomTextField'
+import api from '../../../Core/Request'
+import { GridProducer } from '../../../Components/Table/GridProducer'
 
 const RECOURCE = 'users'
 
@@ -72,11 +76,19 @@ function formatAuthStatus(status: string) {
             return status
     }
 }
-
+interface FeesType {
+    gold_buy_fee:number
+gold_sell_fee:number
+silver_buy_fee:number
+silver_sell_fee:number
+}
 export function UsersList() {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
-
+const [selectedIds, setSelectedIds] = useState<string[]>([])
+const [isActiveEdit,setIsActiveEdit] = useState(false)
+const [open,setOpen] = useState(false)
+const [fees,setFees] = useState<FeesType>({} as FeesType)
     const [users, setUsers] = useState<{
         total_results: number
         data: UsersType[]
@@ -114,13 +126,45 @@ export function UsersList() {
 
         setLoading(false)
     }
-
+    const handleClearFees = ()=>{
+         setOpen(false)
+        setSelectedIds([])
+        setIsActiveEdit(false)
+        setFees({} as FeesType)
+    }
+const handleEditFees = async ()=>{
+    try{
+        const response = await api.patch('/',{users:selectedIds,fees})
+        dispatch(
+                setUtil({
+                    open: true,
+                    message: response.data.message,
+                    severity: 'success',
+                }),
+            )
+            handleClearFees()
+           
+    }catch(error:any) {
+        dispatch(
+                setUtil({
+                    open: true,
+                    message: error.response.data.message,
+                    severity: 'success',
+                }),
+            )
+    }
+}
     useDeepCompareEffect(() => {
         getUsers()
     }, [search])
-
+useEffect(() => {
+    setIsActiveEdit(selectedIds.length > 0)
+}, [selectedIds])
     return (
+        <>
         <ListPage
+        setOpenModal={setOpen}
+        isActiveEdit={isActiveEdit}
             header="مدیریت کاربران"
             href={RECOURCE + '/create'}
             searchField="title"
@@ -140,6 +184,9 @@ export function UsersList() {
             }}
         >
             <CustomTable
+            groupEdit
+              selectedIds={selectedIds}  
+    onSelectionChange={setSelectedIds} 
                 resource={RECOURCE}
                 headCells={tableHeadCells}
                 rows={users.data}
@@ -308,5 +355,64 @@ export function UsersList() {
                 ))}
             />
         </ListPage>
+        <BaseModal
+                    open={open}
+                    setOpen={setOpen}
+                    title="ویرایش کارمزدها"
+                    onClose={handleClearFees}
+                    style={{maxWidth: 700}}
+                >
+                 <Stack my={2}>
+                    <GridProducer
+                 count={2}
+                                 data={[
+                                     <CustomTextField
+                                         
+                                         name="gold_buy_fee"
+                                         label="کارمزد خرید طلا"
+                                         setData={setFees}
+                                         defaultValue={fees.gold_buy_fee}
+                                     />,
+                                     <CustomTextField
+                                         
+                                         name="gold_sell_fee"
+                                         label="کارمزد فروش طلا"
+                                         setData={setFees}
+                                         defaultValue={fees?.gold_sell_fee}
+                                     />,
+                                     <CustomTextField
+                                         
+                                         name="silver_buy_fee"
+                                         label="کارمزد خرید نقره"
+                                         setData={setFees}
+                                         defaultValue={fees?.silver_buy_fee}
+                                     />,
+                                     <CustomTextField
+                                         
+                                         name="silver_sell_fee"
+                                         label="کارمزد فروش نقره"
+                                         setData={setFees}
+                                         defaultValue={fees?.silver_sell_fee}
+                                     />,
+                                  
+                                 ]}
+                                 
+                             />
+                 </Stack>
+        
+                    <Stack direction={'row'} spacing={2} mt={1}>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            onClick={handleEditFees}
+                        >
+                            تایید
+                        </Button>
+                        <Button variant="outlined" color="primary" size="large" onClick={handleClearFees}>
+                            لغو
+                        </Button>
+                    </Stack>
+                </BaseModal>
+        </>
     )
 }

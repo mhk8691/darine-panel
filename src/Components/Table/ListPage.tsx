@@ -1,11 +1,13 @@
 import {Button, Stack, Typography} from '@mui/material'
 import {Box} from '@mui/system'
-import React, {useState} from 'react'
+import React, {Dispatch, SetStateAction, useState} from 'react'
 import {DataProvider} from '../../Core/DataProvider'
 import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
 import {BaseModal} from '../Modal/BaseModal'
+import EditIcon from '@mui/icons-material/Edit';
 export function ListPage({
+    isActiveEdit,
     header,
     searchText,
     searchField,
@@ -20,6 +22,7 @@ export function ListPage({
     children,
     href,
     nofilter = false,
+    setOpenModal
 }: {
     header: string
     searchText: string
@@ -35,6 +38,8 @@ export function ListPage({
     noCreate?: boolean
     children: React.ReactNode
     nofilter?: boolean
+    isActiveEdit?:boolean
+    setOpenModal?:Dispatch<SetStateAction<boolean>>
 }) {
     const CreaterModal = createModal
     const [open, setOpen] = useState(false)
@@ -116,7 +121,8 @@ export function ListPage({
                         {header}
                     </Typography>
 
-                    {noCreate ? null : (
+                   <Stack direction={'row'} alignItems={'center'} gap={1}>
+                     {noCreate ? null : (
                         <AddButton
                             href={href}
                             text={'جدید'}
@@ -129,6 +135,19 @@ export function ListPage({
                             }}
                         />
                     )}
+                    {
+                        isActiveEdit &&   <Button variant="contained" color="primary" onClick={()=>setOpenModal&&setOpenModal(true)} startIcon={<EditIcon/>} sx={{
+                                fontSize: {
+                                    xs: '14px',
+                                    sm: '18px',
+                                },
+                                padding: '7px 13px',
+                            }}>
+                      ویرایش کارمزد ها
+                    </Button>
+                    }
+                 
+                   </Stack>
                 </Stack>
 
                 {!nofilter && (

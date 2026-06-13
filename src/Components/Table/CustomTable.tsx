@@ -1,7 +1,7 @@
 import { ArrowBack } from '@mui/icons-material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { Button, TableFooter, Typography } from '@mui/material'
+import { Button, Checkbox, TableFooter, Typography } from '@mui/material'
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -18,6 +18,7 @@ import { setUtil } from '../../redux/UtilSlice'
 import { BaseModal } from '../Modal/BaseModal'
 import { BlankList } from '../Pictures/BlankList'
 import { CustomTableHead, HeadCellType } from './CustomTableHead'
+
 export function CustomTable(props: {
     headCells: HeadCellType
     handleSort: () => void
@@ -33,6 +34,9 @@ export function CustomTable(props: {
     noDelete?: boolean
     getList: () => void
     hasDetail?: boolean
+    groupEdit?: boolean
+    selectedIds?: string[]
+    onSelectionChange?: (ids: string[]) => void
 }) {
     const {
         rows,
@@ -48,13 +52,41 @@ export function CustomTable(props: {
         noDelete,
         getList,
         hasDetail,
+        groupEdit,
+        selectedIds: externalSelectedIds,
+        onSelectionChange,
     } = props
+
     const navigate = useNavigate()
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState('')
+    const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>([])
     const dispatch = useDispatch()
+
+    // Use external state if provided, otherwise use internal state
+    const selectedIds = externalSelectedIds ?? internalSelectedIds
+
+    function setSelectedIds(ids: string[]) {
+        setInternalSelectedIds(ids)
+        onSelectionChange?.(ids)
+    }
+
+    function handleRowSelect(id: string) {
+        const updated = selectedIds.includes(id)
+            ? selectedIds.filter((sid) => sid !== id)
+            : [...selectedIds, id]
+        setSelectedIds(updated)
+    }
+
+    function handleSelectAll(checked: boolean) {
+        setSelectedIds(checked ? rows.map((row) => String(row.id)) : [])
+    }
+
+    const allSelected = rows.length > 0 && rows.every((row) => selectedIds.includes(String(row.id)))
+    const someSelected = rows.some((row) => selectedIds.includes(String(row.id))) && !allSelected
+
     function handleEditClick(event, id: string | number, row) {
         navigate(`${id}`, {state: {row}})
     }
@@ -114,32 +146,35 @@ export function CustomTable(props: {
                             noDelete={noDelete}
                             noEdit={noEdit}
                             hasDetail={hasDetail}
+                            groupEdit={groupEdit}
+                            allSelected={allSelected}
+                            someSelected={someSelected}
+                            onSelectAll={handleSelectAll}
                         />
                         <TableBody>
                             {rows.map((row, index) => (
-                                <TableRow hover key={row._id}>
-                                    {tableBodyCells[index]}
-                                    {/* {!noEdit && (
-                                        <TableCell width="32px">
-                                            <Button
+                                <TableRow
+                                    hover
+                                    key={row._id}
+                                    selected={groupEdit && selectedIds.includes(String(row.id))}
+                                >
+                                    {groupEdit && (
+                                        <TableCell padding="checkbox">
+                                            <Checkbox
+                                                checked={selectedIds.includes(String(row.id))}
+                                                onChange={() => handleRowSelect(String(row.id))}
                                                 color="primary"
-                                                variant="outlined"
-                                                sx={{padding: '4px 8px', minWidth: '0px'}}
-                                                onClick={(event) =>
-                                                    handleEditClick(event, row.id, row)
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </Button>
+                                            />
                                         </TableCell>
-                                    )} */}
+                                    )}
+                                    {tableBodyCells[index]}
                                     {hasDetail && (
                                         <TableCell width="32px">
                                             <Button
                                                 color="primary"
                                                 variant="outlined"
                                                 sx={{padding: '4px 8px', minWidth: '0px'}}
-                                                onClick={() => handleDetailClick(row.id, hasDetail,row)}
+                                                onClick={() => handleDetailClick(row.id, hasDetail, row)}
                                             >
                                                 <ArrowBack />
                                             </Button>

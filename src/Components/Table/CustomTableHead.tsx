@@ -1,3 +1,4 @@
+import { Checkbox } from '@mui/material'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
@@ -7,9 +8,11 @@ export type HeadCellType = {
     name: string
     label: string
 }[]
+
 export function createTableHeadCells(label, name) {
     return {label, name, key: name}
 }
+
 export function CustomTableHead(props: {
     headCells: HeadCellType
     search: any
@@ -17,8 +20,23 @@ export function CustomTableHead(props: {
     noDelete?: boolean
     noEdit?: boolean
     hasDetail?: boolean
+    groupEdit?: boolean
+    allSelected?: boolean
+    someSelected?: boolean
+    onSelectAll?: (checked: boolean) => void
 }) {
-    const {headCells, search, onRequestSort, noDelete, noEdit, hasDetail} = props
+    const {
+        headCells,
+        search,
+        onRequestSort,
+        noDelete,
+        noEdit,
+        hasDetail,
+        groupEdit,
+        allSelected,
+        someSelected,
+        onSelectAll,
+    } = props
 
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property)
@@ -27,6 +45,16 @@ export function CustomTableHead(props: {
     return (
         <TableHead>
             <TableRow>
+                {groupEdit && (
+                    <TableCell padding="checkbox">
+                        <Checkbox
+                            checked={allSelected}
+                            indeterminate={someSelected}
+                            onChange={(e) => onSelectAll?.(e.target.checked)}
+                            color="primary"
+                        />
+                    </TableCell>
+                )}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.name}

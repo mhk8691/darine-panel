@@ -1,7 +1,6 @@
 import 'react-multi-date-picker/styles/colors/yellow.css'
 import 'react-multi-date-picker/styles/backgrounds/bg-dark.css'
 
-
 import { useEffect, useState, useRef } from 'react'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
 
@@ -27,13 +26,17 @@ export default function DatePickerFilter({
     const [value, setValue] = useState<DateObject | null>(null)
     const [focused, setFocused] = useState(false)
     const wrapperRef = useRef<HTMLDivElement>(null)
+    const hasUserSelected = useRef(false)
 
     useEffect(() => {
         if (initialValue) {
+            hasUserSelected.current = true
             setValue(
                 new DateObject({
                     date: initialValue,
-                    format: "YYYY-MM-DD",
+                    format: 'YYYY-MM-DD',
+                    calendar: persian,
+                    locale: persian_fa,
                 })
             )
         }
@@ -54,25 +57,34 @@ export default function DatePickerFilter({
     }, [])
 
     const handleChange = (date: DateObject | null) => {
+        if (!date) {
+            hasUserSelected.current = false
+            setValue(null)
+            setParams((params) => {
+                const updated = { ...params }
+                delete updated[item.field]
+                return updated
+            })
+            return
+        }
+
+        hasUserSelected.current = true
         setValue(date)
 
-        if (date) {
-            const gregorianDate = date
-                .convert(gregorian, gregorian_en)
-                .format('YYYY-MM-DD')
+        const gregorianDate = date
+            .convert(gregorian, gregorian_en)
+            .format('YYYY-MM-DD')
 
-            setParams((params) => ({
-                ...params,
-                [item.field]: gregorianDate,
-            }))
-        }
+        setParams((params) => ({
+            ...params,
+            [item.field]: gregorianDate,
+        }))
     }
 
     const active = focused || !!value
 
     return (
         <FormControl fullWidth sx={{ width: '100%' }}>
-
             <InputLabel
                 shrink={active}
                 sx={{
@@ -88,7 +100,6 @@ export default function DatePickerFilter({
 
             <div
                 ref={wrapperRef}
-                onClick={() => setFocused(true)}
                 style={{
                     width: '100%',
                     display: 'block',
@@ -96,24 +107,24 @@ export default function DatePickerFilter({
             >
                 <DatePicker
                     calendar={persian}
+                    onOpenPickNewDate={false}
                     locale={persian_fa}
                     value={value}
                     onChange={handleChange}
+                    onOpen={() => setFocused(true)}
+                    onClose={() => setFocused(false)}
                     className="yellow bg-dark"
                     style={{
                         width: '100%',
                         display: 'block',
                         boxSizing: 'border-box',
                         height: '54px',
-
                         backgroundColor: '#1E1E1E',
                         border: '1px solid #525252',
                         borderRadius: '5px',
-
                         fontSize: '15px',
                         color: '#E2E7DF',
                         fontFamily: 'samim',
-
                     }}
                 />
             </div>

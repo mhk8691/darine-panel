@@ -2,18 +2,18 @@ import {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {EditPage} from '../../../Components/Table/EditPage'
 import {DataProvider} from '../../../Core/DataProvider'
-import { Transactions, TransactionsType } from '../Transactions'
+import { Deposit, DepositType } from '../Deposit'
 
-export function TransactionsEdit({resource}:{resource:string}) {
-    const transactionId = useParams().id
-    const [transaction, setTransaction] = useState<TransactionsType>({} as TransactionsType)
-    const [initialData, setInitialData] = useState<TransactionsType>({} as TransactionsType)
+export function DepositEdit({resource}:{resource:string}) {
+    const depositId = useParams().id
+    const [deposit, setDeposit] = useState<DepositType>({} as DepositType)
+    const [initialData, setInitialData] = useState<DepositType>({} as DepositType)
     useEffect(() => {
         const getTransaction = async () => {
             try {
-                let response = await DataProvider.get<TransactionsType>(`transactions/${transactionId}/`)
+                let response = await DataProvider.get<DepositType>(`${resource}/${depositId}/`)
                 if (response) {
-                    setTransaction(response.data)
+                    setDeposit(response.data)
                     setInitialData(response.data)
                 }
             } catch (error: any) {
@@ -21,15 +21,16 @@ export function TransactionsEdit({resource}:{resource:string}) {
             }
         }
         getTransaction()
-    }, [transactionId])
+    }, [depositId])
     return (
         <EditPage
             resource={resource}
             title="جزئیات سفارش"
-            formDetails={transaction}
+            formDetails={deposit}
             initialData={initialData}
+            isFormData={true}
         >
-            <Transactions transaction={transaction} setTransaction={setTransaction} />
+            <Deposit deposit={deposit} setDeposit={setDeposit} />
         </EditPage>
     )
 }

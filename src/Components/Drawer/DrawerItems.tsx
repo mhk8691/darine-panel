@@ -72,7 +72,7 @@ export const drawerItems = [
     },
      {
         title: 'واریز',
-        link: 'deposit',
+        link: 'OrderDeposit',
         role: 'all',
         section: 'darineh',
         icon: <CallReceivedIcon sx={{fontSize: '1.9rem !important'}} />,
@@ -123,7 +123,7 @@ export const drawerItems = [
     },
       {
         title: 'واریز',
-        link: 'silver-deposit',
+        link: 'silver-OrderDeposit',
         role: 'all',
         section: 'silver',
         icon: <CallReceivedIcon sx={{fontSize: '1.9rem !important'}} />,

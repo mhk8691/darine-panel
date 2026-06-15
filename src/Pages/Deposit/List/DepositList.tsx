@@ -13,20 +13,18 @@ import {formatDate} from '../../../Core/FormatDate'
 import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
-import { TransactionsType } from '../Transactions'
+import {DepositType} from '../Deposit'
 import { OrderStatus } from '../../Orders/Orders'
 
-
-
 const tableHeadCells = [
+    createTableHeadCells('آیدی', 'id'),
+
     createTableHeadCells('شماره تلفن', 'user_mobile'),
     createTableHeadCells('کد پیگیری', 'tracking_code'),
-    createTableHeadCells('محصول', 'items'),
+    createTableHeadCells('مبلغ', 'amount'),
+    createTableHeadCells('روش پرداخت', 'method'),
     createTableHeadCells('وضعیت', 'status'),
-    createTableHeadCells('وزن طلا', 'total_gold_amount'),
-    createTableHeadCells('مبلغ', 'total_toman_amount'),
-    createTableHeadCells('روش پرداخت', 'payment_method'),
-    createTableHeadCells('تاریخ سفارش', 'created_at'),
+    createTableHeadCells('تاریخ', 'created_at'),
 ]
 
 const queryNames = [
@@ -36,13 +34,11 @@ const queryNames = [
         type: 'choice',
         choice: [
             {id: 'PENDING', label: 'در انتظار'},
-            {id: 'WAITING_FOR_APPROVAL', label: 'در انتظار تایید'},
-            {id: 'PROCESSING', label: 'در حال پردازش'},
             {id: 'COMPLETED', label: 'تکمیل شده'},
-            {id: 'CANCELED', label: 'لغو شده'},
+            {id: 'FAILED', label: 'ناموفق'},
         ],
     },
-      {
+    {
         field: 'tracking_code',
         label: 'کد پیگیری',
         type: '',
@@ -76,35 +72,33 @@ export const enToPer = (status: OrderStatus) => {
     switch (status) {
         case 'PENDING':
             return 'در انتظار'
-       
-    
         case 'COMPLETED':
             return 'تکمیل شده'
         case 'FAILED':
-            return 'لغو شده'
+            return 'ناموفق'
         default:
             return status
     }
 }
 
-export const paymentMethodFa = (method: string) => {
+export const methodFa = (method: DepositType['method']) => {
     switch (method) {
-        case 'GOLD':
-            return 'طلا'
         case 'ONLINE':
             return 'آنلاین'
+        case 'CARD_TO_CARD':
+            return 'کارت به کارت'
         default:
             return method
     }
 }
 
-export function TransactionsList({resource,title}:{resource:string,title:string}) {
+export function DepositList({resource, title}: {resource: string; title: string}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
 
-    const [transactions, setTransactions] = useState<{
+    const [deposit, setDeposit] = useState<{
         total_results: number
-        data: TransactionsType[]
+        data: DepositType[]
     }>({
         total_results: 0,
         data: [],
@@ -112,17 +106,17 @@ export function TransactionsList({resource,title}:{resource:string,title:string}
 
     const dispatch = useDispatch()
 
-    const getOrders = async () => {
+    const getDeposits = async () => {
         setLoading(true)
 
         try {
             const response = await DataProvider.get<{
                 total_results: number
-                results: TransactionsType[]
+                results: DepositType[]
             }>(`${resource}/`, search)
 
             if (response) {
-                setTransactions({
+                setDeposit({
                     total_results: response.data.total_results,
                     data: response.data.results,
                 })
@@ -141,83 +135,67 @@ export function TransactionsList({resource,title}:{resource:string,title:string}
     }
 
     useDeepCompareEffect(() => {
-        getOrders()
+        getDeposits()
     }, [search])
 
     return (
         <ListPage
-             header={title}
+            header={title}
             href={resource + '/create'}
-            searchField="username"
+            searchField="user_mobile"
             searchText="شماره تلفن"
             setParams={setSearch}
             params={search}
             resource={resource}
-            getList={getOrders}
+            getList={getDeposits}
             filtersData={queryNames}
             noCreate={true}
             defaultState={{
                 status: '',
-                username: '',
-                createdAt: '',
-                products: [
-                    {
-                        name: '',
-                        price: 0,
-                        image: '',
-                    },
-                ],
+                user_mobile: '',
             }}
         >
             <CustomTable
                 resource={resource}
                 headCells={tableHeadCells}
-                rows={transactions.data}
-                count={transactions.total_results}
-                getList={getOrders}
+                rows={deposit.data}
+                count={deposit.total_results}
+                getList={getDeposits}
                 params={search}
                 setParams={setSearch}
-                handleSort={getOrders}
+                handleSort={getDeposits}
                 loading={loading}
                 hasDetail={true}
                 noDelete
-                tableBodyCells={transactions.data.map((item) => (
+                tableBodyCells={deposit.data.map((item) => (
                     <React.Fragment key={item.id}>
+                            <TableCell>
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
+                                {item.id}
+                            </Typography>
+                        </TableCell>    
                         <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {item.user_mobile}
                             </Typography>
                         </TableCell>
+
                         <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {item.tracking_code}
                             </Typography>
                         </TableCell>
 
                         <TableCell>
-                            <Stack spacing={0.5}>
-                                <Typography
-                                    variant="body2"
-                                    sx={{whiteSpace: 'nowrap'}}
-                                >
-                                    {item.items?.[0]?.product_name || '--'}
-                                </Typography>
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
+                                {formatPrice(item.amount)}
+                            </Typography>
+                        </TableCell>
 
-                                {item.items?.length > 1 && (
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        +{item.items.length - 1} محصول دیگر
-                                    </Typography>
-                                )}
-                            </Stack>
+                        <TableCell>
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
+                                {methodFa(item.method)}
+                            </Typography>
                         </TableCell>
 
                         <TableCell>
@@ -229,39 +207,7 @@ export function TransactionsList({resource,title}:{resource:string,title:string}
                         </TableCell>
 
                         <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
-                                {item.total_gold_amount} گرم
-                            </Typography>
-                        </TableCell>
-
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
-                                {formatPrice(
-                                    Number(item.total_toman_amount)
-                                )}{' '}
-                            </Typography>
-                        </TableCell>
-
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
-                                {paymentMethodFa(item.payment_method)}
-                            </Typography>
-                        </TableCell>
-
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                sx={{whiteSpace: 'nowrap'}}
-                            >
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {formatDate(item.created_at)}
                             </Typography>
                         </TableCell>

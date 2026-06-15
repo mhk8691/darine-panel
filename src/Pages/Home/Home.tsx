@@ -28,8 +28,8 @@ import { BankCardCreate } from '../BankCard/Create/BankCardCreate'
 import { BankCardList } from '../BankCard/List/BankCardList'
 import { BankCardEdit } from '../BankCard/Edit/BankCardEdit'
 import { PartnersList } from '../partners/List/PartnersList'
-import { TransactionsList } from '../Transaction/List/TransactionsList'
-import { TransactionsEdit } from '../Transaction/Edit/TransactionEdit'
+import { DepositList } from '../Deposit/List/DepositList'
+import { DepositEdit } from '../Deposit/Edit/DepositEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -167,12 +167,12 @@ export function Home(props) {
 
                      {/* ...........banners.......... */}
                        
-                        <Route path="transactions" element={<TransactionsList resource='transactions' title='مدیریت واریز و برداشت دارینه' key={'transactions'} />} />
-                        <Route path="transactions/:id" element={<TransactionsEdit resource='transactions' key={'transactions'} />} />
+                        <Route path="OrderDeposit" element={<DepositList resource='OrderDeposit' title='مدیریت واریز دارینه' key={'OrderDeposit'} />} />
+                        <Route path="OrderDeposit/:id" element={<DepositEdit resource='OrderDeposit' key={'OrderDeposit'} />} />
                         
                         
-                        <Route path="silver-transactions" element={<TransactionsList resource='silver-transactions' title='مدیریت واریز و برداشت نقرینه' key={'silver-transactions'} />} />
-                        <Route path="silver-transactions/:id" element={<TransactionsEdit resource='silver-transactions' key={'silver-transactions'} />} />
+                        <Route path="silver-OrderDeposit" element={<DepositList resource='silver-OrderDeposit' title='مدیریت واریز نقرینه' key={'silver-OrderDeposit'} />} />
+                        <Route path="silver-OrderDeposit/:id" element={<DepositEdit resource='silver-OrderDeposit' key={'silver-OrderDeposit'} />} />
 
 
 

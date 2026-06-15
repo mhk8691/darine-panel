@@ -7,6 +7,7 @@ import {formatPrice} from '../../Core/FormatPrice'
 import {setUtil} from '../../redux/UtilSlice'
 
 import Widgets from './Widgets'
+import SalesChart from './SalesChart'
 
 interface DashboardType {
     users: number
@@ -17,7 +18,23 @@ interface DashboardType {
     silver_orders: number
     wallet_balance: number
 }
-
+const chartData: {
+  month: string
+  sales: number
+}[] | undefined = [
+  { month: 'فروردین', sales: 12 },
+  { month: 'اردیبهشت', sales: 19 },
+  { month: 'خرداد', sales: 15 },
+  { month: 'تیر', sales: 22 },
+  { month: 'مرداد', sales: 18 },
+  { month: 'شهریور', sales: 25 },
+  { month: 'مهر', sales: 30 },
+  { month: 'آبان', sales: 27 },
+  { month: 'آذر', sales: 35 },
+  { month: 'دی', sales: 40 },
+  { month: 'بهمن', sales: 38 },
+  { month: 'اسفند', sales: 45 },
+]
 export default function DashboardLayout() {
     const [data, setData] = useState<DashboardType | null>(null)
     const dispatch = useDispatch()
@@ -142,6 +159,9 @@ export default function DashboardLayout() {
                         icon="💎"
                         loading={loading}
                     />
+                    <Grid xs={12} item>
+                        <SalesChart data={chartData} />
+                    </Grid>
                 </Grid>
             </Box>
         </Box>

@@ -1,4 +1,4 @@
-import {Box, Grid, Skeleton, Stack, Typography, useMediaQuery} from '@mui/material'
+import {Box, Grid, Skeleton, Stack, Typography, useMediaQuery, useTheme} from '@mui/material'
 import {red} from '@mui/material/colors'
 import {BarChart} from '@mui/x-charts/BarChart'
 import {valueFormatter} from './sales'
@@ -14,7 +14,7 @@ interface Props {
 export default function SalesChart({data, loading}: Props) {
     const mdScreen = useMediaQuery('(min-width:900px)')
     const smScreen = useMediaQuery('(min-width:600px)')
-
+    const theme = useTheme()
     const chartHeight = mdScreen ? 450 : smScreen ? 350 : 280
 
     return (
@@ -38,7 +38,6 @@ export default function SalesChart({data, loading}: Props) {
                     </Typography>
                 )}
 
-                {/* بدنه چارت یا اسکلتن */}
                 {loading ? (
                     <Skeleton
                         animation="wave"
@@ -67,7 +66,7 @@ export default function SalesChart({data, loading}: Props) {
                                     },
                                 ]}
                                 layout="vertical"
-                                colors={[red[700]]}
+                                colors={[theme.palette.primary.main]}
                                 sx={{
                                     '--Charts-categoryLabelFontSize': '16px',
                                     width: '100%',

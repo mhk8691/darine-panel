@@ -18,6 +18,8 @@ import {OrderStatus, OrdersType} from '../Orders'
 
 
 const tableHeadCells = [
+    createTableHeadCells('آیدی', 'id'),
+
     createTableHeadCells('شماره تلفن', 'user_mobile'),
     createTableHeadCells('کد پیگیری', 'tracking_code'),
     createTableHeadCells('محصول', 'items'),
@@ -35,10 +37,8 @@ const queryNames = [
         type: 'choice',
         choice: [
             {id: 'PENDING', label: 'در انتظار'},
-            {id: 'WAITING_FOR_APPROVAL', label: 'در انتظار تایید'},
-            {id: 'PROCESSING', label: 'در حال پردازش'},
             {id: 'COMPLETED', label: 'تکمیل شده'},
-            {id: 'CANCELED', label: 'لغو شده'},
+            // {id: 'CANCELED', label: 'لغو شده'},
         ],
     },
       {
@@ -182,6 +182,14 @@ export function OrdersList({resource,title}:{resource:string,title:string}) {
                 noDelete
                 tableBodyCells={orders.data.map((item) => (
                     <React.Fragment key={item.id}>
+                        <TableCell>
+                            <Typography
+                                variant="body2"
+                                sx={{whiteSpace: 'nowrap'}}
+                            >
+                                {item.id}
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography
                                 variant="body2"

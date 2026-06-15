@@ -168,7 +168,7 @@ export function Orders({
                             onChange={handleChangeStatus}
                         >
                             <MenuItem value="PENDING">در انتظار</MenuItem>
-                            {/* <MenuItem value="FAILED">لغو شده</MenuItem> */}
+                            {/* <MenuItem value="CANCELED">لغو شده</MenuItem> */}
                             <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
                         </Select>
                     </FormControl>
@@ -219,7 +219,7 @@ export function Orders({
             )}
 
             {
-                order.items.length>0 && (
+                order?.items?.length>0 && (
                     <Stack spacing={1} sx={{ mt: 2 }}>
                 <Typography fontWeight={600} fontSize={17}>
                     محصولات:

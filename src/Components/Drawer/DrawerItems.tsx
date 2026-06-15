@@ -9,6 +9,13 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ImageIcon from '@mui/icons-material/Image';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import CallMadeIcon from '@mui/icons-material/CallMade';
+
+
+
 export const drawerItems = [
     // both
     {
@@ -64,11 +71,18 @@ export const drawerItems = [
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
     },
      {
-        title: 'واریز و برداشت ',
-        link: 'transactions',
+        title: 'واریز',
+        link: 'deposit',
         role: 'all',
         section: 'darineh',
-        icon: <AccountBalanceIcon sx={{fontSize: '1.9rem !important'}} />,
+        icon: <CallReceivedIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+      {
+        title: 'برداشت',
+        link: 'withdraw',
+        role: 'all',
+        section: 'darineh',
+        icon: <CallMadeIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'کارت های بانکی',
@@ -108,11 +122,18 @@ export const drawerItems = [
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
     },
       {
-        title: 'واریز و برداشت ',
-        link: 'silver-transactions',
+        title: 'واریز',
+        link: 'silver-deposit',
         role: 'all',
         section: 'silver',
-        icon: <AccountBalanceIcon sx={{fontSize: '1.9rem !important'}} />,
+        icon: <CallReceivedIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+      {
+        title: 'برداشت',
+        link: 'silver-withdraw',
+        role: 'all',
+        section: 'silver',
+        icon: <CallMadeIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'کارت های بانکی',

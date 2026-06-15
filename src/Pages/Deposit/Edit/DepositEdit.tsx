@@ -25,7 +25,7 @@ export function DepositEdit({resource}:{resource:string}) {
     return (
         <EditPage
             resource={resource}
-            title="جزئیات سفارش"
+            title="جزئیات واریز"
             formDetails={deposit}
             initialData={initialData}
             isFormData={true}

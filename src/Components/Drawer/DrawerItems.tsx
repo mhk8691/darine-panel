@@ -79,7 +79,7 @@ export const drawerItems = [
     },
       {
         title: 'برداشت',
-        link: 'withdraw',
+        link: 'OrderWithdraw',
         role: 'all',
         section: 'darineh',
         icon: <CallMadeIcon sx={{fontSize: '1.9rem !important'}} />,
@@ -130,7 +130,7 @@ export const drawerItems = [
     },
       {
         title: 'برداشت',
-        link: 'silver-withdraw',
+        link: 'silver-OrderWithdraw',
         role: 'all',
         section: 'silver',
         icon: <CallMadeIcon sx={{fontSize: '1.9rem !important'}} />,

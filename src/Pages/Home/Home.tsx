@@ -30,6 +30,8 @@ import { BankCardEdit } from '../BankCard/Edit/BankCardEdit'
 import { PartnersList } from '../partners/List/PartnersList'
 import { DepositList } from '../Deposit/List/DepositList'
 import { DepositEdit } from '../Deposit/Edit/DepositEdit'
+import { WithdrawList } from '../Withdraw/List/WithdrawList'
+import { WithdrawEdit } from '../Withdraw/Edit/WithdrawEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -165,7 +167,7 @@ export function Home(props) {
                     {/* ...........partners.......... */}
                     <Route path="partners" element={<PartnersList key={'partners'} />} />
 
-                     {/* ...........banners.......... */}
+                     {/* ...........deposit.......... */}
                        
                         <Route path="OrderDeposit" element={<DepositList resource='OrderDeposit' title='مدیریت واریز دارینه' key={'OrderDeposit'} />} />
                         <Route path="OrderDeposit/:id" element={<DepositEdit resource='OrderDeposit' key={'OrderDeposit'} />} />
@@ -174,7 +176,14 @@ export function Home(props) {
                         <Route path="silver-OrderDeposit" element={<DepositList resource='silver-OrderDeposit' title='مدیریت واریز نقرینه' key={'silver-OrderDeposit'} />} />
                         <Route path="silver-OrderDeposit/:id" element={<DepositEdit resource='silver-OrderDeposit' key={'silver-OrderDeposit'} />} />
 
-
+                        {/* ...........withdraw.......... */}
+                       
+                        <Route path="OrderWithdraw" element={<WithdrawList resource='OrderWithdraw' title='مدیریت برداشت دارینه' key={'OrderWithdraw'} />} />
+                        <Route path="OrderWithdraw/:id" element={<WithdrawEdit resource='OrderWithdraw' key={'OrderWithdraw'} />} />
+                        
+                        
+                        <Route path="silver-OrderWithdraw" element={<WithdrawList resource='silver-OrderWithdraw' title='مدیریت برداشت نقرینه' key={'silver-OrderWithdraw'} />} />
+                        <Route path="silver-OrderWithdraw/:id" element={<WithdrawEdit resource='silver-OrderWithdraw' key={'silver-OrderWithdraw'} />} />
 
                     </Routes>
                 </Box>

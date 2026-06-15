@@ -29,7 +29,7 @@ const tableHeadCells = [
     createTableHeadCells('کارمزدها', 'fees'),
     createTableHeadCells('کد نمایندگی', 'referral_code'),
     createTableHeadCells('وضعیت حساب', 'is_active'),
-    createTableHeadCells('تاریخ عضویت', 'date_joined'),
+    createTableHeadCells('تاریخ عضویت', 'created_at'),
 ]
 
 const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
@@ -348,7 +348,7 @@ useEffect(() => {
                                     xl: '17px',
                                 }}
                             >
-                                {formatDate(item.date_joined)}
+                                {formatDate(item.created_at)}
                             </Typography>
                         </TableCell>
                     </>

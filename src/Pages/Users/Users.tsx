@@ -33,7 +33,7 @@ export type UsersType = {
     auth_status: 'pending' | 'verified' | 'rejected'
 
     last_login: string | null
-    date_joined: string
+    created_at: string
     updated_at: string
 
     profile_picture: string | File
@@ -202,11 +202,11 @@ useEffect(() => {
                     />,
                          editMode &&  <CustomTextField
                         key={user.id}
-                        name="date_joined"
+                        name="created_at"
                         label="تاریخ عضویت"
                         resource={RESOURCE}
                         setData={setUser}
-                        defaultValue={formatDate(user.date_joined)}
+                        defaultValue={formatDate(user.created_at)}
                         disabled
                     />,
                     <FormControl fullWidth>

@@ -35,7 +35,6 @@ export function Withdraw({
     withdraw: WithdrawType
     setWithdraw: React.Dispatch<React.SetStateAction<WithdrawType>>
 }) {
-    const [isCanceled, setIsCanceled] = useState(false)
 
     const safe = (v: any) => v ?? '—'
 
@@ -46,18 +45,7 @@ export function Withdraw({
         }))
     }
 
-    useEffect(() => {
-        if (withdraw.status === 'FAILED'){
-            setIsCanceled(true)
 
-        }else{
-             setWithdraw((prev) => ({
-                ...prev,
-                admin_note: '',
-            }))
-            setIsCanceled(false)
-        }
-    }, [withdraw.status])
 
     const methodLabel = withdraw.method === 'ONLINE' ? 'آنلاین' : 'کارت به کارت'
 
@@ -123,7 +111,7 @@ export function Withdraw({
                 </Grid>,
                 
             ].filter(Boolean),
-        [withdraw, isCanceled]
+        [withdraw]
     )
 
     return (
@@ -133,7 +121,6 @@ export function Withdraw({
     <Grid key={withdraw.id}>
     <CustomTextField
         name="admin_note"
-        disabled={!isCanceled}
         label="یادداشت ادمین"
         value={withdraw.admin_note ?? ''}
         multiline

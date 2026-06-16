@@ -35,7 +35,6 @@ export function Deposit({
     deposit: DepositType
     setDeposit: React.Dispatch<React.SetStateAction<DepositType>>
 }) {
-    const [isCanceled, setIsCanceled] = useState(false)
 
     const safe = (v: any) => v ?? '—'
 
@@ -46,18 +45,7 @@ export function Deposit({
         }))
     }
 
-    useEffect(() => {
-        if (deposit.status === 'FAILED'){
-            setIsCanceled(true)
-
-        }else{
-             setDeposit((prev) => ({
-                ...prev,
-                admin_note: '',
-            }))
-            setIsCanceled(false)
-        }
-    }, [deposit.status])
+  
 
     const methodLabel = deposit.method === 'ONLINE' ? 'آنلاین' : 'کارت به کارت'
 
@@ -123,17 +111,16 @@ export function Deposit({
                 </Grid>,
                 
             ].filter(Boolean),
-        [deposit, isCanceled]
+        [deposit]
     )
 
     return (
         <Stack>
             <GridProducer sx={{ mb: 2 }} data={data} />
 <GridProducer count={1} sx={{ mb: 2 }} data={[
-    <Grid key={deposit.id}>
+        <Grid key={deposit.id}>
     <CustomTextField
         name="admin_note"
-        disabled={!isCanceled}
         label="یادداشت ادمین"
         value={deposit.admin_note ?? ''}
         multiline

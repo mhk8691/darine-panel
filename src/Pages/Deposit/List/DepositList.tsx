@@ -24,6 +24,7 @@ const tableHeadCells = [
     createTableHeadCells('مبلغ', 'amount'),
     createTableHeadCells('روش پرداخت', 'method'),
     createTableHeadCells('وضعیت', 'status'),
+    createTableHeadCells('توضیح', 'description'),
     createTableHeadCells('تاریخ', 'created_at'),
 ]
 
@@ -205,7 +206,11 @@ export function DepositList({resource, title}: {resource: string; title: string}
                                 size="small"
                             />
                         </TableCell>
-
+                                 <TableCell>
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
+                                {item.description}
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {formatDate(item.created_at)}

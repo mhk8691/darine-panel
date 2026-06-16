@@ -26,6 +26,7 @@ export type DepositType = {
     admin_note: string | null
     created_at: string
     user: number
+    description:string
 }
 
 export function Deposit({
@@ -94,7 +95,13 @@ export function Deposit({
                     label="کد رهگیری"
                     defaultValue={safe(deposit.tracking_code)}
                 />,
-            
+                    <CustomTextField
+                    key={deposit.id}
+                    name="description"
+                    disabled
+                    label="توضیح"
+                    defaultValue={safe(deposit.description)}
+                />,
                 <Grid item xs={12}>
                     <FormControl fullWidth>
                         <InputLabel>وضعیت واریز</InputLabel>

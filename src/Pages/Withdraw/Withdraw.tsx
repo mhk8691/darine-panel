@@ -26,6 +26,7 @@ export type WithdrawType = {
     admin_note: string | null
     created_at: string
     user: number
+    description:string
 }
 
 export function Withdraw({
@@ -94,7 +95,13 @@ export function Withdraw({
                     label="کد رهگیری"
                     defaultValue={safe(withdraw.tracking_code)}
                 />,
-            
+              <CustomTextField
+                    key={withdraw.id}
+                    name="description"
+                    disabled
+                    label="توضیح"
+                    defaultValue={safe(withdraw.description)}
+                />,
                 <Grid item xs={12}>
                     <FormControl fullWidth>
                         <InputLabel>وضعیت واریز</InputLabel>

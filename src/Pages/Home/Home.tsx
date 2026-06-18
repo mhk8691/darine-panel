@@ -32,6 +32,7 @@ import { DepositList } from '../Deposit/List/DepositList'
 import { DepositEdit } from '../Deposit/Edit/DepositEdit'
 import { WithdrawList } from '../Withdraw/List/WithdrawList'
 import { WithdrawEdit } from '../Withdraw/Edit/WithdrawEdit'
+import { LogsList } from '../logs/List/LogsList'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -184,7 +185,9 @@ export function Home(props) {
                         
                         <Route path="silver-OrderWithdraw" element={<WithdrawList resource='silver-OrderWithdraw' title='مدیریت برداشت نقرینه' key={'silver-OrderWithdraw'} />} />
                         <Route path="silver-OrderWithdraw/:id" element={<WithdrawEdit resource='silver-OrderWithdraw' key={'silver-OrderWithdraw'} />} />
-
+{/* ...........logs.......... */}
+                       
+                        <Route path="logs" element={<LogsList  />}/>
                     </Routes>
                 </Box>
             </Box>

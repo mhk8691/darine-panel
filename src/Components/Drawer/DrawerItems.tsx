@@ -8,11 +8,9 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ImageIcon from '@mui/icons-material/Image';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import CallMadeIcon from '@mui/icons-material/CallMade';
+import AssignmentIcon from '@mui/icons-material/Assignment'; 
 
 
 
@@ -45,6 +43,13 @@ export const drawerItems = [
         role: 'all',
         section: 'both',
         icon: <HandshakeIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+        {
+        title: 'لاگ',
+        link: 'logs',
+        role: 'all',
+        section: 'both',
+        icon: <AssignmentIcon sx={{fontSize: '1.9rem !important'}} />,
     },
     // {
     //     title: 'حساب کاربری',

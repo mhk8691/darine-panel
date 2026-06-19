@@ -8,11 +8,11 @@ import {
     Stack,
     Typography,
     useMediaQuery,
-    useTheme,
 } from '@mui/material'
 import {BarChart} from '@mui/x-charts/BarChart'
-import {useState} from 'react'
+import {Dispatch, SetStateAction} from 'react'
 import {valueFormatter} from './sales'
+import {FilterState} from './DashboardLayout'
 
 const MONTHS = [
     {label: 'همه ماه‌ها', value: ''},
@@ -30,33 +30,38 @@ const MONTHS = [
     {label: 'اسفند', value: '12'},
 ]
 
-const CURRENT_YEAR = 1404
-const YEARS = Array.from({length: 5}, (_, i) => CURRENT_YEAR - i)
+const YEARS = Array.from({length: 5}, (_, i) => 1405 - i)
 
-interface FilterState {
-    year: number
-    month: string
+export interface ChartData {
+    month?: string
+    day?: number
+    sales: number
 }
 
 interface Props {
-    data?: {
-        month: string
-        sales: number
-    }[]
+    data: ChartData[]
     loading?: boolean
     onFilterChange?: (filter: FilterState) => void
+    filter: FilterState
+    setFilter: Dispatch<SetStateAction<FilterState>>
 }
 
-export default function SalesChart({data, loading, onFilterChange}: Props) {
+export default function SalesChart({data, loading, onFilterChange, filter, setFilter}: Props) {
     const mdScreen = useMediaQuery('(min-width:900px)')
     const smScreen = useMediaQuery('(min-width:600px)')
-    const theme = useTheme()
     const chartHeight = mdScreen ? 450 : smScreen ? 350 : 280
 
-    const [filter, setFilter] = useState<FilterState>({
-        year: CURRENT_YEAR,
-        month: '',
-    })
+    // تشخیص اینکه داده روزانه است یا ماهانه
+    const isDailyData = filter.month !== ''
+
+    // نرمال‌سازی داده برای چارت
+    const normalizedData = data.map((item) => ({
+        label: isDailyData ? String(item.day) : item.month,
+        sales: item.sales,
+    }))
+
+    const chartLabel = isDailyData ? 'فروش روزانه' : 'فروش ماهانه'
+    const title = isDailyData ? 'آمار فروش روزانه' : 'آمار فروش ماهانه'
 
     const handleYearChange = (e: SelectChangeEvent<number>) => {
         const updated = {...filter, year: Number(e.target.value)}
@@ -94,7 +99,7 @@ export default function SalesChart({data, loading, onFilterChange}: Props) {
                             variant="h6"
                             sx={{fontSize: '17px !important', fontWeight: 'bold'}}
                         >
-                            آمار فروش ماهانه
+                            {title}
                         </Typography>
                     )}
 
@@ -147,15 +152,15 @@ export default function SalesChart({data, loading, onFilterChange}: Props) {
                     />
                 ) : (
                     <Box sx={{overflowX: 'auto', width: '100%'}}>
-                        <Box sx={{minWidth: '700px'}}>
+                        <Box sx={{minWidth: isDailyData ? '900px' : '700px'}}>
                             <BarChart
-                                dataset={data || []}
-                                xAxis={[{scaleType: 'band', dataKey: 'month'}]}
+                                dataset={normalizedData}
+                                xAxis={[{scaleType: 'band', dataKey: 'label'}]}
                                 margin={{left: 87}}
                                 series={[
                                     {
                                         dataKey: 'sales',
-                                        label: 'فروش ماهانه',
+                                        label: chartLabel,
                                         valueFormatter,
                                     },
                                 ]}

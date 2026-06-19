@@ -7,7 +7,7 @@ import {formatPrice} from '../../Core/FormatPrice'
 import {setUtil} from '../../redux/UtilSlice'
 
 import Widgets from './Widgets'
-import SalesChart from './SalesChart'
+import SalesChart, { ChartData } from './SalesChart'
 import ServerResourceCharts from './ServerResourceCharts.'
 
 interface DashboardStatsType {
@@ -49,22 +49,14 @@ interface AnalitycsType {
     }
 }
 
-const chartData: {month: string; sales: number}[] | undefined = [
-    {month: 'فروردین', sales: 12},
-    {month: 'اردیبهشت', sales: 19},
-    {month: 'خرداد', sales: 15},
-    {month: 'تیر', sales: 22},
-    {month: 'مرداد', sales: 18},
-    {month: 'شهریور', sales: 25},
-    {month: 'مهر', sales: 30},
-    {month: 'آبان', sales: 27},
-    {month: 'آذر', sales: 35},
-    {month: 'دی', sales: 40},
-    {month: 'بهمن', sales: 38},
-    {month: 'اسفند', sales: 45},
-]
 
+export const CURRENT_YEAR = 1405
+export interface FilterState {
+    year: number
+    month: string
+}
 function SectionHeader({title, color}: {title: string; color: string}) {
+ 
     return (
         <Grid item xs={12}>
             <Box sx={{display: 'flex', alignItems: 'center', gap: 2, mt: 4, mb: 1}}>
@@ -88,10 +80,14 @@ function SectionHeader({title, color}: {title: string; color: string}) {
 }
 
 export default function DashboardLayout() {
+    const [chartData,setChartData] = useState<ChartData[]>([])
     const [data, setData] = useState<DashboardStatsType | null>(null)
     const [analitycs, setAnalitycs] = useState<AnalitycsType>({} as AnalitycsType)
     const dispatch = useDispatch()
-
+    const [filter, setFilter] = useState<FilterState>({
+            year: CURRENT_YEAR,
+            month: '',
+        })
     useEffect(() => {
         const getData = async () => {
             try {
@@ -109,12 +105,35 @@ export default function DashboardLayout() {
         }
         getData()
     }, [dispatch])
-
+  useEffect(() => {
+        const getChart = async () => {
+            const query = new URLSearchParams();
+            if (filter.year) {
+                query.append('year',filter.year+'')
+            }
+            if (filter.month) {
+                query.append('month',filter.month)
+            }
+            try {
+                const response = await DataProvider.get<ChartData[]>(`analytics/chart/?${query.toString()}`)
+                setChartData(response.data)
+            } catch (error: any) {
+                dispatch(
+                    setUtil({
+                        open: true,
+                        message: error.message,
+                        severity: 'error',
+                    }),
+                )
+            }
+        }
+        getChart()
+    }, [dispatch,filter])
     useEffect(() => {
         const getData = async () => {
             try {
                 const response = await DataProvider.get<AnalitycsType>('analytics/')
-                setAnalitycs(response || ({} as AnalitycsType))
+                setAnalitycs(response.data)
             } catch (error: any) {
                 dispatch(
                     setUtil({
@@ -275,7 +294,7 @@ console.log(analitycs)
 
 <SectionHeader title="📊 نمودار فروش" color="#81C784" />
 <Grid xs={12} item>
-    <SalesChart data={chartData} />
+    <SalesChart data={chartData} filter={filter} setFilter={setFilter} />
 </Grid>
 
                 </Grid>

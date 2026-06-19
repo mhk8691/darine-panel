@@ -107,6 +107,7 @@ export function LogsList() {
 
     return (
         <ListPage
+        isCsvExport
              header={'مدیریت لاگ ها'}
             href={resource + '/create'}
             
@@ -118,6 +119,7 @@ export function LogsList() {
             getList={getLogs}
             filtersData={queryNames}
             noCreate={true}
+            listData={logs.data}
             defaultState={{
                 status: '',
                 username: '',

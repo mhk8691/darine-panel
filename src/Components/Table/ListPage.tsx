@@ -6,7 +6,11 @@ import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
 import {BaseModal} from '../Modal/BaseModal'
 import EditIcon from '@mui/icons-material/Edit';
+import CsvExportButton from '../../Pages/logs/List/CsvExportButton'
+import { LogsType } from '../../Pages/logs/List/LogsList'
 export function ListPage({
+    listData,
+    isCsvExport=false,
     isActiveEdit,
     header,
     searchText,
@@ -24,6 +28,8 @@ export function ListPage({
     nofilter = false,
     setOpenModal
 }: {
+    listData?:LogsType[]
+    isCsvExport?:boolean
     header: string
     searchText: string
     searchField: string
@@ -146,6 +152,14 @@ export function ListPage({
                       ویرایش کارمزد ها
                     </Button>
                     }
+                        {
+                            isCsvExport && (
+                                <CsvExportButton
+      data={listData || []}
+      fileName="logs.csv"
+    />
+                            )
+                        }
                  
                    </Stack>
                 </Stack>

@@ -194,9 +194,9 @@ console.log(analitycs)
                         loading={loading}
                     />
                       <Widgets
-                        title="تفاوت"
+                        title="اختلاف"
                         data={String(formatPrice(analitycs?.difference) ?? 0)}
-                        description={{title: 'تفاوت خرید و فروش', status: 'increment'}}
+                        description={{title: 'اختلاف خرید و فروش', status: 'increment'}}
                         icon="💵"
                         loading={loading}
                     />

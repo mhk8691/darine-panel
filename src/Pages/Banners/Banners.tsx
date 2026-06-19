@@ -16,8 +16,8 @@ export type BannersType = {
     id: number
     title: string
     image: string | File
-    url: string
-    active: boolean | string
+    link: string
+    is_active: boolean | string
 }
 const RESOURCE = 'banners'
 
@@ -34,7 +34,7 @@ export function Banners({
     const [imagePreview, setImagePreview] = useState('')
     const handleChange = (event: SelectChangeEvent) => {
         setBanner((prev) => {
-            return {...prev, active: event.target.value === 'فعال' ? true : false}
+            return {...prev, is_active: event.target.value === 'فعال' ? true : false}
         })
     }
     return (
@@ -52,11 +52,11 @@ export function Banners({
                     />,
               
                     <CustomTextField
-                        name="url"
+                        name="link"
                         setData={setBanner}
                         resource={RESOURCE}
                         label={'لینک'}
-                        defaultValue={banner.url}
+                        defaultValue={banner.link}
                         sx={{
                             '& .MuiInputBase-input': {
                                 direction: 'rtl !important',
@@ -88,7 +88,7 @@ export function Banners({
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={banner.active ? 'فعال' : 'غیر فعال'}
+                            value={banner.is_active ? 'فعال' : 'غیر فعال'}
                             label="وضعیت"
                             onChange={handleChange}
                             sx={{

@@ -117,7 +117,7 @@ export function BannersList({resource,title}:{resource:string,title:string}) {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.url || '--'}
+                                {item.link || '--'}
                             </Typography>
                         </TableCell>
                         <TableCell>
@@ -133,7 +133,7 @@ export function BannersList({resource,title}:{resource:string,title:string}) {
                                     whiteSpace: 'nowrap',
                                 }}
                             >
-                                {item.active ? 'فعال' : 'غیر فعال'}
+                                {item.is_active ? 'فعال' : 'غیر فعال'}
                             </Typography>
                         </TableCell>
                         <TableCell>

@@ -7,9 +7,9 @@ import {formatPrice} from '../../Core/FormatPrice'
 import {setUtil} from '../../redux/UtilSlice'
 
 import Widgets from './Widgets'
-import SalesChart, { ChartData } from './StatsChart'
+import  { ChartData } from './StatsChart'
 import ServerResourceCharts from './ServerResourceCharts.'
-import DifferentChart from './DifferentChart'
+import DifferentChart, { BuySellChartData } from './DifferentChart'
 import StatsChart from './StatsChart'
 
 interface DashboardStatsType {
@@ -84,6 +84,7 @@ function SectionHeader({title, color}: {title: string; color: string}) {
 export default function DashboardLayout() {
     const [salesChartData,setSalesChartData] = useState<ChartData[]>([])
     const [buyChartData,setBuyChartData] = useState<ChartData[]>([])
+    const [buySellData,setBuySellData] = useState<BuySellChartData[]>([])
 
     const [data, setData] = useState<DashboardStatsType | null>(null)
     
@@ -143,6 +144,32 @@ export default function DashboardLayout() {
         }
         getChart()
     }, [dispatch,salesFilter])
+
+  useEffect(() => {
+        const getChart = async () => {
+            const query = new URLSearchParams();
+            if (differentFilter.year) {
+                query.append('year',differentFilter.year+'')
+            }
+            if (differentFilter.month) {
+                query.append('month',differentFilter.month)
+            }
+            try {
+                const response = await DataProvider.get<BuySellChartData[]>(`analytics/buy-sell-chart/?${query.toString()}`)
+                setBuySellData(response.data)
+            } catch (error: any) {
+                dispatch(
+                    setUtil({
+                        open: true,
+                        message: error.message,
+                        severity: 'error',
+                    }),
+                )
+            }
+        }
+        getChart()
+    }, [dispatch,differentFilter])
+
 
  useEffect(() => {
         const getChart = async () => {
@@ -343,7 +370,7 @@ export default function DashboardLayout() {
 
 <SectionHeader title="📊 نمودار اختلاف" color="#81C784" />
 <Grid xs={12} item>
-    <DifferentChart data={[]} filter={differentFilter} setFilter={setDifferentFilter}   />
+    <DifferentChart data={buySellData} filter={differentFilter} setFilter={setDifferentFilter}   />
 </Grid>
 
                 </Grid>

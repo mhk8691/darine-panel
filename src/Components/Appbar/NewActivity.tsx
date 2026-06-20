@@ -17,7 +17,7 @@ const addOptions = [
     {
         title: 'محصول جدید',
         description: 'محصول جدید ایجاد کنید',
-        link: 'product/create',
+        link: 'products/create',
         icon: <ShoppingBasketIcon sx={{fontSize: '30px'}} />,
     },
     {

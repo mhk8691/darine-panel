@@ -199,7 +199,7 @@ console.log(analitycs)
                         description={{title: 'اختلاف خرید و فروش', status: 'increment'}}
                         icon="💵"
                         loading={loading}
-                    />
+                    />  
 
 
                     <SectionHeader title="🥇 طلا" color="#FFD700" />
@@ -209,7 +209,7 @@ console.log(analitycs)
                         description={{title: 'آمار محصولات طلا', status: 'increment'}}
                         icon="🥇"
                         loading={loading}
-                        link="/product"
+                        link="/products"
                     />
                     <Widgets
                         title="سفارشات طلا"
@@ -250,7 +250,7 @@ console.log(analitycs)
                         description={{title: 'آمار محصولات نقره', status: 'increment'}}
                         icon="🥈"
                         loading={loading}
-                        link="/silver-product"
+                        link="/silver-products"
                     />
                     <Widgets
                         title="سفارشات نقره"

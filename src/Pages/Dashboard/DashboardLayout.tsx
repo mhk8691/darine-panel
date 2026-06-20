@@ -7,9 +7,10 @@ import {formatPrice} from '../../Core/FormatPrice'
 import {setUtil} from '../../redux/UtilSlice'
 
 import Widgets from './Widgets'
-import SalesChart, { ChartData } from './SalesChart'
+import SalesChart, { ChartData } from './StatsChart'
 import ServerResourceCharts from './ServerResourceCharts.'
 import DifferentChart from './DifferentChart'
+import StatsChart from './StatsChart'
 
 interface DashboardStatsType {
     users: number
@@ -81,15 +82,22 @@ function SectionHeader({title, color}: {title: string; color: string}) {
 }
 
 export default function DashboardLayout() {
-    const [chartData,setChartData] = useState<ChartData[]>([])
+    const [salesChartData,setSalesChartData] = useState<ChartData[]>([])
+    const [buyChartData,setBuyChartData] = useState<ChartData[]>([])
+
     const [data, setData] = useState<DashboardStatsType | null>(null)
     
     const [analitycs, setAnalitycs] = useState<AnalitycsType>({} as AnalitycsType)
     const dispatch = useDispatch()
-    const [filter, setFilter] = useState<FilterState>({
+    const [salesFilter, setSalesFilter] = useState<FilterState>({
             year: CURRENT_YEAR,
             month: '',
         })
+         const [buyFilter, setBuyFilter] = useState<FilterState>({
+            year: CURRENT_YEAR,
+            month: '',
+        })
+        
          const [differentFilter, setDifferentFilter] = useState<FilterState>({
             year: CURRENT_YEAR,
             month: '',
@@ -114,15 +122,15 @@ export default function DashboardLayout() {
   useEffect(() => {
         const getChart = async () => {
             const query = new URLSearchParams();
-            if (filter.year) {
-                query.append('year',filter.year+'')
+            if (salesFilter.year) {
+                query.append('year',salesFilter.year+'')
             }
-            if (filter.month) {
-                query.append('month',filter.month)
+            if (salesFilter.month) {
+                query.append('month',salesFilter.month)
             }
             try {
                 const response = await DataProvider.get<ChartData[]>(`analytics/chart/?${query.toString()}`)
-                setChartData(response.data)
+                setSalesChartData(response.data)
             } catch (error: any) {
                 dispatch(
                     setUtil({
@@ -134,7 +142,33 @@ export default function DashboardLayout() {
             }
         }
         getChart()
-    }, [dispatch,filter])
+    }, [dispatch,salesFilter])
+
+ useEffect(() => {
+        const getChart = async () => {
+            const query = new URLSearchParams();
+            if (buyFilter.year) {
+                query.append('year',buyFilter.year+'')
+            }
+            if (buyFilter.month) {
+                query.append('month',buyFilter.month)
+            }
+            try {
+                const response = await DataProvider.get<ChartData[]>(`analytics/purchase-chart/?${query.toString()}`)
+                setBuyChartData(response.data)
+            } catch (error: any) {
+                dispatch(
+                    setUtil({
+                        open: true,
+                        message: error.message,
+                        severity: 'error',
+                    }),
+                )
+            }
+        }
+        getChart()
+    }, [dispatch,buyFilter])
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -154,7 +188,6 @@ export default function DashboardLayout() {
     }, [dispatch])
 
     const loading = !data
-console.log(analitycs)
     return (
         <Box
             sx={{
@@ -300,8 +333,14 @@ console.log(analitycs)
 
 <SectionHeader title="📊 نمودار فروش" color="#81C784" />
 <Grid xs={12} item>
-    <SalesChart data={chartData} filter={filter} setFilter={setFilter} />
+    <StatsChart data={salesChartData} filter={salesFilter} setFilter={setSalesFilter} label='فروش' />
 </Grid>
+
+<SectionHeader title="📊 نمودار خرید" color="#81C784" />
+<Grid xs={12} item>
+    <StatsChart data={buyChartData} filter={buyFilter} setFilter={setBuyFilter} label='خرید' />
+</Grid>
+
 <SectionHeader title="📊 نمودار اختلاف" color="#81C784" />
 <Grid xs={12} item>
     <DifferentChart data={[]} filter={differentFilter} setFilter={setDifferentFilter}   />

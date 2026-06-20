@@ -44,24 +44,23 @@ interface Props {
     onFilterChange?: (filter: FilterState) => void
     filter: FilterState
     setFilter: Dispatch<SetStateAction<FilterState>>
+    label:string
 }
 
-export default function SalesChart({data, loading, onFilterChange, filter, setFilter}: Props) {
+export default function StatsChart({data, loading, onFilterChange, filter, setFilter,label}: Props) {
     const mdScreen = useMediaQuery('(min-width:900px)')
     const smScreen = useMediaQuery('(min-width:600px)')
     const chartHeight = mdScreen ? 450 : smScreen ? 350 : 280
 
-    // تشخیص اینکه داده روزانه است یا ماهانه
     const isDailyData = filter.month !== ''
 
-    // نرمال‌سازی داده برای چارت
     const normalizedData = data.map((item) => ({
         label: isDailyData ? String(item.day) : item.month,
         sales: item.sales,
     }))
 
-    const chartLabel = isDailyData ? 'فروش روزانه' : 'فروش ماهانه'
-    const title = isDailyData ? 'آمار فروش روزانه' : 'آمار فروش ماهانه'
+    const chartLabel = isDailyData ? `${label} روزانه` : `${label} ماهانه`
+    const title = isDailyData ? `آمار ${label} روزانه` : `آمار ${label} ماهانه`
 
     const handleYearChange = (e: SelectChangeEvent<number>) => {
         const updated = {...filter, year: Number(e.target.value)}

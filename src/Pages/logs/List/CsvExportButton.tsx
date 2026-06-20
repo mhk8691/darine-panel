@@ -1,83 +1,186 @@
-import { useState } from "react";
-import { downloadCsv } from "./CsvExport";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@mui/material";
-import IosShareIcon from '@mui/icons-material/IosShare';
-const OPTIONS = [5, 10, 25, 50, 100];
+import IosShareIcon from "@mui/icons-material/IosShare";
 
-interface Props<T extends Record<string, unknown>> {
+// ─── CSV Utility ─────────────────────────────────────────────────────────────
+
+export interface CsvExportProps<T extends Record<string, unknown>> {
   data: T[];
   fileName?: string;
 }
 
-export default function CsvExportButton<
-  T extends Record<string, unknown>
->({
+export const downloadCsv = <T extends Record<string, unknown>>({
   data,
   fileName = "export.csv",
-}: Props<T>) {
+}: CsvExportProps<T>): void => {
+  if (!data.length) return;
+
+  const headers = Object.keys(data[0]);
+
+  const csvContent = [
+    headers.join(","),
+    ...data.map((row) =>
+      headers
+        .map((header) => {
+          const value = row[header];
+          if (value === null || value === undefined) return '""';
+          return `"${String(value).replace(/"/g, '""')}"`;
+        })
+        .join(",")
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+const DEFAULT_ROW_OPTIONS = [5, 10, 25, 50, 100] as const;
+
+type TableExportProps<T extends Record<string, unknown>> = {
+  exportType: "table";
+  data: T[];
+  fileName?: string;
+  rowOptions?: number[];
+};
+
+type ChartExportProps<T extends Record<string, unknown>> = {
+  exportType: "chart";
+  data: T[];
+  fileName?: string;
+};
+
+type CsvExportButtonProps<T extends Record<string, unknown>> =
+  | TableExportProps<T>
+  | ChartExportProps<T>;
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+function CsvExportButton<T extends Record<string, unknown>>(
+  props: CsvExportButtonProps<T>
+) {
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleExport = (count: number) => {
-    downloadCsv({
-      data: data.slice(0, count),
-      fileName,
-    });
+  const { data, fileName = "export.csv", exportType } = props;
+  const isTable = exportType === "table";
+  const rowOptions =
+    isTable && (props as TableExportProps<T>).rowOptions
+      ? (props as TableExportProps<T>).rowOptions!
+      : [...DEFAULT_ROW_OPTIONS];
 
+  useEffect(() => {
+    if (!open) return;
+    const handleOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
+
+  const handleExportAll = () => {
+    downloadCsv({ data, fileName });
     setOpen(false);
   };
 
+  const handleExportCount = (count: number) => {
+    downloadCsv({ data: data.slice(0, count), fileName });
+    setOpen(false);
+  };
+
+  const menuItemStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "10px 16px",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    textAlign: "right",
+    display: "block",
+    color: "white",
+    fontSize: "0.875rem",
+  };
+
   return (
-    <div
-      style={{
-        position: "relative",
-        display: "inline-block",
-      }}
-    >
+    <div ref={containerRef} style={{ position: "relative", display: "inline-block" }}>
       <Button
-      variant="outlined"
-      color="primary"
-      startIcon={<IosShareIcon/>}
-        onClick={() => setOpen((prev) => !prev)}
-        type="button" 
+        variant="outlined"
+        color="primary"
+        startIcon={<IosShareIcon />}
+        type="button"
+        onClick={() => {
+          if (isTable) {
+            setOpen((prev) => !prev);
+          } else {
+            handleExportAll();
+          }
+        }}
       >
         خروجی CSV
       </Button>
 
-      {open && (
+      {isTable && open && (
         <div
+          role="menu"
           style={{
             position: "absolute",
-            top: "100%",
+            top: "calc(100% + 4px)",
             right: 0,
-            minWidth: "150px",
+            minWidth: "170px",
             background: "#1E1E1E",
             border: "1px solid #3f3f3f",
             borderRadius: "8px",
-            marginTop: "4px",
             zIndex: 1000,
+            overflow: "hidden",
           }}
         >
-          {OPTIONS.map((count) => (
+          {rowOptions.map((count) => (
             <button
               key={count}
               type="button"
-              onClick={() => handleExport(count)}
-              style={{
-                width: "100%",
-                padding: "10px 12px",
-                border: "none",
-                background: "transparent",
-                cursor: "pointer",
-                textAlign: "right",
-                display: "block",
-                color:'white'
+              role="menuitem"
+              onClick={() => handleExportCount(count)}
+              style={menuItemStyle}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "#2a2a2a";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "transparent";
               }}
             >
-              {count} ردیف
+              {count} ردیف اول
             </button>
           ))}
+
+          <div style={{ borderTop: "1px solid #3f3f3f" }}>
+            <button
+              type="button"
+              role="menuitem"
+              onClick={handleExportAll}
+              style={{ ...menuItemStyle, color: "#60a5fa", fontWeight: 600 }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "#2a2a2a";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+              }}
+            >
+              همه ردیف‌ها ({data.length})
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
+export default CsvExportButton;

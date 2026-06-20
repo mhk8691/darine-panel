@@ -12,6 +12,7 @@ import {
 import { LineChart } from '@mui/x-charts/LineChart'
 import { Dispatch, SetStateAction } from 'react'
 import { FilterState } from './DashboardLayout'
+import CsvExportButton from '../logs/List/CsvExportButton'
 
 const MONTHS = [
     { label: 'همه ماه‌ها', value: '' },
@@ -164,7 +165,8 @@ export default function BuySellChart({
                 py={3}
                 width="100%"
             >
-                <Stack
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} >
+                    <Stack
                     direction={{ xs: 'column', sm: 'row' }}
                     alignItems={{ xs: 'flex-start', sm: 'center' }}
                     justifyContent="space-between"
@@ -247,7 +249,13 @@ export default function BuySellChart({
                         )}
                     </Stack>
                 </Stack>
-
+<CsvExportButton
+  exportType='chart'
+  
+      data={data as any || []}
+      fileName="chart.csv"
+    />
+            </Stack>
                 {loading ? (
                     <Skeleton
                         animation="wave"

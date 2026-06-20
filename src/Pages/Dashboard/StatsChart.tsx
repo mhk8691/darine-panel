@@ -13,6 +13,7 @@ import {BarChart} from '@mui/x-charts/BarChart'
 import {Dispatch, SetStateAction} from 'react'
 import {valueFormatter} from './sales'
 import {FilterState} from './DashboardLayout'
+import CsvExportButton from '../logs/List/CsvExportButton'
 
 const MONTHS = [
     {label: 'همه ماه‌ها', value: ''},
@@ -84,12 +85,12 @@ export default function StatsChart({data, loading, onFilterChange, filter, setFi
                 width="100%"
             >
                 {/* هدر با فیلتر */}
-                <Stack
+             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} mb={5}>
+                   <Stack
                     direction={{xs: 'column', sm: 'row'}}
                     alignItems={{xs: 'flex-start', sm: 'center'}}
                     justifyContent="space-between"
                     gap={2}
-                    mb={5}
                 >
                     {loading ? (
                         <Skeleton variant="text" width={180} height={30} />
@@ -140,7 +141,13 @@ export default function StatsChart({data, loading, onFilterChange, filter, setFi
                         )}
                     </Stack>
                 </Stack>
-
+  <CsvExportButton
+  exportType='chart'
+  
+      data={data as any || []}
+      fileName="chart.csv"
+    />
+             </Stack>
                 {loading ? (
                     <Skeleton
                         animation="wave"

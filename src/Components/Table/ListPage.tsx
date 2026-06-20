@@ -155,6 +155,8 @@ export function ListPage({
                         {
                             isCsvExport && (
                                 <CsvExportButton
+                                exportType='table'
+                                rowOptions={[5,10,25,50,100,250]}
       data={listData || []}
       fileName="logs.csv"
     />

@@ -9,6 +9,7 @@ import {setUtil} from '../../redux/UtilSlice'
 import Widgets from './Widgets'
 import SalesChart, { ChartData } from './SalesChart'
 import ServerResourceCharts from './ServerResourceCharts.'
+import DifferentChart from './DifferentChart'
 
 interface DashboardStatsType {
     users: number
@@ -82,9 +83,14 @@ function SectionHeader({title, color}: {title: string; color: string}) {
 export default function DashboardLayout() {
     const [chartData,setChartData] = useState<ChartData[]>([])
     const [data, setData] = useState<DashboardStatsType | null>(null)
+    
     const [analitycs, setAnalitycs] = useState<AnalitycsType>({} as AnalitycsType)
     const dispatch = useDispatch()
     const [filter, setFilter] = useState<FilterState>({
+            year: CURRENT_YEAR,
+            month: '',
+        })
+         const [differentFilter, setDifferentFilter] = useState<FilterState>({
             year: CURRENT_YEAR,
             month: '',
         })
@@ -295,6 +301,10 @@ console.log(analitycs)
 <SectionHeader title="📊 نمودار فروش" color="#81C784" />
 <Grid xs={12} item>
     <SalesChart data={chartData} filter={filter} setFilter={setFilter} />
+</Grid>
+<SectionHeader title="📊 نمودار اختلاف" color="#81C784" />
+<Grid xs={12} item>
+    <DifferentChart data={[]} filter={differentFilter} setFilter={setDifferentFilter}   />
 </Grid>
 
                 </Grid>

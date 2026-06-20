@@ -45,9 +45,83 @@ interface Props {
     setFilter: Dispatch<SetStateAction<FilterState>>
 }
 
+type NormalizedPoint = {
+    label: string | undefined
+    buy: number
+    sell: number
+}
+
+interface CustomMarkProps {
+    x?: string | number
+    y?: string | number
+    color?: string
+    dataIndex?: number
+    normalizedData: NormalizedPoint[]
+    seriesIndex: number
+}
+
+function CustomMark({
+    x,
+    y,
+    color,
+    dataIndex,
+    normalizedData,
+    seriesIndex,
+}: CustomMarkProps) {
+    const numX = Number(x)
+    const numY = Number(y)
+
+    if (x == null || y == null || dataIndex == null) return null
+
+    const point = normalizedData[dataIndex]
+    if (!point) return null
+
+    const isTied = point.buy === point.sell
+
+    if (isTied) {
+        if (seriesIndex === 0) {
+            return (
+                <circle
+                    cx={numX}
+                    cy={numY}
+                    r={9}
+                    fill="none"
+                    stroke="#4CAF50"
+                    strokeWidth={2.5}
+                />
+            )
+        }
+        return (
+            <circle
+                cx={numX}
+                cy={numY}
+                r={4.5}
+                fill="none"
+                stroke="#F44336"
+                strokeWidth={2.5}
+            />
+        )
+    }
+
+    return (
+        <circle
+            cx={numX}
+            cy={numY}
+            r={4.5}
+            fill="none"
+            stroke={color}
+            strokeWidth={2.5}
+        />
+    )
+}
+
 const valueFormatter = (value: number | null) => {
     if (value == null) return ''
-    return new Intl.NumberFormat('fa-IR').format(value)
+    return (
+        new Intl.NumberFormat('fa-IR', {
+            useGrouping: true,
+        }).format(value) + ' تومان'
+    )
 }
 
 export default function BuySellChart({
@@ -63,7 +137,7 @@ export default function BuySellChart({
 
     const isDailyData = filter.month !== ''
 
-    const normalizedData = data.map((item) => ({
+    const normalizedData: NormalizedPoint[] = data.map((item) => ({
         label: isDailyData ? String(item.day) : item.month,
         buy: item.buy,
         sell: item.sell,
@@ -74,21 +148,11 @@ export default function BuySellChart({
         : 'نمودار خرید و فروش ماهانه'
 
     const handleYearChange = (e: SelectChangeEvent<number>) => {
-        const updated = {
-            ...filter,
-            year: Number(e.target.value),
-        }
-
-        setFilter(updated)
+        setFilter({ ...filter, year: Number(e.target.value) })
     }
 
     const handleMonthChange = (e: SelectChangeEvent<string>) => {
-        const updated = {
-            ...filter,
-            month: e.target.value,
-        }
-
-        setFilter(updated)
+        setFilter({ ...filter, month: e.target.value })
     }
 
     return (
@@ -138,7 +202,6 @@ export default function BuySellChart({
                                     height={40}
                                     sx={{ borderRadius: 1 }}
                                 />
-
                                 <Skeleton
                                     variant="rectangular"
                                     width={150}
@@ -194,17 +257,8 @@ export default function BuySellChart({
                         sx={{ borderRadius: 2 }}
                     />
                 ) : (
-                    <Box
-                        sx={{
-                            overflowX: 'auto',
-                            width: '100%',
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                minWidth: isDailyData ? '900px' : '700px',
-                            }}
-                        >
+                    <Box sx={{ overflowX: 'auto', width: '100%' }}>
+                        <Box sx={{ minWidth: isDailyData ? '900px' : '700px' }}>
                             <LineChart
                                 dataset={normalizedData}
                                 xAxis={[
@@ -227,10 +281,7 @@ export default function BuySellChart({
                                         valueFormatter,
                                     },
                                 ]}
-                                colors={[
-                                    '#4CAF50',
-                                    '#F44336',
-                                ]}
+                                colors={['#4CAF50', '#F44336']}
                                 grid={{
                                     horizontal: true,
                                     vertical: false,
@@ -242,6 +293,19 @@ export default function BuySellChart({
                                     left: 70,
                                 }}
                                 height={chartHeight}
+                                slots={{
+                                    mark: (props) => {
+                                        const seriesIndex =
+                                            props.color === '#4CAF50' ? 0 : 1
+                                        return (
+                                            <CustomMark
+                                                {...props}
+                                                normalizedData={normalizedData}
+                                                seriesIndex={seriesIndex}
+                                            />
+                                        )
+                                    },
+                                }}
                             />
                         </Box>
                     </Box>

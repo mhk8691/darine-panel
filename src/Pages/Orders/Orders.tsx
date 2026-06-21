@@ -168,9 +168,12 @@ export function Orders({
                             onChange={handleChangeStatus}
                         >
                             <MenuItem value="PENDING">در انتظار</MenuItem>
-                            {/* <MenuItem value="CANCELED">لغو شده</MenuItem> */}
+                            <MenuItem value="CANCELED">در حال آماده سازی</MenuItem>
+                            <MenuItem value="CANCELED">در حال تحویل</MenuItem>
                             <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
+                            <MenuItem value="CANCELED">لغو شده</MenuItem>
                         </Select>
+
                     </FormControl>
                 </Grid>,
             ].filter(Boolean),

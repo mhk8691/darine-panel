@@ -75,10 +75,12 @@ export const enToPer = (status: OrderStatus) => {
     switch (status) {
         case 'PENDING':
             return 'در انتظار'
-       
-    
         case 'COMPLETED':
             return 'تکمیل شده'
+        case 'COMPLETED':
+            return 'در حال آماده سازی'
+        case 'COMPLETED':
+            return 'در حال تحویل'        
         case 'FAILED':
             return 'لغو شده'
         default:

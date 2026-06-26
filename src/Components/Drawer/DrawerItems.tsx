@@ -11,6 +11,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import AssignmentIcon from '@mui/icons-material/Assignment'; 
+import { CurrencyExchange } from '@mui/icons-material'
 
 
 
@@ -50,6 +51,13 @@ export const drawerItems = [
         role: 'all',
         section: 'both',
         icon: <AssignmentIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+           {
+        title: 'قیمت لحظه ای',
+        link: 'live-price',
+        role: 'all',
+        section: 'both',
+        icon: <CurrencyExchange sx={{fontSize: '1.9rem !important'}} />,
     },
     // {
     //     title: 'حساب کاربری',

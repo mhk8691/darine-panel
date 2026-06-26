@@ -33,6 +33,7 @@ import { DepositEdit } from '../Deposit/Edit/DepositEdit'
 import { WithdrawList } from '../Withdraw/List/WithdrawList'
 import { WithdrawEdit } from '../Withdraw/Edit/WithdrawEdit'
 import { LogsList } from '../logs/List/LogsList'
+import LivePrice from '../LivePrice/LivePrice'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -185,9 +186,12 @@ export function Home(props) {
                         
                         <Route path="silver-OrderWithdraw" element={<WithdrawList resource='silver-OrderWithdraw' title='مدیریت برداشت نقرینه' key={'silver-OrderWithdraw'} />} />
                         <Route path="silver-OrderWithdraw/:id" element={<WithdrawEdit resource='silver-OrderWithdraw' key={'silver-OrderWithdraw'} />} />
-{/* ...........logs.......... */}
+                            {/* ...........logs.......... */}
                        
                         <Route path="logs" element={<LogsList  />}/>
+                        {/* ...........live-price.......... */}
+                        <Route path="live-price" element={<LivePrice  />}/>
+
                     </Routes>
                 </Box>
             </Box>

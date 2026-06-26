@@ -28,7 +28,7 @@ export function OffsetEdit({resource}:{resource:string}) {
     return (
         <EditPage
             resource={resource}
-            title="جزئیات کارت"
+            title="جزئیات قیمت"
             formDetails={offset}
             initialData={initialData}
             isFormData

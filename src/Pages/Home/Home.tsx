@@ -34,6 +34,9 @@ import { WithdrawList } from '../Withdraw/List/WithdrawList'
 import { WithdrawEdit } from '../Withdraw/Edit/WithdrawEdit'
 import { LogsList } from '../logs/List/LogsList'
 import LivePrice from '../LivePrice/LivePrice'
+import { OffsetCreate } from '../Offset/Create/OffsetCreate'
+import { OffsetList } from '../Offset/List/OffsetList'
+import { OffsetEdit } from '../Offset/Edit/OffsetEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -192,6 +195,22 @@ export function Home(props) {
                         {/* ...........live-price.......... */}
                         <Route path="live-price" element={<LivePrice  />}/>
 
+
+   {/* ...........offset.......... */}
+                        <Route
+                            path="market/gold/offset/create"
+                            element={<OffsetCreate data={data} setData={setData} resource='market/gold/offset' key={'market/gold/offset'} />}
+                        />
+                        <Route path="market/gold/offset" element={<OffsetList resource='market/gold/offset' title='مدیریت قیمت دارینه' key={'market/gold/offset'}  />} />
+                        <Route path="market/gold/offset/:id" element={<OffsetEdit resource='market/gold/offset' key={'market/gold/offset'} />} />
+
+
+                         <Route
+                            path="market/silver/offset/create"
+                            element={<OffsetCreate data={data} setData={setData} resource='market/silver/offset' key={'market/silver/offset'} />}
+                        />
+                        <Route path="market/silver/offset" element={<OffsetList resource='market/silver/offset'  title='مدیریت قیمت نقرینه' key={'market/silver/offset'} />} />
+                        <Route path="market/silver/offset/:id" element={<OffsetEdit resource='market/silver/offset' key={'market/silver/offset'} />} />
                     </Routes>
                 </Box>
             </Box>

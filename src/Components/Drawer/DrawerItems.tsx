@@ -104,6 +104,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+     {
+        title: 'قیمت طلا',
+        link: 'market/gold/offset',
+        role: 'all',
+        section: 'darineh',
+        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
        {
         title: 'کارت هدیه',
         link: 'gift-cards',
@@ -151,6 +158,13 @@ export const drawerItems = [
     {
         title: 'کارت های بانکی',
         link: 'silver-bank',
+        role: 'all',
+        section: 'silver',
+        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+      {
+        title: 'قیمت نقره',
+        link: 'market/silver/offset',
         role: 'all',
         section: 'silver',
         icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,

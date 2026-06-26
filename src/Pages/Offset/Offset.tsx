@@ -16,12 +16,14 @@ export type OffsetType = {
 export function Offset({
     offset,
     setOffset,
-    resource
+    resource,
+    editMode
 }: {
     offset: OffsetType
     setOffset: React.Dispatch<React.SetStateAction<OffsetType>>
     children?: React.ReactNode[]
     resource:string
+    editMode?:boolean
 }) {
     return (
         <Stack>
@@ -29,18 +31,18 @@ export function Offset({
                 sx={{marginBottom: '16px'}}
                 data={[
                           <CustomTextField
-                        key={offset.id}
+                        key={offset?.id}
                         name="offset_amount"
                         setData={setOffset}
                         resource={resource}
                         label={'قیمت'}
-                        defaultValue={offset.offset_amount}
+                        defaultValue={offset?.offset_amount}
                     />,
-      <FormControl fullWidth>
+     editMode &&  <FormControl fullWidth>
         <InputLabel>وضعیت</InputLabel>
 
         <Select
-            value={String(offset.is_active)}
+            value={String(offset?.is_active)}
           label="وضعیت"
           onChange={(event: SelectChangeEvent) =>
             setOffset((prev) => ({

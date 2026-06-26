@@ -119,7 +119,7 @@ export function OffsetList({resource,title}:{resource:string,title:string}) {
                                     xl: '17px',
                                 }}
                             >
-                                {formatPrice(+item.offset_amount)} تومان
+                                {formatPrice(+item.offset_amount)} 
                             </Typography>
                         </TableCell>
                       <TableCell>

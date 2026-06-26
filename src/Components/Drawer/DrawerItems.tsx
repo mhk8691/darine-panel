@@ -12,7 +12,7 @@ import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import AssignmentIcon from '@mui/icons-material/Assignment'; 
 import { CurrencyExchange } from '@mui/icons-material'
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 
 export const drawerItems = [
@@ -109,7 +109,7 @@ export const drawerItems = [
         link: 'market/gold/offset',
         role: 'all',
         section: 'darineh',
-        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
+        icon: <AttachMoneyIcon sx={{fontSize: '1.9rem !important'}} />,
     },
        {
         title: 'کارت هدیه',
@@ -167,7 +167,7 @@ export const drawerItems = [
         link: 'market/silver/offset',
         role: 'all',
         section: 'silver',
-        icon: <CreditCardIcon sx={{fontSize: '1.9rem !important'}} />,
+        icon: <AttachMoneyIcon sx={{fontSize: '1.9rem !important'}} />,
     },
           {
         title: 'بنر ها',

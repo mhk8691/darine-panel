@@ -24,25 +24,7 @@ export function OffsetEdit({resource}:{resource:string}) {
     useEffect(() => {
         getOffset()
     }, [offsetId])
-    const element = [
-        <CustomTextField
-            key={offset.id}
-            name="id"
-            disabled={true}
-            resource={resource}
-            label={'آیدی'}
-            defaultValue={offset.id}
-        />,
-        <CustomTextField
-            key={offset.id}
-            name="created_at"
-            disabled={true}
-            resource={resource}
-            label={'تاریخ ایجاد'}
-            defaultValue={formatDate(offset.created_at)}
-        />,
-      
-    ]
+  
     return (
         <EditPage
             resource={resource}
@@ -50,8 +32,9 @@ export function OffsetEdit({resource}:{resource:string}) {
             formDetails={offset}
             initialData={initialData}
             isFormData
+            
         >
-            <Offset offset={offset} setOffset={setOffset} children={element} resource={resource} />
+            <Offset offset={offset} setOffset={setOffset}  resource={resource} editMode={true} />
         </EditPage>
     )
 }

@@ -9,7 +9,7 @@ import Cookies from 'universal-cookie'
 const MainLayout = ({children}: {children: React.ReactNode}) => {
     const cookies= new Cookies()
     const [selectedTitle, setSelectedTitle] = useState<string>('')
-    const [drawerOpen, setDrawerOpen] = useState(true)
+    const [drawerOpen, setDrawerOpen] = useState(false)
     const [user, setUser] = useState<ProfileType>({} as ProfileType)
     const token = cookies.get('token')
 

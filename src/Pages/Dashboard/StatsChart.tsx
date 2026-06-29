@@ -84,70 +84,79 @@ export default function StatsChart({data, loading, onFilterChange, filter, setFi
                 py={3}
                 width="100%"
             >
-                {/* هدر با فیلتر */}
-             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} mb={5}>
-                   <Stack
-                    direction={{xs: 'column', sm: 'row'}}
-                    alignItems={{xs: 'flex-start', sm: 'center'}}
-                    justifyContent="space-between"
-                    gap={2}
-                >
-                    {loading ? (
-                        <Skeleton variant="text" width={180} height={30} />
-                    ) : (
-                        <Typography
-                            variant="h6"
-                            sx={{fontSize: '17px !important', fontWeight: 'bold'}}
-                        >
-                            {title}
-                        </Typography>
-                    )}
+            <Stack
+  direction={{ xs: 'column', sm: 'row' }}
+  justifyContent={{ xs: 'flex-start', sm: 'space-between' }}
+  alignItems={{ xs: 'stretch', sm: 'center' }}
+  gap={2}
+  mb={5}
+>
+  {/* Title + Filters group */}
+  <Stack
+    direction={{ xs: 'column', sm: 'row' }}
+    alignItems={{ xs: 'flex-start', sm: 'center' }}
+    gap={2}
+    flex={1}
+  >
+    {loading ? (
+      <Skeleton variant="text" width={180} height={30} />
+    ) : (
+      <Typography
+        variant="h6"
+        sx={{ fontSize: '17px !important', fontWeight: 'bold' }}
+      >
+        {title}
+      </Typography>
+    )}
 
-                    <Stack direction="row" gap={1.5} flexWrap="wrap">
-                        {loading ? (
-                            <>
-                                <Skeleton variant="rectangular" width={110} height={40} sx={{borderRadius: 1}} />
-                                <Skeleton variant="rectangular" width={150} height={40} sx={{borderRadius: 1}} />
-                            </>
-                        ) : (
-                            <>
-                                <Select
-                                    size="small"
-                                    value={filter.year}
-                                    onChange={handleYearChange}
-                                    sx={{minWidth: 110}}
-                                >
-                                    {YEARS.map((y) => (
-                                        <MenuItem key={y} value={y}>
-                                            {y}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+    <Stack direction="row" gap={1.5} flexWrap="wrap">
+      {loading ? (
+        <>
+          <Skeleton variant="rectangular" width={110} height={40} sx={{ borderRadius: 1 }} />
+          <Skeleton variant="rectangular" width={150} height={40} sx={{ borderRadius: 1 }} />
+        </>
+      ) : (
+        <>
+          <Select
+            size="small"
+            value={filter.year}
+            onChange={handleYearChange}
+            sx={{ minWidth: 110 }}
+          >
+            {YEARS.map((y) => (
+              <MenuItem key={y} value={y}>
+                {y}
+              </MenuItem>
+            ))}
+          </Select>
 
-                                <Select
-                                    size="small"
-                                    value={filter.month}
-                                    onChange={handleMonthChange}
-                                    sx={{minWidth: 150}}
-                                    displayEmpty
-                                >
-                                    {MONTHS.map((m) => (
-                                        <MenuItem key={m.value} value={m.value}>
-                                            {m.label}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </>
-                        )}
-                    </Stack>
-                </Stack>
-  <CsvExportButton
-  exportType='chart'
-  
-      data={data as any || []}
+          <Select
+            size="small"
+            value={filter.month}
+            onChange={handleMonthChange}
+            sx={{ minWidth: 150 }}
+            displayEmpty
+          >
+            {MONTHS.map((m) => (
+              <MenuItem key={m.value} value={m.value}>
+                {m.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}
+    </Stack>
+  </Stack>
+
+  {/* CSV Export Button */}
+  <Box sx={{ alignSelf: { xs: 'flex-start', sm: 'center' } }}>
+    <CsvExportButton
+      exportType="chart"
+      data={(data as any) || []}
       fileName="chart.csv"
     />
-             </Stack>
+  </Box>
+</Stack>
                 {loading ? (
                     <Skeleton
                         animation="wave"
@@ -162,7 +171,7 @@ export default function StatsChart({data, loading, onFilterChange, filter, setFi
                             <BarChart
                                 dataset={normalizedData}
                                 xAxis={[{scaleType: 'band', dataKey: 'label'}]}
-                                margin={{left: 87}}
+                                margin={{left: 120}}
                                 series={[
                                     {
                                         dataKey: 'sales',

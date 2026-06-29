@@ -165,97 +165,77 @@ export default function BuySellChart({
                 py={3}
                 width="100%"
             >
-            <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} >
-                    <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    alignItems={{ xs: 'flex-start', sm: 'center' }}
-                    justifyContent="space-between"
-                    gap={2}
-                    mb={5}
-                >
-                    {loading ? (
-                        <Skeleton
-                            variant="text"
-                            width={220}
-                            height={30}
-                        />
-                    ) : (
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontSize: '17px !important',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            {title}
-                        </Typography>
-                    )}
+          <Stack
+  direction={{ xs: 'column', sm: 'row' }}
+  alignItems={{ xs: 'flex-start', sm: 'center' }}
+  justifyContent="space-between"
+  gap={2}
+  mb={5}
+>
+  {/* Title + Filters */}
+  <Stack
+    direction={{ xs: 'column', sm: 'row' }}
+    alignItems={{ xs: 'flex-start', sm: 'center' }}
+    gap={2}
+    flex={1}
+  >
+    {loading ? (
+      <Skeleton variant="text" width={220} height={30} />
+    ) : (
+      <Typography
+        variant="h6"
+        sx={{ fontSize: '17px !important', fontWeight: 'bold' }}
+      >
+        {title}
+      </Typography>
+    )}
 
-                    <Stack
-                        direction="row"
-                        gap={1.5}
-                        flexWrap="wrap"
-                    >
-                        {loading ? (
-                            <>
-                                <Skeleton
-                                    variant="rectangular"
-                                    width={110}
-                                    height={40}
-                                    sx={{ borderRadius: 1 }}
-                                />
-                                <Skeleton
-                                    variant="rectangular"
-                                    width={150}
-                                    height={40}
-                                    sx={{ borderRadius: 1 }}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <Select
-                                    size="small"
-                                    value={filter.year}
-                                    onChange={handleYearChange}
-                                    sx={{ minWidth: 110 }}
-                                >
-                                    {YEARS.map((year) => (
-                                        <MenuItem
-                                            key={year}
-                                            value={year}
-                                        >
-                                            {year}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+    <Stack direction="row" gap={1.5} flexWrap="wrap">
+      {loading ? (
+        <>
+          <Skeleton variant="rectangular" width={110} height={40} sx={{ borderRadius: 1 }} />
+          <Skeleton variant="rectangular" width={150} height={40} sx={{ borderRadius: 1 }} />
+        </>
+      ) : (
+        <>
+          <Select
+            size="small"
+            value={filter.year}
+            onChange={handleYearChange}
+            sx={{ minWidth: 110 }}
+          >
+            {YEARS.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
 
-                                <Select
-                                    size="small"
-                                    value={filter.month}
-                                    onChange={handleMonthChange}
-                                    sx={{ minWidth: 150 }}
-                                    displayEmpty
-                                >
-                                    {MONTHS.map((month) => (
-                                        <MenuItem
-                                            key={month.value}
-                                            value={month.value}
-                                        >
-                                            {month.label}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </>
-                        )}
-                    </Stack>
-                </Stack>
-<CsvExportButton
-  exportType='chart'
-  
-      data={data as any || []}
-      fileName="chart.csv"
-    />
-            </Stack>
+          <Select
+            size="small"
+            value={filter.month}
+            onChange={handleMonthChange}
+            sx={{ minWidth: 150 }}
+            displayEmpty
+          >
+            {MONTHS.map((month) => (
+              <MenuItem key={month.value} value={month.value}>
+                {month.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}
+    </Stack>
+  </Stack>
+
+  {/* CSV Button */}
+  <CsvExportButton
+    exportType="chart"
+    data={(data as any) || []}
+    fileName="chart.csv"
+  />
+</Stack>
                 {loading ? (
                     <Skeleton
                         animation="wave"
@@ -298,7 +278,7 @@ export default function BuySellChart({
                                     top: 20,
                                     right: 30,
                                     bottom: 30,
-                                    left: 70,
+                                    left: 120,
                                 }}
                                 height={chartHeight}
                                 slots={{

@@ -134,11 +134,20 @@ const [fees,setFees] = useState<FeesType>({} as FeesType)
     }
 const handleEditFees = async ()=>{
     try{
-        const response = await api.patch('/',{users:selectedIds,fees})
+        const response = await DataProvider.post('users/bulk-update-fees/',{
+            data:{
+                user_ids:selectedIds,
+                 "gold_buy_fee": fees.gold_buy_fee,
+    "gold_sell_fee": fees.gold_sell_fee,
+    "silver_buy_fee": fees.silver_buy_fee,
+    "silver_sell_fee": fees.silver_sell_fee
+            }
+        })
+        getUsers()
         dispatch(
                 setUtil({
                     open: true,
-                    message: response.data.message,
+                    message: response.message,
                     severity: 'success',
                 }),
             )

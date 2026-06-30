@@ -3,23 +3,32 @@ import {PieChart} from '@mui/x-charts/PieChart'
 import {useTheme} from '@mui/material/styles'
 
 interface ServerResources {
-    cpu: number
-    ram: number
-    disk: number
+    cpu: number // فقط درصد
+    ram: {
+        total_gb: number
+        used_gb: number
+        free_gb: number
+        percent: number
+    }
+    disk: {
+        total_gb: number
+        used_gb: number
+        free_gb: number
+        percent: number
+    }
 }
 
 interface Props {
     data: ServerResources
-    total?: number
 }
 
 const RESOURCE_CONFIG = [
-    {key: 'cpu' as const, label: 'CPU', unit: 'GB'},
+    {key: 'cpu' as const, label: 'CPU', unit: '%', total: 100},
     {key: 'ram' as const, label: 'RAM', unit: 'GB'},
     {key: 'disk' as const, label: 'Disk', unit: 'GB'},
 ]
 
-export default function ServerResourceCharts({data, total = 8}: Props) {
+export default function ServerResourceCharts({data}: Props) {
     const theme = useTheme()
 
     const colors = [
@@ -28,22 +37,55 @@ export default function ServerResourceCharts({data, total = 8}: Props) {
         theme.palette.error.main,
     ]
 
+    const getResourceData = (key: 'cpu' | 'ram' | 'disk') => {
+        if (key === 'cpu') {
+            const total = 100
+            const used = data.cpu || 0
+            return {
+                used,
+                total,
+                free: Math.max(0, total - used),
+                percent: used
+            }
+        }
+        
+        if (key === 'ram') {
+            return {
+                used: data.ram.used_gb,
+                total: data.ram.total_gb,
+                free: data.ram.free_gb,
+                percent: data.ram.percent
+            }
+        }
+        
+        // disk
+        return {
+            used: data.disk.used_gb,
+            total: data.disk.total_gb,
+            free: data.disk.free_gb,
+            percent: data.disk.percent
+        }
+    }
+
     return (
         <Grid container spacing={2}>
             {RESOURCE_CONFIG.map((resource, index) => {
-                const used = data[resource.key]
-                const free = Math.max(0, total - used)
-                const pct = ((used / total) * 100).toFixed(1)
+                const {used, total, free, percent} = getResourceData(resource.key)
+                const displayPercent = percent.toFixed(1)
 
                 return (
                     <Grid item xs={12} sm={4} key={resource.key}>
                         <Stack
-                            bgcolor="background.main"
+                            bgcolor="background.paper"
                             borderRadius={3}
                             px={3}
                             py={3}
                             alignItems="center"
                             gap={1}
+                            sx={{
+                                boxShadow: theme.shadows[1],
+                                height: '100%',
+                            }}
                         >
                             <Typography
                                 variant="subtitle2"
@@ -87,7 +129,6 @@ export default function ServerResourceCharts({data, total = 8}: Props) {
                                     margin={{top: 0, bottom: 0, left: 0, right: 0}}
                                 />
 
-                                {/* مقدار مرکز دایره */}
                                 <Stack
                                     sx={{
                                         position: 'absolute',
@@ -108,7 +149,7 @@ export default function ServerResourceCharts({data, total = 8}: Props) {
                             </Box>
 
                             <Typography variant="body2" color="text.secondary">
-                                {pct}٪ از {total} {resource.unit}
+                                {displayPercent}٪ از {total} {resource.unit}
                             </Typography>
                         </Stack>
                     </Grid>

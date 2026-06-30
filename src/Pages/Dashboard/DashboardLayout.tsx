@@ -22,6 +22,7 @@ interface DashboardStatsType {
     wallet_balance: number
 }
 
+// اصلاح شده: ساختار server با توجه به ریسپانس واقعی
 interface AnalitycsType {
     users: number
     gold: {
@@ -46,19 +47,28 @@ interface AnalitycsType {
     }
     server: {
         cpu: number
-        ram: number
-        disk: number
+        ram: {
+            total_gb: number
+            used_gb: number
+            free_gb: number
+            percent: number
+        }
+        disk: {
+            total_gb: number
+            used_gb: number
+            free_gb: number
+            percent: number
+        }
     }
 }
-
 
 export const CURRENT_YEAR = 1405
 export interface FilterState {
     year: number
     month: string
 }
+
 function SectionHeader({title, color}: {title: string; color: string}) {
- 
     return (
         <Grid item xs={12}>
             <Box sx={{display: 'flex', alignItems: 'center', gap: 2, mt: 4, mb: 1}}>
@@ -91,18 +101,19 @@ export default function DashboardLayout() {
     const [analitycs, setAnalitycs] = useState<AnalitycsType>({} as AnalitycsType)
     const dispatch = useDispatch()
     const [salesFilter, setSalesFilter] = useState<FilterState>({
-            year: CURRENT_YEAR,
-            month: '',
-        })
-         const [buyFilter, setBuyFilter] = useState<FilterState>({
-            year: CURRENT_YEAR,
-            month: '',
-        })
-        
-         const [differentFilter, setDifferentFilter] = useState<FilterState>({
-            year: CURRENT_YEAR,
-            month: '',
-        })
+        year: CURRENT_YEAR,
+        month: '',
+    })
+    const [buyFilter, setBuyFilter] = useState<FilterState>({
+        year: CURRENT_YEAR,
+        month: '',
+    })
+    
+    const [differentFilter, setDifferentFilter] = useState<FilterState>({
+        year: CURRENT_YEAR,
+        month: '',
+    })
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -120,14 +131,15 @@ export default function DashboardLayout() {
         }
         getData()
     }, [dispatch])
-  useEffect(() => {
+
+    useEffect(() => {
         const getChart = async () => {
             const query = new URLSearchParams();
             if (salesFilter.year) {
-                query.append('year',salesFilter.year+'')
+                query.append('year', salesFilter.year+'')
             }
             if (salesFilter.month) {
-                query.append('month',salesFilter.month)
+                query.append('month', salesFilter.month)
             }
             try {
                 const response = await DataProvider.get<ChartData[]>(`analytics/chart/?${query.toString()}`)
@@ -143,16 +155,16 @@ export default function DashboardLayout() {
             }
         }
         getChart()
-    }, [dispatch,salesFilter])
+    }, [dispatch, salesFilter])
 
-  useEffect(() => {
+    useEffect(() => {
         const getChart = async () => {
             const query = new URLSearchParams();
             if (differentFilter.year) {
-                query.append('year',differentFilter.year+'')
+                query.append('year', differentFilter.year+'')
             }
             if (differentFilter.month) {
-                query.append('month',differentFilter.month)
+                query.append('month', differentFilter.month)
             }
             try {
                 const response = await DataProvider.get<BuySellChartData[]>(`analytics/buy-sell-chart/?${query.toString()}`)
@@ -168,17 +180,16 @@ export default function DashboardLayout() {
             }
         }
         getChart()
-    }, [dispatch,differentFilter])
+    }, [dispatch, differentFilter])
 
-
- useEffect(() => {
+    useEffect(() => {
         const getChart = async () => {
             const query = new URLSearchParams();
             if (buyFilter.year) {
-                query.append('year',buyFilter.year+'')
+                query.append('year', buyFilter.year+'')
             }
             if (buyFilter.month) {
-                query.append('month',buyFilter.month)
+                query.append('month', buyFilter.month)
             }
             try {
                 const response = await DataProvider.get<ChartData[]>(`analytics/purchase-chart/?${query.toString()}`)
@@ -194,7 +205,7 @@ export default function DashboardLayout() {
             }
         }
         getChart()
-    }, [dispatch,buyFilter])
+    }, [dispatch, buyFilter])
 
     useEffect(() => {
         const getData = async () => {
@@ -215,6 +226,31 @@ export default function DashboardLayout() {
     }, [dispatch])
 
     const loading = !data
+
+    // تابع کمکی برای تبدیل داده‌های server به فرمت مورد نیاز
+    const getServerData = () => {
+        if (!analitycs.server) {
+            return {
+                cpu: 0,
+                ram: { total_gb: 0, used_gb: 0, free_gb: 0, percent: 0 },
+                disk: { total_gb: 0, used_gb: 0, free_gb: 0, percent: 0 }
+            }
+        }
+        
+        // اگر server به فرمت قدیمی (ram و disk عددی) بود، تبدیل کن
+        const server = analitycs.server as any;
+        
+        return {
+            cpu: server.cpu || 0,
+            ram: typeof server.ram === 'number' 
+                ? { total_gb: 8, used_gb: server.ram, free_gb: 8 - server.ram, percent: (server.ram / 8) * 100 }
+                : server.ram || { total_gb: 0, used_gb: 0, free_gb: 0, percent: 0 },
+            disk: typeof server.disk === 'number'
+                ? { total_gb: 8, used_gb: server.disk, free_gb: 8 - server.disk, percent: (server.disk / 8) * 100 }
+                : server.disk || { total_gb: 0, used_gb: 0, free_gb: 0, percent: 0 }
+        }
+    }
+
     return (
         <Box
             sx={{
@@ -228,7 +264,6 @@ export default function DashboardLayout() {
         >
             <Box sx={{flex: 1, p: 3, display: 'flex'}}>
                 <Grid container spacing={2} sx={{width: '100%', alignContent: 'flex-start'}}>
-
                     <SectionHeader title="آمار کلی" color="#aaaaaa" />
                     <Widgets
                         title="کاربران"
@@ -259,14 +294,13 @@ export default function DashboardLayout() {
                         icon="💵"
                         loading={loading}
                     />
-                      <Widgets
+                    <Widgets
                         title="اختلاف"
                         data={String(formatPrice(analitycs?.difference) ?? 0)}
                         description={{title: 'اختلاف خرید و فروش', status: 'increment'}}
                         icon="💵"
                         loading={loading}
                     />  
-
 
                     <SectionHeader title="🥇 طلا" color="#FFD700" />
                     <Widgets
@@ -291,7 +325,7 @@ export default function DashboardLayout() {
                         description={{title: 'مجموع خرید های ثبت شده', status: 'increment'}}
                         icon="💸"
                         loading={loading}
-                         link="/orders"
+                        link="/orders"
                     />
                     <Widgets
                         title="فروش های طلا"
@@ -299,7 +333,7 @@ export default function DashboardLayout() {
                         description={{title: 'مجموع فروش های ثبت شده', status: 'increment'}}
                         icon="💵"
                         loading={loading}
-                         link="/orders"
+                        link="/orders"
                     />
                     <Widgets
                         title="کیف پول طلا"
@@ -332,7 +366,7 @@ export default function DashboardLayout() {
                         description={{title: 'مجموع خرید های ثبت شده', status: 'increment'}}
                         icon="💸"
                         loading={loading}
-                          link="/silver-orders"
+                        link="/silver-orders"
                     />
                     <Widgets
                         title="فروش های نقره"
@@ -340,7 +374,7 @@ export default function DashboardLayout() {
                         description={{title: 'مجموع فروش های ثبت شده', status: 'increment'}}
                         icon="💵"
                         loading={loading}
-                          link="/silver-orders"
+                        link="/silver-orders"
                     />
                     <Widgets
                         title="کیف پول نقره"
@@ -351,28 +385,24 @@ export default function DashboardLayout() {
                     />
 
                     <SectionHeader title="🖥️ سرور" color="#64B5F6" />
-<Grid item xs={12}>
-    <ServerResourceCharts
-        data={analitycs?.server ?? {cpu: 0, ram: 0, disk: 0}}
-        total={8}
-    />
-</Grid>
+                    <Grid item xs={12}>
+                        <ServerResourceCharts data={getServerData()} />
+                    </Grid>
 
-<SectionHeader title="📊 نمودار فروش" color="#81C784" />
-<Grid xs={12} item>
-    <StatsChart data={salesChartData} filter={salesFilter} setFilter={setSalesFilter} label='فروش' />
-</Grid>
+                    <SectionHeader title="📊 نمودار فروش" color="#81C784" />
+                    <Grid xs={12} item>
+                        <StatsChart data={salesChartData} filter={salesFilter} setFilter={setSalesFilter} label='فروش' />
+                    </Grid>
 
-<SectionHeader title="📊 نمودار خرید" color="#81C784" />
-<Grid xs={12} item>
-    <StatsChart data={buyChartData} filter={buyFilter} setFilter={setBuyFilter} label='خرید' />
-</Grid>
+                    <SectionHeader title="📊 نمودار خرید" color="#81C784" />
+                    <Grid xs={12} item>
+                        <StatsChart data={buyChartData} filter={buyFilter} setFilter={setBuyFilter} label='خرید' />
+                    </Grid>
 
-<SectionHeader title="📊 نمودار اختلاف" color="#81C784" />
-<Grid xs={12} item>
-    <DifferentChart data={buySellData} filter={differentFilter} setFilter={setDifferentFilter}   />
-</Grid>
-
+                    <SectionHeader title="📊 نمودار اختلاف" color="#81C784" />
+                    <Grid xs={12} item>
+                        <DifferentChart data={buySellData} filter={differentFilter} setFilter={setDifferentFilter} />
+                    </Grid>
                 </Grid>
             </Box>
         </Box>

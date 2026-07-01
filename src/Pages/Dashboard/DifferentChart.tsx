@@ -12,7 +12,7 @@ import {
 import { LineChart } from '@mui/x-charts/LineChart'
 import { Dispatch, SetStateAction } from 'react'
 import { FilterState } from './DashboardLayout'
-import CsvExportButton from '../logs/List/CsvExportButton'
+import CsvExportButton from '../Logs/List/CsvExportButton'
 
 const MONTHS = [
     { label: 'همه ماه‌ها', value: '' },

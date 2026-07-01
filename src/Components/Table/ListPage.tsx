@@ -6,8 +6,8 @@ import AddButton from '../Buttons/add'
 import {Searchbar} from '../Input/Searchbar'
 import {BaseModal} from '../Modal/BaseModal'
 import EditIcon from '@mui/icons-material/Edit';
-import CsvExportButton from '../../Pages/logs/List/CsvExportButton'
-import { LogsType } from '../../Pages/logs/List/LogsList'
+import CsvExportButton from '../../Pages/Logs/List/CsvExportButton'
+import { LogsType } from '../../Pages/Logs/List/LogsList'
 export function ListPage({
     listData,
     isCsvExport=false,

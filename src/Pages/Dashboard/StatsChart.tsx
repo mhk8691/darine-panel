@@ -13,7 +13,7 @@ import {BarChart} from '@mui/x-charts/BarChart'
 import {Dispatch, SetStateAction} from 'react'
 import {valueFormatter} from './sales'
 import {FilterState} from './DashboardLayout'
-import CsvExportButton from '../logs/List/CsvExportButton'
+import CsvExportButton from '../Logs/List/CsvExportButton'
 
 const MONTHS = [
     {label: 'همه ماه‌ها', value: ''},

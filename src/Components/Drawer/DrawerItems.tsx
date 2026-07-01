@@ -13,6 +13,7 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import AssignmentIcon from '@mui/icons-material/Assignment'; 
 import { CurrencyExchange } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 
 export const drawerItems = [
@@ -125,6 +126,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <ImageIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+          {
+        title: 'اطلاعیه ها',
+        link: 'gold-announcements',
+        role: 'all',
+        section: 'darineh',
+        icon: <CampaignIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
 
     // silver
     {
@@ -175,5 +183,12 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <ImageIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+          {
+        title: 'اطلاعیه ها',
+        link: 'silver-announcements',
+        role: 'all',
+        section: 'silver',
+        icon: <CampaignIcon sx={{fontSize: '1.9rem !important'}} />,
     },
 ]

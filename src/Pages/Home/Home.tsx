@@ -37,6 +37,9 @@ import LivePrice from '../LivePrice/LivePrice'
 import { OffsetCreate } from '../Offset/Create/OffsetCreate'
 import { OffsetList } from '../Offset/List/OffsetList'
 import { OffsetEdit } from '../Offset/Edit/OffsetEdit'
+import { AnnouncementCreate } from '../Announcement/Create/AnnouncementCreate'
+import { AnnouncementList } from '../Announcement/List/AnnouncementList'
+import { AnnouncementEdit } from '../Announcement/Edit/AnnouncementEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -211,6 +214,21 @@ export function Home(props) {
                         />
                         <Route path="market/silver/offset" element={<OffsetList resource='market/silver/offset'  title='مدیریت قیمت نقرینه' key={'market/silver/offset'} />} />
                         <Route path="market/silver/offset/:id" element={<OffsetEdit resource='market/silver/offset' key={'market/silver/offset'} />} />
+
+                         {/* ...........Announcement.......... */}
+                        <Route
+                            path="gold-announcements/create"
+                            element={<AnnouncementCreate data={data} setData={setData} resource='gold-announcements' key={'gold-announcements'} />}
+                        />
+                        <Route path="gold-announcements" element={<AnnouncementList resource='gold-announcements' title='مدیریت اطلاعیه های دارینه' key={'gold-announcements'} />} />
+                        <Route path="gold-announcements/:id" element={<AnnouncementEdit resource='gold-announcements' key={'gold-announcements'} />} />
+
+                        <Route
+                            path="silver-announcements/create"
+                            element={<AnnouncementCreate data={data} setData={setData} resource='silver-announcements' key={'silver-announcements'} />}
+                        />
+                        <Route path="silver-announcements" element={<AnnouncementList resource='silver-announcements' title='مدیریت اطلاعیه های نقرینه' key={'silver-announcements'} />} />
+                        <Route path="silver-announcements/:id" element={<AnnouncementEdit resource='silver-announcements' key={'silver-announcements'} />} />
                     </Routes>
                 </Box>
             </Box>

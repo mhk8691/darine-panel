@@ -48,7 +48,7 @@ export type OrdersType = {
   delivery_type: 'HOME' | 'PICKUP' | string
 
   status: OrderStatus
-
+admin_note:string
   total_gold_amount: string
   total_toman_amount: string
 
@@ -176,6 +176,20 @@ export function Orders({
 
                     </FormControl>
                 </Grid>,
+                 <CustomTextField
+                        name="admin_note"
+                        label="یادداشت ادمین"
+                        value={order.admin_note ?? ''}
+                        multiline
+                        rows={3}
+                        fullWidth
+                        onChange={(e) =>
+                            setOrder((prev) => ({
+                                ...prev,
+                                admin_note: e.target.value,
+                            }))
+                        }
+                    />
             ].filter(Boolean),
         [order, isCanceled]
     )

@@ -46,21 +46,24 @@ export function Home(props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [data, setData] = useState({})
-    useEffect(() => {
-        const getProfile = async () => {
-            try {
-                const response = await axios.get<{
-                    data: UsersType
-                }>(`https://api.darine.shop/accounts/profile/`, {
-                   withCredentials:true
-                })
-                setProfile(response.data.data)
-            } catch (error: any) {
-                console.log(error)
-            }
+    const [authStatus, setAuthStatus] = useState("loading");
+ useEffect(() => {
+    const getProfile = async () => {
+        try {
+            const response = await axios.get(
+                `https://api.darine.shop/accounts/profile/`,
+                { withCredentials: true }
+            );
+
+            setProfile(response.data.data);
+            setAuthStatus("auth");
+        } catch (error) {
+            setAuthStatus("unauth");
         }
-        getProfile()
-    }, [])
+    };
+
+    getProfile();
+}, []);
     useEffect(() => {
        if (!profile){
         navigate('/login')
@@ -72,7 +75,14 @@ export function Home(props) {
             navigate('/dashboard')
         }
     }, [ navigate, profile])
+if (authStatus === "loading") {
+    return null; // یا splash screen
+}
 
+if (authStatus === "unauth") {
+    navigate("/login");
+    return null;
+}
     return (
         <MainLayout>
             <Box
@@ -100,7 +110,12 @@ export function Home(props) {
                 >
                     <Routes>
                         <Route path="dashboard" element={<DashboardLayout />} />
-                        <Route path="profile" element={<Profile />} />
+                        <Route
+  path="/profile"
+  element={
+      <Profile />
+  }
+/>
                         {/* ...........users.......... */}
                         <Route
                             path="users/create"

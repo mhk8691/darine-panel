@@ -11,7 +11,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     const [selectedTitle, setSelectedTitle] = useState<string>('')
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [user, setUser] = useState<ProfileType>({} as ProfileType)
-    const token = cookies.get('token')
+
 
     useEffect(() => {
         const getUser = async () => {

@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosRequestConfig} from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import APP_URL from './APP_URL'
 
 export interface ApiResponse<DataType> {
@@ -14,6 +14,7 @@ const api = axios.create({
 })
 
 let isRefreshing = false
+
 let failedQueue: {
     resolve: (value?: any) => void
     reject: (reason?: any) => void
@@ -32,9 +33,7 @@ const processQueue = (error: any = null) => {
 }
 
 api.interceptors.request.use(
-    (config: any) => {
-        return config
-    },
+    (config) => config,
     (error) => Promise.reject(error),
 )
 
@@ -43,7 +42,11 @@ api.interceptors.response.use(
     async (error: AxiosError) => {
         const originalRequest: any = error.config
 
-        if (error.response?.status === 401 && !originalRequest?._retry) {
+        if (
+            error.response?.status === 401 &&
+            !originalRequest?._retry &&
+            !window.location.pathname.startsWith('/login')
+        ) {
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
                     failedQueue.push({
@@ -57,7 +60,9 @@ api.interceptors.response.use(
             isRefreshing = true
 
             try {
-                await axios.post('https://api.darine.shop/accounts/token/refresh/')
+                await axios.post('/accounts/token/refresh/',{
+    withCredentials: true,
+                })
 
                 processQueue()
 
@@ -65,7 +70,7 @@ api.interceptors.response.use(
             } catch (refreshError) {
                 processQueue(refreshError)
 
-                // window.location.href = '/login'
+                window.location.replace('/login')
 
                 return Promise.reject(refreshError)
             } finally {
@@ -77,7 +82,9 @@ api.interceptors.response.use(
     },
 )
 
-export async function query<DataType>(options: AxiosRequestConfig): Promise<DataType> {
+export async function query<DataType>(
+    options: AxiosRequestConfig,
+): Promise<DataType> {
     const response = await api(options)
 
     return response.data as DataType

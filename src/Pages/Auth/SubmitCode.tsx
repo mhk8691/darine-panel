@@ -30,6 +30,9 @@ export default function SubmitCode({ getValues, children, phoneNumber, resource 
              await axios.post<AuthResponse>(
                 `https://api.darine.shop/accounts/login/otp/`,
                 newData,
+                {
+    withCredentials: true,
+  }
             )
            
             navigate('/dashboard')

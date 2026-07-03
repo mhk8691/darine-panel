@@ -27,6 +27,7 @@ export type WithdrawType = {
     created_at: string
     user: number
     description:string
+    status_display:string
 }
 
 export function Withdraw({

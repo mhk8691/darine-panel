@@ -14,7 +14,7 @@ import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
 import { WithdrawType } from '../Withdraw'
-import { enToPer, statusCalc } from '../../Orders/List/OrdersList'
+import { statusCalc } from '../../Orders/List/OrdersList'
 import { methodFa } from '../../Deposit/List/DepositList'
 
 const tableHeadCells = [
@@ -167,7 +167,7 @@ export function WithdrawList({resource, title}: {resource: string; title: string
 
                         <TableCell>
                             <Chip
-                                label={enToPer(item.status)}
+                                label={item.status_display}
                                 color={statusCalc(item.status)}
                                 size="small"
                             />

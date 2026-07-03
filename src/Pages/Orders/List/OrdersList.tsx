@@ -14,7 +14,7 @@ import {formatPrice} from '../../../Core/FormatPrice'
 import {createQueryParam} from '../../../Core/QueryParams'
 import {setUtil} from '../../../redux/UtilSlice'
 
-import {OrderStatus, OrdersType} from '../Orders'
+import {OrderRecieve, OrderStatus, OrdersType} from '../Orders'
 
 
 const tableHeadCells = [
@@ -71,21 +71,22 @@ export const statusCalc = (status: OrderStatus) => {
     }
 }
 
-export const enToPer = (status: OrderStatus) => {
+export const orderStatusCalc = (status:OrderRecieve)=>{
     switch (status) {
-        case 'PENDING':
-            return 'در انتظار'
-        case 'COMPLETED':
-            return 'تکمیل شده'
-        case 'COMPLETED':
-            return 'در حال آماده سازی'
-        case 'COMPLETED':
-            return 'در حال تحویل'        
-        case 'FAILED':
-            return 'لغو شده'
+        case 'CANCELLED':
+            return 'error'
+        case 'DELIVERED':
+            return 'success'
+        case 'REQUESTED':
+            return 'warning'
+        case 'DELIVERING':
+            return 'secondary'
+        case 'PREPARING':
+            return 'info'
         default:
-            return status
+            return 'primary'
     }
+
 }
 
 export const paymentMethodFa = (method: string) => {
@@ -231,8 +232,8 @@ export function OrdersList({resource,title}:{resource:string,title:string}) {
 
                         <TableCell>
                             <Chip
-                                label={enToPer(item.status)}
-                                color={statusCalc(item.status)}
+                                label={item.status_display}
+                                color={orderStatusCalc(item.status)}
                                 size="small"
                             />
                         </TableCell>

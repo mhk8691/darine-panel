@@ -20,6 +20,14 @@ export type OrderStatus =
   | 'COMPLETED'
   | 'FAILED'
 
+export type OrderRecieve =
+  | 'REQUESTED'
+  | 'PREPARING'
+  | 'DELIVERING'
+  | 'DELIVERED'
+  | 'CANCELLED'
+
+
 export type OrderItem = {
   id: number
   product_name: string
@@ -30,12 +38,22 @@ export type OrderItem = {
   product: number
 }
 
+export type OrderStatusHistory = {
+  id: number
+  status: OrderStatus | string
+  status_display: string
+  description: string
+  created_at: string
+}
+
 export type OrdersType = {
   id: number
   user_mobile: string
   user: number
 
   items: OrderItem[]
+
+  status_history: OrderStatusHistory[]
 
   province: string
   city: string
@@ -46,8 +64,11 @@ export type OrdersType = {
 
   payment_method: 'GOLD' | 'CASH' | string
   delivery_type: 'HOME' | 'PICKUP' | string
+  payment_method_display: string
+  delivery_type_display: string
 
-  status: OrderStatus
+  status: OrderRecieve
+  status_display: string
 admin_note:string
   total_gold_amount: string
   total_toman_amount: string
@@ -78,7 +99,7 @@ export function Orders({
     const handleChangeStatus = (event: SelectChangeEvent) => {
         setOrder((prev) => ({
             ...prev,
-            status: event.target.value as OrderStatus,
+            status: event.target.value as OrderRecieve,
         }))
     }
 
@@ -90,7 +111,7 @@ export function Orders({
     }
 
     useEffect(() => {
-        setIsCanceled(order.status === 'FAILED')
+        setIsCanceled(order.status === 'CANCELLED')
     }, [order.status])
 
     const data = useMemo(
@@ -143,14 +164,14 @@ export function Orders({
                     name="payment_method"
                     disabled
                     label="روش پرداخت"
-                    defaultValue={order?.payment_method}
+                    defaultValue={safe(order?.payment_method_display)}
                 />,
                 <CustomTextField
                     key={order.id}
                     name="delivery_type"
                     disabled
                     label="روش ارسال"
-                    defaultValue={order?.delivery_type}
+                    defaultValue={safe(order?.delivery_type_display)}
                 />,
                 <CustomTextField
                     key={order.id}
@@ -167,11 +188,11 @@ export function Orders({
                             label="وضعیت سفارش"
                             onChange={handleChangeStatus}
                         >
-                            <MenuItem value="PENDING">در انتظار</MenuItem>
-                            <MenuItem value="CANCELED">در حال آماده سازی</MenuItem>
-                            <MenuItem value="CANCELED">در حال تحویل</MenuItem>
-                            <MenuItem value="COMPLETED">تکمیل شده</MenuItem>
-                            <MenuItem value="CANCELED">لغو شده</MenuItem>
+                            <MenuItem value="REQUESTED">درخواست سفارش</MenuItem>
+                            <MenuItem value="PREPARING">در حال آماده سازی</MenuItem>
+                            <MenuItem value="DELIVERING">در حال تحویل</MenuItem>
+                            <MenuItem value="DELIVERED">تحویل داده شده</MenuItem>
+                            <MenuItem value="CANCELLED">لغو شده</MenuItem>
                         </Select>
 
                     </FormControl>
@@ -232,6 +253,44 @@ export function Orders({
                             objectFit: 'contain',
                         }}
                     />
+                </Stack>
+            )}
+
+            {order?.status_history?.length > 0 && (
+                <Stack spacing={1} sx={{ mt: 2 }}>
+                    <Typography fontWeight={600} fontSize={17}>
+                        تاریخچه وضعیت:
+                    </Typography>
+
+                    {order.status_history.map((history) => (
+                        <Stack
+                            key={history.id}
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            sx={{
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                borderRadius: 2,
+                                p: 1.5,
+                            }}
+                        >
+                            <Stack>
+                                <Typography fontSize={14} fontWeight={600}>
+                                    {history.status_display}
+                                </Typography>
+                                {history.description && (
+                                    <Typography fontSize={13} color="text.secondary">
+                                        {history.description}
+                                    </Typography>
+                                )}
+                            </Stack>
+
+                            <Typography fontSize={12} color="text.secondary">
+                                {formatDate(history.created_at)}
+                            </Typography>
+                        </Stack>
+                    ))}
                 </Stack>
             )}
 

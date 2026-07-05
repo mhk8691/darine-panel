@@ -421,7 +421,7 @@ useEffect(() => {
                             لغو
                         </Button>
                     </Stack>
-                </BaseModal>
+        </BaseModal>
         </>
     )
 }

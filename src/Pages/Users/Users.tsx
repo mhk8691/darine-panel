@@ -1,11 +1,17 @@
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, Typography, Button} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import ProfileUploader from './ProfileUploader'
 import { formatDate } from '../../Core/FormatDate'
 import DatePickerFilter from '../../Components/Filter/DatePicker'
 import { ParamType } from '../../Components/Filter/CustomFilter'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { DepositList } from '../Deposit/List/DepositList'
+import { TransactionsList } from './TransactionsList'
+import { BaseModal } from '../../Components/Modal/BaseModal'
+import { DataProvider } from '../../Core/DataProvider'
+import { useDispatch } from 'react-redux'
+import { setUtil } from '../../redux/UtilSlice'
 export type UsersType = {
     id: number
 
@@ -63,6 +69,15 @@ export function Users({
     isProfile?: boolean
     
 }) {
+    const [open,setOpen] = useState(false)
+    const [loading,setLoading] = useState(false)
+    const [formData, setFormData] = useState({
+    amount: '',
+    price: '',
+    weight: '',
+    sheba_number: '',
+})
+    const [actionType,setActionType] = useState<'goldDeposit' | 'goldWithdraw' | 'deposit' | 'withdraw' | null>(null)
     const handleRoleChange = (event: SelectChangeEvent) => {
         setUser((prev) => ({
             ...prev,
@@ -81,7 +96,157 @@ useEffect(() => {
         birth_date: date.date as string,
     }));
 }, [date]);
+
+const dispatch = useDispatch()
+const deposit = async () => {
+    setLoading(true)
+
+    try {
+        await DataProvider.post(`${'/wallet'}/deposit/`, {
+            data:{
+                amount: formData.amount,
+            }
+        })
+
+        dispatch(
+            setUtil({
+                open: true,
+                message: 'واریز با موفقیت انجام شد.',
+                severity: 'success',
+            })
+        )
+
+        setOpen(false)
+    } catch (error: any) {
+        dispatch(
+            setUtil({
+                open: true,
+                message: error.message,
+                severity: 'error',
+            })
+        )
+    }
+
+    setLoading(false)
+}
+const withdraw = async () => {
+    setLoading(true)
+
+    try {
+        await DataProvider.post(`${''}/withdraw/`, {
+            data:{
+                amount: formData.amount,
+            sheba_number: formData.sheba_number,
+            }
+        })
+
+        dispatch(
+            setUtil({
+                open: true,
+                message: 'درخواست برداشت ثبت شد.',
+                severity: 'success',
+            })
+        )
+
+        setOpen(false)
+    } catch (error: any) {
+        dispatch(
+            setUtil({
+                open: true,
+                message: error.message,
+                severity: 'error',
+            })
+        )
+    }
+
+    setLoading(false)
+}
+const goldDeposit = async () => {
+    setLoading(true)
+
+    try {
+        await DataProvider.post(`${''}/gold/deposit/`, {
+            data:{
+                price: formData.price,
+            }
+        })
+
+        dispatch(
+            setUtil({
+                open: true,
+                message: 'واریز طلا انجام شد.',
+                severity: 'success',
+            })
+        )
+
+        setOpen(false)
+    } catch (error: any) {
+        dispatch(
+            setUtil({
+                open: true,
+                message: error.message,
+                severity: 'error',
+            })
+        )
+    }
+
+    setLoading(false)
+}
+const goldWithdraw = async () => {
+    setLoading(true)
+
+    try {
+        await DataProvider.post(`${''}/gold/withdraw/`, {
+            data:{
+                weight: formData.weight,
+            }
+        })
+
+        dispatch(
+            setUtil({
+                open: true,
+                message: 'برداشت طلا انجام شد.',
+                severity: 'success',
+            })
+        )
+
+        setOpen(false)
+    } catch (error: any) {
+        dispatch(
+            setUtil({
+                open: true,
+                message: error.message,
+                severity: 'error',
+            })
+        )
+    }
+
+    setLoading(false)
+}
+const handleSubmit = () => {
+    switch (actionType) {
+        case 'deposit':
+            deposit()
+            break
+
+        case 'withdraw':
+            withdraw()
+            break
+
+        case 'goldDeposit':
+            goldDeposit()
+            break
+
+        case 'goldWithdraw':
+            goldWithdraw()
+            break
+
+        default:
+            break
+    }
+}
     return (
+        <>
         <Stack gap={3} >
             <GridProducer
                 data={[
@@ -231,10 +396,122 @@ useEffect(() => {
             
                 ]}
             />
-            
-
-            
-         
         </Stack>
+        <Typography variant="body1" mt={5}>عملیات:</Typography>
+        <Stack direction={'row'} gap={2} mt={2}>
+            <Button variant="outlined" color="primary" size='large' onClick={()=>{
+                setActionType('deposit')
+                setOpen(true)
+            }}>
+          واریز وجه
+        </Button>
+        <Button variant="outlined" color="primary" size='large' onClick={()=>{
+            setActionType('withdraw')
+            setOpen(true)
+        }}>
+          برداشت وجه
+        </Button>
+        <Button variant="outlined" color="primary" size='large' onClick={()=>{
+            setActionType('goldDeposit')
+            setOpen(true)
+        }}>
+          واریز طلا
+        </Button>
+        <Button variant="outlined" color="primary" size='large' onClick={()=>{
+            setActionType('goldWithdraw')
+            setOpen(true)
+        }}>
+          برداشت طلا
+        </Button>
+        </Stack>
+        <TransactionsList  />
+         <BaseModal
+                            open={open}
+                            setOpen={setOpen}
+                            title={actionType === 'deposit' ? 'واریز وجه' : actionType === 'withdraw' ? 'برداشت وجه' : actionType === 'goldDeposit' ?'واریز طلا':'برداشت طلا'}
+                            onClose={()=>{
+                                setOpen(false)
+                                setActionType(null)
+                            }
+                            }
+                            style={{maxWidth: 700}}
+                        >
+                         <Stack my={2}>
+                            <GridProducer
+                         count={1}
+                                         data={[
+                                            
+                                            <Stack my={2} spacing={2}>
+    {actionType === 'deposit' && (
+        <CustomTextField
+            name="amount"
+            label="مبلغ"
+            setData={setFormData}
+            defaultValue={formData.amount}
+        />
+    )}
+
+    {actionType === 'withdraw' && (
+        <>
+            <CustomTextField
+                name="amount"
+                label="مبلغ"
+                setData={setFormData}
+                defaultValue={formData.amount}
+                fullWidth
+            />
+
+            <CustomTextField
+                name="sheba_number"
+                label="شماره شبا"
+                setData={setFormData}
+                defaultValue={formData.sheba_number}
+            />
+        </>
+    )}
+
+    {actionType === 'goldDeposit' && (
+        <CustomTextField
+            name="price"
+            label="قیمت"
+            setData={setFormData}
+            defaultValue={formData.price}
+        />
+    )}
+
+    {actionType === 'goldWithdraw' && (
+        <CustomTextField
+            name="weight"
+            label="وزن"
+            setData={setFormData}
+            defaultValue={formData.weight}
+            sx={{width:'100%'}}
+        />
+    )}
+</Stack>
+                                          
+                                         ]}
+                                         
+                                     />
+                         </Stack>
+                
+                            <Stack direction={'row'} spacing={2} mt={1}>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                 onClick={handleSubmit}
+                                 
+                                >
+                                    تایید
+                                </Button>
+                                <Button variant="outlined" color="primary" size="large" onClick={()=>{
+                                    setOpen(false)
+                                    setActionType(null)
+                                }}>
+                                    لغو
+                                </Button>
+                            </Stack>
+        </BaseModal>
+        </>
     )
 }

@@ -56,12 +56,7 @@ export type OrdersType = {
 
   status_history: OrderStatusHistory[]
 
-  province: string
-  city: string
-  address: string
-  postal_code: string
-  plaque: string
-  unit: string
+
 
   payment_method: 'GOLD' | 'CASH' | string
   delivery_type: 'HOME' | 'PICKUP' | string
@@ -153,13 +148,7 @@ export function Orders({
                     label="طلا"
                     defaultValue={`${order?.total_gold_amount} گرم`}
                 />,
-                <CustomTextField
-                    key={order.id}
-                    name="address_summary"
-                    disabled
-                    label="آدرس"
-                    defaultValue={`${order?.province} - ${order?.city} - ${order?.address} - پلاک ${order?.plaque} - واحد ${order?.unit}`}
-                />,
+        
                 <CustomTextField
                     key={order.id}
                     name="payment_method"

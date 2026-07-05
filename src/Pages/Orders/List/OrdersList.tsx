@@ -263,7 +263,7 @@ export function OrdersList({resource,title}:{resource:string,title:string}) {
                                 variant="body2"
                                 sx={{whiteSpace: 'nowrap'}}
                             >
-                                {paymentMethodFa(item.payment_method)}
+                                {paymentMethodFa(item.payment_method_display)}
                             </Typography>
                         </TableCell>
 

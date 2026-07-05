@@ -12,6 +12,7 @@ import { BaseModal } from '../../Components/Modal/BaseModal'
 import { DataProvider } from '../../Core/DataProvider'
 import { useDispatch } from 'react-redux'
 import { setUtil } from '../../redux/UtilSlice'
+import { OrderStatus } from '../Orders/Orders'
 export type UsersType = {
     id: number
 
@@ -50,6 +51,34 @@ export type UsersType = {
         silver_buy_fee: number
         silver_sell_fee: number
     }
+    "balances": {
+            "gold_wallet": {
+                "accessible_toman": number,
+                "blocked_toman": number
+            },
+            "silver_wallet": {
+                "accessible_toman": number,
+                "blocked_toman": number
+            },
+            "gold_inventory": {
+                "accessible_balance": number,
+                "blocked_balance": number
+            },
+            "silver_inventory": {
+                "accessible_balance": number,
+                "blocked_balance": number
+            }
+        },
+}
+export interface TransactionsType{
+    id:number
+        "type": "DEPOSIT" | 'WITHDRAW',
+        "status":OrderStatus,
+        "amount": number,
+        "toman_amount": number,
+        "tracking_code": string,
+        "description": string,
+        "created_at": string
 }
 const RESOURCE = 'users'
 
@@ -71,6 +100,7 @@ export function Users({
 }) {
     const [open,setOpen] = useState(false)
     const [loading,setLoading] = useState(false)
+  
     const [formData, setFormData] = useState({
     amount: '',
     price: '',
@@ -245,6 +275,8 @@ const handleSubmit = () => {
             break
     }
 }
+
+
     return (
         <>
         <Stack gap={3} >
@@ -396,8 +428,84 @@ const handleSubmit = () => {
             
                 ]}
             />
+            <GridProducer
+  data={[
+    <CustomTextField
+      key={user.id}
+      name="gold_wallet_accessible"
+      label="کیف پول طلا (قابل برداشت)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.gold_wallet?.accessible_toman}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="gold_wallet_blocked"
+      label="کیف پول طلا (مسدود)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.gold_wallet?.blocked_toman}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="silver_wallet_accessible"
+      label="کیف پول نقره (قابل برداشت)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.silver_wallet?.accessible_toman}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="silver_wallet_blocked"
+      label="کیف پول نقره (مسدود)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.silver_wallet?.blocked_toman}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="gold_inventory_accessible"
+      label="موجودی طلا (قابل استفاده)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.gold_inventory?.accessible_balance}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="gold_inventory_blocked"
+      label="موجودی طلا (مسدود)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.gold_inventory?.blocked_balance}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="silver_inventory_accessible"
+      label="موجودی نقره (قابل استفاده)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.silver_inventory?.accessible_balance}
+      disabled
+    />,
+    <CustomTextField
+      key={user.id}
+      name="silver_inventory_blocked"
+      label="موجودی نقره (مسدود)"
+      resource={RESOURCE}
+      setData={setUser}
+      defaultValue={user.balances?.silver_inventory?.blocked_balance}
+      disabled
+    />,
+  ]}
+/>
         </Stack>
-        <Typography variant="body1" mt={5}>عملیات:</Typography>
+        {/* <Typography variant="body1" mt={5}>عملیات:</Typography>
         <Stack direction={'row'} gap={2} mt={2}>
             <Button variant="outlined" color="primary" size='large' onClick={()=>{
                 setActionType('deposit')
@@ -423,8 +531,8 @@ const handleSubmit = () => {
         }}>
           برداشت طلا
         </Button>
-        </Stack>
-        <TransactionsList  />
+        </Stack> */}
+        <TransactionsList id={user.id} key={user.id} />
          <BaseModal
                             open={open}
                             setOpen={setOpen}

@@ -14,17 +14,16 @@ import { ListPage } from '../../Components/Table/ListPage'
 import { CustomTable } from '../../Components/Table/CustomTable'
 import { formatPrice } from '../../Core/FormatPrice'
 import { formatDate } from '../../Core/FormatDate'
+import { TransactionsType } from './Users'
 
 const resource = 'OrderDeposit'
 
 const tableHeadCells = [
-    createTableHeadCells('آیدی', 'id'),
-    createTableHeadCells('شماره تلفن', 'user_mobile'),
-    createTableHeadCells('کد پیگیری', 'tracking_code'),
-    createTableHeadCells('مبلغ', 'amount'),
-    createTableHeadCells('روش پرداخت', 'method'),
+    createTableHeadCells('نوع', 'type'),
     createTableHeadCells('وضعیت', 'status'),
-    createTableHeadCells('توضیح', 'description'),
+    createTableHeadCells('مبلغ نهایی', 'toman_amount'),
+    createTableHeadCells('کد پیگیری', 'tracking_code'),
+    createTableHeadCells('توضیحات', 'description'),
     createTableHeadCells('تاریخ', 'created_at'),
 ]
 
@@ -89,47 +88,48 @@ export const methodFa = (method: DepositType['method']) => {
     }
 }
 
-export function TransactionsList() {
+export function TransactionsList({id}:{id:number}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
 
-    const [transaction, setTransaction] = useState<{
-        total_results: number
-        data: DepositType[]
+  const [transaction,setTransaction] = useState<{
+        total_results:number
+        data:TransactionsType[]
     }>({
-        total_results: 0,
-        data: [],
+        total_results:0,
+        data:[]
     })
 
     const dispatch = useDispatch()
 
-    const getTransactions = async () => {
-        setLoading(true)    
-
-        try {
-            const response = await DataProvider.get<{
-                total_results: number
-                results: DepositType[]
-            }>(`${resource}/`, search)
-
-            if (response) {
-                setTransaction({
-                    total_results: response.data.total_results,
-                    data: response.data.results,
-                })
-            }
-        } catch (error: any) {
-            dispatch(
-                setUtil({
-                    open: true,
-                    message: error.message,
-                    severity: 'error',
-                })
-            )
-        }
-
-        setLoading(false)
-    }
+       const getTransactions = async () => {
+           setLoading(true)
+   
+           try {
+               const response = await DataProvider.get<{
+                   total_results: number
+                   results: TransactionsType[]
+               }>(`users/${id}/transactions/`)
+   
+               if (response) {
+                   setTransaction({
+                       total_results: response.data.total_results,
+                       data: response.data.results,
+                   })
+               }
+           } catch (error: any) {
+               dispatch(
+                   setUtil({
+                       open: true,
+                       message: error.message,
+                       severity: 'error',
+                   })
+               )
+           }
+   
+           setLoading(false)
+       }
+    
 
     useDeepCompareEffect(() => {
         getTransactions()
@@ -168,12 +168,20 @@ export function TransactionsList() {
                     <React.Fragment key={item.id}>
                             <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
-                                {item.id}
+                                {item.type === 'DEPOSIT' ? 'واریز':'برداشت'}
                             </Typography>
                         </TableCell>    
+                             <TableCell>
+                                                   <Chip
+                                                       label={enToPer(item.status)}
+                                                       color={statusCalc(item.status)}
+                                                       size="small"
+                                                   />
+                                               </TableCell>
+
                         <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
-                                {item.user_mobile}
+                                {formatPrice(item.toman_amount)}
                             </Typography>
                         </TableCell>
 
@@ -185,28 +193,11 @@ export function TransactionsList() {
 
                         <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
-                                {formatPrice(item.amount)}
-                            </Typography>
-                        </TableCell>
-
-                        <TableCell>
-                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
-                                {methodFa(item.method)}
-                            </Typography>
-                        </TableCell>
-
-                        <TableCell>
-                            <Chip
-                                label={enToPer(item.status)}
-                                color={statusCalc(item.status)}
-                                size="small"
-                            />
-                        </TableCell>
-                                 <TableCell>
-                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {item.description}
                             </Typography>
                         </TableCell>
+
+                  
                         <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {formatDate(item.created_at)}

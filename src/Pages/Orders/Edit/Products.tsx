@@ -51,7 +51,7 @@ export default function Products({ order, isOpen, setIsOpen }: Props) {
                 <ImageZoom>
                   <Box
                     component="img"
-                    src="" // API image نداره
+                    src={item.product_image} 
                     alt={item.product_name}
                     sx={{
                       width: '100%',

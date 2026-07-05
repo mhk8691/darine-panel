@@ -141,6 +141,7 @@ export function LogsList() {
                 loading={loading}
                 hasDetail={false}
                 noEdit
+                noDelete
                 tableBodyCells={logs.results.map((item) => (
                     <React.Fragment key={item.id}>
                         <TableCell>

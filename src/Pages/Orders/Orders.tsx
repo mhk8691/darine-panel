@@ -36,6 +36,7 @@ export type OrderItem = {
   weight_at_time: string
   order: number
   product: number
+  product_image:string
 }
 
 export type OrderStatusHistory = {

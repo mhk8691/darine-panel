@@ -40,6 +40,12 @@ import { OffsetEdit } from '../Offset/Edit/OffsetEdit'
 import { AnnouncementCreate } from '../Announcement/Create/AnnouncementCreate'
 import { AnnouncementList } from '../Announcement/List/AnnouncementList'
 import { AnnouncementEdit } from '../Announcement/Edit/AnnouncementEdit'
+import { BalanceCreate } from '../Users/GoldAdjustments/Create/BalanceCreate'
+import { BalanceList } from '../Users/GoldAdjustments/List/BalanceList'
+import { BalanceEdit } from '../Users/GoldAdjustments/Edit/BalanceEdit'
+import { SilverBalanceList } from '../Users/SilverAdjustments/List/SilverBalanceList'
+import { SilverBalanceCreate } from '../Users/SilverAdjustments/Create/SilverBalanceCreate'
+import { SilverBalanceEdit } from '../Users/SilverAdjustments/Edit/SilverBalanceEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -123,6 +129,23 @@ if (authStatus === "unauth") {
                         />
                         <Route path="users" element={<UsersList />} />
                         <Route path="users/:id" element={<UserEdit />} />
+
+                        {/* ...........balance.......... */}
+                     
+                        <Route path="users/:userId/balance" element={<BalanceList />} />
+                        <Route
+                            path="users/:userId/balance/create"
+                            element={<BalanceCreate data={data} setData={setData} />}
+                        />
+                        <Route path="users/:userId/balance/:id" element={<BalanceEdit />} />
+                           {/* ...........silver balance.......... */}
+                     
+                        <Route path="users/:userId/silver-balance" element={<SilverBalanceList />} />
+                        <Route
+                            path="users/:userId/silver-balance/create"
+                            element={<SilverBalanceCreate data={data} setData={setData} />}
+                        />
+                        <Route path="users/:userId/silver-balance/:id" element={<SilverBalanceEdit />} />
                         {/* ...........products.......... */}
                         <Route
                             path="products/create"

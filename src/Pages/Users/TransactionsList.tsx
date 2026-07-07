@@ -22,6 +22,8 @@ const tableHeadCells = [
     createTableHeadCells('نوع', 'type'),
     createTableHeadCells('وضعیت', 'status'),
     createTableHeadCells('مبلغ نهایی', 'toman_amount'),
+    createTableHeadCells('مقدار', 'amount'),
+
     createTableHeadCells('کد پیگیری', 'tracking_code'),
     createTableHeadCells('توضیحات', 'description'),
     createTableHeadCells('تاریخ', 'created_at'),
@@ -132,8 +134,9 @@ export function TransactionsList({id}:{id:number}) {
     
 
     useDeepCompareEffect(() => {
+        if (!id) return
         getTransactions()
-    }, [search])
+    }, [search,id])
 
     return (
         <ListPage
@@ -168,7 +171,7 @@ export function TransactionsList({id}:{id:number}) {
                     <React.Fragment key={item.id}>
                             <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
-                                {item.type === 'DEPOSIT' ? 'واریز':'برداشت'}
+                                {item.type}
                             </Typography>
                         </TableCell>    
                              <TableCell>
@@ -184,7 +187,11 @@ export function TransactionsList({id}:{id:number}) {
                                 {formatPrice(item.toman_amount)}
                             </Typography>
                         </TableCell>
-
+      <TableCell>
+                            <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
+                                {item.amount} گرم
+                            </Typography>
+                        </TableCell>
                         <TableCell>
                             <Typography variant="body2" sx={{whiteSpace: 'nowrap'}}>
                                 {item.tracking_code}

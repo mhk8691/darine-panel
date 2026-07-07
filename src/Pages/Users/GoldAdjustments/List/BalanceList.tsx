@@ -101,7 +101,7 @@ export function BalanceList() {
     return (
         <>
         <ListPage
-            header="مدیریت کیف پول"
+            header="مدیریت واریز دارینه"
             href={'create'}
             searchField="title"
             searchText="نام و نام خانوادگی"

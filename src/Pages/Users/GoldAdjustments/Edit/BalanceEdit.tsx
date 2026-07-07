@@ -28,7 +28,7 @@ export function BalanceEdit() {
     return (
         <EditPage
             resource={RESOURCE+`/${userId}`}
-            title="ویرایش کیف پول"
+            title="ویرایش واریز دارینه"
             formDetails={user}
             initialData={initialData}
             isFormData

@@ -101,7 +101,7 @@ export function SilverBalanceList() {
     return (
         <>
         <ListPage
-            header="مدیریت کیف پول"
+            header="مدیریت واریز نقرینه"
             href={'create'}
             searchField="title"
             searchText="نام و نام خانوادگی"

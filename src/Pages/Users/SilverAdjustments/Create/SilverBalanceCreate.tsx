@@ -11,7 +11,7 @@ export function SilverBalanceCreate({
 }) {
         const userId =useParams().userId
     return (
-        <CreatePage title={'کیف پول'} resource={`silver-balance-adjustments/`} redirect={`users/${userId}/silver-balance/`} formDetails={data} isFormData>
+        <CreatePage title={'واریز نقرینه'} resource={`silver-balance-adjustments/`} redirect={`users/${userId}/silver-balance/`} formDetails={data} isFormData>
             <SilverAdjustments balance={data} setBalance={setData} userId={userId || ''} />
         </CreatePage>
     )

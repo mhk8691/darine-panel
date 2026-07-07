@@ -28,7 +28,7 @@ export function SilverBalanceEdit() {
     return (
         <EditPage
             resource={RESOURCE+`/${userId}`}
-            title="ویرایش کیف پول"
+            title="ویرایش واریز نقرینه"
             formDetails={user}
             initialData={initialData}
             isFormData

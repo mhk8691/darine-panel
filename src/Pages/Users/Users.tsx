@@ -363,11 +363,15 @@ useEffect(() => {
           واریز نقرینه 
         </Button>
         <Button variant="outlined" color="primary" size='large' onClick={()=>{
-           navigate(`user/${user.id}/balance/`)
+           navigate(`/users/${user.id}/gold-withdrawals/`)
         }}>
-          برداشت 
+          برداشت دارینه
         </Button>
-   
+   <Button variant="outlined" color="primary" size='large' onClick={()=>{
+           navigate(`/users/${user.id}/silver-withdrawals/`)
+        }}>
+          برداشت نقرینه
+        </Button>
         </Stack>
         <TransactionsList id={user.id} key={user.id} />
   

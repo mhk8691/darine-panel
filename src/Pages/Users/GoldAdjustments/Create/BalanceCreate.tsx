@@ -11,7 +11,7 @@ export function BalanceCreate({
 }) {
         const userId =useParams().userId
     return (
-        <CreatePage title={'کیف پول'} resource={`gold-balance-adjustments/`} redirect={`users/${userId}/balance/`} formDetails={data} isFormData>
+        <CreatePage title={'واریز دارینه'} resource={`gold-balance-adjustments/`} redirect={`users/${userId}/balance/`} formDetails={data} isFormData>
             <GoldAdjustments balance={data} setBalance={setData} userId={userId || ''} />
         </CreatePage>
     )

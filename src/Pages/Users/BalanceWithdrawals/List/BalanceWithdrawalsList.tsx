@@ -130,7 +130,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
                 setParams={setSearch}
                 handleSort={getBalance}
                 loading={loading}
-                hasDetail={true}
+                hasDetail={false}
                 noEdit
                 tableBodyCells={balance.data.map((item) => (
                     <>

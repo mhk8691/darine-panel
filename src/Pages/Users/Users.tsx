@@ -281,42 +281,47 @@ useEffect(() => {
                 editMode &&             <GridProducer
   data={[
     <CustomTextField
+    thousandSeparator={true}
       key={user.id}
       name="gold_wallet_accessible"
-      label="کیف پول طلا (قابل برداشت)"
+      label="تومان طلا (قابل برداشت)"
       resource={RESOURCE}
       setData={setUser}
       defaultValue={user.balances?.gold_wallet?.accessible_toman}
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="gold_wallet_blocked"
-      label="کیف پول طلا (مسدود)"
+      label="تومان طلا (مسدود)"
       resource={RESOURCE}
       setData={setUser}
       defaultValue={user.balances?.gold_wallet?.blocked_toman}
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="silver_wallet_accessible"
-      label="کیف پول نقره (قابل برداشت)"
+      label="تومان نقره (قابل برداشت)"
       resource={RESOURCE}
       setData={setUser}
       defaultValue={user.balances?.silver_wallet?.accessible_toman}
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="silver_wallet_blocked"
-      label="کیف پول نقره (مسدود)"
+      label="تومان نقره (مسدود)"
       resource={RESOURCE}
       setData={setUser}
       defaultValue={user.balances?.silver_wallet?.blocked_toman}
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="gold_inventory_accessible"
       label="موجودی طلا (قابل استفاده)"
@@ -326,6 +331,7 @@ useEffect(() => {
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="gold_inventory_blocked"
       label="موجودی طلا (مسدود)"
@@ -335,6 +341,7 @@ useEffect(() => {
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="silver_inventory_accessible"
       label="موجودی نقره (قابل استفاده)"
@@ -344,6 +351,7 @@ useEffect(() => {
       disabled
     />,
     <CustomTextField
+    thousandSeparator
       key={user.id}
       name="silver_inventory_blocked"
       label="موجودی نقره (مسدود)"

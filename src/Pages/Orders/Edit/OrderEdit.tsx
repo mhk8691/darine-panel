@@ -12,7 +12,7 @@ export function OrderEdit({resource}:{resource:string}) {
     useEffect(() => {
         const getOrder = async () => {
             try {
-                let response = await DataProvider.get<OrdersType>(`orders/${orderId}/`)
+                let response = await DataProvider.get<OrdersType>(`${resource}/${orderId}/`)
                 if (response) {
                     setOrder(response.data)
                     setInitialData(response.data)

@@ -31,6 +31,7 @@ export function Offset({
                 sx={{marginBottom: '16px'}}
                 data={[
                           <CustomTextField
+                          thousandSeparator
                         key={offset?.id}
                         name="offset_amount"
                         setData={setOffset}

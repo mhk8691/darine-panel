@@ -43,6 +43,7 @@ export default function BalanceWithdrawals({
     <GridProducer
                     data={[
                         <CustomTextField
+                        thousandSeparator
                             key={balance.id}
                             name="wallet_amount"
                             label="کیف پول"
@@ -51,6 +52,7 @@ export default function BalanceWithdrawals({
                             defaultValue={balance.wallet_amount}
                         />,
                            <CustomTextField
+                           thousandSeparator
                             key={balance.id}
                             name={type === 'gold' ? "gold_amount" :"silver_amount"}
                             label={type === 'gold' ? "موجودی طلا" :"موجودی نقره"}

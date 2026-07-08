@@ -130,7 +130,7 @@ export function SilverBalanceList() {
                 setParams={setSearch}
                 handleSort={getBalance}
                 loading={loading}
-                hasDetail={true}
+                hasDetail={false}
                 noEdit
                 tableBodyCells={balance.data.map((item) => (
                     <>

@@ -41,6 +41,7 @@ export default function GoldAdjustments({
     <GridProducer
                     data={[
                         <CustomTextField
+                        thousandSeparator
                             key={balance.id}
                             name="wallet_amount"
                             label="کیف پول"
@@ -49,6 +50,7 @@ export default function GoldAdjustments({
                             defaultValue={balance.wallet_amount}
                         />,
                            <CustomTextField
+                           thousandSeparator
                             key={balance.id}
                             name="gold_amount"
                             label="موجودی طلا"

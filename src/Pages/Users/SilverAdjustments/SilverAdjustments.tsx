@@ -41,6 +41,7 @@ export default function SilverAdjustments({
     <GridProducer
                     data={[
                         <CustomTextField
+                        thousandSeparator
                             key={balance.id}
                             name="wallet_amount"
                             label="کیف پول"
@@ -49,6 +50,7 @@ export default function SilverAdjustments({
                             defaultValue={balance.wallet_amount}
                         />,
                            <CustomTextField
+                           thousandSeparator
                             key={balance.id}
                             name="gold_amount"
                             label="موجودی نقره"

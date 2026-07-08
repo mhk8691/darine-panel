@@ -42,13 +42,10 @@ import { AnnouncementList } from '../Announcement/List/AnnouncementList'
 import { AnnouncementEdit } from '../Announcement/Edit/AnnouncementEdit'
 import { BalanceCreate } from '../Users/GoldAdjustments/Create/BalanceCreate'
 import { BalanceList } from '../Users/GoldAdjustments/List/BalanceList'
-import { BalanceEdit } from '../Users/GoldAdjustments/Edit/BalanceEdit'
 import { SilverBalanceList } from '../Users/SilverAdjustments/List/SilverBalanceList'
 import { SilverBalanceCreate } from '../Users/SilverAdjustments/Create/SilverBalanceCreate'
-import { SilverBalanceEdit } from '../Users/SilverAdjustments/Edit/SilverBalanceEdit'
 import { BalanceWithdrawalsList } from '../Users/BalanceWithdrawals/List/BalanceWithdrawalsList'
 import { BalanceWithdrawalsCreate } from '../Users/BalanceWithdrawals/Create/BalanceWithdrawalsCreate'
-import { BalanceWithdrawalsEdit } from '../Users/BalanceWithdrawals/Edit/BalanceWithdrawalsEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -140,7 +137,6 @@ if (authStatus === "unauth") {
                             path="users/:userId/balance/create"
                             element={<BalanceCreate data={data} setData={setData} />}
                         />
-                        <Route path="users/:userId/balance/:id" element={<BalanceEdit />} />
                            {/* ...........silver balance.......... */}
                      
                         <Route path="users/:userId/silver-balance" element={<SilverBalanceList />} />
@@ -148,23 +144,20 @@ if (authStatus === "unauth") {
                             path="users/:userId/silver-balance/create"
                             element={<SilverBalanceCreate data={data} setData={setData} />}
                         />
-                        <Route path="users/:userId/silver-balance/:id" element={<SilverBalanceEdit />} />
                                 {/* ...........gold withdrawals.......... */}
                      
                         <Route path="users/:userId/gold-withdrawals" element={<BalanceWithdrawalsList type='gold' title='برداشت دارینه' resource={'gold-balance-withdrawals'} />} />
                         <Route
                             path="users/:userId/gold-withdrawals/create"
-                            element={<BalanceWithdrawalsCreate data={data} type='gold'  setData={setData} resource='gold-balance-withdrawals' title='برداشت دارینه' />}
+                            element={<BalanceWithdrawalsCreate data={data} type='gold'  setData={setData} resource='gold-balance-withdrawals/' title='برداشت دارینه' />}
                         />
-                        <Route path="users/:userId/gold-withdrawals/:id" element={<BalanceWithdrawalsEdit type='gold'  resource='gold-balance-withdrawals' title='برداشت دارینه' />} />
                                       {/* ...........silver withdrawals.......... */}
                      
                         <Route path="users/:userId/silver-withdrawals" element={<BalanceWithdrawalsList type='silver' title='برداشت نقرینه' resource={'silver-balance-withdrawals'} />} />
                         <Route
                             path="users/:userId/silver-withdrawals/create"
-                            element={<BalanceWithdrawalsCreate data={data} type='silver' setData={setData} resource='silver-balance-withdrawals' title='برداشت نقرینه' />}
+                            element={<BalanceWithdrawalsCreate data={data} type='silver' setData={setData} resource='silver-balance-withdrawals/' title='برداشت نقرینه' />}
                         />
-                        <Route path="users/:userId/silver-withdrawals/:id" element={<BalanceWithdrawalsEdit type='silver' resource='silver-balance-withdrawals' title='برداشت نقرینه' />} />
                         {/* ...........products.......... */}
                         <Route
                             path="products/create"

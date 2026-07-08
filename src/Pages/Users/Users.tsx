@@ -89,7 +89,8 @@ export function Users({
     editMode = false,
     isProfile = false,
     setDate,
-    date
+    date,
+    id
 }: {
     user: UsersType
     setUser: React.Dispatch<React.SetStateAction<UsersType>>
@@ -97,6 +98,7 @@ export function Users({
      date:ParamType
     editMode?: boolean
     isProfile?: boolean
+    id?:string
     
 }) {
     const navigate = useNavigate()
@@ -226,6 +228,7 @@ useEffect(() => {
                 ),
         
                     <DatePickerFilter setParams={setDate} item={queryNames} initialValue={user.birth_date} /> ,
+                    
               <CustomTextField   
                       key={user.id}
                         name="referral_code"
@@ -234,24 +237,7 @@ useEffect(() => {
                         setData={setUser}
                         defaultValue={user.referral_code}
                     />,
-                      editMode &&<CustomTextField   
-                      key={user.id}
-                        name="referral_code"
-                        label="کد نمایندگی"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={user.referral_code}
-                    />,
-                         editMode &&  <CustomTextField
-                        key={user.id}
-                        name="created_at"
-                        label="تاریخ عضویت"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={formatDate(user.created_at)}
-                        disabled
-                    />,
-                    <FormControl fullWidth>
+                     <FormControl fullWidth>
                                 <InputLabel>وضعیت حساب</InputLabel>
                     
                                 <Select
@@ -269,11 +255,30 @@ useEffect(() => {
                                   <MenuItem value="true">فعال</MenuItem>
                                   <MenuItem value="false">غیرفعال</MenuItem>
                                 </Select>
-                              </FormControl>
+                    </FormControl>,
+                      editMode &&<CustomTextField   
+                      key={user.id}
+                        name="referral_code"
+                        label="کد نمایندگی"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_code}
+                    />,
+                         editMode &&  <CustomTextField
+                        key={user.id}
+                        name="created_at"
+                        label="تاریخ عضویت"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={formatDate(user.created_at)}
+                        disabled
+                    />,
+                   
             
                 ]}
             />
-            <GridProducer
+            {
+                editMode &&             <GridProducer
   data={[
     <CustomTextField
       key={user.id}
@@ -349,31 +354,36 @@ useEffect(() => {
     />,
   ]}
 />
+            }
         </Stack>
-        <Typography variant="body1" mt={5}>عملیات:</Typography>
+     {
+        editMode && <>
+           <Typography variant="body1" mt={5}>عملیات:</Typography>
         <Stack direction={'row'} gap={2} mt={2}>
             <Button variant="outlined" color="primary" size='large' onClick={()=>{
-                 navigate(`/users/${user.id}/balance/`)
+                 navigate(`/users/${id}/balance/`)
             }}>
           واریز دارینه 
         </Button>
             <Button variant="outlined" color="primary" size='large' onClick={()=>{
-                 navigate(`/users/${user.id}/silver-balance/`)
+                 navigate(`/users/${id}/silver-balance/`)
             }}>
           واریز نقرینه 
         </Button>
         <Button variant="outlined" color="primary" size='large' onClick={()=>{
-           navigate(`/users/${user.id}/gold-withdrawals/`)
+           navigate(`/users/${id}/gold-withdrawals/`)
         }}>
           برداشت دارینه
         </Button>
    <Button variant="outlined" color="primary" size='large' onClick={()=>{
-           navigate(`/users/${user.id}/silver-withdrawals/`)
+           navigate(`/users/${id}/silver-withdrawals/`)
         }}>
           برداشت نقرینه
         </Button>
         </Stack>
         <TransactionsList id={user.id} key={user.id} />
+        </>
+     }
   
         </>
     )

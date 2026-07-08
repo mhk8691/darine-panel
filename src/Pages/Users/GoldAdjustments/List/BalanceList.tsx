@@ -121,7 +121,7 @@ export function BalanceList() {
         >
             <CustomTable
             groupEdit
-                resource={RECOURCE}
+                resource={`${RECOURCE}/${userId}`}
                 headCells={tableHeadCells}
                 rows={balance.data}
                 count={balance.total_results}
@@ -131,6 +131,7 @@ export function BalanceList() {
                 handleSort={getBalance}
                 loading={loading}
                 hasDetail={true}
+                noEdit
                 tableBodyCells={balance.data.map((item) => (
                     <>
                         <TableCell >

@@ -165,7 +165,7 @@ export function TransactionsList({id}:{id:number}) {
                 setParams={setSearch}
                 handleSort={getTransactions}
                 loading={loading}
-                hasDetail={true}
+                hasDetail={false}
                 noDelete
                 tableBodyCells={transaction.data.map((item) => (
                     <React.Fragment key={item.id}>

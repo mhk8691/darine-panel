@@ -121,7 +121,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
         >
             <CustomTable
             groupEdit
-                resource={resource}
+                resource={`${resource}/${userId}`}
                 headCells={tableHeadCells}
                 rows={balance.data}
                 count={balance.total_results}
@@ -131,6 +131,7 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
                 handleSort={getBalance}
                 loading={loading}
                 hasDetail={true}
+                noEdit
                 tableBodyCells={balance.data.map((item) => (
                     <>
                         <TableCell >

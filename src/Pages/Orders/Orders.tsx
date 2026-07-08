@@ -51,34 +51,26 @@ export type OrdersType = {
   id: number
   user_mobile: string
   user: number
-
   items: OrderItem[]
-
   status_history: OrderStatusHistory[]
-
-
-
   payment_method: 'GOLD' | 'CASH' | string
   delivery_type: 'HOME' | 'PICKUP' | string
   payment_method_display: string
   delivery_type_display: string
-
   status: OrderRecieve
   status_display: string
-admin_note:string
+  admin_note:string
   total_gold_amount: string
   total_toman_amount: string
-
   tracking_code: string
   description: string | null
-
   created_at: string
   updated_at: string
-
   authentication_video?: string
   reason?: string
   bank_receipt?: string
 }
+
 
 export function Orders({
     order,

@@ -14,7 +14,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { CurrencyExchange } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CampaignIcon from '@mui/icons-material/Campaign';
-
+import DiamondIcon from '@mui/icons-material/Diamond';
 
 export const drawerItems = [
     // both
@@ -85,6 +85,13 @@ export const drawerItems = [
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
     },
      {
+        title: 'سفارشات طلای آب شده',
+        link: 'gold-transactions',
+        role: 'all',
+        section: 'darineh',
+        icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+     {
         title: 'واریز',
         link: 'OrderDeposit',
         role: 'all',
@@ -148,6 +155,13 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <ShoppingBagIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+     {
+        title: 'سفارشات نقره آب شده',
+        link: 'silver-transactions',
+        role: 'all',
+        section: 'silver',
+        icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
     },
       {
         title: 'واریز',

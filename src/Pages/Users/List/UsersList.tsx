@@ -29,7 +29,6 @@ const tableHeadCells = [
     createTableHeadCells('کارمزدها', 'fees'),
     createTableHeadCells('کد نمایندگی', 'referral_code'),
     createTableHeadCells('وضعیت حساب', 'is_active'),
-    createTableHeadCells('تاریخ عضویت', 'created_at'),
 ]
 
 const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
@@ -347,19 +346,7 @@ useEffect(() => {
                             </Typography>
                         </TableCell>
 
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                            >
-                                {formatDate(item.created_at)}
-                            </Typography>
-                        </TableCell>
+                       
                     </>
                 ))}
             />

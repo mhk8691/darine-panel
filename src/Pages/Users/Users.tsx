@@ -16,7 +16,8 @@ import { OrderStatus } from '../Orders/Orders'
 import { useNavigate } from 'react-router-dom'
 export type UsersType = {
     id: number
-
+    referral_count:number
+    referral_profit:number
     username: string
     first_name: string
     last_name: string
@@ -232,10 +233,26 @@ useEffect(() => {
               <CustomTextField   
                       key={user.id}
                         name="referral_code"
-                        label="سود کد نمایندگی"
+                        label="کد نمایندگی"
                         resource={RESOURCE}
                         setData={setUser}
                         defaultValue={user.referral_code}
+                    />,
+                    <CustomTextField   
+                      key={user.id}
+                        name="referral_profit"
+                        label="سود کد نمایندگی"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_profit}
+                    />,
+                      <CustomTextField   
+                      key={user.id}
+                        name="referral_count"
+                        label="تعداد دعوت شده ها"
+                        resource={RESOURCE}
+                        setData={setUser}
+                        defaultValue={user.referral_count}
                     />,
                      <FormControl fullWidth>
                                 <InputLabel>وضعیت حساب</InputLabel>

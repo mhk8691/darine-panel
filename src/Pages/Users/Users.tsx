@@ -230,7 +230,7 @@ useEffect(() => {
         
                     <DatePickerFilter setParams={setDate} item={queryNames} initialValue={user.birth_date} /> ,
                     
-              <CustomTextField   
+                      editMode &&<CustomTextField   
                       key={user.id}
                         name="referral_code"
                         label="کد نمایندگی"
@@ -273,14 +273,7 @@ useEffect(() => {
                                   <MenuItem value="false">غیرفعال</MenuItem>
                                 </Select>
                     </FormControl>,
-                      editMode &&<CustomTextField   
-                      key={user.id}
-                        name="referral_code"
-                        label="کد نمایندگی"
-                        resource={RESOURCE}
-                        setData={setUser}
-                        defaultValue={user.referral_code}
-                    />,
+              
                          editMode &&  <CustomTextField
                         key={user.id}
                         name="created_at"

@@ -28,6 +28,7 @@ const tableHeadCells = [
     createTableHeadCells('نقش', 'role'),
     createTableHeadCells('کارمزدها', 'fees'),
     createTableHeadCells('کد نمایندگی', 'referral_code'),
+    // createTableHeadCells('سود رفرال', 'referral_code'),
     createTableHeadCells('وضعیت حساب', 'is_active'),
 ]
 
@@ -168,10 +169,10 @@ const handleEditFees = async ()=>{
 
 const handleEditProfit = async ()=>{
     try{
-        const response = await DataProvider.post('users/bulk-update-fees/',{
+        const response = await DataProvider.post('users/bulk-update-referral/',{
             data:{
                 user_ids:selectedIds,
-                 "referral_profit": referralProfit,
+                 "referral_percent": referralProfit['referral_percent'],
 
             }
         })
@@ -366,6 +367,19 @@ useEffect(() => {
                                 {item.referral_code}
                             </Typography>
                         </TableCell>
+                        {/* <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item?.fee_settings?.referral_percent}
+                            </Typography>
+                        </TableCell> */}
 
                         <TableCell>
                             <Typography
@@ -429,7 +443,7 @@ useEffect(() => {
                                  ]:[
                                       <CustomTextField
                                          
-                                         name="referral_profit"
+                                         name="referral_percent"
                                          label="سود رفرال"
                                          setData={setReferralProfit}
                                          defaultValue={referralProfit}

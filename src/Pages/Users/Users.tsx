@@ -52,6 +52,10 @@ export type UsersType = {
         gold_sell_fee: number
         silver_buy_fee: number
         silver_sell_fee: number
+    },
+    fee_settings:{
+        referral_percent:number
+
     }
     "balances": {
             "gold_wallet": {
@@ -240,11 +244,11 @@ useEffect(() => {
                     />,
                     <CustomTextField   
                       key={user.id}
-                        name="referral_profit"
+                        name="referral_percent"
                         label="سود کد نمایندگی"
                         resource={RESOURCE}
                         setData={setUser}
-                        defaultValue={user.referral_profit}
+                        defaultValue={user?.fee_settings?.referral_percent}
                     />,
                       <CustomTextField   
                       key={user.id}

@@ -86,8 +86,10 @@ export function UsersList() {
     const [loading, setLoading] = useState(false)
 const [selectedIds, setSelectedIds] = useState<string[]>([])
 const [isActiveEdit,setIsActiveEdit] = useState(false)
+const [editMode,setEditMode] = useState<'fee'|'referral' | null>(null)
 const [open,setOpen] = useState(false)
 const [fees,setFees] = useState<FeesType>({} as FeesType)
+const [referralProfit,setReferralProfit] = useState('')
     const [users, setUsers] = useState<{
         total_results: number
         data: UsersType[]
@@ -130,6 +132,7 @@ const [fees,setFees] = useState<FeesType>({} as FeesType)
         setSelectedIds([])
         setIsActiveEdit(false)
         setFees({} as FeesType)
+        setReferralProfit('')
     }
 const handleEditFees = async ()=>{
     try{
@@ -162,6 +165,37 @@ const handleEditFees = async ()=>{
             )
     }
 }
+
+const handleEditProfit = async ()=>{
+    try{
+        const response = await DataProvider.post('users/bulk-update-fees/',{
+            data:{
+                user_ids:selectedIds,
+                 "referral_profit": referralProfit,
+
+            }
+        })
+        getUsers()
+        dispatch(
+                setUtil({
+                    open: true,
+                    message: response.message,
+                    severity: 'success',
+                }),
+            )
+            handleClearFees()
+           
+    }catch(error:any) {
+        dispatch(
+                setUtil({
+                    open: true,
+                    message: error.response.data.message,
+                    severity: 'success',
+                }),
+            )
+    }
+}
+
     useDeepCompareEffect(() => {
         getUsers()
     }, [search])
@@ -171,6 +205,7 @@ useEffect(() => {
     return (
         <>
         <ListPage
+        setEditMode={setEditMode}
         setOpenModal={setOpen}
         isActiveEdit={isActiveEdit}
             header="مدیریت کاربران"
@@ -354,14 +389,14 @@ useEffect(() => {
         <BaseModal
                     open={open}
                     setOpen={setOpen}
-                    title="ویرایش کارمزدها"
-                    onClose={handleClearFees}
+                    title={editMode === 'fee' ? "ویرایش کارمزدها":'ویرایش سود رفرال'}
+                    onClose={()=>setOpen(false)}
                     style={{maxWidth: 700}}
                 >
                  <Stack my={2}>
                     <GridProducer
                  count={2}
-                                 data={[
+                                 data={editMode === 'fee' ? [
                                      <CustomTextField
                                          
                                          name="gold_buy_fee"
@@ -391,6 +426,14 @@ useEffect(() => {
                                          defaultValue={fees?.silver_sell_fee}
                                      />,
                                   
+                                 ]:[
+                                      <CustomTextField
+                                         
+                                         name="referral_profit"
+                                         label="سود رفرال"
+                                         setData={setReferralProfit}
+                                         defaultValue={referralProfit}
+                                     />
                                  ]}
                                  
                              />
@@ -400,7 +443,7 @@ useEffect(() => {
                         <Button
                             variant="contained"
                             size="large"
-                            onClick={handleEditFees}
+                            onClick={editMode === 'fee' ?handleEditFees:handleEditProfit}
                         >
                             تایید
                         </Button>

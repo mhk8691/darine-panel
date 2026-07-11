@@ -9,6 +9,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import CsvExportButton from '../../Pages/Logs/List/CsvExportButton'
 import { LogsType } from '../../Pages/Logs/List/LogsList'
 export function ListPage({
+        setEditMode,
+    
     listData,
     isCsvExport=false,
     isActiveEdit,
@@ -28,6 +30,8 @@ export function ListPage({
     nofilter = false,
     setOpenModal
 }: {
+    setEditMode?:Dispatch<SetStateAction<"fee" | "referral" | null>>
+    
     listData?:LogsType[]
     isCsvExport?:boolean
     header: string
@@ -142,7 +146,11 @@ export function ListPage({
                         />
                     )}
                     {
-                        isActiveEdit &&   <Button variant="contained" color="primary" onClick={()=>setOpenModal&&setOpenModal(true)} startIcon={<EditIcon/>} sx={{
+                        isActiveEdit &&   <>
+                        <Button variant="outlined" color="primary" onClick={()=>{
+                            setOpenModal&&setOpenModal(true)
+                            setEditMode && setEditMode('fee')
+                        }} startIcon={<EditIcon/>} sx={{
                                 fontSize: {
                                     xs: '14px',
                                     sm: '18px',
@@ -151,6 +159,19 @@ export function ListPage({
                             }}>
                       ویرایش کارمزد ها
                     </Button>
+                    <Button variant="outlined" color="primary" onClick={()=>{
+                        setOpenModal&&setOpenModal(true)
+                        setEditMode&&setEditMode('referral')
+                    }} startIcon={<EditIcon/>} sx={{
+                                fontSize: {
+                                    xs: '14px',
+                                    sm: '18px',
+                                },
+                                padding: '7px 13px',
+                            }}>
+                      ویرایش سود 
+                    </Button>
+                        </>
                     }
                         {
                             isCsvExport && (

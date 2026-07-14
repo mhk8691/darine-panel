@@ -284,12 +284,20 @@ if (authStatus === "unauth") {
                         <Route path="silver-announcements" element={<AnnouncementList resource='silver-announcements' title='مدیریت اطلاعیه های نقرینه' key={'silver-announcements'} />} />
                         <Route path="silver-announcements/:id" element={<AnnouncementEdit resource='silver-announcements' key={'silver-announcements'} />} />
 
-                                                {/* ...........gold and silver orders.......... */}
+                                                {/* ...........gold and silver margin orders.......... */}
                         <Route path="gold-short-orders" element={<MarginTradeList resource='gold-short-orders' title='مدیریت سفارشات تعهدی دارینه' key={'gold-short-orders'} />} />
                         <Route path="gold-short-orders/:id" element={<MarginTradeEdit resource='gold-short-orders' key={'gold-short-orders'} />} />
 
                         <Route path="silver-short-orders" element={<MarginTradeList resource='silver-short-orders' title='مدیریت سفارشات تعهدی نقرینه' key={'silver-short-orders'} />} />
                         <Route path="silver-short-orders/:id" element={<MarginTradeEdit resource='silver-short-orders' key={'silver-short-orders'} />} />
+
+
+                                                {/* ...........gold and silver orders.......... */}
+                        <Route path="gold-transactions" element={<OrdersTransactionsList resource='gold-transactions' title='مدیریت سفارشات طلای آب شده' key={'gold-transactions'} />} />
+                        <Route path="gold-transactions/:id" element={<OrdersTransactionsEdit resource='gold-transactions' key={'gold-transactions'} />} />
+
+                        <Route path="silver-transactions" element={<OrdersTransactionsList resource='silver-transactions' title='مدیریت سفارشات نقره ی آب شده' key={'silver-transactions'} />} />
+                        <Route path="silver-transactions/:id" element={<OrdersTransactionsEdit resource='silver-transactions' key={'silver-transactions'} />} />
                     </Routes>
                 </Box>
             </Box>

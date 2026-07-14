@@ -15,7 +15,7 @@ import { CurrencyExchange } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import DiamondIcon from '@mui/icons-material/Diamond';
-
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 export const drawerItems = [
     // both
     {
@@ -91,6 +91,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+       {
+        title: 'سفارش تعهدی',
+        link: 'gold-short-orders',
+        role: 'all',
+        section: 'darineh',
+        icon: <VerifiedUserIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
      {
         title: 'واریز',
         link: 'OrderDeposit',
@@ -162,6 +169,13 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+         {
+        title: 'سفارش تعهدی',
+        link: 'silver-short-orders',
+        role: 'all',
+        section: 'silver',
+        icon: <VerifiedUserIcon sx={{fontSize: '1.9rem !important'}} />,
     },
       {
         title: 'واریز',

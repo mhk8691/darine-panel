@@ -1,19 +1,28 @@
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, Typography, Button} from '@mui/material'
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, Typography, Button, Divider} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
-import ProfileUploader from './ProfileUploader'
 import { formatDate } from '../../Core/FormatDate'
 import DatePickerFilter from '../../Components/Filter/DatePicker'
 import { ParamType } from '../../Components/Filter/CustomFilter'
-import { useEffect, useState } from 'react'
-import { DepositList } from '../Deposit/List/DepositList'
+import { useEffect } from 'react'
 import { TransactionsList } from './TransactionsList'
-import { BaseModal } from '../../Components/Modal/BaseModal'
-import { DataProvider } from '../../Core/DataProvider'
-import { useDispatch } from 'react-redux'
-import { setUtil } from '../../redux/UtilSlice'
 import { OrderStatus } from '../Orders/Orders'
 import { useNavigate } from 'react-router-dom'
+import { ReferralsList } from './ReferralsList'
+
+export interface ReferralType {
+         "id": number,
+                "from_user_mobile": string,
+                "from_user_name": string,
+                "source_type": string,
+                "source_type_raw": string,
+                "transaction_amount": number,
+                "commission_percent": number,
+                "profit": number,
+                "created_at": string
+}
+
+
 export type UsersType = {
     id: number
     referral_count:number
@@ -22,7 +31,7 @@ export type UsersType = {
     first_name: string
     last_name: string
     email: string
-
+    referral_earnings:ReferralType[]
     mobile: string
     national_code: string
     birth_date: string
@@ -403,6 +412,14 @@ useEffect(() => {
           برداشت نقرینه
         </Button>
         </Stack>
+
+        {
+            user.referral_earnings && user?.referral_earnings?.length >0 && <>
+            <Divider sx={{mt:5}} />
+            <ReferralsList users={user.referral_earnings} />
+            </>
+        }
+        <Divider sx={{mt:5}} />
         <TransactionsList id={user.id} key={user.id} />
         </>
      }

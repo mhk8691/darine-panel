@@ -284,12 +284,11 @@ if (authStatus === "unauth") {
                         <Route path="silver-announcements" element={<AnnouncementList resource='silver-announcements' title='مدیریت اطلاعیه های نقرینه' key={'silver-announcements'} />} />
                         <Route path="silver-announcements/:id" element={<AnnouncementEdit resource='silver-announcements' key={'silver-announcements'} />} />
 
-                                                {/* ...........gold and silver margin orders.......... */}
+                                                {/* ...........gold margin orders.......... */}
                         <Route path="gold-short-orders" element={<MarginTradeList resource='gold-short-orders' title='مدیریت سفارشات تعهدی دارینه' key={'gold-short-orders'} />} />
                         <Route path="gold-short-orders/:id" element={<MarginTradeEdit resource='gold-short-orders' key={'gold-short-orders'} />} />
 
-                        <Route path="silver-short-orders" element={<MarginTradeList resource='silver-short-orders' title='مدیریت سفارشات تعهدی نقرینه' key={'silver-short-orders'} />} />
-                        <Route path="silver-short-orders/:id" element={<MarginTradeEdit resource='silver-short-orders' key={'silver-short-orders'} />} />
+
 
 
                                                 {/* ...........gold and silver orders.......... */}

@@ -170,13 +170,7 @@ export const drawerItems = [
         section: 'silver',
         icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
     },
-         {
-        title: 'سفارش تعهدی',
-        link: 'silver-short-orders',
-        role: 'all',
-        section: 'silver',
-        icon: <VerifiedUserIcon sx={{fontSize: '1.9rem !important'}} />,
-    },
+
       {
         title: 'واریز',
         link: 'silver-OrderDeposit',

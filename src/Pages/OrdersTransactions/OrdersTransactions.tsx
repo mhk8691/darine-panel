@@ -6,6 +6,11 @@ import {
     Select,
     SelectChangeEvent,
     Stack,
+      Box,
+  Card,
+  CardContent,
+  Divider,
+  Typography,
 } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import { CustomTextField } from '../../Components/Input/CustomTextField'
@@ -32,8 +37,50 @@ export type OrdersTransactionsType = {
                 "description": string,
                 "created_at": string,
                 "updated_at": string,
+                     "referral_info": {
+            "referrer_mobile": string,
+            "referrer_code": string,
+            "referrer_name": string,
+            "referral_percent": number,
+            "referral_commission_amount": number,
+            "referral_profit": number,
+            "referral_net_commission": number,
+        }
 }
 
+
+const ReferralItem = ({
+  title,
+  value,
+  highlight = false,
+}: {
+  title: string;
+  value: React.ReactNode;
+  highlight?: boolean;
+}) => (
+  <Stack
+    direction="row"
+    justifyContent="space-between"
+    alignItems="center"
+    sx={{
+      py: 1.2,
+      borderBottom: "1px solid",
+      borderColor: "divider",
+    }}
+  >
+    <Typography variant="body2" color="text.secondary">
+      {title}
+    </Typography>
+
+    <Typography
+      variant="body2"
+      fontWeight={highlight ? 700 : 500}
+      color={highlight ? "success.main" : "text.primary"}
+    >
+      {value || "—"}
+    </Typography>
+  </Stack>
+);
 
 export function OrdersTransactions({
     order,
@@ -156,9 +203,81 @@ export function OrdersTransactions({
         [order]
     )
 
-    return (
-        <Stack>
-            <GridProducer sx={{ mb: 2 }} data={data} />
-        </Stack>
-    )
+   return (
+  <Stack spacing={3}>
+    <GridProducer sx={{ mb: 2 }} data={data} />
+
+    {order.referral_info && (
+      <Stack spacing={2} sx={{ mt: 3 ,pr:3}}>
+  <Typography
+    variant="body1"
+    fontWeight={700}
+    color="text.primary"
+  >
+    اطلاعات معرف
+  </Typography>
+
+  <Divider />
+
+  <Grid container spacing={2}>
+    <Grid item xs={12} >
+      <ReferralItem
+        title="نام"
+        value={order.referral_info.referrer_name}
+      />
+    </Grid>
+
+    <Grid item xs={12} >
+      <ReferralItem
+        title="موبایل"
+        value={order.referral_info.referrer_mobile}
+      />
+    </Grid>
+
+    <Grid item xs={12} >
+      <ReferralItem
+        title="کد"
+        value={order.referral_info.referrer_code}
+      />
+    </Grid>
+
+    <Grid item xs={12} >
+      <ReferralItem
+        title="درصد"
+        value={`${order.referral_info.referral_percent}%`}
+      />
+    </Grid>
+
+    <Grid item xs={12} >
+      <ReferralItem
+        title="پورسانت"
+        value={formatPrice(
+          order.referral_info.referral_commission_amount
+        )}
+      />
+    </Grid>
+
+    <Grid item xs={12} >
+      <ReferralItem
+        title="سود"
+        value={formatPrice(
+          order.referral_info.referral_profit
+        )}
+      />
+    </Grid>
+
+    <Grid item xs={12}>
+      <ReferralItem
+        title="پورسانت نهایی"
+        value={formatPrice(
+          order.referral_info.referral_net_commission
+        )}
+        highlight
+      />
+    </Grid>
+  </Grid>
+</Stack>
+    )}
+  </Stack>
+);
 }

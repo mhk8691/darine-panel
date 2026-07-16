@@ -266,6 +266,7 @@ useEffect(() => {
                         resource={RESOURCE}
                         setData={setUser}
                         defaultValue={user.referral_count}
+                        disabled
                     />,
                      <FormControl fullWidth>
                                 <InputLabel>وضعیت حساب</InputLabel>

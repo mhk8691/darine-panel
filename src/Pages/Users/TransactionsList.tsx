@@ -154,7 +154,7 @@ export function TransactionsList({id}:{id:number}) {
                              <TableCell>
                                                    <Chip
                                                        label={item.status}
-                                                       color={item.status === 'تکمیل شده'?'success':item.status === 'در انتظار'?'warning':item.status === 'لغو شده'?'error':'secondary'}
+                                                       color={item.status === 'تکمیل شده'?'success':item.status === 'در انتظار'?'warning':item.status === 'لغو شده'?'error':item.status === 'ناموفق'?'error':'secondary'}
                                                        size="small"
                                                    />
                                                </TableCell>

@@ -88,7 +88,7 @@ export type UsersType = {
 export interface TransactionsType{
     id:number
         "type": "DEPOSIT" | 'WITHDRAW',
-        "status":OrderStatus,
+        "status":string,
         "amount": number,
         "toman_amount": number,
         "tracking_code": string,

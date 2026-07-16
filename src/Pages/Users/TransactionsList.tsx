@@ -53,31 +53,8 @@ const queryNames = [
     },
 ]
 
-export const statusCalc = (status: OrderStatus) => {
-    switch (status) {
-        case 'FAILED':
-            return 'error'
-        case 'COMPLETED':
-            return 'success'
-        case 'PENDING':
-            return 'warning'
-        default:
-            return 'primary'
-    }
-}
 
-export const enToPer = (status: OrderStatus) => {
-    switch (status) {
-        case 'PENDING':
-            return 'در انتظار'
-        case 'COMPLETED':
-            return 'تکمیل شده'
-        case 'FAILED':
-            return 'ناموفق'
-        default:
-            return status
-    }
-}
+
 
 export const methodFa = (method: DepositType['method']) => {
     switch (method) {
@@ -176,8 +153,8 @@ export function TransactionsList({id}:{id:number}) {
                         </TableCell>    
                              <TableCell>
                                                    <Chip
-                                                       label={enToPer(item.status)}
-                                                       color={statusCalc(item.status)}
+                                                       label={item.status}
+                                                       color={item.status === 'تکمیل شده'?'success':item.status === 'در انتظار'?'warning':item.status === 'لغو شده'?'error':'secondary'}
                                                        size="small"
                                                    />
                                                </TableCell>

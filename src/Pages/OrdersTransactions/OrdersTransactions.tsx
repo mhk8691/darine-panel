@@ -24,6 +24,7 @@ import { OrderRecieve, OrderStatus } from '../Orders/Orders'
 export type OrdersTransactionsType = {
                 "id": number,
                 "user_mobile": string,
+                target_price?:number
                 "type_display":string,
                 "status_display": string,
                 "type": "SELL" | 'BUY',
@@ -53,10 +54,12 @@ const ReferralItem = ({
   title,
   value,
   highlight = false,
+  
 }: {
   title: string;
   value: React.ReactNode;
   highlight?: boolean;
+  
 }) => (
   <Stack
     direction="row"
@@ -85,9 +88,11 @@ const ReferralItem = ({
 export function OrdersTransactions({
     order,
     setOrder,
+
 }: {
     order: OrdersTransactionsType
     setOrder: React.Dispatch<React.SetStateAction<OrdersTransactionsType>>
+
 }) {
 
     const safe = (v: any) => v ?? '—'
@@ -138,6 +143,13 @@ export function OrdersTransactions({
                     label="قیمت"
                     defaultValue={formatPrice(+order?.price_per_gram)}
                 />,
+                order.target_price && <CustomTextField
+                    key={order.id}
+                    name="target_price"
+                    disabled
+                    label="قیمت هدف"
+                    defaultValue={formatPrice(+order?.target_price)}
+                />,
                 <CustomTextField
                     key={order.id}
                     name="fee"
@@ -150,7 +162,7 @@ export function OrdersTransactions({
                     name="profit"
                     disabled
                     label="سود"
-                    defaultValue={formatPrice(+order?.profit)}
+                    defaultValue={formatPrice(+order?.profit || 0)}
                 />,
                 <CustomTextField
                     key={order.id}

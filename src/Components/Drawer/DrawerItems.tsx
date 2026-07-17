@@ -16,6 +16,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export const drawerItems = [
     // both
     {
@@ -98,6 +99,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <VerifiedUserIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+       {
+        title: 'سفارش با قیمت',
+        link: 'gold-limit-orders',
+        role: 'all',
+        section: 'darineh',
+        icon: <ShoppingCartIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
      {
         title: 'واریز',
         link: 'OrderDeposit',
@@ -169,6 +177,13 @@ export const drawerItems = [
         role: 'all',
         section: 'silver',
         icon: <DiamondIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+       {
+        title: 'سفارش با قیمت',
+        link: 'silver-limit-orders',
+        role: 'all',
+        section: 'silver',
+        icon: <ShoppingCartIcon sx={{fontSize: '1.9rem !important'}} />,
     },
 
       {

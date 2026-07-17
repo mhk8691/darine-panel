@@ -18,18 +18,7 @@ import { statusCalc } from '../../Deposit/List/DepositList'
 
 
 
-const tableHeadCells = [
-    createTableHeadCells('آیدی', 'id'),
 
-    createTableHeadCells('شماره تلفن', 'user_mobile'),
-    createTableHeadCells('کد پیگیری', 'tracking_code'),
-    createTableHeadCells('وضعیت', 'status'),
-    createTableHeadCells('وزن', 'amount_gr'),
-    createTableHeadCells('مبلغ', 'price_per_gram'),
-    createTableHeadCells('مبلغ نهایی', 'total_amount'),
-    createTableHeadCells('کارمزد', 'fee'),
-    createTableHeadCells('تاریخ سفارش', 'created_at'),
-]
 
 const queryNames = [
     {
@@ -59,10 +48,25 @@ const queryNames = [
     },
 ]
 
-export function OrdersTransactionsList({resource,title}:{resource:string,title:string}) {
+export function OrdersTransactionsList({resource,title,isLimitOrder=false}:{resource:string,title:string,isLimitOrder?:boolean}) {
     const [search, setSearch] = useQueryParams(createQueryParam(queryNames))
     const [loading, setLoading] = useState(false)
+const tableHeadCells = [
+  createTableHeadCells('آیدی', 'id'),
+  createTableHeadCells('شماره تلفن', 'user_mobile'),
+  createTableHeadCells('کد پیگیری', 'tracking_code'),
+  createTableHeadCells('وضعیت', 'status'),
+  createTableHeadCells('وزن', 'amount_gr'),
+  createTableHeadCells('مبلغ', 'price_per_gram'),
+  createTableHeadCells('مبلغ نهایی', 'total_amount'),
+  createTableHeadCells('کارمزد', 'fee'),
 
+  ...(isLimitOrder
+    ? [createTableHeadCells('قیمت هدف', 'target_price')]
+    : []),
+
+  createTableHeadCells('تاریخ سفارش', 'created_at'),
+];
     const [orders, setOrders] = useState<{
         total_results: number
         data: OrdersTransactionsType[]
@@ -218,6 +222,16 @@ export function OrdersTransactionsList({resource,title}:{resource:string,title:s
                                 )}{' '}
                             </Typography>
                         </TableCell>
+                        {
+                            item.target_price &&      <TableCell>
+                            <Typography
+                                variant="body2"
+                                sx={{whiteSpace: 'nowrap'}}
+                            >
+                                {formatPrice(item.target_price)}
+                            </Typography>
+                        </TableCell>
+                        }
                         <TableCell>
                             <Typography
                                 variant="body2"

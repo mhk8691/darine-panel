@@ -297,6 +297,13 @@ if (authStatus === "unauth") {
 
                         <Route path="silver-transactions" element={<OrdersTransactionsList resource='silver-transactions' title='مدیریت سفارشات نقره ی آب شده' key={'silver-transactions'} />} />
                         <Route path="silver-transactions/:id" element={<OrdersTransactionsEdit resource='silver-transactions' key={'silver-transactions'} />} />
+
+                          {/* ...........gold and silver orders.......... */}
+                        <Route path="gold-limit-orders" element={<OrdersTransactionsList isLimitOrder resource='gold-limit-orders' title='مدیریت سفارشات با قیمت دارینه' key={'gold-limit-orders'} />} />
+                        <Route path="gold-limit-orders/:id" element={<OrdersTransactionsEdit resource='gold-limit-orders' key={'gold-limit-orders'} />} />
+
+                        <Route path="silver-limit-orders" element={<OrdersTransactionsList isLimitOrder resource='silver-limit-orders' title='مدیریت سفارشات با قیمت نقرینه' key={'silver-limit-orders'} />} />
+                        <Route path="silver-limit-orders/:id" element={<OrdersTransactionsEdit resource='silver-limit-orders' key={'silver-limit-orders'} />} />
                     </Routes>
                 </Box>
             </Box>

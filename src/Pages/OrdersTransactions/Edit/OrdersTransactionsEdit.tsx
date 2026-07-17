@@ -4,7 +4,7 @@ import {EditPage} from '../../../Components/Table/EditPage'
 import {DataProvider} from '../../../Core/DataProvider'
 import { OrdersTransactions, OrdersTransactionsType } from '../OrdersTransactions'
 
-export function OrdersTransactionsEdit({resource}:{resource:string}) {
+export function OrdersTransactionsEdit({resource,}:{resource:string,}) {
     const orderId = useParams().id
     const [order, setOrder] = useState<OrdersTransactionsType>({} as OrdersTransactionsType)
     const [initialData, setInitialData] = useState<OrdersTransactionsType>({} as OrdersTransactionsType)

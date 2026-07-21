@@ -176,7 +176,7 @@ export function OrdersTransactions({
                     name="tracking_code"
                     disabled
                     label="کد پیگیری"
-                    defaultValue={`${order?.tracking_code} گرم`}
+                    defaultValue={`${order?.tracking_code}`}
                 />,
         
                 <CustomTextField
@@ -262,7 +262,7 @@ export function OrdersTransactions({
 
     <Grid item xs={12} >
       <ReferralItem
-        title="پورسانت"
+        title="کارمزد معامله"
         value={formatPrice(
           order.referral_info.referral_commission_amount
         )}
@@ -271,7 +271,7 @@ export function OrdersTransactions({
 
     <Grid item xs={12} >
       <ReferralItem
-        title="سود"
+        title="سود بازاریاب"
         value={formatPrice(
           order.referral_info.referral_profit
         )}
@@ -280,7 +280,7 @@ export function OrdersTransactions({
 
     <Grid item xs={12}>
       <ReferralItem
-        title="پورسانت نهایی"
+        title="کارمزد نهایی"
         value={formatPrice(
           order.referral_info.referral_net_commission
         )}

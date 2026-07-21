@@ -50,6 +50,9 @@ import { OrdersTransactionsList } from '../OrdersTransactions/List/OrdersTransac
 import { OrdersTransactionsEdit } from '../OrdersTransactions/Edit/OrdersTransactionsEdit'
 import { MarginTradeList } from '../MarginTrade/List/MarginTradeList'
 import { MarginTradeEdit } from '../MarginTrade/Edit/MarginTradeEdit'
+import { TicketCategoriesCreate } from '../TicketCategories/Create/TicketCategoriesCreate'
+import { TicketCategoriesList } from '../TicketCategories/List/TicketCategoriesList'
+import { TicketCategoriesEdit } from '../TicketCategories/Edit/TicketCategoriesEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -304,6 +307,14 @@ if (authStatus === "unauth") {
 
                         <Route path="silver-limit-orders" element={<OrdersTransactionsList isLimitOrder resource='silver-limit-orders' title='مدیریت سفارشات با قیمت نقرینه' key={'silver-limit-orders'} />} />
                         <Route path="silver-limit-orders/:id" element={<OrdersTransactionsEdit resource='silver-limit-orders' key={'silver-limit-orders'} />} />
+
+                        {/* ...........ticket categories.......... */}
+                        <Route
+                            path="ticket-categories/create"
+                            element={<TicketCategoriesCreate data={data} setData={setData} />}
+                        />
+                        <Route path="ticket-categories" element={<TicketCategoriesList />} />
+                        <Route path="ticket-categories/:id" element={<TicketCategoriesEdit />} />
                     </Routes>
                 </Box>
             </Box>

@@ -40,6 +40,20 @@ export const drawerItems = [
         section: 'both',
         icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+    {
+        title: 'دسته بندی تیکت ها',
+        link: 'ticket-categories',
+        role: 'all',
+        section: 'both',
+        icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+     {
+        title: 'تیکت ها',
+        link: 'tickets',
+        role: 'all',
+        section: 'both',
+        icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
       {
         title: 'درخواست همکاری',
         link: 'partners',

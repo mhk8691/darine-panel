@@ -14,6 +14,7 @@ import { formatDate } from '../../../Core/FormatDate'
 import { PriorityType, TicketType, TikcetStatusType } from '../Ticket'
 import axios from 'axios'
 import { UsersType } from '../../Users/Users'
+import TicketStatistics from '../TicketStatistics'
 
 const RECOURCE = 'tickets'
 const tableHeadCells = [
@@ -35,13 +36,17 @@ const statusLabel: Record<TikcetStatusType, string> = {
     answered: 'پاسخ داده شده',
     resolved: 'حل شده',
     closed: 'بسته شده',
+    pending:'درانتظار',
+    open:'باز'
 }
 
 const statusColor: Record<TikcetStatusType, string> = {
-    in_progress: 'primary.main',
+    in_progress: '#AB47BC',
     answered: 'secondary.main',
-    resolved: 'success.main',
-    closed: 'error.main',
+    resolved: '#66BB6A',
+    closed: 'text.disabled',
+    pending:'#42A5F5',
+    open:'#FFB300'
 }
 
 export const priorityLabel: Record<PriorityType, string> = {
@@ -118,6 +123,8 @@ export function TicketList() {
     }
 
     return (
+        <>
+        <TicketStatistics  />
         <ListPage
             header="مدیریت دسته بندی تیکت ها"
             href={RECOURCE + '/create'}
@@ -230,5 +237,6 @@ export function TicketList() {
 ))}
             />
         </ListPage>
+        </>
     )
 }

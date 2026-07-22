@@ -17,6 +17,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 export const drawerItems = [
     // both
     {
@@ -40,6 +41,14 @@ export const drawerItems = [
         section: 'both',
         icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
     },
+
+    {
+        title: 'تیکت ها',
+        link: 'tickets',
+        role: 'all',
+        section: 'both',
+        icon: <SupportAgentIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
     {
         title: 'دسته بندی تیکت ها',
         link: 'ticket-categories',
@@ -47,13 +56,7 @@ export const drawerItems = [
         section: 'both',
         icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
     },
-     {
-        title: 'تیکت ها',
-        link: 'tickets',
-        role: 'all',
-        section: 'both',
-        icon: <CategoryIcon sx={{fontSize: '1.9rem !important'}} />,
-    },
+     
       {
         title: 'درخواست همکاری',
         link: 'partners',

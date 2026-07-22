@@ -1,9 +1,10 @@
-import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
+import { FormControl,InputLabel, MenuItem, Select, SelectChangeEvent, Stack} from '@mui/material'
 import {CustomTextField} from '../../Components/Input/CustomTextField'
 import {GridProducer} from '../../Components/Table/GridProducer'
 import { priorityLabel } from './List/TicketList'
+import ChatDetail from './ChatDetail'
 
-export type TikcetStatusType = 'answered' | 'resolved' | 'closed' | 'in_progress' 
+export type TikcetStatusType = 'answered' | 'resolved' | 'closed' | 'in_progress' | 'pending' | 'open'
 export type PriorityType = 'low' | 'medium' | 'high' | 'urgent'
 export type TicketType = {
     "id": number,
@@ -107,6 +108,7 @@ export function Ticket({
                     ]}
                 />
             )}
+            <ChatDetail ticketId={ticket.id.toString()} />
           
         </Stack>
     )

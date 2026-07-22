@@ -50,6 +50,9 @@ import { OrdersTransactionsList } from '../OrdersTransactions/List/OrdersTransac
 import { OrdersTransactionsEdit } from '../OrdersTransactions/Edit/OrdersTransactionsEdit'
 import { MarginTradeList } from '../MarginTrade/List/MarginTradeList'
 import { MarginTradeEdit } from '../MarginTrade/Edit/MarginTradeEdit'
+import { GuaranteePlansCreate } from '../GuaranteePlans/Create/GuaranteePlansCreate'
+import { GuaranteePlansList } from '../GuaranteePlans/List/GuaranteePlansList'
+import { GuaranteePlansEdit } from '../GuaranteePlans/Edit/GuaranteePlansEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -304,6 +307,16 @@ if (authStatus === "unauth") {
 
                         <Route path="silver-limit-orders" element={<OrdersTransactionsList isLimitOrder resource='silver-limit-orders' title='مدیریت سفارشات با قیمت نقرینه' key={'silver-limit-orders'} />} />
                         <Route path="silver-limit-orders/:id" element={<OrdersTransactionsEdit resource='silver-limit-orders' key={'silver-limit-orders'} />} />
+
+
+                          {/* ...........gold guarantee plans.......... */}
+                        <Route
+                            path="gold-guarantee-plans/create"
+                            element={<GuaranteePlansCreate data={data} setData={setData} />}
+                        />
+                        <Route path="gold-guarantee-plans" element={<GuaranteePlansList />} />
+                        <Route path="gold-guarantee-plans/:id" element={<GuaranteePlansEdit />} />
+
                     </Routes>
                 </Box>
             </Box>

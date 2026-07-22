@@ -53,6 +53,8 @@ import { MarginTradeEdit } from '../MarginTrade/Edit/MarginTradeEdit'
 import { TicketCategoriesCreate } from '../TicketCategories/Create/TicketCategoriesCreate'
 import { TicketCategoriesList } from '../TicketCategories/List/TicketCategoriesList'
 import { TicketCategoriesEdit } from '../TicketCategories/Edit/TicketCategoriesEdit'
+import { TicketList } from '../Tickets/List/TicketList'
+import { TicketEdit } from '../Tickets/Edit/TicketEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -315,6 +317,11 @@ if (authStatus === "unauth") {
                         />
                         <Route path="ticket-categories" element={<TicketCategoriesList />} />
                         <Route path="ticket-categories/:id" element={<TicketCategoriesEdit />} />
+
+                         {/* ...........ticket.......... */}
+                      
+                        <Route path="tickets" element={<TicketList />} />
+                        <Route path="tickets/:id" element={<TicketEdit />} />
                     </Routes>
                 </Box>
             </Box>

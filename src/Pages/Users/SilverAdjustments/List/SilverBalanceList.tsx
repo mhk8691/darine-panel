@@ -27,6 +27,8 @@ const tableHeadCells = [
     createTableHeadCells('نقره', 'silver_amount'),
     
     createTableHeadCells('یادداشت', 'admin_note'),
+    createTableHeadCells('کد پیگیری', 'tracking_code'),
+
     createTableHeadCells('تاریخ', 'created_at'),
     createTableHeadCells('تاریخ آپدیت', 'updated_at'),
 ]
@@ -226,6 +228,19 @@ export function SilverBalanceList() {
                                 }}
                             >
                                 {item.admin_note}
+                            </Typography>
+                        </TableCell>
+                         <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.tracking_code}
                             </Typography>
                         </TableCell>
 

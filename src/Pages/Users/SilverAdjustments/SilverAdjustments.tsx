@@ -13,7 +13,7 @@ export interface  SilverBalanceType {
     "admin_mobile": string,
     "wallet_amount": number,
     "silver_amount": number,
-    
+    tracking_code:string
     "admin_note": string,
     "created_at": string,
     "updated_at": string

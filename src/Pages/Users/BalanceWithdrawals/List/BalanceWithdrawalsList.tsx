@@ -29,6 +29,8 @@ export function BalanceWithdrawalsList({resource,title,type}:{resource:string,ti
     createTableHeadCells(type === 'gold' ? 'طلا' :'نقره', type === 'gold' ? 'gold_amount' :'silver_amount'),
     
     createTableHeadCells('یادداشت', 'admin_note'),
+    createTableHeadCells('کد پیگیری', 'tracking_code'),
+
     createTableHeadCells('تاریخ', 'created_at'),
     createTableHeadCells('تاریخ آپدیت', 'updated_at'),
 ]
@@ -226,6 +228,19 @@ const queryNames = tableHeadCells.slice(2, 4).map((cell) => {
                                 }}
                             >
                                 {item.admin_note}
+                            </Typography>
+                        </TableCell>
+                         <TableCell>
+                            <Typography
+                                variant="body2"
+                                fontSize={{
+                                    xs: '13px',
+                                    sm: '14px',
+                                    md: '16px',
+                                    xl: '17px',
+                                }}
+                            >
+                                {item.tracking_code}
                             </Typography>
                         </TableCell>
 

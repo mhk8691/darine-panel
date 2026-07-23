@@ -18,6 +18,7 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CardMembershipRoundedIcon from '@mui/icons-material/CardMembershipRounded';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 export const drawerItems = [
     // both
     {
@@ -113,6 +114,13 @@ export const drawerItems = [
         role: 'all',
         section: 'darineh',
         icon: <CardMembershipRoundedIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+       {
+        title: 'تضمین قیمت',
+        link: 'gold-guarantees',
+        role: 'all',
+        section: 'darineh',
+        icon: <WorkspacePremiumIcon sx={{fontSize: '1.9rem !important'}} />,
     },
      {
         title: 'واریز',

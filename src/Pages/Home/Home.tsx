@@ -53,6 +53,8 @@ import { MarginTradeEdit } from '../MarginTrade/Edit/MarginTradeEdit'
 import { GuaranteePlansCreate } from '../GuaranteePlans/Create/GuaranteePlansCreate'
 import { GuaranteePlansList } from '../GuaranteePlans/List/GuaranteePlansList'
 import { GuaranteePlansEdit } from '../GuaranteePlans/Edit/GuaranteePlansEdit'
+import { GuaranteesList } from '../Guarantees/List/GuaranteesList'
+import { GuaranteesEdit } from '../Guarantees/Edit/GuaranteesEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -316,6 +318,12 @@ if (authStatus === "unauth") {
                         />
                         <Route path="gold-guarantee-plans" element={<GuaranteePlansList />} />
                         <Route path="gold-guarantee-plans/:id" element={<GuaranteePlansEdit />} />
+
+                                      {/* ...........Guarantees.......... */}
+                        <Route path="gold-guarantees" element={<GuaranteesList resource='gold-guarantees' title='مدیریت ضمانت دارینه' key={'gold-guarantees'} />} />
+                        <Route path="gold-guarantees/:id" element={<GuaranteesEdit resource='gold-guarantees' key={'gold-guarantees'} />} />
+
+
 
                     </Routes>
                 </Box>

@@ -29,7 +29,6 @@ const tableHeadCells = [
     createTableHeadCells('اولویت', 'priority'),
     createTableHeadCells('پیام خوانده نشده', 'unread_admin_count'),
     createTableHeadCells('آخرین فعالیت', 'last_activity_at'),
-    createTableHeadCells('عملیات', 'action'),
 ]
 
 const statusLabel: Record<TikcetStatusType, string> = {
@@ -235,16 +234,7 @@ export function TicketList() {
                                 </Typography>
                             </TableCell>
 
-                            <TableCell>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={AssignToMe}
-                                    sx={{ whiteSpace: 'nowrap' }}
-                                >
-                                    اختصاص تیکت
-                                </Button>
-                            </TableCell>
+                   
                         </>
                     ))}
                 />

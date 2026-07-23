@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import {useEffect, useState} from 'react'
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom'
 import MainLayout from '../../Components/MainLayout'
-import {useAppSelector} from '../../redux/store'
 
 import axios from 'axios'
 import {CategoryCreate} from '../Categories/Create/CategoryCreate'
@@ -55,6 +54,11 @@ import { TicketCategoriesList } from '../TicketCategories/List/TicketCategoriesL
 import { TicketCategoriesEdit } from '../TicketCategories/Edit/TicketCategoriesEdit'
 import { TicketList } from '../Tickets/List/TicketList'
 import { TicketEdit } from '../Tickets/Edit/TicketEdit'
+import { GuaranteePlansCreate } from '../GuaranteePlans/Create/GuaranteePlansCreate'
+import { GuaranteePlansList } from '../GuaranteePlans/List/GuaranteePlansList'
+import { GuaranteePlansEdit } from '../GuaranteePlans/Edit/GuaranteePlansEdit'
+import { GuaranteesList } from '../Guarantees/List/GuaranteesList'
+import { GuaranteesEdit } from '../Guarantees/Edit/GuaranteesEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -322,6 +326,22 @@ if (authStatus === "unauth") {
                       
                         <Route path="tickets" element={<TicketList />} />
                         <Route path="tickets/:id" element={<TicketEdit />} />
+=======
+
+                          {/* ...........gold guarantee plans.......... */}
+                        <Route
+                            path="gold-guarantee-plans/create"
+                            element={<GuaranteePlansCreate data={data} setData={setData} />}
+                        />
+                        <Route path="gold-guarantee-plans" element={<GuaranteePlansList />} />
+                        <Route path="gold-guarantee-plans/:id" element={<GuaranteePlansEdit />} />
+
+                                      {/* ...........Guarantees.......... */}
+                        <Route path="gold-guarantees" element={<GuaranteesList resource='gold-guarantees' title='مدیریت ضمانت دارینه' key={'gold-guarantees'} />} />
+                        <Route path="gold-guarantees/:id" element={<GuaranteesEdit resource='gold-guarantees' key={'gold-guarantees'} />} />
+
+
+
                     </Routes>
                 </Box>
             </Box>

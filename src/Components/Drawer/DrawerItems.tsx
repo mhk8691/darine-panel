@@ -11,13 +11,12 @@ import ImageIcon from '@mui/icons-material/Image';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import AssignmentIcon from '@mui/icons-material/Assignment'; 
-import { CurrencyExchange } from '@mui/icons-material'
+import { CardMembershipRounded, CurrencyExchange, SupportAgent, WorkspacePremium } from '@mui/icons-material'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 export const drawerItems = [
     // both
     {
@@ -47,7 +46,7 @@ export const drawerItems = [
         link: 'tickets',
         role: 'all',
         section: 'both',
-        icon: <SupportAgentIcon sx={{fontSize: '1.9rem !important'}} />,
+        icon: <SupportAgent sx={{fontSize: '1.9rem !important'}} />,
     },
     {
         title: 'دسته بندی تیکت ها',
@@ -122,6 +121,20 @@ export const drawerItems = [
         role: 'all',
         section: 'darineh',
         icon: <ShoppingCartIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
+       {
+        title: 'طرح ها',
+        link: 'gold-guarantee-plans',
+        role: 'all',
+        section: 'darineh',
+        icon: <CardMembershipRounded sx={{fontSize: '1.9rem !important'}} />,
+    },
+       {
+        title: 'تضمین قیمت',
+        link: 'gold-guarantees',
+        role: 'all',
+        section: 'darineh',
+        icon: <WorkspacePremium sx={{fontSize: '1.9rem !important'}} />,
     },
      {
         title: 'واریز',

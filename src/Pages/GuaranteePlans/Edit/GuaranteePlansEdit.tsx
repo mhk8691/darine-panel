@@ -11,7 +11,7 @@ export function GuaranteePlansEdit() {
     return (
         <EditPage
             resource={RESOURCE}
-            title="جزئیات طرح"
+            title="جزئیات طرح تضمین قیمت"
             formDetails={plans}
             initialData={state.row}
             isFormData={true}

@@ -63,7 +63,7 @@ export function GuaranteePlansList() {
 
     return (
         <ListPage
-            header="مدیریت طرح ها"
+            header="مدیریت طرح های تضمین قیمت"
             href={RECOURCE + '/create'}
             searchField="title"
             searchText="نام"

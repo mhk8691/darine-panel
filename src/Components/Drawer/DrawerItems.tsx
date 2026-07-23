@@ -123,7 +123,7 @@ export const drawerItems = [
         icon: <ShoppingCartIcon sx={{fontSize: '1.9rem !important'}} />,
     },
        {
-        title: 'طرح ها',
+        title: 'طرح های تضمین قیمت',
         link: 'gold-guarantee-plans',
         role: 'all',
         section: 'darineh',

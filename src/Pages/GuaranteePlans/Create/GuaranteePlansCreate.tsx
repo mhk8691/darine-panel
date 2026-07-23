@@ -11,7 +11,7 @@ export function GuaranteePlansCreate({
 }) {
     return (
         <CreatePage
-            title={'افزودن طرح'}
+            title={'افزودن طرح تضمین قیمت'}
             resource={'gold-guarantee-plans/'}
             isFormData={true}
             formDetails={data}

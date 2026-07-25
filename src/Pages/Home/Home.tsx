@@ -59,6 +59,9 @@ import { GuaranteePlansList } from '../GuaranteePlans/List/GuaranteePlansList'
 import { GuaranteePlansEdit } from '../GuaranteePlans/Edit/GuaranteePlansEdit'
 import { GuaranteesList } from '../Guarantees/List/GuaranteesList'
 import { GuaranteesEdit } from '../Guarantees/Edit/GuaranteesEdit'
+import { InvestmentPlansCreate } from '../InvestmentPlans/Create/InvestmentPlansCreate'
+import { InvestmentPlansList } from '../InvestmentPlans/List/InvestmentPlansList'
+import { InvestmentPlansEdit } from '../InvestmentPlans/Edit/InvestmentPlansEdit'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -339,6 +342,14 @@ if (authStatus === "unauth") {
                                       {/* ...........Guarantees.......... */}
                         <Route path="gold-guarantees" element={<GuaranteesList resource='gold-guarantees' title='مدیریت ضمانت دارینه' key={'gold-guarantees'} />} />
                         <Route path="gold-guarantees/:id" element={<GuaranteesEdit resource='gold-guarantees' key={'gold-guarantees'} />} />
+
+                                {/* ...........gold investment plans.......... */}
+                        <Route
+                            path="gold-investment-plans/create"
+                            element={<InvestmentPlansCreate data={data} setData={setData} />}
+                        />
+                        <Route path="gold-investment-plans" element={<InvestmentPlansList />} />
+                        <Route path="gold-investment-plans/:id" element={<InvestmentPlansEdit />} />
 
 
 

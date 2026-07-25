@@ -17,6 +17,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 export const drawerItems = [
     // both
     {
@@ -135,6 +136,13 @@ export const drawerItems = [
         role: 'all',
         section: 'darineh',
         icon: <WorkspacePremium sx={{fontSize: '1.9rem !important'}} />,
+    },
+           {
+        title: 'طرح های سرمایه گذاری',
+        link: 'gold-investment-plans',
+        role: 'all',
+        section: 'darineh',
+        icon: <CardMembershipRounded sx={{fontSize: '1.9rem !important'}} />,
     },
      {
         title: 'واریز',

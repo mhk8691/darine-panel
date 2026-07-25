@@ -29,8 +29,12 @@ export type GuaranteesType = {
     "status_display": string,
     "days_remaining": number
     "created_at": string
+    "end_date": string
+    platform_profit:number
+    user_payout:number
+    "start_date": string
+}      
 
-}
 
 
 export function Guarantees({
@@ -93,6 +97,20 @@ export function Guarantees({
                     label="قیمت گارانتی"
                     defaultValue={`${formatPrice(guarantees?.guaranteed_price)} `}
                 />,
+                 <CustomTextField
+                    key={guarantees.id}
+                    name="platform_profit"
+                    disabled
+                    label="سود پلتفرم"
+                    defaultValue={`${formatPrice(guarantees?.platform_profit)} `}
+                />,
+                 <CustomTextField
+                    key={guarantees.id}
+                    name="user_payout"
+                    disabled
+                    label="مبلغ پرداختی به کاربر"
+                    defaultValue={`${formatPrice(guarantees?.user_payout)} `}
+                />,
                 <CustomTextField
                     key={guarantees.id}
                     name="service_fee"
@@ -128,6 +146,20 @@ export function Guarantees({
                     disabled
                     label="تاریخ"
                     defaultValue={formatDate(guarantees?.created_at)}
+                />,
+                <CustomTextField
+                    key={guarantees.id}
+                    name="created_at"
+                    disabled
+                    label="تاریخ شروع"
+                    defaultValue={formatDate(guarantees?.start_date)}
+                />,
+                <CustomTextField
+                    key={guarantees.id}
+                    name="created_at"
+                    disabled
+                    label="تاریخ پایان"
+                    defaultValue={formatDate(guarantees?.end_date)}
                 />,
              
             ].filter(Boolean),

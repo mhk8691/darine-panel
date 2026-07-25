@@ -144,6 +144,13 @@ export const drawerItems = [
         section: 'darineh',
         icon: <CardMembershipRounded sx={{fontSize: '1.9rem !important'}} />,
     },
+        {
+        title: 'سرمایه‌گذاری‌ها',
+        link: 'gold-investments',
+        role: 'all',
+        section: 'darineh',
+        icon: <TrendingUpIcon sx={{fontSize: '1.9rem !important'}} />,
+    },
      {
         title: 'واریز',
         link: 'OrderDeposit',

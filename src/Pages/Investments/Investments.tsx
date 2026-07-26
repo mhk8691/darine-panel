@@ -30,7 +30,6 @@ export type InvestmentsType = {
     investment_price: string
     start_date: string
     end_date: string
-    end_date_shamsi: string
     status: InvestmentsStatusType
     status_display: string
     monthly_profit: number
@@ -182,13 +181,7 @@ export function Investments({
                     label="تاریخ پایان (میلادی)"
                     defaultValue={formatDate(investments.end_date)}
                 />,
-                <CustomTextField
-                    key={investments.id}
-                    name="end_date_shamsi"
-                    disabled
-                    label="تاریخ پایان (شمسی)"
-                    defaultValue={investments.end_date_shamsi}
-                />,
+           
                 <CustomTextField
                     key={investments.id}
                     name="status_display"

@@ -33,6 +33,8 @@ export type GuaranteesType = {
     platform_profit:number
     user_payout:number
     "start_date": string
+    profit_loss:number
+    end_price_display:string
 }      
 
 
@@ -97,12 +99,26 @@ export function Guarantees({
                     label="قیمت گارانتی"
                     defaultValue={`${formatPrice(guarantees?.guaranteed_price)} `}
                 />,
+                   <CustomTextField
+                    key={guarantees.id}
+                    name="guaranteed_price"
+                    disabled
+                    label="قیمت در سررسید"
+                    defaultValue={guarantees.end_price_display}
+                />,
                  <CustomTextField
                     key={guarantees.id}
                     name="platform_profit"
                     disabled
                     label="سود پلتفرم"
                     defaultValue={`${formatPrice(guarantees?.platform_profit)} `}
+                />,
+                  <CustomTextField
+                    key={guarantees.id}
+                    name="profit_loss"
+                    disabled
+                    label="سود کل"
+                    defaultValue={`${formatPrice(guarantees?.profit_loss)} `}
                 />,
                  <CustomTextField
                     key={guarantees.id}

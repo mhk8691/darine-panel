@@ -35,7 +35,6 @@ export type GuaranteesType = {
     "start_date": string
     profit_loss:number
     executed_price:number
-    end_price_display:string
 }      
 
 
@@ -100,18 +99,12 @@ export function Guarantees({
                     label="قیمت گارانتی"
                     defaultValue={`${formatPrice(guarantees?.guaranteed_price)} `}
                 />,
-                   <CustomTextField
-                    key={guarantees.id}
-                    name="guaranteed_price"
-                    disabled
-                    label="قیمت سررسید (نمایش فعلی)"
-                    defaultValue={guarantees.end_price_display}
-                />,
+                  
                      <CustomTextField
                     key={guarantees.id}
                     name="guaranteed_price"
                     disabled
-                    label="قیمت سررسید (در زمان اجرا)"
+                    label="قیمت سررسید"
                     defaultValue={formatPrice(guarantees.executed_price)}
                 />,
                  <CustomTextField

@@ -19,7 +19,7 @@ const RECOURCE = 'gold-investment-plans'
 const tableHeadCells = [
     createTableHeadCells('آیدی', 'id'),
     createTableHeadCells('نام', 'name'),
-    createTableHeadCells('مدت (ماه)', 'duration_months'),
+    createTableHeadCells('مدت (روز)', 'duration_months'),
     createTableHeadCells('سود ماهانه', 'monthly_profit_percent'),
     createTableHeadCells('سود کل', 'total_profit_percent'),
     createTableHeadCells('توضیحات', 'description'),
@@ -139,7 +139,7 @@ export function InvestmentPlansList() {
                                 }}
                                 sx={{ whiteSpace: 'nowrap' }}
                             >
-                                {item.duration_months}
+                                {item.duration_days}
                             </Typography>
                         </TableCell>
 

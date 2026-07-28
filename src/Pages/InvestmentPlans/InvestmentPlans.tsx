@@ -1,11 +1,12 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material'
 import { CustomTextField } from '../../Components/Input/CustomTextField'
 import { GridProducer } from '../../Components/Table/GridProducer'
+import { formatDate } from '../../Core/FormatDate'
 
 export type InvestmentPlansType = {
     id: number
     name: string
-    duration_months: number
+    duration_days: number
     monthly_profit_percent: string
     total_profit_percent: string
     is_active: boolean
@@ -55,8 +56,8 @@ export function InvestmentPlans({
                             name="duration_months"
                             setData={setPlans}
                             resource={RESOURCE}
-                            label={'مدت (ماه)'}
-                            defaultValue={plans.duration_months}
+                            label={'مدت (روز)'}
+                            defaultValue={plans.duration_days}
                             disabled={isEditMode}
                         />,
                         <CustomTextField
@@ -116,7 +117,7 @@ export function InvestmentPlans({
                                 setData={setPlans}
                                 resource={RESOURCE}
                                 label={'تاریخ ایجاد'}
-                                defaultValue={plans.created_at}
+                                defaultValue={formatDate(plans.created_at)}
                                 disabled
                             />
                         ),
@@ -126,7 +127,7 @@ export function InvestmentPlans({
                                 setData={setPlans}
                                 resource={RESOURCE}
                                 label={'آخرین بروزرسانی'}
-                                defaultValue={plans.updated_at}
+                                defaultValue={formatDate(plans.updated_at)}
                                 disabled
                             />
                         ),

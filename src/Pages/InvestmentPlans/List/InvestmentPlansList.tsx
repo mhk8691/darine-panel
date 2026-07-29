@@ -20,7 +20,6 @@ const tableHeadCells = [
     createTableHeadCells('آیدی', 'id'),
     createTableHeadCells('نام', 'name'),
     createTableHeadCells('مدت (روز)', 'duration_months'),
-    createTableHeadCells('سود ماهانه', 'monthly_profit_percent'),
     createTableHeadCells('سود کل', 'total_profit_percent'),
     createTableHeadCells('توضیحات', 'description'),
     createTableHeadCells('وضعیت', 'status'),
@@ -143,20 +142,7 @@ export function InvestmentPlansList() {
                             </Typography>
                         </TableCell>
 
-                        <TableCell>
-                            <Typography
-                                variant="body2"
-                                fontSize={{
-                                    xs: '13px',
-                                    sm: '14px',
-                                    md: '16px',
-                                    xl: '17px',
-                                }}
-                                sx={{ whiteSpace: 'nowrap' }}
-                            >
-                                {item.monthly_profit_percent}
-                            </Typography>
-                        </TableCell>
+                        
 
                         <TableCell>
                             <Typography

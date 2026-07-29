@@ -7,7 +7,6 @@ export type InvestmentPlansType = {
     id: number
     name: string
     duration_days: number
-    monthly_profit_percent: string
     total_profit_percent: string
     is_active: boolean
     description: string
@@ -53,20 +52,14 @@ export function InvestmentPlans({
                             defaultValue={plans.name}
                         />,
                         <CustomTextField
-                            name="duration_months"
+                            name="duration_days"
                             setData={setPlans}
                             resource={RESOURCE}
                             label={'مدت (روز)'}
                             defaultValue={plans.duration_days}
                             disabled={isEditMode}
                         />,
-                        <CustomTextField
-                            name="monthly_profit_percent"
-                            setData={setPlans}
-                            resource={RESOURCE}
-                            label={'درصد سود ماهانه'}
-                            defaultValue={plans.monthly_profit_percent}
-                        />,
+                      
                         <CustomTextField
                             name="total_profit_percent"
                             setData={setPlans}

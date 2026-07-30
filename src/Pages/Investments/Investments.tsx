@@ -104,13 +104,7 @@ export function Investments({
                     label="نام طرح"
                     defaultValue={investments.plan_name}
                 />,
-                <CustomTextField
-                    key={investments.id}
-                    name="plan_duration_months"
-                    disabled
-                    label="مدت طرح"
-                    defaultValue={`${investments.plan_duration_months} ماه`}
-                />,
+              
                 <CustomTextField
                     key={investments.id}
                     name="gold_weight"
@@ -125,13 +119,7 @@ export function Investments({
                     label="قیمت سرمایه‌گذاری"
                     defaultValue={formatPrice(Number(investments.investment_price))}
                 />,
-                <CustomTextField
-                    key={investments.id}
-                    name="monthly_profit"
-                    disabled
-                    label="سود ماهانه"
-                    defaultValue={`${investments.monthly_profit} گرم`}
-                />,
+             
                 <CustomTextField
                     key={investments.id}
                     name="total_expected_profit"
@@ -153,20 +141,8 @@ export function Investments({
                     label="مجموع بازگشتی"
                     defaultValue={`${investments.total_return} گرم`}
                 />,
-                <CustomTextField
-                    key={investments.id}
-                    name="months_passed"
-                    disabled
-                    label="ماه‌های سپری شده"
-                    defaultValue={investments.months_passed}
-                />,
-                <CustomTextField
-                    key={investments.id}
-                    name="remaining_months"
-                    disabled
-                    label="ماه‌های باقی‌مانده"
-                    defaultValue={investments.remaining_months}
-                />,
+               
+              
                 <CustomTextField
                     key={investments.id}
                     name="start_date"

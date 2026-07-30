@@ -19,31 +19,30 @@ export type InvestmentsStatusType =
     | 'COMPLETED'
 
 export type InvestmentsType = {
-    id: number
-    user: number
-    user_mobile: string
-    user_full_name: string
-    plan: number
-    plan_name: string
-    plan_duration_months: number
-    gold_weight: string
-    investment_price: string
-    start_date: string
-    end_date: string
-    status: InvestmentsStatusType
-    status_display: string
-    monthly_profit: number
-    total_expected_profit: number
-    paid_profit: string
-    total_return: number
-    months_passed: number
-    remaining_months: number
-    cancelled_at: string | null
-    completed_at: string | null
-    last_profit_paid_at: string | null
-    cancellation_profit: string
-    description: string | null
-}
+  id: number;
+  user: number;
+  user_mobile: string;
+  user_full_name: string;
+  plan: number;
+  plan_name: string;
+  plan_duration_days: number;
+  gold_weight: string;
+  investment_price: string;
+  start_date: string;
+  end_date: string;
+  status: InvestmentsStatusType;
+  status_display: string;
+  total_expected_profit: number;
+  paid_profit: string;
+  total_return: number;
+  days_passed: number;
+  remaining_days: number;
+  cancelled_at: string | null;
+  completed_at: string | null;
+  last_profit_paid_at: string | null;
+  cancellation_profit: string;
+  description: string | null;
+};
 
 export function Investments({
     investments,

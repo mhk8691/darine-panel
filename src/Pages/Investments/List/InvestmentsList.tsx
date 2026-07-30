@@ -19,10 +19,10 @@ const tableHeadCells = [
     createTableHeadCells('شماره تلفن', 'user_mobile'),
     createTableHeadCells('نام کاربر', 'user_full_name'),
     createTableHeadCells('نام طرح', 'plan_name'),
-    createTableHeadCells('مدت طرح', 'plan_duration_months'),
+    createTableHeadCells('مدت طرح', 'plan_duration_days'),
     createTableHeadCells('وزن طلا', 'gold_weight'),
     createTableHeadCells('قیمت سرمایه‌گذاری', 'investment_price'),
-    createTableHeadCells('ماه باقی‌مانده', 'remaining_months'),
+    createTableHeadCells('روز باقی‌مانده', 'remaining_days'),
     createTableHeadCells('وضعیت', 'status'),
 ]
 
@@ -176,7 +176,7 @@ export function InvestmentsList({
 
                         <TableCell>
                             <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
-                                {item.plan_duration_months} ماه
+                                {item.plan_duration_days} روز
                             </Typography>
                         </TableCell>
 
@@ -194,7 +194,7 @@ export function InvestmentsList({
 
                         <TableCell>
                             <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
-                                {item.remaining_months} ماه
+                                {item.remaining_days} روز
                             </Typography>
                         </TableCell>
 

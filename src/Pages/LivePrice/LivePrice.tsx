@@ -10,32 +10,20 @@ import {
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import PaidIcon from "@mui/icons-material/Paid";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useDispatch } from "react-redux";
 import { DataProvider } from "../../Core/DataProvider";
 import { setUtil } from "../../redux/UtilSlice";
-
-
-interface GoldType {
-  buy_price: number;
-  sell_price: number;
-  bubble_amount: number;
-  bubble_percent: number;
-  is_positive: boolean;
-}
-
-interface SilverType {
-  silver_price: number;
-  intrinsic_price: number;
-  bubble_percent: number;
-  is_positive: boolean;
-}
-
-type ApiResponse<T> = {
-  results: T;
-};
+import GoldPriceDashboard from "./GoldPriceDashboard";
+import {
+  ApiResponse,
+  GoldPriceData,
+  MarketData,
+  SilverPriceData,
+} from "./PlatformPriceCard";
+import { formatPrice } from "../../Core/FormatPrice";
 
 /* ---------------- SAFE ROW ---------------- */
-
 const StatRow = ({
   icon,
   label,
@@ -43,7 +31,7 @@ const StatRow = ({
 }: {
   icon: React.ReactNode;
   label: string;
-  value?: number | null;
+  value?: number | string;
 }) => {
   return (
     <Box
@@ -63,20 +51,21 @@ const StatRow = ({
       </Box>
 
       <Typography sx={{ fontWeight: 600 }}>
-        {value?.toLocaleString?.("fa-IR") ?? "-"}
+        {value !== undefined && value !== null
+          ? value.toLocaleString("fa-IR")
+          : "-"}
       </Typography>
     </Box>
   );
 };
 
 /* ---------------- CARD ---------------- */
-
 const PriceCard = ({
   title,
   data,
 }: {
   title: string;
-  data?: GoldType | SilverType;
+  data?: MarketData;
 }) => {
   const isPositive = data?.is_positive ?? false;
 
@@ -130,35 +119,27 @@ const PriceCard = ({
 
         {/* اطلاعات */}
         <Stack spacing={1.2} mt={2}>
-          {"buy_price" in (data ?? {}) && (
+          {data?.market_price !== undefined && (
             <StatRow
               icon={<PaidIcon fontSize="small" />}
-              label="قیمت خرید"
-              value={(data as GoldType)?.buy_price}
+              label="قیمت بازار"
+              value={formatPrice(data.market_price)}
             />
           )}
 
-          {"sell_price" in (data ?? {}) && (
+          {data?.intrinsic_price !== undefined && (
             <StatRow
-              icon={<PaidIcon fontSize="small" />}
-              label="قیمت فروش"
-              value={(data as GoldType)?.sell_price}
-            />
-          )}
-
-          {"silver_price" in (data ?? {}) && (
-            <StatRow
-              icon={<PaidIcon fontSize="small" />}
-              label="قیمت نقره"
-              value={(data as SilverType)?.silver_price}
-            />
-          )}
-
-          {"intrinsic_price" in (data ?? {}) && (
-            <StatRow
-              icon={<PaidIcon fontSize="small" />}
+              icon={<AccountBalanceWalletIcon fontSize="small" />}
               label="قیمت ذاتی"
-              value={(data as SilverType)?.intrinsic_price}
+              value={formatPrice(data.intrinsic_price)}
+            />
+          )}
+
+          {data?.bubble_amount !== undefined && (
+            <StatRow
+              icon={<PaidIcon fontSize="small" />}
+              label="مبلغ حباب"
+              value={formatPrice(data.bubble_amount)}
             />
           )}
         </Stack>
@@ -181,9 +162,12 @@ const PriceCard = ({
             sx={{
               fontWeight: 700,
               color: isPositive ? "#4caf50" : "#f44336",
+              direction: "ltr",
             }}
           >
-            {data?.bubble_percent ?? 0}٪
+            {data?.bubble_percent !== undefined
+              ? `${data.bubble_percent.toLocaleString("fa-IR")}٪`
+              : "۰٪"}
           </Typography>
         </Box>
       </CardContent>
@@ -192,53 +176,62 @@ const PriceCard = ({
 };
 
 /* ---------------- MAIN ---------------- */
-
 export default function LivePrice() {
-  const [goldData, setGoldData] = useState<ApiResponse<GoldType> | null>(null);
-  const [silverData, setSilverData] = useState<ApiResponse<SilverType> | null>(
-    null
-  );
+  const [goldData, setGoldData] = useState<GoldPriceData | null>(null);
+  const [silverData, setSilverData] = useState<SilverPriceData | null>(null);
 
   const dispatch = useDispatch();
 
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const [goldResponse, silverResponse] = await Promise.all([
-        DataProvider.get<ApiResponse<GoldType>>("market/gold/"),
-        DataProvider.get<ApiResponse<SilverType>>("market/silver/"),
-      ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [goldResponse, silverResponse] = await Promise.all([
+          DataProvider.get<ApiResponse<GoldPriceData>>("market/gold/"),
+          DataProvider.get<ApiResponse<SilverPriceData>>("market/silver/"),
+        ]);
 
-      setGoldData(goldResponse.data);
-      setSilverData(silverResponse.data);
-    } catch (error: any) {
-      dispatch(
-        setUtil({
-          open: true,
-          message: error?.message ?? "خطا در دریافت اطلاعات",
-          severity: "error",
-        })
-      );
-    }
-  };
+        // استخراج صحیح داده بر اساس کلید data در ریسپانس API
+        const gData = goldResponse.data?.data ?? (goldResponse as any)?.data;
+        const sData = silverResponse.data?.data ?? (silverResponse as any)?.data;
 
-  fetchData();
+        if (gData) {
+          setGoldData(gData);
+        }
+        if (sData) {
+          setSilverData(sData);
+        }
+      } catch (error: any) {
+        dispatch(
+          setUtil({
+            open: true,
+            message: error?.message ?? "خطا در دریافت اطلاعات",
+            severity: "error",
+          })
+        );
+      }
+    };
 
-  const interval = setInterval(fetchData, 60 * 1000);
+    fetchData();
 
-  return () => clearInterval(interval);
-}, [dispatch]);
+    const interval = setInterval(fetchData, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
-    <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", p: 2 }}>
-      <PriceCard
-        title="تحلیل طلا"
-        data={goldData?.results ?? undefined}
-      />
-      <PriceCard
-        title="تحلیل نقره"
-        data={silverData?.results ?? undefined}
-      />
-    </Box>
+    <>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", p: 2 }}>
+        <PriceCard
+          title="تحلیل طلا"
+          data={goldData?.market_data}
+        />
+        <PriceCard
+          title="تحلیل نقره"
+          data={silverData?.market_data}
+        />
+      </Box>
+
+      {goldData && <GoldPriceDashboard data={goldData} />}
+    </>
   );
 }

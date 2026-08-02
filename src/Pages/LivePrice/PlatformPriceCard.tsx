@@ -116,13 +116,7 @@ export default function PlatformPriceCard({ platform }: Props) {
                     <>
                         <Typography variant="headLineSm" sx={{ color: 'primary.main', fontWeight: 800 }}>
                             {formatPrice(platform.price!)}{' '}
-                            <Typography
-                                component="span"
-                                variant="labelMd"
-                                sx={{ color: 'text.secondary' }}
-                            >
-                                تومان
-                            </Typography>
+                     
                         </Typography>
                         <Typography
                             variant="labelLg"

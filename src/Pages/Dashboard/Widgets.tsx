@@ -1,16 +1,17 @@
+// Widgets.tsx
+
 import {Grid, Stack, Typography, Skeleton, Box} from '@mui/material'
 import {ReactNode} from 'react'
 import { Link } from 'react-router-dom'
 
 interface Props {
     title: string
-    data: string
+    data?: string
     description: {title: string; status: 'increment' | 'decrement'}
     icon: ReactNode
     loading?: boolean
-    link?:string
+    link?: string
 }   
-
 
 export default function Widgets({
     title,
@@ -20,6 +21,10 @@ export default function Widgets({
     loading,
     link
 }: Props) {
+    // اگر loading اصلی true باشد یا data هنوز آماده/معتبر نباشد، اسکلتون نشان می‌دهد
+    const isDataInvalid = !data || data.includes('NaN') || data.includes('undefined')
+    const isLoading = loading || isDataInvalid
+
     return (
         <Grid component={link ? Link : 'div'} to={link} item xs={12} sm={6} md={4} lg={3}>
             <Stack
@@ -31,20 +36,14 @@ export default function Widgets({
                     borderRadius: 3,
                     overflow: 'hidden',
                     position: 'relative',
-
                     bgcolor: '#0f0c08',
-
                     border: '1px solid rgba(212,175,55,0.25)',
-
                     transition: 'all 0.3s ease',
-
                     '&:hover': {
                         transform: 'translateY(-5px)',
                         boxShadow: '0 20px 50px rgba(212,175,55,0.15)',
                         borderColor: 'rgba(212,175,55,0.5)',
                     },
-
-                    // subtle gold glow line
                     '&::before': {
                         content: '""',
                         position: 'absolute',
@@ -60,7 +59,7 @@ export default function Widgets({
             >
                 {/* LEFT SIDE */}
                 <Stack spacing={1.2} sx={{p: 2.5, flex: 1}}>
-                    {loading ? (
+                    {isLoading ? (
                         <Skeleton width={120} height={22} />
                     ) : (
                         <Typography
@@ -75,14 +74,14 @@ export default function Widgets({
                         </Typography>
                     )}
 
-                    {loading ? (
+                    {isLoading ? (
                         <Skeleton width={90} height={40} />
                     ) : (
                         <Typography
                             sx={{
                                 fontSize: 26,
                                 fontWeight: 700,
-                                color: '#F5E6C8', // soft gold-white
+                                color: '#F5E6C8',
                                 letterSpacing: '-0.5px',
                             }}
                         >
@@ -90,7 +89,7 @@ export default function Widgets({
                         </Typography>
                     )}
 
-                    {loading ? (
+                    {isLoading ? (
                         <Skeleton width={140} height={18} />
                     ) : (
                         <Typography
@@ -98,8 +97,8 @@ export default function Widgets({
                                 fontSize: 13,
                                 color:
                                     description.status === 'increment'
-                                        ? '#C9A227' // gold-green
-                                        : '#B91C1C', // deep red
+                                        ? '#C9A227'
+                                        : '#B91C1C',
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: 0.5,
@@ -119,14 +118,12 @@ export default function Widgets({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-
                         background:
                             'linear-gradient(135deg, rgba(212,175,55,0.15), rgba(255,215,0,0.05))',
-
                         borderLeft: '1px solid rgba(212,175,55,0.2)',
                     }}
                 >
-                    {loading ? (
+                    {isLoading ? (
                         <Skeleton variant="circular" width={40} height={40} />
                     ) : (
                         <Box

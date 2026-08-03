@@ -12,6 +12,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import CallReceivedIcon from '@mui/icons-material/CallReceived'
 import CallMadeIcon from '@mui/icons-material/CallMade'
 import AssignmentIcon from '@mui/icons-material/Assignment'
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import {
     CardMembershipRounded,
     CurrencyExchange,
@@ -189,6 +190,13 @@ export const drawerItems: DrawerItemType[] = [
         role: 'all',
         section: 'both',
         icon: <CurrencyExchange sx={iconStyle} />,
+    },
+     {
+        title: 'نسخه اپلیکیشن',
+        link: 'version-control',
+        role: 'all',
+        section: 'both',
+        icon: <SystemUpdateAltIcon sx={iconStyle} />,
     },
     // {
     //     title: 'حساب کاربری',

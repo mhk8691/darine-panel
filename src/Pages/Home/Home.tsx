@@ -64,6 +64,9 @@ import { InvestmentPlansList } from '../InvestmentPlans/List/InvestmentPlansList
 import { InvestmentPlansEdit } from '../InvestmentPlans/Edit/InvestmentPlansEdit'
 import { InvestmentsList } from '../Investments/List/InvestmentsList'
 import { InvestmentsEdit } from '../Investments/Edit/InvestmentsEdit'
+import { VersionControlCreate } from '../VersionControl/Create/VersionControlCreate'
+import { VersionControlEdit } from '../VersionControl/Edit/VersionControlEdit'
+import { VersionControlList } from '../VersionControl/List/VersionControlList'
 
 export function Home(props) {
     const [profile, setProfile] = useState<UsersType>({} as UsersType)
@@ -355,6 +358,13 @@ if (authStatus === "unauth") {
                            {/* ...........Guarantees.......... */}
                         <Route path="gold-investments" element={<InvestmentsList resource='gold-investments' title='مدیریت سرمایه‌گذاری‌ دارینه' key={'gold-investments'} />} />
                         <Route path="gold-investments/:id" element={<InvestmentsEdit resource='gold-investments' key={'gold-investments'} />} />
+                         {/* ...........version control.......... */}
+                        <Route
+                            path="version-control/create"
+                            element={<VersionControlCreate data={data} setData={setData} />}
+                        />
+                        <Route path="version-control" element={<VersionControlList />} />
+                        <Route path="version-control/:id" element={<VersionControlEdit />} />
 
 
                     </Routes>

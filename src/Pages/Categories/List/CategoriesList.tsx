@@ -57,7 +57,7 @@ export function CategoriesList() {
 
     return (
         <ListPage
-            header="مدیریت دسته بندی ها"
+            header="دسته بندی محصولات"
             href={'category' + '/create'}
             searchField="title"
             searchText="نام"

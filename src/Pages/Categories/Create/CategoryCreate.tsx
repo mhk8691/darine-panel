@@ -11,7 +11,7 @@ export function CategoryCreate({
 }) {
     return (
         <CreatePage
-            title={'افزودن دسته بندی'}
+            title={'افزودن دسته بندی محصولات'}
             resource={'categories/'}
             isFormData={true}
             redirect={'category'}

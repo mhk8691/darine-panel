@@ -83,16 +83,17 @@ export function AppDrawer({
         if (!checked) setSelectedTitle('')
     }, [location.pathname])
 
-    function handleClick(link: string, index: number, title: string) {
-        const newList = new Array(drawerItems.length).fill(false)
-        newList[index] = true
-        setSelected(newList)
-        setSelectedTitle(title)
+function handleClick(item: DrawerItemType, index: number) {
+    if (item.disabled) return
 
-        if (isMobile) setDrawerOpen(false)
-        navigate(link)
-    }
+    const newList = new Array(drawerItems.length).fill(false)
+    newList[index] = true
+    setSelected(newList)
+    setSelectedTitle(item.title)
 
+    if (isMobile) setDrawerOpen(false)
+    navigate(item.link)
+}
     function toggleGroup(groupId: string) {
         setOpenGroupId((prevId) => (prevId === groupId ? null : groupId))
     }
@@ -106,35 +107,60 @@ export function AppDrawer({
     const silverGroups = useMemo(() => drawerGroups.filter((g) => g.section === 'silver'), [])
 
     // ---- shared row renderer (top-level and nested items) ----
-    const renderItem = (item: DrawerItemType, accent: Accent, nested: boolean) => {
-        const index = drawerItems.findIndex((i) => i.link === item.link)
-        if (!(item.role === user.role || item.role === 'all')) return null
+  const renderItem = (item: DrawerItemType, accent: Accent, nested: boolean) => {
+    const index = drawerItems.findIndex((i) => i.link === item.link)
+    if (!(item.role === user.role || item.role === 'all')) return null
 
-        const isSelected = selected[index]
+    const isSelected = selected[index]
+    const isDisabled = Boolean(item.disabled)
 
-        return (
-            <ListItemButton
-                key={item.title + item.link}
-                onClick={() => handleClick(item.link, index, item.title)}
-                disableRipple
-                sx={{
-                    width: '100%',
-                    minHeight: nested ? 40 : 46,
-                    borderRadius: '10px',
-                    py: nested ? 0.5 : 0.75,
-                    pInlineStart: nested ? 1.5 : 1.25,
-                    pInlineEnd: 1,
-                    gap: 1,
-                    borderInlineStart: '3px solid transparent',
-                    transition: 'background-color .15s ease, border-color .15s ease',
-                    backgroundColor: isSelected ? accent.soft : 'transparent',
-                    borderInlineStartColor: isSelected ? accent.main : 'transparent',
-                    '&:hover': {
-                        backgroundColor: isSelected ? accent.soft : alpha(accent.main, 0.06),
-                    },
-                }}
-            >
-                {isMobile ? (
+    return (
+        <ListItemButton
+            key={item.title + item.link}
+            disabled={isDisabled}
+            onClick={() => handleClick(item, index)}
+            disableRipple
+            sx={{
+                width: '100%',
+                minHeight: nested ? 40 : 46,
+                borderRadius: '10px',
+                py: nested ? 0.5 : 0.75,
+                pInlineStart: nested ? 1.5 : 1.25,
+                pInlineEnd: 1,
+                gap: 1,
+                borderInlineStart: '3px solid transparent',
+                transition: 'all .15s ease',
+                backgroundColor: isSelected ? accent.soft : 'transparent',
+                borderInlineStartColor: isSelected ? accent.main : 'transparent',
+                
+                // ---- استایل حالت غیرفعال (کم‌رنگ و غیرقابل کلیک) ----
+                '&.Mui-disabled': {
+                    opacity: 0.35, // شفافیت کمتر برای کم‌رنگ‌تر شدن کامپوننت
+                    cursor: 'not-allowed',
+                    pointerEvents: 'auto', // نمایش آیکون not-allowed موس
+                    filter: 'grayscale(60%)', // خاکستری و کم‌رنگ‌تر کردن رنگ آیکون‌ها
+                },
+                '&:hover': {
+                    backgroundColor: isDisabled
+                        ? 'transparent'
+                        : isSelected
+                        ? accent.soft
+                        : alpha(accent.main, 0.06),
+                },
+            }}
+        >
+            {isMobile ? (
+                <ListItemIcon
+                    sx={{
+                        minWidth: nested ? 30 : 36,
+                        color: isSelected ? accent.main : '#828A96',
+                        '& svg': {fontSize: nested ? '1.35rem' : '1.6rem'},
+                    }}
+                >
+                    {item.icon}
+                </ListItemIcon>
+            ) : (
+                <Tooltip title={isDisabled ? `${item.title} (غیرفعال)` : item.title} placement="left" arrow>
                     <ListItemIcon
                         sx={{
                             minWidth: nested ? 30 : 36,
@@ -144,34 +170,23 @@ export function AppDrawer({
                     >
                         {item.icon}
                     </ListItemIcon>
-                ) : (
-                    <Tooltip title={item.title} placement="left" arrow>
-                        <ListItemIcon
-                            sx={{
-                                minWidth: nested ? 30 : 36,
-                                color: isSelected ? accent.main : '#828A96',
-                                '& svg': {fontSize: nested ? '1.35rem' : '1.6rem'},
-                            }}
-                        >
-                            {item.icon}
-                        </ListItemIcon>
-                    </Tooltip>
-                )}
+                </Tooltip>
+            )}
 
-                <Typography
-                    variant="bodyMd"
-                    sx={{
-                        color: isSelected ? 'text.primary' : 'grey.600',
-                        fontWeight: isSelected ? 700 : 500,
-                        fontSize: nested ? 13.5 : 14,
-                        whiteSpace: 'nowrap',
-                    }}
-                >
-                    {item.title}
-                </Typography>
-            </ListItemButton>
-        )
-    }
+            <Typography
+                variant="bodyMd"
+                sx={{
+                    color: isSelected ? 'text.primary' : 'grey.600',
+                    fontWeight: isSelected ? 700 : 500,
+                    fontSize: nested ? 13.5 : 14,
+                    whiteSpace: 'nowrap',
+                }}
+            >
+                {item.title}
+            </Typography>
+        </ListItemButton>
+    )
+}
 
     // ---- collapsible group header + its nested "ore vein" list ----
     const renderGroup = (group: DrawerGroupType, items: DrawerItemType[], accent: Accent) => {

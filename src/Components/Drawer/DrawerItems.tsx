@@ -38,8 +38,7 @@ export type DrawerItemType = {
     role: string
     section: DrawerSection
     icon: ReactNode
-    // when present, the item is rendered nested inside a collapsible
-    // group instead of as a standalone top-level entry
+    disabled?:boolean
     groupId?: string
 }
 
@@ -53,16 +52,7 @@ export type DrawerGroupType = {
 const iconStyle = {fontSize: '1.9rem !important'}
 const groupIconStyle = {fontSize: '1.6rem !important'}
 
-// ----------------------------------------------------------------------
-// Groups (collapsible headers).
-//
-// Grouping rule: each group only holds pages that are directly the same
-// kind of thing (e.g. the different order types traded against the gold
-// price, or the plan + its resulting instance), not just "similar topic".
-// Anything that doesn't have a tight sibling stays a standalone item
-// (e.g. "قیمت طلا" — the live market price — isn't an order or a
-// transaction, so it isn't forced into either group).
-// ----------------------------------------------------------------------
+
 
 export const drawerGroups: DrawerGroupType[] = [
     // both
@@ -232,6 +222,7 @@ export const drawerItems: DrawerItemType[] = [
         section: 'darineh',
         icon: <CardGiftcardIcon sx={iconStyle} />,
         groupId: 'darineh-store',
+         disabled:true
     },
 
     // darineh -> سفارش‌های طلا (the different order types traded against gold)
@@ -250,6 +241,7 @@ export const drawerItems: DrawerItemType[] = [
         section: 'darineh',
         icon: <VerifiedUserIcon sx={iconStyle} />,
         groupId: 'darineh-orders',
+        disabled:true
     },
     {
         title: 'سفارش با قیمت',
